@@ -447,8 +447,9 @@ def parse_schedule(s):
 def open_and_upload(page, video, caption, asset_id, pause_during_upload=True):
     """Mở trình soạn, tải video, nhập mô tả. Kết thúc ở bước 'Tạo' với video đã lên FB."""
     video = str(Path(video).resolve())
-    if pause_during_upload:
+    if pause_during_upload and not getattr(page, "_gpm_freeze_hooked", False):
         page.add_init_script(FREEZE_PREVIEW_JS)
+        page._gpm_freeze_hooked = True
 
     # 1. Mở trình soạn thước phim
     log("Mở trình soạn thước phim")
@@ -634,8 +635,23 @@ def finish_post(page, caption, when=None, dry_run=False, asset_id=PAGE_ASSET_ID)
     raise RuntimeError("Không thấy bài trong danh sách sau 3 phút – kiểm tra tay trên Business Suite")
 
 
+def pick_page(ctx, resume=False):
+    """Tab để làm việc. Tab trống/tab nội bộ của GPM (url không phải http) điều hướng sẽ bị
+    'Frame detached' nên bỏ qua; --resume thì cần đúng tab đang mở trình soạn."""
+    pages = [pg for pg in ctx.pages if not pg.is_closed()]
+    if resume:
+        live = [pg for pg in pages if "reels_composer" in pg.url]
+    else:
+        live = [pg for pg in pages if pg.url.startswith("http")]
+    page = live[0] if live else ctx.new_page()
+    page.bring_to_front()
+    return page
+
+
 def post_reel(page, video, caption, when=None, dry_run=False, asset_id=PAGE_ASSET_ID, resume=False):
-    page.on("dialog", lambda d: d.accept())
+    if not getattr(page, "_gpm_dialog_hooked", False):     # đăng nhiều bài trên cùng tab: chỉ gắn 1 lần
+        page.on("dialog", lambda d: d.accept())
+        page._gpm_dialog_hooked = True
     if resume:
         if "reels_composer" not in page.url:
             raise RuntimeError("--resume cần tab đầu tiên của profile đang mở trình soạn thước phim")
@@ -678,15 +694,7 @@ def main():
     time.sleep(5)
     with sync_playwright() as p:
         browser = p.chromium.connect_over_cdp(f"http://127.0.0.1:{port}")
-        ctx = browser.contexts[0]
-        # Tab trống/tab nội bộ của GPM (url không phải http) điều hướng sẽ bị "Frame detached" -> bỏ qua
-        pages = [pg for pg in ctx.pages if not pg.is_closed()]
-        if a.resume:
-            live = [pg for pg in pages if "reels_composer" in pg.url]
-        else:
-            live = [pg for pg in pages if pg.url.startswith("http")]
-        page = live[0] if live else ctx.new_page()
-        page.bring_to_front()
+        page = pick_page(browser.contexts[0], a.resume)
         try:
             ok = post_reel(page, a.video, a.caption, when, a.dry_run, a.asset_id, a.resume)
         except Exception as e:

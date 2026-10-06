@@ -22,6 +22,24 @@ python post_reel.py --drive "https://drive.google.com/drive/folders/XXXX" --sche
 - Link file video trực tiếp (`/file/d/ID/view`) cũng được; khi đó cần `--caption`.
 - Video tải về nằm ở `downloads/`.
 
+### Đăng hàng loạt theo Google Sheet (`post_sheet.py`)
+Sheet mẫu: **Lịch đăng Reels - Fanpage** (chia sẻ *Bất kỳ ai có đường liên kết → Người xem*). Hàng 1 là tên cột, script nhận diện cột theo từ khoá nên có thể đặt tên khác:
+
+| Video | Tiêu đề | Hashtag | Thời gian đăng | Trạng thái | Ghi chú |
+|---|---|---|---|---|---|
+| link file Drive / link thư mục Drive / đường dẫn trên máy | mô tả bài (có thể gộp luôn hashtag vào đây) | tuỳ chọn, nối sau tiêu đề | `08/10/2026 19:00`, hoặc `ngay` để đăng ngay | trống = chờ đăng; `bỏ qua` = không đăng | tuỳ ý |
+
+- Thư mục Drive mà **Tiêu đề để trống** → lấy dòng `Tiêu đề:` trong file kịch bản `.docx`, rồi nối thêm cột Hashtag.
+- Cột Thời gian nên để định dạng *Văn bản thuần* (hoặc gõ `'08/10/2026 19:00` với dấu `'` đầu ô) để Sheets không tự đổi thành ngày.
+- Hàng đã đăng được ghi nhớ trong `logs/sheet_state.json` → chạy lại không đăng trùng. Mỗi lần chạy xuất `logs/sheet_report_*.csv` (Hàng / Trạng thái / Ghi chú) để dán ngược vào Sheet nếu muốn.
+
+```bash
+python post_sheet.py --sheet "https://docs.google.com/spreadsheets/d/XXXX/edit" --plan-only   # chỉ in kế hoạch
+python post_sheet.py --sheet "https://docs.google.com/spreadsheets/d/XXXX/edit" --dry-run     # chạy thử, không bấm nút cuối
+python post_sheet.py --sheet "https://docs.google.com/spreadsheets/d/XXXX/edit"               # đăng/lên lịch tất cả hàng đang chờ
+```
+Tuỳ chọn thêm: `--max 1` (chỉ 1 bài), `--rows 2,5` (chỉ các hàng này), `--pause 30-90` (nghỉ giữa 2 bài, giây).
+
 Tuỳ chọn:
 - `--dry-run` : làm đủ các bước, chụp màn hình `logs/..._before_submit.png`, **không** bấm nút cuối.
 - `--resume` : trình soạn đang mở sẵn với video + mô tả (ví dụ lần chạy trước lỗi giữa chừng) → bỏ qua tải lên, chạy tiếp tới cuối. Không cần `--video`.
