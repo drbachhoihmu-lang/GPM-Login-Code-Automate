@@ -25,10 +25,11 @@ python post_reel.py --drive "https://drive.google.com/drive/folders/XXXX" --sche
 ### Đăng hàng loạt theo Google Sheet (`post_sheet.py`)
 Sheet mẫu: **Lịch đăng Reels - Fanpage** (chia sẻ *Bất kỳ ai có đường liên kết → Người xem*). Hàng 1 là tên cột, script nhận diện cột theo từ khoá nên có thể đặt tên khác:
 
-| Page đăng | Video | Tiêu đề | Hashtag | Thời gian đăng | Trạng thái | Ghi chú |
-|---|---|---|---|---|---|---|
-| trống = trang mặc định; hoặc tên trang (`Trầm Cảm`) / asset_id | link file Drive / link thư mục Drive / đường dẫn trên máy | mô tả bài (có thể gộp luôn hashtag vào đây) | tuỳ chọn, nối sau tiêu đề | `08/10/2026 19:00`, hoặc `ngay` để đăng ngay | script tự ghi | script tự ghi |
+| Profile | Page đăng | Video | Tiêu đề | Hashtag | Thời gian đăng | Trạng thái | Ghi chú |
+|---|---|---|---|---|---|---|---|
+| trống = profile mặc định; hoặc một phần tên profile GPM (`002`) / id | trống = trang mặc định; hoặc tên trang (`Trầm Cảm`) / asset_id | link file Drive / link thư mục Drive / đường dẫn trên máy | mô tả bài (có thể gộp luôn hashtag vào đây) | tuỳ chọn, nối sau tiêu đề | `08/10/2026 19:00`, hoặc `ngay` để đăng ngay | script tự ghi | script tự ghi |
 
+- **Profile** (vào): profile GPM Login (= tài khoản Facebook) dùng để đăng. Để trống = profile mặc định trong `post_reel.py` (hoặc `--profile`). Ghi một phần tên (`002`, `profile 002`) hoặc id. Các hàng cùng profile được gom lại, mở trình duyệt một lần. Profile đang mở bằng tay sẽ bị đóng và mở lại qua API để có cổng điều khiển.
 - **Page đăng** (vào): để trống = trang mặc định trong `post_reel.py`; ghi một phần tên trang (vd `Trầm Cảm`) hoặc asset_id → script mở bộ chọn trang trong Business Suite, tìm trang đó, lấy asset_id (cache ở `logs/pages.json`) và kiểm tra ô "Đăng lên" của trình soạn đúng trang đó mới đăng. (ra): sau khi đăng, script ghi lại **tên trang thật** đọc từ ô "Đăng lên".
 - **Trạng thái** do script ghi: `Đang đăng` → `Đã lên lịch` / `Đã đăng` / `Lỗi` (kèm lý do ở Ghi chú) / `Chạy thử OK` (dry-run). Bạn ghi tay `bỏ qua` để không đăng. Hàng `Đã …` và `bỏ qua` không bao giờ đăng lại; hàng `Lỗi` chỉ đăng lại khi chạy với `--retry-errors`; hàng `Đang đăng` (lần trước bị ngắt) sẽ được làm lại.
 - Thư mục Drive mà **Tiêu đề để trống** → lấy dòng `Tiêu đề:` trong file kịch bản `.docx`, rồi nối thêm cột Hashtag.

@@ -30,8 +30,8 @@ from pathlib import Path
 import requests
 from playwright.sync_api import sync_playwright
 
-from post_reel import (LOG_DIR, PAGE_ASSET_ID, PROFILE_ID, VIDEO_EXT, fetch_from_drive, gpm_start, gpm_stop,
-                       log, parse_schedule, pick_page, post_reel, resolve_asset_id, shot)
+from post_reel import (LOG_DIR, PAGE_ASSET_ID, PROFILE_ID, VIDEO_EXT, fetch_from_drive, gpm_profiles, gpm_start,
+                       gpm_stop, log, parse_schedule, pick_page, post_reel, resolve_asset_id, resolve_profile_id, shot)
 
 # Link Sheet mặc định (có thể thay bằng --sheet)
 SHEET_URL = ""
@@ -76,6 +76,7 @@ def norm(s):
 
 
 COLUMN_KEYS = {           # tên cột chuẩn -> các từ khoá nhận diện (sau khi bỏ dấu)
+    "profile": ("profile", "tai khoan", "account", "nick", "gpm"),
     "page":    ("page", "fanpage", "trang dang"),
     "video":   ("video", "link", "drive", "duong dan", "path", "file"),
     "title":   ("tieu de", "caption", "mo ta", "noi dung", "title"),
@@ -122,7 +123,8 @@ def read_sheet(link):
     for i, row in enumerate(rows[1:], start=2):
         if not any(c.strip() for c in row):
             continue
-        out.append({"row": i, "page": get(row, "page"), "video": get(row, "video"), "title": get(row, "title"),
+        out.append({"row": i, "profile": get(row, "profile"), "page": get(row, "page"), "video": get(row, "video"),
+                    "title": get(row, "title"),
                     "hashtag": get(row, "hashtag"), "time": get(row, "time"), "status": get(row, "status"),
                     "note": get(row, "note")})
     return out
@@ -224,7 +226,7 @@ def main():
     ap.add_argument("--webhook", default=SHEET_WEBHOOK, help="URL Apps Script để ghi Trạng thái/Page ngược vào Sheet")
     ap.add_argument("--retry-errors", action="store_true", help="Đăng lại cả các hàng đang ghi 'Lỗi'")
     ap.add_argument("--pause", default="20-60", help="Nghỉ ngẫu nhiên giữa 2 bài, giây (mặc định 20-60)")
-    ap.add_argument("--profile", default=PROFILE_ID)
+    ap.add_argument("--profile", default=PROFILE_ID, help="Profile GPM mặc định (id hoặc một phần tên) cho hàng không ghi cột Profile")
     ap.add_argument("--asset-id", default=PAGE_ASSET_ID)
     ap.add_argument("--close-after", action="store_true", help="Đóng profile GPM khi xong")
     a = ap.parse_args()
@@ -241,64 +243,85 @@ def main():
 
     log(f"Sheet có {len(items)} hàng: sẽ đăng {len(todo)}, bỏ qua {len(skipped)}"
         + ("" if a.webhook else " (không có webhook: trạng thái chỉ ghi vào logs/, không ghi vào Sheet)"))
+    # Cột Profile -> id profile GPM (trống = --profile); gom các hàng cùng profile để mở trình duyệt 1 lần
+    profile_names = dict(gpm_profiles())
+    default_profile = resolve_profile_id(a.profile)
+    groups, bad = {}, []
     for it, when in todo:
+        try:
+            pid = resolve_profile_id(it["profile"]) if it["profile"] else default_profile
+            groups.setdefault(pid, []).append((it, when))
+        except Exception as e:
+            bad.append((it, str(e)))
+    for it, when in todo:
+        pid = next((p for p, rows in groups.items() if any(r[0] is it for r in rows)), None)
         log(f"  [hàng {it['row']}] {'ĐĂNG NGAY' if when is None else when.strftime('%d/%m/%Y %H:%M')} | "
-            f"trang: {it['page'] or '(mặc định)'} | "
-            f"{(caption_of(it) or '(mô tả lấy từ kịch bản trong thư mục Drive)')[:60]} | {it['video'][:50]}")
+            f"profile: {profile_names.get(pid, it['profile'] or '?')} | trang: {it['page'] or '(mặc định)'} | "
+            f"{(caption_of(it) or '(mô tả lấy từ kịch bản trong thư mục Drive)')[:50]} | {it['video'][:40]}")
     for it, reason in skipped:
         log(f"  [hàng {it['row']}] bỏ qua: {reason}")
+    for it, reason in bad:
+        log(f"  [hàng {it['row']}] LỖI profile: {reason}")
     if a.plan_only or not todo:
         return
 
-    port = gpm_start(a.profile)
-    time.sleep(5)
-    results = []
+    results = [(it, when, "error", reason, "") for it, reason in [(b[0], b[1]) for b in bad]]
+    for it, reason in bad:
+        sheet_update(a.webhook, it["row"], status=ST_ERROR, note=reason[:300])
+    n_total = sum(len(rows) for rows in groups.values())
+    n = 0
     with sync_playwright() as p:
-        browser = p.chromium.connect_over_cdp(f"http://127.0.0.1:{port}")
-        page = pick_page(browser.contexts[0])
-        try:
-            for n, (it, when) in enumerate(todo, 1):
-                key = row_key(a.sheet, it)
-                log(f"===== Bài {n}/{len(todo)} – hàng {it['row']} =====")
-                info = {"expect_page": it["page"]}
-                if not a.dry_run:
-                    sheet_update(a.webhook, it["row"], status=ST_RUNNING, note="")
-                try:
-                    asset = resolve_asset_id(page, it["page"]) or a.asset_id
-                    video, caption = resolve_video(it)
-                    ok = post_reel(page, video, caption, when, a.dry_run, asset, info=info)
-                    status = "done" if ok else "dry-run"
-                    note = f"Xác nhận {datetime.now():%H:%M %d/%m}" if ok else f"Chạy thử {datetime.now():%H:%M %d/%m}"
-                except Exception as e:
-                    shot(page, f"row{it['row']}_error")
-                    status, note = "error", str(e)[:300]
-                    log(f"LỖI hàng {it['row']}: {note}")
-                    page = pick_page(browser.contexts[0])      # tab có thể đã hỏng, chọn lại
-                page_name = info.get("page") or ""
-                results.append((it, when, status, note, page_name))
-                if status in ("done", "error"):
-                    state[key] = {"status": status, "note": note, "page": page_name,
-                                  "at": datetime.now().isoformat(timespec="seconds"),
-                                  "when": when.isoformat() if when else "now"}
-                    save_state(state)
-                st_text = {"done": ST_SCHEDULED if when else ST_POSTED, "error": ST_ERROR, "dry-run": ST_DRY}[status]
-                if sheet_update(a.webhook, it["row"], page=page_name or None, status=st_text, note=note):
-                    log(f"  Sheet hàng {it['row']}: Trạng thái = {st_text}" + (f", Page = {page_name}" if page_name else ""))
-                if n < len(todo):
-                    wait = random.randint(lo, hi)
-                    log(f"Nghỉ {wait}s trước bài tiếp theo...")
-                    time.sleep(wait)
-        finally:
-            if a.close_after:
-                gpm_stop(a.profile)
+        for pid, rows in groups.items():
+            log(f"##### Profile GPM: {profile_names.get(pid, pid)} ({len(rows)} bài) #####")
+            port = gpm_start(pid)
+            time.sleep(5)
+            browser = p.chromium.connect_over_cdp(f"http://127.0.0.1:{port}")
+            page = pick_page(browser.contexts[0])
+            try:
+                for it, when in rows:
+                    n += 1
+                    key = row_key(a.sheet, it)
+                    log(f"===== Bài {n}/{n_total} – hàng {it['row']} =====")
+                    info = {"expect_page": it["page"]}
+                    if not a.dry_run:
+                        sheet_update(a.webhook, it["row"], status=ST_RUNNING, note="")
+                    try:
+                        asset = resolve_asset_id(page, it["page"], pid) or a.asset_id
+                        video, caption = resolve_video(it)
+                        ok = post_reel(page, video, caption, when, a.dry_run, asset, info=info)
+                        status = "done" if ok else "dry-run"
+                        note = f"Xác nhận {datetime.now():%H:%M %d/%m}" if ok else f"Chạy thử {datetime.now():%H:%M %d/%m}"
+                    except Exception as e:
+                        shot(page, f"row{it['row']}_error")
+                        status, note = "error", str(e)[:300]
+                        log(f"LỖI hàng {it['row']}: {note}")
+                        page = pick_page(browser.contexts[0])      # tab có thể đã hỏng, chọn lại
+                    page_name = info.get("page") or ""
+                    results.append((it, when, status, note, page_name))
+                    if status in ("done", "error"):
+                        state[key] = {"status": status, "note": note, "page": page_name,
+                                      "profile": profile_names.get(pid, pid),
+                                      "at": datetime.now().isoformat(timespec="seconds"),
+                                      "when": when.isoformat() if when else "now"}
+                        save_state(state)
+                    st_text = {"done": ST_SCHEDULED if when else ST_POSTED, "error": ST_ERROR, "dry-run": ST_DRY}[status]
+                    if sheet_update(a.webhook, it["row"], page=page_name or None, status=st_text, note=note):
+                        log(f"  Sheet hàng {it['row']}: Trạng thái = {st_text}" + (f", Page = {page_name}" if page_name else ""))
+                    if n < n_total:
+                        wait = random.randint(lo, hi)
+                        log(f"Nghỉ {wait}s trước bài tiếp theo...")
+                        time.sleep(wait)
+            finally:
+                if a.close_after:
+                    gpm_stop(pid)
 
     # Báo cáo: file CSV để dán cột Trạng thái/Ghi chú ngược vào Sheet nếu muốn
     rep = LOG_DIR / f"sheet_report_{datetime.now():%Y%m%d_%H%M%S}.csv"
     with open(rep, "w", newline="", encoding="utf-8-sig") as f:
         w = csv.writer(f)
-        w.writerow(["Hàng", "Page đăng", "Thời gian", "Trạng thái", "Ghi chú"])
+        w.writerow(["Hàng", "Profile", "Page đăng", "Thời gian", "Trạng thái", "Ghi chú"])
         for it, when, status, note, page_name in results:
-            w.writerow([it["row"], page_name, when.strftime("%d/%m/%Y %H:%M") if when else "ngay",
+            w.writerow([it["row"], it["profile"], page_name, when.strftime("%d/%m/%Y %H:%M") if when else "ngay",
                         {"done": ST_SCHEDULED if when else ST_POSTED, "dry-run": ST_DRY, "error": ST_ERROR}[status], note])
     done = sum(1 for r in results if r[2] == "done")
     err = sum(1 for r in results if r[2] == "error")

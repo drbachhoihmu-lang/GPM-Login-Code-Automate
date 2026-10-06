@@ -98,6 +98,30 @@ def log(msg):
 
 
 # ----------------------------------------------------------------- GPM Login
+def gpm_profiles():
+    """[(id, tên)] các profile trong GPM Login."""
+    r = requests.get(f"{GPM_API}/profiles?per_page=500", timeout=30).json()
+    return [(p["id"], p["name"]) for p in r["data"]["data"]]
+
+
+def resolve_profile_id(want):
+    """Cột 'Profile' trong Sheet / tham số --profile -> id profile GPM. Nhận id đầy đủ, id rút gọn
+    (8 ký tự đầu) hoặc một phần tên profile (không phân biệt hoa thường, dấu)."""
+    want = (want or "").strip()
+    if not want:
+        return PROFILE_ID
+    profiles = gpm_profiles()
+    for pid, name in profiles:
+        if pid == want or pid.startswith(want.lower()):
+            return pid
+    hits = [(pid, name) for pid, name in profiles if norm_text(want) in norm_text(name)]
+    if len(hits) == 1:
+        return hits[0][0]
+    if not hits:
+        raise RuntimeError(f"Không có profile GPM nào khớp '{want}'. Hiện có: " + ", ".join(n for _, n in profiles))
+    raise RuntimeError(f"'{want}' khớp nhiều profile: " + ", ".join(n for _, n in hits) + " – ghi rõ hơn")
+
+
 def gpm_start(profile_id, retries=8):
     """Mở profile qua GPM Local API, trả về cổng remote debugging."""
     # Nếu lần trước script đã mở profile và cửa sổ vẫn còn -> dùng lại cổng cũ
@@ -445,7 +469,9 @@ def parse_schedule(s):
 
 
 # ----------------------------------------------------------------- fanpage
-PAGES_FILE = LOG_DIR / "pages.json"        # cache tên trang -> asset_id
+def pages_file(profile_id):
+    """Cache tên trang -> asset_id, riêng cho từng profile (mỗi tài khoản FB có trang khác nhau)."""
+    return LOG_DIR / f"pages_{profile_id[:8]}.json"
 
 
 def norm_text(s):
@@ -466,17 +492,18 @@ def composer_page_name(page):
         return ""
 
 
-def resolve_asset_id(page, want):
+def resolve_asset_id(page, want, profile_id=PROFILE_ID):
     """Cột 'Page đăng' trong Sheet -> asset_id. Nhận asset_id (toàn số) hoặc một phần tên trang.
-    Tên trang được tra trong cache logs/pages.json; chưa có thì mở bộ chọn trang ở Business Suite,
-    bấm vào trang đó và đọc asset_id trên URL."""
+    Tên trang được tra trong cache logs/pages_<profile>.json; chưa có thì mở bộ chọn trang ở
+    Business Suite, bấm vào trang đó và đọc asset_id trên URL."""
     want = (want or "").strip()
     if not want:
         return None
     if want.isdigit():
         return want
+    cache_file = pages_file(profile_id)
     try:
-        cache = json.loads(PAGES_FILE.read_text(encoding="utf-8"))
+        cache = json.loads(cache_file.read_text(encoding="utf-8"))
     except Exception:
         cache = {}
     for name, aid in cache.items():
@@ -530,7 +557,7 @@ def resolve_asset_id(page, want):
     if not aid:
         raise RuntimeError(f"Chọn trang '{hit}' nhưng không đọc được asset_id trên URL")
     cache[hit] = aid
-    PAGES_FILE.write_text(json.dumps(cache, ensure_ascii=False, indent=1), encoding="utf-8")
+    cache_file.write_text(json.dumps(cache, ensure_ascii=False, indent=1), encoding="utf-8")
     log(f"Trang '{hit}' -> asset_id {aid} (đã lưu cache)")
     return aid
 
@@ -774,7 +801,7 @@ def main():
     g.add_argument("--now", action="store_true", help="Đăng ngay")
     ap.add_argument("--resume", action="store_true",
                     help="Trình soạn đang mở sẵn với video + mô tả: bỏ qua tải lên, chạy tiếp tới cuối")
-    ap.add_argument("--profile", default=PROFILE_ID, help="ID profile GPM")
+    ap.add_argument("--profile", default=PROFILE_ID, help="Profile GPM: id hoặc một phần tên (vd 'profile 002')")
     ap.add_argument("--asset-id", default=PAGE_ASSET_ID, help="asset_id của fanpage trong Business Suite")
     ap.add_argument("--dry-run", action="store_true", help="Làm hết các bước nhưng không bấm nút cuối")
     ap.add_argument("--close-after", action="store_true", help="Đóng profile GPM khi xong")
@@ -793,6 +820,7 @@ def main():
     if not a.caption:
         sys.exit("Thiếu --caption")
 
+    a.profile = resolve_profile_id(a.profile)
     port = gpm_start(a.profile)
     time.sleep(5)
     with sync_playwright() as p:
