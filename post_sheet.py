@@ -43,8 +43,9 @@ def sheet_csv_url(link):
     m = re.search(r"/spreadsheets/d/([\w-]+)", link)
     if not m:
         raise ValueError(f"Không nhận ra link Google Sheet: {link}")
+    # gid chỉ thêm khi link có (tab đầu của Sheet tạo từ CSV không phải gid=0; thiếu gid = tab đầu tiên)
     gid = re.search(r"[#&?]gid=(\d+)", link)
-    return f"https://docs.google.com/spreadsheets/d/{m.group(1)}/export?format=csv&gid={gid.group(1) if gid else 0}"
+    return f"https://docs.google.com/spreadsheets/d/{m.group(1)}/export?format=csv" + (f"&gid={gid.group(1)}" if gid else "")
 
 
 def norm(s):
