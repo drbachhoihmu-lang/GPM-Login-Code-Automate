@@ -256,7 +256,8 @@ def main():
                         {"done": "Đã lên lịch" if when else "Đã đăng", "dry-run": "Dry-run", "error": "Lỗi"}[status], note])
     done = sum(1 for r in results if r[2] == "done")
     err = sum(1 for r in results if r[2] == "error")
-    log(f"XONG: {done} thành công, {err} lỗi. Báo cáo: {rep}")
+    dry = sum(1 for r in results if r[2] == "dry-run")
+    log(f"XONG: {done} thành công, {err} lỗi" + (f", {dry} chạy thử (dry-run)" if dry else "") + f". Báo cáo: {rep}")
 
 
 if __name__ == "__main__":
