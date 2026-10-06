@@ -26,9 +26,14 @@ function findCol_(header, keywords) {
 }
 
 function doPost(e) {
-  var data = JSON.parse(e.postData.contents);          // {row, page?, status?, note?, sheet?}
+  var data = JSON.parse(e.postData.contents);          // {row, gid?, sheet?, page?, status?, note?}
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sh = data.sheet ? ss.getSheetByName(data.sheet) : ss.getSheets()[0];
+  var sh = null;
+  if (data.gid !== undefined && data.gid !== null) {   // tab theo gid trong link Sheet (nhiều tab)
+    sh = ss.getSheets().filter(function (s) { return s.getSheetId() == data.gid; })[0] || null;
+  }
+  if (!sh && data.sheet) sh = ss.getSheetByName(data.sheet);
+  if (!sh) sh = ss.getSheets()[0];
   var header = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
   var cols = {
     page:   findCol_(header, ["page", "fanpage", "trang dang"]),

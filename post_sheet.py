@@ -44,12 +44,18 @@ STATE_FILE = LOG_DIR / "sheet_state.json"      # ghi nhớ hàng nào đã đăn
 ST_RUNNING, ST_SCHEDULED, ST_POSTED, ST_ERROR, ST_DRY = "Đang đăng", "Đã lên lịch", "Đã đăng", "Lỗi", "Chạy thử OK"
 
 
-def sheet_update(webhook, row, **fields):
-    """Ghi các ô (page/status/note) của hàng `row` qua Apps Script. Lỗi mạng chỉ cảnh báo, không dừng."""
+def sheet_gid(link):
+    """gid của tab trong link Sheet (None nếu link không có -> tab đầu tiên)."""
+    m = re.search(r"[#&?]gid=(\d+)", link or "")
+    return int(m.group(1)) if m else None
+
+
+def sheet_update(webhook, row, gid=None, **fields):
+    """Ghi các ô (page/status/note) của hàng `row` (ở tab `gid`) qua Apps Script. Lỗi mạng chỉ cảnh báo."""
     if not webhook:
         return False
     try:
-        r = requests.post(webhook, json={"row": row, **fields}, timeout=30)
+        r = requests.post(webhook, json={"row": row, "gid": gid, **fields}, timeout=30)
         if r.status_code != 200 or '"ok"' not in r.text:
             log(f"  (webhook trả về {r.status_code}: {r.text[:120]})")
             return False
@@ -265,9 +271,10 @@ def main():
     if a.plan_only or not todo:
         return
 
+    gid = sheet_gid(a.sheet)
     results = [(it, when, "error", reason, "") for it, reason in [(b[0], b[1]) for b in bad]]
     for it, reason in bad:
-        sheet_update(a.webhook, it["row"], status=ST_ERROR, note=reason[:300])
+        sheet_update(a.webhook, it["row"], gid, status=ST_ERROR, note=reason[:300])
     n_total = sum(len(rows) for rows in groups.values())
     n = 0
     with sync_playwright() as p:
@@ -284,7 +291,7 @@ def main():
                     log(f"===== Bài {n}/{n_total} – hàng {it['row']} =====")
                     info = {"expect_page": it["page"]}
                     if not a.dry_run:
-                        sheet_update(a.webhook, it["row"], status=ST_RUNNING, note="")
+                        sheet_update(a.webhook, it["row"], gid, status=ST_RUNNING, note="")
                     try:
                         asset = resolve_asset_id(page, it["page"], pid) or a.asset_id
                         video, caption = resolve_video(it)
@@ -305,7 +312,7 @@ def main():
                                       "when": when.isoformat() if when else "now"}
                         save_state(state)
                     st_text = {"done": ST_SCHEDULED if when else ST_POSTED, "error": ST_ERROR, "dry-run": ST_DRY}[status]
-                    if sheet_update(a.webhook, it["row"], page=page_name or None, status=st_text, note=note):
+                    if sheet_update(a.webhook, it["row"], gid, page=page_name or None, status=st_text, note=note):
                         log(f"  Sheet hàng {it['row']}: Trạng thái = {st_text}" + (f", Page = {page_name}" if page_name else ""))
                     if n < n_total:
                         wait = random.randint(lo, hi)
