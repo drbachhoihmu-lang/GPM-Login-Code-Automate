@@ -5,8 +5,14 @@ logs/
 test/
 downloads/
 
+# Cấu hình giao diện (có URL webhook) – riêng từng máy
+config.json
+
 # Python
 __pycache__/
 *.pyc
 .venv/
 venv/
+
+# Cấu hình preview của Claude
+.claude/

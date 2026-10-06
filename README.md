@@ -7,7 +7,15 @@ thao tác trong Meta Business Suite y như người thật: Tạo thước phim 
 - Python 3.12, `playwright`, `requests` (`pip install -r requirements.txt` nếu cài máy khác; không cần `playwright install` vì dùng Chromium của GPM)
 - GPM Login Global đang mở (API cục bộ ở `http://127.0.0.1:9495/api/v1`)
 
-## Dùng
+## Giao diện web (khuyên dùng)
+Bấm đúp **`start_ui.bat`** (hoặc `python app.py`) rồi mở `http://127.0.0.1:8765`. Giao diện chạy cục bộ trên máy, gồm:
+- **Profile GPM**: mỗi profile một thẻ, chấm xanh = đang mở và điều khiển được, vàng = mở tay, xám = đóng; danh sách fanpage gắn với profile (từ tab Pages + kết quả quét); nút **Mở Chrome / Mở Business Suite / Đóng Chrome / Quét fanpage**, nút **Mở ↗** cạnh từng page để mở đúng trang đó trong profile.
+- **Lịch đăng**: bảng hàng đợi đọc từ Sheet với cột *Kế hoạch* (sẽ đăng / vì sao bỏ qua); nút **Xem kế hoạch**, **Chạy thử**, **Đăng / lên lịch theo Sheet** (có hỏi xác nhận), lọc theo hàng / số bài tối đa.
+- **Log** chạy trực tiếp, nút Dừng; **Google Sheet nhúng** ngay trong trang (sửa được nếu trình duyệt đã đăng nhập Google); **ảnh chụp** các lần chạy.
+- **Cài đặt**: link Sheet, URL webhook, profile mặc định, tên tab → lưu vào `config.json` (không đưa lên git).
+Điều kiện: GPM Login đang chạy. Các nút chỉ gọi lại đúng các script dòng lệnh bên dưới (log ở `logs/ui_*.log`).
+
+## Dùng dòng lệnh
 ```bash
 python post_reel.py --video "D:\videos\clip1.mp4" --caption "abc #thacsianhduc" --schedule "07/10/2026 12:00"
 ```

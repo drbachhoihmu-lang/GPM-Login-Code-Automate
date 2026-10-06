@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Đăng Reels – GPM</title>
+<style>
+  :root { --bg:#f3f5f9; --card:#fff; --line:#e3e6ec; --text:#1d2433; --muted:#6b7385; --blue:#1b74e4; --green:#1f9d55; --red:#d6453d; --amber:#c98a00; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:14px/1.45 "Segoe UI", system-ui, sans-serif; background:var(--bg); color:var(--text); }
+  header { background:#fff; border-bottom:1px solid var(--line); padding:10px 20px; display:flex; align-items:center; gap:16px; position:sticky; top:0; z-index:5; }
+  header h1 { font-size:17px; margin:0; }
+  header .sp { flex:1; }
+  .pill { font-size:12px; padding:2px 9px; border-radius:99px; background:#eef1f6; color:var(--muted); }
+  .pill.ok { background:#e3f5ea; color:var(--green); } .pill.bad { background:#fde8e6; color:var(--red); }
+  main { display:grid; grid-template-columns: 360px 1fr; gap:16px; padding:16px 20px; max-width:1700px; margin:0 auto; }
+  @media (max-width:1100px) { main { grid-template-columns:1fr; } }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-bottom:16px; }
+  .card h2 { font-size:14px; margin:0 0 10px; display:flex; align-items:center; gap:8px; }
+  .card h2 .sp { flex:1; }
+  button { border:1px solid var(--line); background:#fff; color:var(--text); padding:6px 11px; border-radius:7px; cursor:pointer; font:inherit; font-size:13px; }
+  button:hover { background:#f6f8fb; }
+  button.primary { background:var(--blue); color:#fff; border-color:var(--blue); }
+  button.danger { background:var(--red); color:#fff; border-color:var(--red); }
+  button.small { padding:3px 8px; font-size:12px; }
+  button:disabled { opacity:.5; cursor:default; }
+  .profile { border:1px solid var(--line); border-radius:9px; padding:10px 12px; margin-bottom:10px; }
+  .profile .top { display:flex; align-items:center; gap:8px; }
+  .profile .name { font-weight:600; }
+  .dot { width:9px; height:9px; border-radius:50%; background:#c4c9d4; display:inline-block; }
+  .dot.controlled { background:var(--green); } .dot.manual { background:var(--amber); }
+  .profile .id { color:var(--muted); font-size:11px; }
+  .profile .pages { margin:8px 0 4px; }
+  .page { display:flex; align-items:center; gap:8px; padding:4px 0; border-top:1px dashed var(--line); font-size:13px; }
+  .page .src { font-size:11px; color:var(--muted); }
+  .actions { display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--muted); font-weight:600; font-size:12px; }
+  tr.skip td { color:var(--muted); }
+  .st { font-size:11px; padding:1px 7px; border-radius:99px; background:#eef1f6; white-space:nowrap; }
+  .st.will { background:#e3f5ea; color:var(--green); } .st.err { background:#fde8e6; color:var(--red); }
+  iframe { width:100%; height:520px; border:1px solid var(--line); border-radius:8px; background:#fff; }
+  pre.log { background:#101522; color:#d7dce6; padding:12px; border-radius:8px; height:300px; overflow:auto; font:12px/1.5 Consolas, monospace; white-space:pre-wrap; margin:0; }
+  .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  input[type=text], input[type=number] { border:1px solid var(--line); border-radius:7px; padding:6px 9px; font:inherit; }
+  label.f { display:flex; flex-direction:column; gap:3px; font-size:12px; color:var(--muted); }
+  .shots { display:grid; grid-template-columns:repeat(auto-fill, minmax(150px,1fr)); gap:8px; }
+  .shots a { display:block; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:#fff; }
+  .shots img { width:100%; display:block; }
+  .shots span { display:block; font-size:11px; color:var(--muted); padding:3px 6px; }
+  .muted { color:var(--muted); }
+  .warn { background:#fff7e0; border:1px solid #f1dd9a; padding:8px 10px; border-radius:7px; font-size:13px; }
+  details summary { cursor:pointer; color:var(--muted); font-size:13px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Đăng Reels lên Fanpage – GPM Login</h1>
+  <span id="gpmPill" class="pill">GPM: …</span>
+  <span id="jobPill" class="pill">Rảnh</span>
+  <span class="sp"></span>
+  <button id="btnSheet" onclick="openSheet()">Mở Google Sheet ↗</button>
+  <button onclick="toggleSettings()">Cài đặt</button>
+</header>
+
+<main>
+  <section>
+    <div class="card">
+      <h2>Profile GPM <span class="sp"></span><button class="small" onclick="loadProfiles()">↻</button></h2>
+      <div id="profiles" class="muted">Đang tải…</div>
+      <div class="actions"><button class="small" onclick="run('scan')">Quét fanpage của mọi profile</button></div>
+    </div>
+
+    <div class="card" id="settings" style="display:none">
+      <h2>Cài đặt</h2>
+      <label class="f">Link Google Sheet <input type="text" id="cfgSheet"></label><br>
+      <label class="f">URL webhook Apps Script (…/exec) <input type="text" id="cfgHook" placeholder="để trống nếu chưa cài"></label><br>
+      <label class="f">Profile mặc định (id hoặc tên) <input type="text" id="cfgProfile"></label><br>
+      <div class="row"><label class="f">Tab hàng đợi <input type="text" id="cfgTab"></label><label class="f">Tab Pages <input type="text" id="cfgPagesTab"></label></div>
+      <div class="actions"><button class="primary" onclick="saveConfig()">Lưu</button></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2>Lịch đăng (tab <span id="tabName">…</span>) <span class="sp"></span>
+        <button class="small" onclick="loadSheet()">↻</button></h2>
+      <div id="sheetErr" class="warn" style="display:none"></div>
+      <table id="queue"><thead><tr><th>Hàng</th><th>Thời gian</th><th>Page</th><th>Profile</th><th>Tiêu đề</th><th>Trạng thái</th><th>Kế hoạch</th></tr></thead><tbody></tbody></table>
+      <div class="actions" style="margin-top:10px">
+        <button onclick="run('plan')">Xem kế hoạch</button>
+        <button onclick="run('dry')">Chạy thử (không đăng)</button>
+        <button class="primary" onclick="runReal()">Đăng / lên lịch theo Sheet</button>
+        <label class="f" style="flex-direction:row;align-items:center;gap:6px">Chỉ hàng <input type="text" id="rows" placeholder="vd 2,5" style="width:90px"></label>
+        <label class="f" style="flex-direction:row;align-items:center;gap:6px">Tối đa <input type="number" id="max" min="0" style="width:70px" placeholder="tất cả"></label>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Đang chạy: <span id="jobLabel" class="muted">—</span> <span class="sp"></span>
+        <button class="small danger" id="btnStop" onclick="stopJob()" style="display:none">Dừng</button></h2>
+      <pre class="log" id="log">(chưa chạy gì)</pre>
+    </div>
+
+    <div class="card">
+      <h2>Google Sheet <span class="sp"></span><span class="muted" style="font-weight:normal;font-size:12px">nếu khung trống: bấm "Mở Google Sheet" ở trên</span></h2>
+      <iframe id="sheetFrame" src="about:blank" loading="lazy"></iframe>
+    </div>
+
+    <div class="card">
+      <h2>Ảnh chụp gần nhất <span class="sp"></span><button class="small" onclick="loadScreens()">↻</button></h2>
+      <div id="shots" class="shots"></div>
+    </div>
+  </section>
+</main>
+
+<script>
+let CFG = {}, SHEET = null, JOB = null, jobTimer = null;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+async function api(path, opt) { const r = await fetch(path, opt); if (!r.ok) { let t = await r.text(); try { t = JSON.parse(t).detail || t; } catch {} throw new Error(t); } return r.json(); }
+const post = (path, body) => api(path, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body || {})});
+
+async function loadConfig() {
+  CFG = await api('/api/config');
+  $('#cfgSheet').value = CFG.sheet_url || ''; $('#cfgHook').value = CFG.webhook || '';
+  $('#cfgProfile').value = CFG.default_profile || ''; $('#cfgTab').value = CFG.tab || ''; $('#cfgPagesTab').value = CFG.pages_tab || '';
+}
+async function saveConfig() {
+  CFG = await post('/api/config', {sheet_url: $('#cfgSheet').value.trim(), webhook: $('#cfgHook').value.trim(),
+    default_profile: $('#cfgProfile').value.trim(), tab: $('#cfgTab').value.trim(), pages_tab: $('#cfgPagesTab').value.trim()});
+  toggleSettings(); loadSheet(); loadProfiles();
+}
+function toggleSettings() { const s = $('#settings'); s.style.display = s.style.display === 'none' ? '' : 'none'; }
+function openSheet() { if (CFG.sheet_url) window.open(CFG.sheet_url, '_blank'); }
+
+async function loadProfiles() {
+  try {
+    const d = await api('/api/profiles');
+    $('#gpmPill').textContent = d.gpm_ok ? 'GPM Login: đang chạy' : 'GPM Login: KHÔNG kết nối được (mở GPM Login)';
+    $('#gpmPill').className = 'pill ' + (d.gpm_ok ? 'ok' : 'bad');
+    const box = $('#profiles'); box.innerHTML = '';
+    if (!d.profiles.length) { box.textContent = 'Không có profile nào.'; return; }
+    for (const p of d.profiles) {
+      const st = {controlled:'đang mở (điều khiển được)', manual:'đang mở tay (script sẽ mở lại)', closed:'đang đóng'}[p.status];
+      const pages = p.pages.length ? p.pages.map(pg => `<div class="page"><span>${esc(pg.name)}</span><span class="src">${esc(pg.src)}</span><span class="sp" style="flex:1"></span>
+          <button class="small" onclick="openPage('${p.id}','${pg.asset}')" title="Mở Business Suite của page này trong profile">Mở ↗</button></div>`).join('')
+        : '<div class="page muted">chưa gắn page nào (điền tab Pages hoặc Quét fanpage)</div>';
+      box.insertAdjacentHTML('beforeend', `<div class="profile">
+        <div class="top"><span class="dot ${p.status}"></span><span class="name">${esc(p.name)}</span>${p.default ? '<span class="pill">mặc định</span>' : ''}<span class="sp" style="flex:1"></span><span class="muted" style="font-size:12px">${st}</span></div>
+        <div class="id">${p.id}${p.port ? ' · cổng ' + p.port : ''}</div>
+        <div class="pages">${pages}</div>
+        <div class="actions">
+          <button class="small" onclick="startProfile('${p.id}')">Mở Chrome</button>
+          <button class="small" onclick="startProfile('${p.id}','https://business.facebook.com/latest/home/')">Mở Business Suite</button>
+          <button class="small" onclick="stopProfile('${p.id}')" ${p.status==='closed'?'disabled':''}>Đóng Chrome</button>
+          <button class="small" onclick="run('scan','${esc(p.name)}')">Quét fanpage</button>
+        </div></div>`);
+    }
+  } catch (e) { $('#profiles').textContent = 'Lỗi: ' + e.message; }
+}
+async function startProfile(id, url) { try { await post(`/api/profiles/${id}/start`, {url: url || null}); } catch (e) { alert(e.message); } loadProfiles(); }
+async function stopProfile(id) { try { await post(`/api/profiles/${id}/stop`); } catch (e) { alert(e.message); } loadProfiles(); }
+async function openPage(id, asset) { await startProfile(id, `https://business.facebook.com/latest/home/?asset_id=${asset}`); }
+
+async function loadSheet() {
+  const d = await api('/api/sheet'); SHEET = d;
+  $('#tabName').textContent = CFG.tab || '';
+  const err = $('#sheetErr');
+  if (!d.ok) { err.style.display = ''; err.textContent = d.error; } else { err.style.display = 'none'; }
+  const tb = $('#queue tbody'); tb.innerHTML = '';
+  for (const r of (d.rows || [])) {
+    const st = r.status ? `<span class="st ${/^l[ỗo]i/i.test(r.status)?'err':''}">${esc(r.status)}</span>` : '';
+    const plan = r.will ? '<span class="st will">sẽ đăng</span>' : `<span class="muted">${esc(r.reason)}</span>`;
+    tb.insertAdjacentHTML('beforeend', `<tr class="${r.will?'':'skip'}"><td>${r.row}</td><td>${esc(r.when)}</td><td>${esc(r.page||'(mặc định)')}</td><td>${esc(r.profile||'(mặc định)')}</td><td>${esc((r.title||'(lấy từ kịch bản Drive)').slice(0,60))}</td><td>${st}</td><td>${plan}</td></tr>`);
+  }
+  if (!(d.rows||[]).length) tb.innerHTML = '<tr><td colspan="7" class="muted">Không có hàng nào</td></tr>';
+  const f = $('#sheetFrame');
+  if (d.embed && f.dataset.src !== d.embed) { f.src = d.embed; f.dataset.src = d.embed; }
+}
+
+async function run(mode, profile) {
+  const body = {mode};
+  if (mode !== 'scan') { body.rows = $('#rows').value.trim() || null; const m = parseInt($('#max').value); if (m > 0) body.max = m; }
+  else body.profile = profile || 'all';
+  try { const d = await post('/api/run', body); watch(d.job); } catch (e) { alert(e.message); }
+}
+function runReal() {
+  const n = (SHEET && SHEET.rows || []).filter(r => r.will).length;
+  if (!n) { alert('Không có hàng nào sẽ đăng (xem cột Kế hoạch).'); return; }
+  if (confirm(`Sẽ ĐĂNG / LÊN LỊCH THẬT ${n} bài theo Sheet. Tiếp tục?`)) run('real');
+}
+function watch(jid) {
+  JOB = jid; clearInterval(jobTimer);
+  const tick = async () => {
+    try {
+      const d = await api(`/api/jobs/${jid}`);
+      $('#jobLabel').textContent = d.label + (d.running ? ' – đang chạy…' : d.code === 0 ? ' – xong' : ` – kết thúc (mã ${d.code})`);
+      $('#jobPill').textContent = d.running ? 'Đang chạy: ' + d.label : 'Rảnh'; $('#jobPill').className = 'pill ' + (d.running ? 'ok' : '');
+      $('#btnStop').style.display = d.running ? '' : 'none';
+      const log = $('#log'); const atEnd = log.scrollTop + log.clientHeight >= log.scrollHeight - 20;
+      log.textContent = d.log || '(chưa có log)'; if (atEnd) log.scrollTop = log.scrollHeight;
+      if (!d.running) { clearInterval(jobTimer); loadSheet(); loadProfiles(); loadScreens(); }
+    } catch (e) { clearInterval(jobTimer); }
+  };
+  tick(); jobTimer = setInterval(tick, 2000);
+}
+async function stopJob() { if (JOB && confirm('Dừng việc đang chạy?')) { await post(`/api/jobs/${JOB}/stop`); } }
+async function loadScreens() {
+  const d = await api('/api/screens');
+  $('#shots').innerHTML = d.map(s => `<a href="/logs/${encodeURIComponent(s.name)}" target="_blank"><img src="/logs/${encodeURIComponent(s.name)}" loading="lazy"><span>${esc(s.time)} ${esc(s.name.replace(/^\d{8}_\d{6}_/,''))}</span></a>`).join('') || '<span class="muted">chưa có</span>';
+}
+async function resumeJobs() { const jobs = await api('/api/jobs'); const r = jobs.find(j => j.running); if (r) watch(r.job); }
+
+(async () => { await loadConfig(); loadProfiles(); loadSheet(); loadScreens(); resumeJobs(); setInterval(loadProfiles, 15000); })();
+</script>
+</body>
+</html>
