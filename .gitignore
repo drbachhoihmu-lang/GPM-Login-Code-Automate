@@ -1,0 +1,11 @@
+# Ảnh chụp màn hình, log, cổng debug của từng lần chạy (có thông tin tài khoản) – không đưa lên git
+logs/
+
+# Video thử nghiệm
+test/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
