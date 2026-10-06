@@ -1,8 +1,9 @@
 # Ảnh chụp màn hình, log, cổng debug của từng lần chạy (có thông tin tài khoản) – không đưa lên git
 logs/
 
-# Video thử nghiệm
+# Video thử nghiệm, video tải từ Google Drive
 test/
+downloads/
 
 # Python
 __pycache__/

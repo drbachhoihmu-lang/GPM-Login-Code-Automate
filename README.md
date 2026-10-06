@@ -14,6 +14,14 @@ python post_reel.py --video "D:\videos\clip1.mp4" --caption "abc #thacsianhduc" 
 ```bash
 python post_reel.py --video "D:\videos\clip1.mp4" --caption "abc #thacsianhduc" --now
 ```
+Từ Google Drive (thư mục phải chia sẻ **"Bất kỳ ai có đường liên kết"**):
+```bash
+python post_reel.py --drive "https://drive.google.com/drive/folders/XXXX" --schedule "07/10/2026 19:00"
+```
+- Thư mục: lấy file video đầu tiên; mô tả lấy từ dòng **`Tiêu đề: ...`** trong file kịch bản `.docx` cùng thư mục (truyền `--caption` nếu muốn tự đặt; không có cả hai thì dùng tên video).
+- Link file video trực tiếp (`/file/d/ID/view`) cũng được; khi đó cần `--caption`.
+- Video tải về nằm ở `downloads/`.
+
 Tuỳ chọn:
 - `--dry-run` : làm đủ các bước, chụp màn hình `logs/..._before_submit.png`, **không** bấm nút cuối.
 - `--resume` : trình soạn đang mở sẵn với video + mô tả (ví dụ lần chạy trước lỗi giữa chừng) → bỏ qua tải lên, chạy tiếp tới cuối. Không cần `--video`.

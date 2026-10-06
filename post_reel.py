@@ -9,11 +9,16 @@ Ví dụ:
   python post_reel.py --caption "..." --schedule "07/10/2026 12:00" --resume      # trình soạn đã có video + mô tả
 """
 import argparse
+import html
+import re
 import subprocess
 import sys
 import time
+import unicodedata
+import zipfile
 from datetime import datetime
 from pathlib import Path
+from urllib.parse import unquote
 
 import requests
 from playwright.sync_api import sync_playwright, TimeoutError as PWTimeout
@@ -31,6 +36,9 @@ PROFILE_ID = "3fcc3942-0973-4809-a4a1-b7b1c89d4468"
 PAGE_ASSET_ID = "1105165602680340"
 LOG_DIR = Path(__file__).resolve().parent / "logs"
 LOG_DIR.mkdir(exist_ok=True)
+DL_DIR = Path(__file__).resolve().parent / "downloads"     # video tải từ Google Drive
+DRIVE_DL = "https://drive.usercontent.google.com/download?id={id}&export=download&confirm=t"
+VIDEO_EXT = (".mp4", ".mov", ".m4v", ".mkv", ".webm", ".avi")
 
 COMPOSER_URL = ("https://business.facebook.com/latest/reels_composer/"
                 "?ref=biz_web_home_create_reel&asset_id={asset}&context_ref=HOME")
@@ -123,6 +131,99 @@ def kill_profile_browser(profile_id):
     subprocess.run(["powershell", "-NoProfile", "-Command", ps], capture_output=True)
     log("GPM: đã tắt tiến trình chrome của profile")
     time.sleep(4)
+
+
+# ----------------------------------------------------------------- Google Drive
+def drive_id(link):
+    """('folder', id) hoặc ('file', id) từ link Drive."""
+    m = re.search(r"/folders/([\w-]+)", link)
+    if m:
+        return "folder", m.group(1)
+    m = re.search(r"/file/d/([\w-]+)", link) or re.search(r"[?&]id=([\w-]+)", link)
+    if m:
+        return "file", m.group(1)
+    raise ValueError(f"Không nhận ra link Google Drive: {link}")
+
+
+def drive_list_folder(folder_id):
+    """[(id, tên)] trong thư mục chia sẻ 'Bất kỳ ai có đường liên kết' (không cần API key)."""
+    r = requests.get(f"https://drive.google.com/embeddedfolderview?id={folder_id}#list", timeout=60)
+    r.raise_for_status()
+    items = re.findall(r'id="entry-([\w-]+)".*?flip-entry-title">(.*?)</div>', r.text, flags=re.S)
+    if not items:
+        raise RuntimeError("Không đọc được thư mục Drive (trống, hoặc chưa chia sẻ 'Bất kỳ ai có đường liên kết')")
+    return [(fid, html.unescape(name)) for fid, name in items]
+
+
+def safe_name(name):
+    """Tên file ASCII không dấu, không ký tự cấm của Windows (tránh lỗi khi đưa đường dẫn cho Chrome)."""
+    base = unicodedata.normalize("NFKD", name.replace("Đ", "D").replace("đ", "d"))
+    base = base.encode("ascii", "ignore").decode()
+    base = re.sub(r'[<>:"/\\|?*\s]+', "_", base).strip("_.")
+    return base or "file"
+
+
+def drive_download(file_id, dest=None):
+    """Tải file công khai về DL_DIR. drive.usercontent + confirm=t để qua trang cảnh báo virus với file lớn.
+    Trả về đường dẫn đã lưu (tên lấy theo Drive nếu dest=None)."""
+    DL_DIR.mkdir(exist_ok=True)
+    with requests.get(DRIVE_DL.format(id=file_id), stream=True, timeout=120) as r:
+        r.raise_for_status()
+        if "text/html" in r.headers.get("content-type", ""):
+            raise RuntimeError("Drive trả về trang web thay vì file: file chưa chia sẻ công khai hoặc đã hết lượt tải")
+        if dest is None:
+            cd = r.headers.get("content-disposition", "")
+            m = re.search(r"filename\*=UTF-8''([^;]+)", cd) or re.search(r'filename="([^"]+)"', cd)
+            dest = DL_DIR / safe_name(unquote(m.group(1)) if m else f"{file_id}.mp4")
+        with open(dest, "wb") as f:
+            for chunk in r.iter_content(1 << 20):
+                f.write(chunk)
+    return Path(dest)
+
+
+def docx_title(path):
+    """Dòng 'Tiêu đề: ...' trong file kịch bản .docx (làm mô tả bài), None nếu không có."""
+    with zipfile.ZipFile(path) as z:
+        xml = z.read("word/document.xml").decode("utf8")
+    for p in re.findall(r"<w:p[ >].*?</w:p>", xml, flags=re.S):
+        t = html.unescape(re.sub(r"<[^>]+>", "", p)).strip()
+        m = re.match(r"(?i)tiêu\s*đề\s*:\s*(.+)", t)
+        if m:
+            return m.group(1).strip()
+    return None
+
+
+def fetch_from_drive(link, caption=None):
+    """Tải video từ link Drive (file hoặc thư mục). Với thư mục: lấy file video đầu tiên; nếu không
+    truyền --caption thì lấy dòng 'Tiêu đề:' trong .docx cùng thư mục, không có thì dùng tên video.
+    Trả về (đường dẫn video, mô tả)."""
+    kind, fid = drive_id(link)
+    if kind == "file":
+        log("Drive: tải file video...")
+        dest = drive_download(fid)
+        if not dest.suffix.lower() in VIDEO_EXT:
+            raise RuntimeError(f"Link Drive không phải file video: {dest.name}")
+        return str(dest), caption or dest.stem
+
+    items = drive_list_folder(fid)
+    log("Drive: thư mục có " + ", ".join(n for _, n in items))
+    vids = [(i, n) for i, n in items if n.lower().endswith(VIDEO_EXT)]
+    if not vids:
+        raise RuntimeError("Thư mục Drive không có file video")
+    vid_id, vid_name = vids[0]
+    log(f"Drive: tải {vid_name}")
+    dest = drive_download(vid_id, DL_DIR / safe_name(vid_name))
+    log(f"Drive: đã lưu {dest} ({dest.stat().st_size / 1e6:.1f} MB)")
+    if not caption:
+        docs = [(i, n) for i, n in items if n.lower().endswith(".docx")]
+        if docs:
+            caption = docx_title(drive_download(docs[0][0], DL_DIR / safe_name(docs[0][1])))
+            if caption:
+                log(f"Drive: mô tả lấy từ kịch bản: {caption}")
+        if not caption:
+            caption = Path(vid_name).stem
+            log(f"Drive: không có 'Tiêu đề:' trong kịch bản, dùng tên video làm mô tả: {caption}")
+    return str(dest), caption
 
 
 # ----------------------------------------------------------------- tiện ích Playwright
@@ -438,8 +539,9 @@ def post_reel(page, video, caption, when=None, dry_run=False, asset_id=PAGE_ASSE
 # ----------------------------------------------------------------- main
 def main():
     ap = argparse.ArgumentParser(description="Đăng/lên lịch Reels lên Fanpage qua profile GPM Login")
-    ap.add_argument("--video", help="Đường dẫn file video (.mp4)")
-    ap.add_argument("--caption", required=True, help="Mô tả / hashtag")
+    ap.add_argument("--video", help="Đường dẫn file video (.mp4) trên máy")
+    ap.add_argument("--drive", help="Link Google Drive (file video hoặc thư mục chứa video + kịch bản .docx)")
+    ap.add_argument("--caption", help="Mô tả / hashtag (với --drive có thể bỏ: lấy dòng 'Tiêu đề:' trong .docx)")
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--schedule", help='Thời điểm đăng, ví dụ "07/10/2026 12:00" hoặc "2026-10-07 12:00"')
     g.add_argument("--now", action="store_true", help="Đăng ngay")
@@ -451,14 +553,18 @@ def main():
     ap.add_argument("--close-after", action="store_true", help="Đóng profile GPM khi xong")
     a = ap.parse_args()
 
-    if not a.resume:
-        if not a.video:
-            sys.exit("Thiếu --video (hoặc dùng --resume)")
-        if not Path(a.video).is_file():
-            sys.exit(f"Không thấy file video: {a.video}")
     when = parse_schedule(a.schedule) if a.schedule else None
     if when and when <= datetime.now():
         sys.exit("Thời điểm lên lịch phải ở tương lai")
+    if a.drive:
+        a.video, a.caption = fetch_from_drive(a.drive, a.caption)
+    elif not a.resume:
+        if not a.video:
+            sys.exit("Thiếu --video hoặc --drive (hoặc dùng --resume)")
+        if not Path(a.video).is_file():
+            sys.exit(f"Không thấy file video: {a.video}")
+    if not a.caption:
+        sys.exit("Thiếu --caption")
 
     port = gpm_start(a.profile)
     time.sleep(5)
