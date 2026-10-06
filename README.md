@@ -31,7 +31,7 @@ Tuỳ chọn:
 ## Script làm gì
 1. Gọi GPM API mở profile `3fcc3942-...` (nếu profile đang mở bằng tay thì tự đóng và mở lại để có cổng debug).
 2. Kết nối Playwright vào trình duyệt đó, mở trình soạn thước phim của fanpage.
-3. Tải video qua nút **Thêm video**; trong lúc tải, **bản xem trước được tạm dừng** (im tiếng, đứng hình) cho tới khi tải xong. Chờ Facebook báo đã nhận đủ file.
+3. Tải video qua nút **Thêm video**; ngay khi bản xem trước bắt đầu chạy, script **bấm nút tạm dừng** (thẻ `<a>` đầu tiên trong nhóm 3 icon đè trên canvas xem trước) rồi đo lại bằng cách chụp canvas — log ghi `đứng yên = True`. Không thấy nút thì dùng dự phòng: đặt tốc độ phát = 0 + tắt tiếng. Tải xong bấm lại cho phát tiếp. Chờ Facebook báo đã nhận đủ file mới đi tiếp.
 4. Nhập **Mô tả**, bấm **Tiếp** sang **Chỉnh sửa** (chờ Facebook kiểm tra bản quyền với video dài), rồi **Tiếp** sang **Chia sẻ**; đọc stepper để chắc đã chuyển bước, chưa chuyển thì bấm lại.
 5. Chọn **Lên lịch**, nhập ngày (dd/mm/yyyy) + giờ:phút, đọc lại để chắc đúng, rồi bấm **Lên lịch** (hoặc **Chia sẻ** nếu `--now`).
 6. Mở tab mới vào *Nội dung → Đã lên lịch* để **xác nhận bài đã nằm trong danh sách** (trình soạn của Facebook hay treo vòng xoay dù đã thành công).

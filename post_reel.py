@@ -9,6 +9,7 @@ Ví dụ:
   python post_reel.py --caption "..." --schedule "07/10/2026 12:00" --resume      # trình soạn đã có video + mô tả
 """
 import argparse
+import hashlib
 import html
 import re
 import subprocess
@@ -48,14 +49,14 @@ DESC_BOX_NAME = "Hãy viết vào ô hộp thoại để thêm văn bản vào b
 STEPS = ("Tạo", "Chỉnh sửa", "Chia sẻ")
 
 # Bản xem trước là <canvas> vẽ từ một <video> không nằm trong DOM, nút tạm dừng chỉ là hình vẽ.
-# Chèn đoạn này trước khi mở trang để giữ tham chiếu tới mọi <video> và tạm dừng được chúng.
-PAUSE_PREVIEW_JS = """
+# Gọi pause() KHÔNG ăn: trình phát của FB gọi play() liên tục rồi reset về 0 và vẽ lại.
+# Cách ăn: để video "phát" nhưng playbackRate = 0 + muted -> khung hình đứng yên, im tiếng;
+# chặn luôn setter playbackRate/muted để FB không đặt lại trong lúc đang đóng băng.
+FREEZE_PREVIEW_JS = """
 (() => {
   const vids = new Set();
-  const hook = (el) => {
-    vids.add(el);
-    el.addEventListener('play', () => { if (window.__gpmPausePreview) el.pause(); });
-  };
+  const apply = (v) => { if (!window.__gpmFreeze) return; try { v.muted = true; v.playbackRate = 0; } catch (e) {} };
+  const hook = (v) => { if (!vids.has(v)) { vids.add(v); apply(v); } };
   const origCreate = Document.prototype.createElement;
   Document.prototype.createElement = function (tag, ...rest) {
     const el = origCreate.call(this, tag, ...rest);
@@ -64,17 +65,29 @@ PAUSE_PREVIEW_JS = """
   };
   const origPlay = HTMLMediaElement.prototype.play;
   HTMLMediaElement.prototype.play = function () {
-    if (!vids.has(this)) hook(this);
-    if (window.__gpmPausePreview) { try { this.pause(); } catch (e) {} return Promise.resolve(); }
-    return origPlay.apply(this, arguments);
+    hook(this);
+    const p = origPlay.apply(this, arguments);
+    apply(this);
+    return p;
   };
-  window.__gpmPauseAll = () => {
-    window.__gpmPausePreview = true;
-    let n = 0;
-    vids.forEach(v => { try { if (!v.paused) { v.pause(); n++; } } catch (e) {} });
-    return n;
+  const origDraw = CanvasRenderingContext2D.prototype.drawImage;
+  CanvasRenderingContext2D.prototype.drawImage = function (src, ...rest) {
+    if (src instanceof HTMLVideoElement) hook(src);
+    return origDraw.call(this, src, ...rest);
   };
-  window.__gpmResumeAllowed = () => { window.__gpmPausePreview = false; };
+  for (const [prop, forced] of [['playbackRate', 0], ['muted', true]]) {
+    const d = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, prop);
+    Object.defineProperty(HTMLMediaElement.prototype, prop, {
+      get() { return d.get.call(this); },
+      set(v) { if (window.__gpmFreeze && vids.has(this)) v = forced; d.set.call(this, v); },
+      configurable: true });
+  }
+  window.__gpmFreezeOn = () => { window.__gpmFreeze = true; vids.forEach(apply); return vids.size; };
+  window.__gpmFreezeOff = () => {
+    window.__gpmFreeze = false;
+    vids.forEach(v => { try { v.playbackRate = 1; v.muted = false; } catch (e) {} });
+    return vids.size;
+  };
 })();
 """
 
@@ -234,12 +247,23 @@ def footer_button(page, name):
     loc = page.get_by_role("button", name=name, exact=True)
     best, best_x = None, -1
     for i in range(loc.count()):
-        b = loc.nth(i).bounding_box()
+        try:
+            b = loc.nth(i).bounding_box(timeout=2000)
+        except Exception:        # nút vừa bị React vẽ lại -> bỏ qua, vòng sau tìm lại
+            continue
         if b and b["x"] > best_x:
             best, best_x = loc.nth(i), b["x"]
     if best is None:
         raise RuntimeError(f"Không thấy nút '{name}'")
     return best
+
+
+def footer_enabled(page, name):
+    """True nếu nút thanh đáy `name` có mặt và đang bấm được; False nếu không thấy / đang vẽ lại."""
+    try:
+        return footer_button(page, name).is_enabled(timeout=2000)
+    except Exception:
+        return False
 
 
 def current_step(page):
@@ -281,23 +305,20 @@ def goto_step(page, target, max_s=900):
         if time.time() - t0 > max_s:
             shot(page, "step_stuck")
             raise RuntimeError(f"Không chuyển được sang bước '{target}' (đang ở '{cur}')")
-        if cur == "Chỉnh sửa":
-            wait_copyright_check(page)
-        try:
-            btn = footer_button(page, "Tiếp")
-        except RuntimeError:
+        if not footer_enabled(page, "Tiếp"):
             page.wait_for_timeout(2000)
             continue
-        if not btn.is_enabled():
-            page.wait_for_timeout(2000)
-            continue
-        btn.click()
+        footer_button(page, "Tiếp").click()
         for _ in range(15):                 # chờ tối đa 15s cho stepper đổi
             page.wait_for_timeout(1000)
             if current_step(page) != cur:
                 break
         else:
-            log(f"  ...bấm Tiếp ở bước '{cur}' chưa chuyển trang, bấm lại")
+            # Bấm rồi mà không chuyển: ở bước Chỉnh sửa thường do FB còn đang quét bản quyền
+            log(f"  ...bấm Tiếp ở bước '{cur}' chưa chuyển trang"
+                + (", chờ FB kiểm tra bản quyền xong rồi bấm lại" if cur == "Chỉnh sửa" else ", bấm lại"))
+            if cur == "Chỉnh sửa":
+                wait_copyright_check(page)
 
 
 def upload_via_cdp(page, open_button, path):
@@ -336,11 +357,72 @@ def upload_percent(page):
     }""")
 
 
-def pause_preview(page):
+def preview_pause_button(page):
+    """Nút tạm dừng thật của bản xem trước: thẻ <a> đầu tiên trong nhóm 3 icon (tạm dừng / loa / ...)
+    nằm đè góc trên-phải canvas. Không có aria-label nên tìm theo cấu trúc + vị trí. Trả về locator hoặc None."""
     try:
-        return page.evaluate("() => window.__gpmPauseAll ? window.__gpmPauseAll() : -1")
+        box = page.locator("canvas").first.bounding_box(timeout=3000)
+    except Exception:
+        box = None
+    if not box:
+        return None
+    found = page.evaluate("""(box) => {
+        document.querySelectorAll('[data-gpm-pause]').forEach(e => e.removeAttribute('data-gpm-pause'));
+        for (const div of document.querySelectorAll('div')) {
+            const as = [...div.children].filter(c => c.tagName === 'A' && c.querySelector('div[style*="mask-image"]'));
+            if (as.length >= 2 && as.length === div.children.length) {
+                const r = as[0].getBoundingClientRect();
+                if (r.width > 0 && r.x >= box.x && r.x <= box.x + box.width && r.y >= box.y && r.y <= box.y + box.height) {
+                    as[0].setAttribute('data-gpm-pause', '1');
+                    return true;
+                }
+            }
+        }
+        return false;
+    }""", box)
+    return page.locator("a[data-gpm-pause]").first if found else None
+
+
+def pause_preview_by_button(page, tries=3):
+    """Bấm nút tạm dừng thật rồi đo lại. Trả về True (đã đứng yên) / False (bấm nhưng vẫn chạy) / None (không có nút).
+    Bấm khi trình phát chưa chạy thì cú bấm bị bỏ qua -> chờ thấy khung hình chuyển động rồi mới bấm."""
+    btn = preview_pause_button(page)
+    if btn is None:
+        return None
+    for _ in range(10):                   # tối đa ~20s chờ trình phát bắt đầu chạy
+        if preview_frozen(page) is False:
+            break
+        page.wait_for_timeout(500)
+    for _ in range(tries):
+        btn = preview_pause_button(page) or btn
+        btn.click()
+        page.wait_for_timeout(800)
+        if preview_frozen(page):
+            return True
+        page.wait_for_timeout(1000)
+    return False
+
+
+def freeze_preview(page, on=True):
+    """Đóng băng / thả bản xem trước. Trả về số <video> đã bắt được (-1 nếu chưa chèn được hook)."""
+    fn = "__gpmFreezeOn" if on else "__gpmFreezeOff"
+    try:
+        return page.evaluate(f"() => window.{fn} ? window.{fn}() : -1")
     except Exception:
         return -1
+
+
+def preview_frozen(page):
+    """Đo thật: chụp canvas xem trước 3 lần cách nhau 0.6s, không đổi -> đang đứng yên."""
+    try:
+        cv = page.locator("canvas").first
+        hs = set()
+        for _ in range(3):
+            hs.add(hashlib.md5(cv.screenshot()).hexdigest())
+            page.wait_for_timeout(600)
+        return len(hs) == 1
+    except Exception:
+        return None
 
 
 def shot(page, name):
@@ -366,7 +448,7 @@ def open_and_upload(page, video, caption, asset_id, pause_during_upload=True):
     """Mở trình soạn, tải video, nhập mô tả. Kết thúc ở bước 'Tạo' với video đã lên FB."""
     video = str(Path(video).resolve())
     if pause_during_upload:
-        page.add_init_script(PAUSE_PREVIEW_JS)
+        page.add_init_script(FREEZE_PREVIEW_JS)
 
     # 1. Mở trình soạn thước phim
     log("Mở trình soạn thước phim")
@@ -392,9 +474,19 @@ def open_and_upload(page, video, caption, asset_id, pause_during_upload=True):
 
     page.on("response", _on_resp)
     upload_via_cdp(page, add_video, video)
+    pause_mode = None                 # "button" = bấm nút thật, "freeze" = dự phòng can thiệp trình phát
     if pause_during_upload:
-        page.wait_for_timeout(1500)
-        log(f"Tạm dừng bản xem trước trong lúc tải ({pause_preview(page)} video đang phát)")
+        page.wait_for_timeout(2500)
+        r = pause_preview_by_button(page)
+        if r:
+            pause_mode = "button"
+            log("Đã bấm nút tạm dừng bản xem trước – đo thật: đứng yên = True")
+        else:
+            n = freeze_preview(page, True)
+            page.wait_for_timeout(1200)
+            pause_mode = "freeze"
+            log(f"Không bấm được nút tạm dừng ({'không thấy nút' if r is None else 'bấm xong vẫn chạy'}), "
+                f"dùng dự phòng đóng băng trình phát ({n} video) – đo thật: đứng yên = {preview_frozen(page)}")
 
     # 3. Chờ tải lên xong. LƯU Ý: nút "Tiếp" sáng ngay khi mới tải được vài %, nên phải
     #    dựa vào số % cạnh tên file + tín hiệu FB báo đã nhận đủ (upload/requests/receive).
@@ -402,16 +494,14 @@ def open_and_upload(page, video, caption, asset_id, pause_during_upload=True):
     log(f"Chờ tải lên/xử lý video (tối đa {max_wait // 60} phút)...")
     t0 = last_log = time.time()
     pct_gone_since = None
+    shot_done = False
     while True:
         page.wait_for_timeout(2000)
-        if pause_during_upload:
-            pause_preview(page)                      # bản xem trước có thể được tạo lại
+        if pause_mode == "freeze":
+            freeze_preview(page, True)               # bản xem trước có thể được tạo lại
         elapsed = time.time() - t0
         pct = upload_percent(page)
-        try:
-            ready = footer_button(page, "Tiếp").is_enabled()
-        except RuntimeError:
-            ready = False
+        ready = footer_enabled(page, "Tiếp")
         if upload["receive"] and ready and (pct is None or pct >= 100):
             break
         # Dự phòng nếu FB đổi endpoint: % đã biến mất 30s, nút Tiếp sáng -> coi như xong
@@ -422,19 +512,37 @@ def open_and_upload(page, video, caption, asset_id, pause_during_upload=True):
         else:
             pct_gone_since = None
         if time.time() - last_log >= 30:
-            log(f"  ...đang tải lên {pct if pct is not None else '?'}% ({elapsed:.0f}s)")
+            extra = ""
+            if pause_mode:
+                frozen = preview_frozen(page)
+                if frozen is False and pause_mode == "button":   # FB vẽ lại trình phát -> bấm lại
+                    frozen = pause_preview_by_button(page)
+                extra = f", xem trước đứng yên = {frozen}"
+            log(f"  ...đang tải lên {pct if pct is not None else '?'}% ({elapsed:.0f}s{extra})")
             last_log = time.time()
+            if not shot_done:
+                shot(page, "uploading")
+                shot_done = True
         body = body_text(page)
         if any(k in body for k in ("không hỗ trợ", "Không thể tải", "Đã xảy ra lỗi", "ít nhất 5 ảnh")):
             shot(page, "upload_error")
             raise RuntimeError("Facebook báo lỗi khi tải video (xem ảnh trong logs/)")
+        if "reels_composer" not in page.url or "File phương tiện" not in body:
+            shot(page, "composer_closed")
+            raise RuntimeError("Trình soạn thước phim đã bị đóng giữa lúc tải (đừng bấm vào trang khi script đang chạy)")
         if elapsed > max_wait:
             shot(page, "upload_timeout")
             raise RuntimeError("Quá thời gian chờ tải lên/xử lý video")
     page.remove_listener("response", _on_resp)
     log(f"Video sẵn sàng sau ~{time.time() - t0:.0f}s (FB đã nhận đủ file: {upload['receive']})")
-    if pause_during_upload:
-        page.evaluate("() => window.__gpmResumeAllowed && window.__gpmResumeAllowed()")
+    if pause_mode == "freeze":
+        freeze_preview(page, False)
+        log("Thả bản xem trước (phát lại bình thường)")
+    elif pause_mode == "button" and preview_frozen(page):
+        btn = preview_pause_button(page)
+        if btn is not None:
+            btn.click()
+            log("Bấm lại nút để bản xem trước phát tiếp")
 
     # 4. Mô tả
     log("Nhập mô tả")
@@ -571,7 +679,13 @@ def main():
     with sync_playwright() as p:
         browser = p.chromium.connect_over_cdp(f"http://127.0.0.1:{port}")
         ctx = browser.contexts[0]
-        page = ctx.pages[0] if ctx.pages else ctx.new_page()
+        # Tab trống/tab nội bộ của GPM (url không phải http) điều hướng sẽ bị "Frame detached" -> bỏ qua
+        pages = [pg for pg in ctx.pages if not pg.is_closed()]
+        if a.resume:
+            live = [pg for pg in pages if "reels_composer" in pg.url]
+        else:
+            live = [pg for pg in pages if pg.url.startswith("http")]
+        page = live[0] if live else ctx.new_page()
         page.bring_to_front()
         try:
             ok = post_reel(page, a.video, a.caption, when, a.dry_run, a.asset_id, a.resume)
