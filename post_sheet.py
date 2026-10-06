@@ -1,13 +1,18 @@
 """
 Đăng / lên lịch hàng loạt Thước phim theo một Google Sheet chia sẻ công khai.
 
-Sheet (hàng 1 là tiêu đề cột, tên cột linh hoạt – script nhận diện theo từ khoá):
-  Video            : link file Drive / link thư mục Drive / đường dẫn file trên máy
-  Tiêu đề          : mô tả bài (có thể kèm luôn hashtag)
-  Hashtag          : (tuỳ chọn) hashtag riêng, sẽ nối vào sau tiêu đề
-  Thời gian đăng   : "07/10/2026 19:00" (hoặc 2026-10-07 19:00); ghi "ngay" để đăng ngay; trống = bỏ qua
-  Trạng thái       : trống = chờ đăng; ghi "bỏ qua" / "skip" để không đăng
-  Ghi chú          : tuỳ ý
+Sheet gồm 3 tab (dựng bằng setupSheet() trong sheet_webhook.gs):
+  "Lịch đăng" (hàng đợi, script đọc) – hàng 1 là tiêu đề cột, tên cột linh hoạt (nhận diện theo từ khoá):
+    Thời gian đăng   : "07/10/2026 19:00" (hoặc 2026-10-07 19:00); ghi "ngay" để đăng ngay; trống = bỏ qua
+    Page             : tên page (chọn từ tab Pages) -> script tra asset_id + profile GPM trong tab Pages
+    Video            : link file Drive / link thư mục Drive / đường dẫn file trên máy
+    Tiêu đề          : mô tả bài (có thể kèm luôn hashtag); trống + thư mục Drive -> lấy 'Tiêu đề:' trong .docx
+    Hashtag          : (tuỳ chọn) nối vào sau tiêu đề
+    Trạng thái       : script ghi (Đang đăng / Đã lên lịch / Đã đăng / Lỗi); tay ghi "bỏ qua" để không đăng
+    Ghi chú          : script ghi lý do lỗi / giờ xác nhận
+    (Profile         : tuỳ chọn, ghi đè profile lấy từ tab Pages)
+  "Pages" (danh mục): Tên page | asset_id | Profile GPM | Người phụ trách | Giờ đăng mặc định | Ghi chú
+  "Đã đăng" (lưu trữ): Apps Script dọn bài cũ sang đây
 
 Ví dụ:
   python post_sheet.py --sheet "https://docs.google.com/spreadsheets/d/XXXX/edit?gid=0"
@@ -35,6 +40,7 @@ from post_reel import (LOG_DIR, PAGE_ASSET_ID, PROFILE_ID, VIDEO_EXT, fetch_from
 
 # Link Sheet mặc định (có thể thay bằng --sheet)
 SHEET_URL = ""
+TAB_QUEUE, TAB_PAGES = "Lịch đăng", "Pages"     # tên tab hàng đợi / danh mục page (đổi bằng --tab, --pages-tab)
 # URL ứng dụng web Apps Script (xem sheet_webhook.gs) để ghi Page đăng / Trạng thái / Ghi chú ngược vào Sheet.
 # Để trống = không ghi (vẫn có báo cáo CSV trong logs/).
 SHEET_WEBHOOK = ""
@@ -66,13 +72,49 @@ def sheet_update(webhook, row, gid=None, **fields):
 
 
 # ----------------------------------------------------------------- đọc Sheet
-def sheet_csv_url(link):
-    m = re.search(r"/spreadsheets/d/([\w-]+)", link)
+def sheet_id(link):
+    m = re.search(r"/spreadsheets/d/([\w-]+)", link or "")
     if not m:
         raise ValueError(f"Không nhận ra link Google Sheet: {link}")
-    # gid chỉ thêm khi link có (tab đầu của Sheet tạo từ CSV không phải gid=0; thiếu gid = tab đầu tiên)
-    gid = re.search(r"[#&?]gid=(\d+)", link)
-    return f"https://docs.google.com/spreadsheets/d/{m.group(1)}/export?format=csv" + (f"&gid={gid.group(1)}" if gid else "")
+    return m.group(1)
+
+
+def sheet_tabs(link):
+    """{tên tab: gid} của Sheet công khai (đọc từ trang htmlview). {} nếu không đọc được."""
+    try:
+        r = requests.get(f"https://docs.google.com/spreadsheets/d/{sheet_id(link)}/htmlview", timeout=60)
+        if r.status_code != 200:
+            return {}
+        import html as _html
+        tabs = {}
+        # htmlview nhúng danh sách tab dạng JS: items.push({name: "Tên", pageUrl: "...htmlview?gid=123..."})
+        for name, url in re.findall(r'items\.push\(\{name:\s*"((?:[^"\\]|\\.)*)",\s*pageUrl:\s*"((?:[^"\\]|\\.)*)"', r.text):
+            m = re.search(r"gid=(\d+)", url.replace("\\/", "/"))
+            if m:
+                tabs[json.loads(f'"{name}"').strip()] = int(m.group(1))
+        if not tabs:   # dự phòng: menu tab dạng HTML
+            tabs = {_html.unescape(n).strip(): int(g)
+                    for g, n in re.findall(r'id="sheet-button-(\d+)"[^>]*>\s*<a[^>]*>([^<]+)</a>', r.text)}
+        return tabs
+    except Exception:
+        return {}
+
+
+def sheet_csv_url(link, tab=None):
+    """Link export CSV: tab theo tên (tra gid qua htmlview) > gid trong link > tab đầu tiên.
+    Trả về (url, gid|None). Lưu ý gviz 'sheet=tên' KHÔNG dùng được: tên sai nó âm thầm trả tab đầu."""
+    sid = sheet_id(link)
+    gid = None
+    if tab:
+        tabs = sheet_tabs(link)
+        hit = next((g for n, g in tabs.items() if norm(n) == norm(tab)), None)
+        if hit is None:
+            return None, None
+        gid = hit
+    else:
+        m = re.search(r"[#&?]gid=(\d+)", link)
+        gid = int(m.group(1)) if m else None
+    return f"https://docs.google.com/spreadsheets/d/{sid}/export?format=csv" + (f"&gid={gid}" if gid is not None else ""), gid
 
 
 def norm(s):
@@ -81,7 +123,7 @@ def norm(s):
     return re.sub(r"[^a-z0-9]+", " ", s.encode("ascii", "ignore").decode().lower()).strip()
 
 
-COLUMN_KEYS = {           # tên cột chuẩn -> các từ khoá nhận diện (sau khi bỏ dấu)
+COLUMN_KEYS = {           # tab Lịch đăng: tên cột chuẩn -> các từ khoá nhận diện (sau khi bỏ dấu)
     "profile": ("profile", "tai khoan", "account", "nick", "gpm"),
     "page":    ("page", "fanpage", "trang dang"),
     "video":   ("video", "link", "drive", "duong dan", "path", "file"),
@@ -91,35 +133,53 @@ COLUMN_KEYS = {           # tên cột chuẩn -> các từ khoá nhận diện 
     "status":  ("trang thai", "status"),
     "note":    ("ghi chu", "note"),
 }
+PAGES_KEYS = {            # tab Pages
+    "name":    ("ten page", "ten trang", "page", "fanpage", "trang"),
+    "asset":   ("asset", "id"),
+    "profile": ("profile", "tai khoan", "gpm"),
+    "owner":   ("phu trach", "owner"),
+    "hour":    ("gio", "hour"),
+}
 
 
-def map_columns(header):
+def map_columns(header, keys=COLUMN_KEYS, required=("video", "time")):
     cols = {}
     for idx, name in enumerate(header):
         n = norm(name)
         if not n:
             continue
-        for key, kws in COLUMN_KEYS.items():
+        for key, kws in keys.items():
             if key not in cols and any(kw in n for kw in kws):
                 cols[key] = idx
                 break
-    missing = [k for k in ("video", "time") if k not in cols]
+    missing = [k for k in required if k not in cols]
     if missing:
         raise RuntimeError(f"Sheet thiếu cột {missing}. Tiêu đề cột hiện có: {header}")
     return cols
 
 
-def read_sheet(link):
-    """Trả về danh sách dict: row (số hàng trên Sheet), page, video, title, hashtag, time, status, note.
-    `link` là link Google Sheet công khai, hoặc đường dẫn file .csv trên máy (Sheet tải về)."""
+def fetch_rows(link, tab=None):
+    """Các hàng CSV của một tab (None nếu tab không tồn tại). `link` có thể là file .csv trên máy."""
     if link.lower().endswith(".csv") and Path(link).is_file():
         text = Path(link).read_text(encoding="utf-8-sig")
     else:
-        r = requests.get(sheet_csv_url(link), timeout=60)
+        url, _ = sheet_csv_url(link, tab)
+        if url is None:
+            return None
+        r = requests.get(url, timeout=60)
         if r.status_code != 200 or "<html" in r.text[:200].lower():
             raise RuntimeError("Không tải được Sheet – kiểm tra link và chia sẻ 'Bất kỳ ai có đường liên kết' (Người xem)")
         text = r.content.decode("utf-8-sig")
-    rows = list(csv.reader(io.StringIO(text)))
+    return list(csv.reader(io.StringIO(text)))
+
+
+def read_sheet(link, tab=None):
+    """Hàng đợi: danh sách dict row (số hàng trên Sheet), profile, page, video, title, hashtag, time, status, note.
+    `tab` = tên tab hàng đợi; không có tab đó thì dùng gid trong link / tab đầu tiên."""
+    rows = fetch_rows(link, tab)
+    if rows is None:
+        log(f"(không có tab '{tab}', đọc tab đầu tiên / tab trong link)")
+        rows = fetch_rows(link, None)
     if not rows:
         raise RuntimeError("Sheet trống")
     cols = map_columns(rows[0])
@@ -134,6 +194,42 @@ def read_sheet(link):
                     "hashtag": get(row, "hashtag"), "time": get(row, "time"), "status": get(row, "status"),
                     "note": get(row, "note")})
     return out
+
+
+def read_pages(link, tab=TAB_PAGES):
+    """Tab Pages -> [{name, asset, profile, owner, hour}]; [] nếu không có tab (hoặc link là file .csv)."""
+    if link.lower().endswith(".csv"):
+        return []
+    try:
+        rows = fetch_rows(link, tab)
+    except Exception as e:
+        log(f"(không đọc được tab {tab}: {str(e)[:80]})")
+        return []
+    if not rows or len(rows) < 2:
+        return []
+    try:
+        cols = map_columns(rows[0], PAGES_KEYS, required=("name", "asset"))
+    except RuntimeError:
+        return []
+    get = lambda row, key: (row[cols[key]].strip().lstrip("'").strip() if key in cols and cols[key] < len(row) else "")
+    out = []
+    for row in rows[1:]:
+        if get(row, "name"):
+            out.append({"name": get(row, "name"), "asset": get(row, "asset"), "profile": get(row, "profile"),
+                        "owner": get(row, "owner"), "hour": get(row, "hour")})
+    return out
+
+
+def lookup_page(pages, want):
+    """Tìm page trong tab Pages theo tên (một phần, không dấu) hoặc asset_id."""
+    w = norm(want)
+    if not w:
+        return None
+    exact = [p for p in pages if norm(p["name"]) == w or p["asset"] == want.strip()]
+    if exact:
+        return exact[0]
+    hits = [p for p in pages if w in norm(p["name"])]
+    return hits[0] if len(hits) == 1 else None
 
 
 # ----------------------------------------------------------------- trạng thái cục bộ
@@ -225,6 +321,8 @@ def resolve_video(it):
 def main():
     ap = argparse.ArgumentParser(description="Đăng/lên lịch Reels hàng loạt theo Google Sheet công khai")
     ap.add_argument("--sheet", default=SHEET_URL, help="Link Google Sheet (chia sẻ 'Bất kỳ ai có đường liên kết')")
+    ap.add_argument("--tab", default=TAB_QUEUE, help=f"Tên tab hàng đợi (mặc định '{TAB_QUEUE}')")
+    ap.add_argument("--pages-tab", default=TAB_PAGES, help=f"Tên tab danh mục page (mặc định '{TAB_PAGES}')")
     ap.add_argument("--max", type=int, default=0, help="Tối đa bao nhiêu bài trong lần chạy này (0 = tất cả)")
     ap.add_argument("--rows", help="Chỉ đăng các hàng này, ví dụ 2,3,7 (số hàng trên Sheet)")
     ap.add_argument("--dry-run", action="store_true", help="Làm hết các bước nhưng không bấm nút cuối")
@@ -241,7 +339,20 @@ def main():
     only_rows = {int(x) for x in a.rows.split(",")} if a.rows else None
     lo, hi = (int(x) for x in a.pause.split("-")) if "-" in a.pause else (int(a.pause), int(a.pause))
 
-    items = read_sheet(a.sheet)
+    items = read_sheet(a.sheet, a.tab)
+    pages = read_pages(a.sheet, a.pages_tab)
+    if pages:
+        log(f"Tab {a.pages_tab}: {len(pages)} page – " + ", ".join(f"{p['name']} ({p['profile'] or 'profile mặc định'})" for p in pages))
+    else:
+        log(f"(không có tab {a.pages_tab}: page sẽ được tra qua bộ chọn trang trong Business Suite)")
+    # Tra tab Pages: cột Page -> asset_id + profile (cột Profile trên hàng, nếu có, được ưu tiên)
+    for it in items:
+        p = lookup_page(pages, it["page"]) if it["page"] else None
+        it["asset"] = p["asset"] if p else ""
+        if p and not it["profile"]:
+            it["profile"] = p["profile"]
+        if p:
+            it["page"] = p["name"]          # tên đầy đủ, để đối chiếu ô "Đăng lên"
     state = load_state()
     todo, skipped = plan(items, a.sheet, state, only_rows, a.retry_errors)
     if a.max:
@@ -271,7 +382,9 @@ def main():
     if a.plan_only or not todo:
         return
 
-    gid = sheet_gid(a.sheet)
+    gid = sheet_csv_url(a.sheet, a.tab)[1] if not a.sheet.lower().endswith(".csv") else None
+    if gid is None:
+        gid = sheet_gid(a.sheet)
     results = [(it, when, "error", reason, "") for it, reason in [(b[0], b[1]) for b in bad]]
     for it, reason in bad:
         sheet_update(a.webhook, it["row"], gid, status=ST_ERROR, note=reason[:300])
@@ -293,7 +406,7 @@ def main():
                     if not a.dry_run:
                         sheet_update(a.webhook, it["row"], gid, status=ST_RUNNING, note="")
                     try:
-                        asset = resolve_asset_id(page, it["page"], pid) or a.asset_id
+                        asset = it.get("asset") or resolve_asset_id(page, it["page"], pid) or a.asset_id
                         video, caption = resolve_video(it)
                         ok = post_reel(page, video, caption, when, a.dry_run, asset, info=info)
                         status = "done" if ok else "dry-run"

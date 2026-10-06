@@ -23,24 +23,34 @@ python post_reel.py --drive "https://drive.google.com/drive/folders/XXXX" --sche
 - Video tải về nằm ở `downloads/`.
 
 ### Đăng hàng loạt theo Google Sheet (`post_sheet.py`)
-Sheet mẫu: **Lịch đăng Reels - Fanpage** (chia sẻ *Bất kỳ ai có đường liên kết → Người xem*). Hàng 1 là tên cột, script nhận diện cột theo từ khoá nên có thể đặt tên khác:
+Sheet: **Lịch đăng Reels - Fanpage** (chia sẻ *Bất kỳ ai có đường liên kết → Người xem*), gồm **3 tab** — dựng tự động bằng hàm `setupSheet()` trong [sheet_webhook.gs](sheet_webhook.gs) (xem phần cài Apps Script bên dưới):
 
-| Profile | Page đăng | Video | Tiêu đề | Hashtag | Thời gian đăng | Trạng thái | Ghi chú |
-|---|---|---|---|---|---|---|---|
-| trống = profile mặc định; hoặc một phần tên profile GPM (`002`) / id | trống = trang mặc định; hoặc tên trang (`Trầm Cảm`) / asset_id | link file Drive / link thư mục Drive / đường dẫn trên máy | mô tả bài (có thể gộp luôn hashtag vào đây) | tuỳ chọn, nối sau tiêu đề | `08/10/2026 19:00`, hoặc `ngay` để đăng ngay | script tự ghi | script tự ghi |
+**Tab `Pages` (danh mục, mỗi page 1 hàng):** `Tên page | asset_id | Profile GPM | Người phụ trách | Giờ đăng mặc định | Ghi chú`. Thêm page mới = thêm 1 hàng (asset_id lấy trên URL Business Suite `?asset_id=…`; Profile GPM = một phần tên profile, vd `002`).
 
-- **Profile** (vào): profile GPM Login (= tài khoản Facebook) dùng để đăng. Để trống = profile mặc định trong `post_reel.py` (hoặc `--profile`). Ghi một phần tên (`002`, `profile 002`) hoặc id. Các hàng cùng profile được gom lại, mở trình duyệt một lần. Profile đang mở bằng tay sẽ bị đóng và mở lại qua API để có cổng điều khiển.
-- **Page đăng** (vào): để trống = trang mặc định trong `post_reel.py`; ghi một phần tên trang (vd `Trầm Cảm`) hoặc asset_id → script mở bộ chọn trang trong Business Suite, tìm trang đó, lấy asset_id (cache ở `logs/pages.json`) và kiểm tra ô "Đăng lên" của trình soạn đúng trang đó mới đăng. (ra): sau khi đăng, script ghi lại **tên trang thật** đọc từ ô "Đăng lên".
+**Tab `Lịch đăng` (hàng đợi, script đọc):**
+
+| Thời gian đăng | Page | Video | Tiêu đề | Hashtag | Trạng thái | Ghi chú |
+|---|---|---|---|---|---|---|
+| `08/10/2026 19:00`, hoặc `ngay` | chọn từ dropdown (tab Pages) | link file Drive / thư mục Drive / đường dẫn máy | mô tả (có thể gộp hashtag) | tuỳ chọn | script ghi; tay ghi `bỏ qua` | script ghi |
+
+- **Page** → script tra tab Pages lấy **asset_id + profile GPM**, kiểm tra ô "Đăng lên" của trình soạn đúng trang đó mới đăng, và sau khi đăng ghi lại tên trang thật. Page không có trong tab Pages → script mở bộ chọn trang trong Business Suite để dò asset_id (cache `logs/pages_<profile>.json`), dùng profile mặc định. Có thể thêm cột `Profile` trên hàng để ghi đè profile.
+- Các hàng cùng profile được gom lại, mở trình duyệt một lần. Profile đang mở bằng tay sẽ bị đóng và mở lại qua API để có cổng điều khiển.
+- Nhìn riêng từng page: *Dữ liệu → Chế độ xem bộ lọc*, mỗi người tự lưu một view. Sort cột Thời gian để thấy lịch chung của mọi page.
+
+**Tab `Đã đăng` (lưu trữ):** Apps Script `archiveOld()` dọn các hàng `Đã …` có giờ đăng quá 7 ngày sang đây (`installNightlyTrigger()` để tự chạy 3h sáng), hàng đợi luôn ngắn.
+
+Tên tab đổi bằng `--tab` / `--pages-tab`. Không có tab `Lịch đăng` thì script đọc tab trong link (`#gid=`) hoặc tab đầu tiên.
 - **Trạng thái** do script ghi: `Đang đăng` → `Đã lên lịch` / `Đã đăng` / `Lỗi` (kèm lý do ở Ghi chú) / `Chạy thử OK` (dry-run). Bạn ghi tay `bỏ qua` để không đăng. Hàng `Đã …` và `bỏ qua` không bao giờ đăng lại; hàng `Lỗi` chỉ đăng lại khi chạy với `--retry-errors`; hàng `Đang đăng` (lần trước bị ngắt) sẽ được làm lại.
 - Thư mục Drive mà **Tiêu đề để trống** → lấy dòng `Tiêu đề:` trong file kịch bản `.docx`, rồi nối thêm cột Hashtag.
 - Cột Thời gian nên để định dạng *Văn bản thuần* (hoặc gõ `'08/10/2026 19:00` với dấu `'` đầu ô) để Sheets không tự đổi thành ngày.
 - Hàng đã đăng còn được ghi nhớ trong `logs/sheet_state.json` → chạy lại không đăng trùng kể cả khi chưa có webhook. Mỗi lần chạy xuất `logs/sheet_report_*.csv` (Hàng / Page / Thời gian / Trạng thái / Ghi chú).
 
-**Ghi ngược vào Sheet (webhook Apps Script, cài 1 lần ~2 phút):** Sheet công khai không cho script ghi trực tiếp, nên dùng một Apps Script nhỏ gắn với Sheet:
-1. Mở Sheet → *Tiện ích mở rộng → Apps Script* → dán nội dung [sheet_webhook.gs](sheet_webhook.gs) → Lưu.
-2. *Triển khai → Tùy chọn triển khai mới → Ứng dụng web*: Thực thi với tư cách **Tôi**, Ai có quyền truy cập **Bất kỳ ai** → Triển khai → cho phép quyền → copy **URL ứng dụng web** (`…/exec`).
-3. Dán URL vào `SHEET_WEBHOOK` trong `post_sheet.py` (hoặc chạy với `--webhook URL`). Mở URL đó trên trình duyệt thấy chữ `sheet_webhook OK` là đúng.
-Không có webhook thì script vẫn chạy, chỉ không ghi được vào Sheet.
+**Cài Apps Script (1 lần, ~3 phút)** — dựng 3 tab + webhook ghi ngược + dọn bài cũ:
+1. Mở Sheet → *Tiện ích mở rộng → Apps Script* → dán toàn bộ [sheet_webhook.gs](sheet_webhook.gs) → Lưu.
+2. Chọn hàm **`setupSheet`** ở thanh trên → **Chạy** → cho phép quyền. Sheet có đủ 3 tab (hàng mẫu cũ được chuyển sang `Lịch đăng`, tab cũ bị ẩn, có thể xoá).
+3. (tuỳ chọn) Chọn hàm **`installNightlyTrigger`** → Chạy: mỗi đêm 3h tự dọn bài cũ sang `Đã đăng`.
+4. *Triển khai → Tùy chọn triển khai mới → Ứng dụng web*: Thực thi với tư cách **Tôi**, Ai có quyền truy cập **Bất kỳ ai** → Triển khai → copy **URL ứng dụng web** (`…/exec`) → dán vào `SHEET_WEBHOOK` trong `post_sheet.py` (hoặc `--webhook URL`). Mở URL đó trên trình duyệt thấy `sheet_webhook OK` là đúng.
+Không có webhook thì script vẫn chạy, chỉ không ghi được Trạng thái/Page vào Sheet (vẫn có báo cáo CSV trong `logs/`).
 
 ```bash
 python post_sheet.py --sheet "https://docs.google.com/spreadsheets/d/XXXX/edit" --plan-only   # chỉ in kế hoạch
