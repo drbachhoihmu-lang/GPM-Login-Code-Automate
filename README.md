@@ -25,13 +25,21 @@ python post_reel.py --drive "https://drive.google.com/drive/folders/XXXX" --sche
 ### Đăng hàng loạt theo Google Sheet (`post_sheet.py`)
 Sheet mẫu: **Lịch đăng Reels - Fanpage** (chia sẻ *Bất kỳ ai có đường liên kết → Người xem*). Hàng 1 là tên cột, script nhận diện cột theo từ khoá nên có thể đặt tên khác:
 
-| Video | Tiêu đề | Hashtag | Thời gian đăng | Trạng thái | Ghi chú |
-|---|---|---|---|---|---|
-| link file Drive / link thư mục Drive / đường dẫn trên máy | mô tả bài (có thể gộp luôn hashtag vào đây) | tuỳ chọn, nối sau tiêu đề | `08/10/2026 19:00`, hoặc `ngay` để đăng ngay | trống = chờ đăng; `bỏ qua` = không đăng | tuỳ ý |
+| Page đăng | Video | Tiêu đề | Hashtag | Thời gian đăng | Trạng thái | Ghi chú |
+|---|---|---|---|---|---|---|
+| trống = trang mặc định; hoặc tên trang (`Trầm Cảm`) / asset_id | link file Drive / link thư mục Drive / đường dẫn trên máy | mô tả bài (có thể gộp luôn hashtag vào đây) | tuỳ chọn, nối sau tiêu đề | `08/10/2026 19:00`, hoặc `ngay` để đăng ngay | script tự ghi | script tự ghi |
 
+- **Page đăng** (vào): để trống = trang mặc định trong `post_reel.py`; ghi một phần tên trang (vd `Trầm Cảm`) hoặc asset_id → script mở bộ chọn trang trong Business Suite, tìm trang đó, lấy asset_id (cache ở `logs/pages.json`) và kiểm tra ô "Đăng lên" của trình soạn đúng trang đó mới đăng. (ra): sau khi đăng, script ghi lại **tên trang thật** đọc từ ô "Đăng lên".
+- **Trạng thái** do script ghi: `Đang đăng` → `Đã lên lịch` / `Đã đăng` / `Lỗi` (kèm lý do ở Ghi chú) / `Chạy thử OK` (dry-run). Bạn ghi tay `bỏ qua` để không đăng. Hàng `Đã …` và `bỏ qua` không bao giờ đăng lại; hàng `Lỗi` chỉ đăng lại khi chạy với `--retry-errors`; hàng `Đang đăng` (lần trước bị ngắt) sẽ được làm lại.
 - Thư mục Drive mà **Tiêu đề để trống** → lấy dòng `Tiêu đề:` trong file kịch bản `.docx`, rồi nối thêm cột Hashtag.
 - Cột Thời gian nên để định dạng *Văn bản thuần* (hoặc gõ `'08/10/2026 19:00` với dấu `'` đầu ô) để Sheets không tự đổi thành ngày.
-- Hàng đã đăng được ghi nhớ trong `logs/sheet_state.json` → chạy lại không đăng trùng. Mỗi lần chạy xuất `logs/sheet_report_*.csv` (Hàng / Trạng thái / Ghi chú) để dán ngược vào Sheet nếu muốn.
+- Hàng đã đăng còn được ghi nhớ trong `logs/sheet_state.json` → chạy lại không đăng trùng kể cả khi chưa có webhook. Mỗi lần chạy xuất `logs/sheet_report_*.csv` (Hàng / Page / Thời gian / Trạng thái / Ghi chú).
+
+**Ghi ngược vào Sheet (webhook Apps Script, cài 1 lần ~2 phút):** Sheet công khai không cho script ghi trực tiếp, nên dùng một Apps Script nhỏ gắn với Sheet:
+1. Mở Sheet → *Tiện ích mở rộng → Apps Script* → dán nội dung [sheet_webhook.gs](sheet_webhook.gs) → Lưu.
+2. *Triển khai → Tùy chọn triển khai mới → Ứng dụng web*: Thực thi với tư cách **Tôi**, Ai có quyền truy cập **Bất kỳ ai** → Triển khai → cho phép quyền → copy **URL ứng dụng web** (`…/exec`).
+3. Dán URL vào `SHEET_WEBHOOK` trong `post_sheet.py` (hoặc chạy với `--webhook URL`). Mở URL đó trên trình duyệt thấy chữ `sheet_webhook OK` là đúng.
+Không có webhook thì script vẫn chạy, chỉ không ghi được vào Sheet.
 
 ```bash
 python post_sheet.py --sheet "https://docs.google.com/spreadsheets/d/XXXX/edit" --plan-only   # chỉ in kế hoạch

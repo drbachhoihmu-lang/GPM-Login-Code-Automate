@@ -11,6 +11,7 @@ Ví dụ:
 import argparse
 import hashlib
 import html
+import json
 import re
 import subprocess
 import sys
@@ -443,9 +444,101 @@ def parse_schedule(s):
     raise ValueError(f"Không hiểu thời gian '{s}' (dùng DD/MM/YYYY HH:MM hoặc YYYY-MM-DD HH:MM)")
 
 
+# ----------------------------------------------------------------- fanpage
+PAGES_FILE = LOG_DIR / "pages.json"        # cache tên trang -> asset_id
+
+
+def norm_text(s):
+    """Chữ thường, bỏ dấu, gọn khoảng trắng – để so tên trang."""
+    s = unicodedata.normalize("NFKD", str(s or "").replace("Đ", "D").replace("đ", "d"))
+    return re.sub(r"\s+", " ", s.encode("ascii", "ignore").decode().lower()).strip()
+
+
+def composer_page_name(page):
+    """Tên trang đang chọn ở ô 'Đăng lên' trong trình soạn thước phim ('' nếu không đọc được)."""
+    try:
+        return page.evaluate("""() => {
+            const lab = [...document.querySelectorAll('label')].find(l => (l.innerText || '').trim() === 'Đăng lên');
+            const cb = lab ? document.getElementById(lab.getAttribute('for')) : document.querySelector('[role=combobox]');
+            return cb ? (cb.innerText || '').replace(/\\u200b/g, '').trim() : '';
+        }""")
+    except Exception:
+        return ""
+
+
+def resolve_asset_id(page, want):
+    """Cột 'Page đăng' trong Sheet -> asset_id. Nhận asset_id (toàn số) hoặc một phần tên trang.
+    Tên trang được tra trong cache logs/pages.json; chưa có thì mở bộ chọn trang ở Business Suite,
+    bấm vào trang đó và đọc asset_id trên URL."""
+    want = (want or "").strip()
+    if not want:
+        return None
+    if want.isdigit():
+        return want
+    try:
+        cache = json.loads(PAGES_FILE.read_text(encoding="utf-8"))
+    except Exception:
+        cache = {}
+    for name, aid in cache.items():
+        if norm_text(want) in norm_text(name):
+            return aid
+    log(f"Tìm asset_id của trang '{want}' trong bộ chọn trang...")
+    page.goto("https://business.facebook.com/latest/home/", wait_until="domcontentloaded", timeout=90000)
+    page.wait_for_timeout(5000)
+    for attempt in range(4):          # hộp thoại giới thiệu / lớp phủ có thể chặn cú bấm -> đóng rồi bấm lại
+        page.keyboard.press("Escape")
+        page.wait_for_timeout(500)
+        for name in ("Đóng", "Bỏ qua", "Xong"):
+            btn = page.get_by_role("button", name=name, exact=True)
+            if btn.count() and btn.first.is_visible():
+                btn.first.click()
+                page.wait_for_timeout(800)
+        try:
+            page.get_by_role("combobox").first.click(timeout=8000)
+            break
+        except Exception:
+            if attempt == 3:
+                raise
+            page.wait_for_timeout(2000)
+    page.wait_for_timeout(2500)
+    names = page.evaluate("""() => [...document.querySelectorAll('[role=heading]')]
+        .map(h => (h.innerText || '').replace(/\\u200b/g, '').trim()).filter(t => t)""")
+    hit = next((n for n in names if norm_text(want) in norm_text(n)), None)
+    if not hit:
+        page.keyboard.press("Escape")
+        raise RuntimeError(f"Không thấy trang nào khớp '{want}' trong bộ chọn trang ({names})")
+    # Tên trang hiện tại cũng là tiêu đề lớn (aria-level=1) của trang chủ -> chỉ bấm mục trong popup
+    heads = page.get_by_role("heading", name=hit, exact=True)
+    target = None
+    for i in range(heads.count() - 1, -1, -1):
+        h = heads.nth(i)
+        if h.get_attribute("aria-level") != "1" and h.is_visible():
+            target = h
+            break
+    if target is None:
+        page.keyboard.press("Escape")
+        raise RuntimeError(f"Không bấm được mục '{hit}' trong bộ chọn trang")
+    target.click()
+    aid = None
+    for _ in range(30):
+        page.wait_for_timeout(1000)
+        m = re.search(r"asset_id=(\d+)", page.url)
+        if m:
+            aid = m.group(1)
+            if norm_text(hit) in norm_text(page.get_by_role("combobox").first.inner_text()):
+                break
+    if not aid:
+        raise RuntimeError(f"Chọn trang '{hit}' nhưng không đọc được asset_id trên URL")
+    cache[hit] = aid
+    PAGES_FILE.write_text(json.dumps(cache, ensure_ascii=False, indent=1), encoding="utf-8")
+    log(f"Trang '{hit}' -> asset_id {aid} (đã lưu cache)")
+    return aid
+
+
 # ----------------------------------------------------------------- luồng đăng reel
-def open_and_upload(page, video, caption, asset_id, pause_during_upload=True):
-    """Mở trình soạn, tải video, nhập mô tả. Kết thúc ở bước 'Tạo' với video đã lên FB."""
+def open_and_upload(page, video, caption, asset_id, pause_during_upload=True, info=None):
+    """Mở trình soạn, tải video, nhập mô tả. Kết thúc ở bước 'Tạo' với video đã lên FB.
+    info (dict) nhận thêm: info['page'] = tên trang ở ô 'Đăng lên'."""
     video = str(Path(video).resolve())
     if pause_during_upload and not getattr(page, "_gpm_freeze_hooked", False):
         page.add_init_script(FREEZE_PREVIEW_JS)
@@ -463,6 +556,13 @@ def open_and_upload(page, video, caption, asset_id, pause_during_upload=True):
         page.get_by_role("button", name="Tạo thước phim").click()
         add_video.wait_for(timeout=30000)
     page.wait_for_timeout(2000)
+    page_name = composer_page_name(page)
+    log(f"Đăng lên trang: {page_name or '(không đọc được tên)'}")
+    if info is not None:
+        info["page"] = page_name
+        want = info.get("expect_page")
+        if want and not want.isdigit() and norm_text(want) not in norm_text(page_name):
+            raise RuntimeError(f"Trình soạn đang chọn trang '{page_name}', không khớp cột Page đăng '{want}'")
 
     # 2. Tải video lên
     size_mb = Path(video).stat().st_size / 1e6
@@ -648,15 +748,18 @@ def pick_page(ctx, resume=False):
     return page
 
 
-def post_reel(page, video, caption, when=None, dry_run=False, asset_id=PAGE_ASSET_ID, resume=False):
+def post_reel(page, video, caption, when=None, dry_run=False, asset_id=PAGE_ASSET_ID, resume=False, info=None):
+    """info (dict, tuỳ chọn): vào = {'expect_page': tên trang mong đợi}; ra = info['page'] tên trang thật."""
     if not getattr(page, "_gpm_dialog_hooked", False):     # đăng nhiều bài trên cùng tab: chỉ gắn 1 lần
         page.on("dialog", lambda d: d.accept())
         page._gpm_dialog_hooked = True
     if resume:
         if "reels_composer" not in page.url:
             raise RuntimeError("--resume cần tab đầu tiên của profile đang mở trình soạn thước phim")
+        if info is not None:
+            info["page"] = composer_page_name(page)
     else:
-        open_and_upload(page, video, caption, asset_id)
+        open_and_upload(page, video, caption, asset_id, info=info)
     return finish_post(page, caption, when, dry_run, asset_id)
 
 

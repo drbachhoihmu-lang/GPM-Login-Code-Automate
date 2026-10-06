@@ -31,11 +31,32 @@ import requests
 from playwright.sync_api import sync_playwright
 
 from post_reel import (LOG_DIR, PAGE_ASSET_ID, PROFILE_ID, VIDEO_EXT, fetch_from_drive, gpm_start, gpm_stop,
-                       log, parse_schedule, pick_page, post_reel, shot)
+                       log, parse_schedule, pick_page, post_reel, resolve_asset_id, shot)
 
 # Link Sheet mặc định (có thể thay bằng --sheet)
 SHEET_URL = ""
+# URL ứng dụng web Apps Script (xem sheet_webhook.gs) để ghi Page đăng / Trạng thái / Ghi chú ngược vào Sheet.
+# Để trống = không ghi (vẫn có báo cáo CSV trong logs/).
+SHEET_WEBHOOK = ""
 STATE_FILE = LOG_DIR / "sheet_state.json"      # ghi nhớ hàng nào đã đăng để không đăng lại
+
+# Giá trị cột Trạng thái do script ghi
+ST_RUNNING, ST_SCHEDULED, ST_POSTED, ST_ERROR, ST_DRY = "Đang đăng", "Đã lên lịch", "Đã đăng", "Lỗi", "Chạy thử OK"
+
+
+def sheet_update(webhook, row, **fields):
+    """Ghi các ô (page/status/note) của hàng `row` qua Apps Script. Lỗi mạng chỉ cảnh báo, không dừng."""
+    if not webhook:
+        return False
+    try:
+        r = requests.post(webhook, json={"row": row, **fields}, timeout=30)
+        if r.status_code != 200 or '"ok"' not in r.text:
+            log(f"  (webhook trả về {r.status_code}: {r.text[:120]})")
+            return False
+        return True
+    except Exception as e:
+        log(f"  (không ghi được vào Sheet: {str(e)[:120]})")
+        return False
 
 
 # ----------------------------------------------------------------- đọc Sheet
@@ -55,6 +76,7 @@ def norm(s):
 
 
 COLUMN_KEYS = {           # tên cột chuẩn -> các từ khoá nhận diện (sau khi bỏ dấu)
+    "page":    ("page", "fanpage", "trang dang"),
     "video":   ("video", "link", "drive", "duong dan", "path", "file"),
     "title":   ("tieu de", "caption", "mo ta", "noi dung", "title"),
     "hashtag": ("hashtag", "hastag", "tag"),
@@ -81,11 +103,16 @@ def map_columns(header):
 
 
 def read_sheet(link):
-    """Trả về danh sách dict: row (số hàng trên Sheet), video, title, hashtag, time, status, note."""
-    r = requests.get(sheet_csv_url(link), timeout=60)
-    if r.status_code != 200 or "<html" in r.text[:200].lower():
-        raise RuntimeError("Không tải được Sheet – kiểm tra link và chia sẻ 'Bất kỳ ai có đường liên kết' (Người xem)")
-    rows = list(csv.reader(io.StringIO(r.content.decode("utf-8-sig"))))
+    """Trả về danh sách dict: row (số hàng trên Sheet), page, video, title, hashtag, time, status, note.
+    `link` là link Google Sheet công khai, hoặc đường dẫn file .csv trên máy (Sheet tải về)."""
+    if link.lower().endswith(".csv") and Path(link).is_file():
+        text = Path(link).read_text(encoding="utf-8-sig")
+    else:
+        r = requests.get(sheet_csv_url(link), timeout=60)
+        if r.status_code != 200 or "<html" in r.text[:200].lower():
+            raise RuntimeError("Không tải được Sheet – kiểm tra link và chia sẻ 'Bất kỳ ai có đường liên kết' (Người xem)")
+        text = r.content.decode("utf-8-sig")
+    rows = list(csv.reader(io.StringIO(text)))
     if not rows:
         raise RuntimeError("Sheet trống")
     cols = map_columns(rows[0])
@@ -95,8 +122,9 @@ def read_sheet(link):
     for i, row in enumerate(rows[1:], start=2):
         if not any(c.strip() for c in row):
             continue
-        out.append({"row": i, "video": get(row, "video"), "title": get(row, "title"), "hashtag": get(row, "hashtag"),
-                    "time": get(row, "time"), "status": get(row, "status"), "note": get(row, "note")})
+        out.append({"row": i, "page": get(row, "page"), "video": get(row, "video"), "title": get(row, "title"),
+                    "hashtag": get(row, "hashtag"), "time": get(row, "time"), "status": get(row, "status"),
+                    "note": get(row, "note")})
     return out
 
 
@@ -113,13 +141,16 @@ def save_state(state):
 
 
 def row_key(sheet_link, item):
-    sid = re.search(r"/spreadsheets/d/([\w-]+)", sheet_link).group(1)
+    m = re.search(r"/spreadsheets/d/([\w-]+)", sheet_link)
+    sid = m.group(1) if m else Path(sheet_link).stem
     return f"{sid}:r{item['row']}:{item['video']}"
 
 
 # ----------------------------------------------------------------- lập kế hoạch
-def plan(items, sheet_link, state, only_rows=None):
-    """Chia hàng thành: sẽ đăng (kèm when) / bỏ qua (kèm lý do)."""
+def plan(items, sheet_link, state, only_rows=None, retry_errors=False):
+    """Chia hàng thành: sẽ đăng (kèm when) / bỏ qua (kèm lý do).
+    Trạng thái bắt đầu bằng 'đã' (Đã đăng / Đã lên lịch), 'bỏ qua', 'skip', 'done', 'xong' -> bỏ qua;
+    'Lỗi' -> bỏ qua trừ khi --retry-errors; 'Đang đăng' (lần trước bị ngắt) -> làm lại."""
     todo, skipped = [], []
     for it in items:
         reason = None
@@ -127,8 +158,10 @@ def plan(items, sheet_link, state, only_rows=None):
         st = norm(it["status"])
         if only_rows and it["row"] not in only_rows:
             reason = "không nằm trong --rows"
-        elif st in ("bo qua", "skip", "da dang", "done", "xong"):
+        elif st.startswith("da ") or st in ("bo qua", "skip", "done", "xong"):
             reason = f"trạng thái '{it['status']}'"
+        elif st.startswith("loi") and not retry_errors:
+            reason = f"trạng thái '{it['status']}' (thêm --retry-errors để đăng lại)"
         elif state.get(row_key(sheet_link, it), {}).get("status") == "done":
             reason = "đã đăng lần chạy trước (logs/sheet_state.json)"
         elif not it["video"]:
@@ -188,6 +221,8 @@ def main():
     ap.add_argument("--rows", help="Chỉ đăng các hàng này, ví dụ 2,3,7 (số hàng trên Sheet)")
     ap.add_argument("--dry-run", action="store_true", help="Làm hết các bước nhưng không bấm nút cuối")
     ap.add_argument("--plan-only", action="store_true", help="Chỉ in kế hoạch, không mở trình duyệt")
+    ap.add_argument("--webhook", default=SHEET_WEBHOOK, help="URL Apps Script để ghi Trạng thái/Page ngược vào Sheet")
+    ap.add_argument("--retry-errors", action="store_true", help="Đăng lại cả các hàng đang ghi 'Lỗi'")
     ap.add_argument("--pause", default="20-60", help="Nghỉ ngẫu nhiên giữa 2 bài, giây (mặc định 20-60)")
     ap.add_argument("--profile", default=PROFILE_ID)
     ap.add_argument("--asset-id", default=PAGE_ASSET_ID)
@@ -200,14 +235,16 @@ def main():
 
     items = read_sheet(a.sheet)
     state = load_state()
-    todo, skipped = plan(items, a.sheet, state, only_rows)
+    todo, skipped = plan(items, a.sheet, state, only_rows, a.retry_errors)
     if a.max:
         todo = todo[:a.max]
 
-    log(f"Sheet có {len(items)} hàng: sẽ đăng {len(todo)}, bỏ qua {len(skipped)}")
+    log(f"Sheet có {len(items)} hàng: sẽ đăng {len(todo)}, bỏ qua {len(skipped)}"
+        + ("" if a.webhook else " (không có webhook: trạng thái chỉ ghi vào logs/, không ghi vào Sheet)"))
     for it, when in todo:
         log(f"  [hàng {it['row']}] {'ĐĂNG NGAY' if when is None else when.strftime('%d/%m/%Y %H:%M')} | "
-            f"{(caption_of(it) or '(mô tả lấy từ kịch bản trong thư mục Drive)')[:70]} | {it['video'][:60]}")
+            f"trang: {it['page'] or '(mặc định)'} | "
+            f"{(caption_of(it) or '(mô tả lấy từ kịch bản trong thư mục Drive)')[:60]} | {it['video'][:50]}")
     for it, reason in skipped:
         log(f"  [hàng {it['row']}] bỏ qua: {reason}")
     if a.plan_only or not todo:
@@ -223,21 +260,30 @@ def main():
             for n, (it, when) in enumerate(todo, 1):
                 key = row_key(a.sheet, it)
                 log(f"===== Bài {n}/{len(todo)} – hàng {it['row']} =====")
+                info = {"expect_page": it["page"]}
+                if not a.dry_run:
+                    sheet_update(a.webhook, it["row"], status=ST_RUNNING, note="")
                 try:
+                    asset = resolve_asset_id(page, it["page"]) or a.asset_id
                     video, caption = resolve_video(it)
-                    ok = post_reel(page, video, caption, when, a.dry_run, a.asset_id)
+                    ok = post_reel(page, video, caption, when, a.dry_run, asset, info=info)
                     status = "done" if ok else "dry-run"
-                    note = ""
+                    note = f"Xác nhận {datetime.now():%H:%M %d/%m}" if ok else f"Chạy thử {datetime.now():%H:%M %d/%m}"
                 except Exception as e:
                     shot(page, f"row{it['row']}_error")
                     status, note = "error", str(e)[:300]
                     log(f"LỖI hàng {it['row']}: {note}")
                     page = pick_page(browser.contexts[0])      # tab có thể đã hỏng, chọn lại
-                results.append((it, when, status, note))
+                page_name = info.get("page") or ""
+                results.append((it, when, status, note, page_name))
                 if status in ("done", "error"):
-                    state[key] = {"status": status, "note": note, "at": datetime.now().isoformat(timespec="seconds"),
+                    state[key] = {"status": status, "note": note, "page": page_name,
+                                  "at": datetime.now().isoformat(timespec="seconds"),
                                   "when": when.isoformat() if when else "now"}
                     save_state(state)
+                st_text = {"done": ST_SCHEDULED if when else ST_POSTED, "error": ST_ERROR, "dry-run": ST_DRY}[status]
+                if sheet_update(a.webhook, it["row"], page=page_name or None, status=st_text, note=note):
+                    log(f"  Sheet hàng {it['row']}: Trạng thái = {st_text}" + (f", Page = {page_name}" if page_name else ""))
                 if n < len(todo):
                     wait = random.randint(lo, hi)
                     log(f"Nghỉ {wait}s trước bài tiếp theo...")
@@ -250,10 +296,10 @@ def main():
     rep = LOG_DIR / f"sheet_report_{datetime.now():%Y%m%d_%H%M%S}.csv"
     with open(rep, "w", newline="", encoding="utf-8-sig") as f:
         w = csv.writer(f)
-        w.writerow(["Hàng", "Thời gian", "Trạng thái", "Ghi chú"])
-        for it, when, status, note in results:
-            w.writerow([it["row"], when.strftime("%d/%m/%Y %H:%M") if when else "ngay",
-                        {"done": "Đã lên lịch" if when else "Đã đăng", "dry-run": "Dry-run", "error": "Lỗi"}[status], note])
+        w.writerow(["Hàng", "Page đăng", "Thời gian", "Trạng thái", "Ghi chú"])
+        for it, when, status, note, page_name in results:
+            w.writerow([it["row"], page_name, when.strftime("%d/%m/%Y %H:%M") if when else "ngay",
+                        {"done": ST_SCHEDULED if when else ST_POSTED, "dry-run": ST_DRY, "error": ST_ERROR}[status], note])
     done = sum(1 for r in results if r[2] == "done")
     err = sum(1 for r in results if r[2] == "error")
     dry = sum(1 for r in results if r[2] == "dry-run")
