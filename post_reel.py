@@ -492,6 +492,72 @@ def composer_page_name(page):
         return ""
 
 
+def open_switcher(page):
+    """Mở trang chủ Business Suite rồi bung bộ chọn trang (góc trên-trái). Lớp phủ/hộp thoại giới thiệu
+    có thể chặn cú bấm -> đóng rồi bấm lại."""
+    page.goto("https://business.facebook.com/latest/home/", wait_until="domcontentloaded", timeout=90000)
+    page.wait_for_timeout(5000)
+    for attempt in range(4):
+        page.keyboard.press("Escape")
+        page.wait_for_timeout(500)
+        for name in ("Đóng", "Bỏ qua", "Xong"):
+            btn = page.get_by_role("button", name=name, exact=True)
+            if btn.count() and btn.first.is_visible():
+                btn.first.click()
+                page.wait_for_timeout(800)
+        try:
+            page.get_by_role("combobox").first.click(timeout=8000)
+            break
+        except Exception:
+            if attempt == 3:
+                raise
+            page.wait_for_timeout(2000)
+    page.wait_for_timeout(2500)
+
+
+def switcher_pages(page):
+    """Mở bộ chọn trang và trả về [(tên trang, nền tảng)] – mục trang là heading có dòng
+    'Facebook'/'Instagram' ngay dưới tên. Popup vẫn đang mở khi hàm trả về."""
+    open_switcher(page)
+    js = """() => [...document.querySelectorAll('[role=heading]')]
+        .filter(h => h.getAttribute('aria-level') !== '1')
+        .map(h => ({name: (h.innerText || '').replace(/\\u200b/g, '').trim(),
+                    parent: (h.parentElement ? h.parentElement.innerText : '').replace(/\\u200b/g, '').replace(/\\s+/g, ' ').trim()}))
+        .filter(e => e.name && /(Facebook|Instagram)$/.test(e.parent) && e.parent !== e.name)
+        .map(e => [e.name, e.parent.endsWith('Instagram') ? 'Instagram' : 'Facebook'])"""
+    ents, last = [], None
+    for _ in range(10):               # popup vẽ dần: chờ tới khi danh sách có mục và không đổi nữa
+        ents = page.evaluate(js)
+        if ents and ents == last:
+            break
+        last = ents
+        page.wait_for_timeout(800)
+    seen, out = set(), []
+    for name, platform in ents:
+        if name not in seen:
+            seen.add(name)
+            out.append((name, platform))
+    return out
+
+
+def scan_pages(page, profile_id):
+    """Danh sách fanpage Facebook mà profile này thấy, kèm asset_id: [{name, asset, platform}]."""
+    entries = switcher_pages(page)
+    page.keyboard.press("Escape")
+    out = []
+    for name, platform in entries:
+        if platform != "Facebook":
+            out.append({"name": name, "asset": "", "platform": platform})
+            continue
+        try:
+            aid = resolve_asset_id(page, name, profile_id)
+        except Exception as e:
+            log(f"  không lấy được asset_id của '{name}': {str(e)[:80]}")
+            aid = ""
+        out.append({"name": name, "asset": aid, "platform": platform})
+    return out
+
+
 def resolve_asset_id(page, want, profile_id=PROFILE_ID):
     """Cột 'Page đăng' trong Sheet -> asset_id. Nhận asset_id (toàn số) hoặc một phần tên trang.
     Tên trang được tra trong cache logs/pages_<profile>.json; chưa có thì mở bộ chọn trang ở
@@ -510,27 +576,14 @@ def resolve_asset_id(page, want, profile_id=PROFILE_ID):
         if norm_text(want) in norm_text(name):
             return aid
     log(f"Tìm asset_id của trang '{want}' trong bộ chọn trang...")
-    page.goto("https://business.facebook.com/latest/home/", wait_until="domcontentloaded", timeout=90000)
-    page.wait_for_timeout(5000)
-    for attempt in range(4):          # hộp thoại giới thiệu / lớp phủ có thể chặn cú bấm -> đóng rồi bấm lại
-        page.keyboard.press("Escape")
-        page.wait_for_timeout(500)
-        for name in ("Đóng", "Bỏ qua", "Xong"):
-            btn = page.get_by_role("button", name=name, exact=True)
-            if btn.count() and btn.first.is_visible():
-                btn.first.click()
-                page.wait_for_timeout(800)
-        try:
-            page.get_by_role("combobox").first.click(timeout=8000)
+    hit, names = None, []
+    for attempt in range(2):          # popup đôi khi chưa đủ mục -> mở lại lần nữa
+        names = [n for n, _ in switcher_pages(page)]
+        hit = next((n for n in names if norm_text(want) in norm_text(n)), None)
+        if hit:
             break
-        except Exception:
-            if attempt == 3:
-                raise
-            page.wait_for_timeout(2000)
-    page.wait_for_timeout(2500)
-    names = page.evaluate("""() => [...document.querySelectorAll('[role=heading]')]
-        .map(h => (h.innerText || '').replace(/\\u200b/g, '').trim()).filter(t => t)""")
-    hit = next((n for n in names if norm_text(want) in norm_text(n)), None)
+        page.keyboard.press("Escape")
+        page.wait_for_timeout(1500)
     if not hit:
         page.keyboard.press("Escape")
         raise RuntimeError(f"Không thấy trang nào khớp '{want}' trong bộ chọn trang ({names})")

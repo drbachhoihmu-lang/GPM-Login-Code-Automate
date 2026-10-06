@@ -36,7 +36,8 @@ import requests
 from playwright.sync_api import sync_playwright
 
 from post_reel import (LOG_DIR, PAGE_ASSET_ID, PROFILE_ID, VIDEO_EXT, fetch_from_drive, gpm_profiles, gpm_start,
-                       gpm_stop, log, parse_schedule, pick_page, post_reel, resolve_asset_id, resolve_profile_id, shot)
+                       gpm_stop, log, parse_schedule, pick_page, post_reel, resolve_asset_id, resolve_profile_id,
+                       scan_pages, shot)
 
 # Link Sheet mặc định (có thể thay bằng --sheet)
 SHEET_URL = ""
@@ -317,9 +318,65 @@ def resolve_video(it):
     return str(p), with_tags(title or p.stem, tags)
 
 
+# ----------------------------------------------------------------- quét profile / fanpage
+def cmd_list_profiles():
+    profiles = gpm_profiles()
+    log(f"GPM Login có {len(profiles)} profile:")
+    for pid, name in profiles:
+        print(f"   {name:30s}  {pid}")
+
+
+def cmd_scan_pages(which, webhook, close_after=False):
+    """Mở từng profile GPM, đọc danh sách fanpage (kèm asset_id), xuất logs/pages_scan.csv theo đúng cột
+    tab Pages; có webhook thì thêm/cập nhật thẳng vào tab Pages."""
+    profiles = gpm_profiles()
+    if which.lower() != "all":
+        wanted = [resolve_profile_id(w.strip()) for w in which.split(",") if w.strip()]
+        profiles = [(pid, name) for pid, name in profiles if pid in wanted]
+    rows = []
+    with sync_playwright() as p:
+        for pid, pname in profiles:
+            log(f"##### Quét fanpage của profile '{pname}' #####")
+            try:
+                port = gpm_start(pid)
+                time.sleep(5)
+                browser = p.chromium.connect_over_cdp(f"http://127.0.0.1:{port}")
+                page = pick_page(browser.contexts[0])
+                page.on("dialog", lambda d: d.accept())
+                found = scan_pages(page, pid)
+            except Exception as e:
+                log(f"  LỖI profile '{pname}': {str(e)[:150]}")
+                continue
+            finally:
+                if close_after:
+                    gpm_stop(pid)
+            for f in found:
+                log(f"  {f['platform']:9s} {f['name']}  asset_id={f['asset'] or '?'}")
+                if f["platform"] == "Facebook" and f["asset"]:
+                    rows.append([f["name"], f["asset"], pname, "", "", f"quét {datetime.now():%d/%m/%Y}"])
+    out = LOG_DIR / "pages_scan.csv"
+    with open(out, "w", newline="", encoding="utf-8-sig") as fh:
+        w = csv.writer(fh)
+        w.writerow(["Tên page", "asset_id", "Profile GPM", "Người phụ trách", "Giờ đăng mặc định", "Ghi chú"])
+        w.writerows(rows)
+    log(f"Đã ghi {len(rows)} fanpage vào {out} (dán vào tab Pages)")
+    if webhook and rows:
+        try:
+            r = requests.post(webhook, json={"action": "upsert_pages",
+                                             "pages": [{"name": a, "asset": b, "profile": c} for a, b, c, *_ in rows]},
+                              timeout=60)
+            log(f"Tab Pages trên Sheet: {r.text[:160]}")
+        except Exception as e:
+            log(f"(không ghi được tab Pages qua webhook: {str(e)[:120]})")
+
+
 # ----------------------------------------------------------------- main
 def main():
     ap = argparse.ArgumentParser(description="Đăng/lên lịch Reels hàng loạt theo Google Sheet công khai")
+    ap.add_argument("--list-profiles", action="store_true", help="In danh sách profile GPM rồi thoát")
+    ap.add_argument("--scan-pages", metavar="PROFILE", nargs="?", const="all",
+                    help="Quét fanpage (kèm asset_id) của profile GPM ('all' hoặc tên/id, cách nhau dấu phẩy) -> logs/pages_scan.csv; "
+                         "có --webhook thì ghi thẳng vào tab Pages")
     ap.add_argument("--sheet", default=SHEET_URL, help="Link Google Sheet (chia sẻ 'Bất kỳ ai có đường liên kết')")
     ap.add_argument("--tab", default=TAB_QUEUE, help=f"Tên tab hàng đợi (mặc định '{TAB_QUEUE}')")
     ap.add_argument("--pages-tab", default=TAB_PAGES, help=f"Tên tab danh mục page (mặc định '{TAB_PAGES}')")
@@ -334,6 +391,10 @@ def main():
     ap.add_argument("--asset-id", default=PAGE_ASSET_ID)
     ap.add_argument("--close-after", action="store_true", help="Đóng profile GPM khi xong")
     a = ap.parse_args()
+    if a.list_profiles:
+        return cmd_list_profiles()
+    if a.scan_pages:
+        return cmd_scan_pages(a.scan_pages, a.webhook, a.close_after)
     if not a.sheet:
         sys.exit("Thiếu --sheet (hoặc điền SHEET_URL trong post_sheet.py)")
     only_rows = {int(x) for x in a.rows.split(",")} if a.rows else None

@@ -117,9 +117,43 @@ function setupSheet() {
 }
 
 // ----------------------------------------------------------------- 2. webhook ghi trạng thái
+// post_sheet.py --scan-pages --webhook: thêm/cập nhật fanpage vào tab Pages (khớp theo asset_id)
+function upsertPages_(ss, pages) {
+  var sh = ss.getSheetByName(TAB_PAGES);
+  if (!sh) { sh = getOrCreate_(ss, TAB_PAGES, HEAD_PAGES); }
+  var header = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+  var cName = findCol_(header, ["ten page", "ten trang", "page"]) || 1;
+  var cAsset = findCol_(header, ["asset", "id"]) || 2;
+  var cProfile = findCol_(header, ["profile", "gpm"]) || 3;
+  var last = sh.getLastRow();
+  var assets = last >= 2 ? sh.getRange(2, cAsset, last - 1, 1).getValues().map(function (r) { return String(r[0]).trim(); }) : [];
+  var added = 0, updated = 0;
+  pages.forEach(function (p) {
+    var idx = assets.indexOf(String(p.asset).trim());
+    if (idx >= 0) {
+      var row = idx + 2;
+      sh.getRange(row, cName).setValue(p.name);
+      if (!String(sh.getRange(row, cProfile).getValue()).trim() && p.profile) sh.getRange(row, cProfile).setValue(p.profile);
+      updated++;
+    } else {
+      var newRow = sh.getLastRow() + 1;
+      sh.getRange(newRow, cName).setValue(p.name);
+      sh.getRange(newRow, cAsset).setNumberFormat("@").setValue(String(p.asset));
+      sh.getRange(newRow, cProfile).setValue(p.profile || "");
+      assets.push(String(p.asset).trim());
+      added++;
+    }
+  });
+  return { ok: true, added: added, updated: updated };
+}
+
 function doPost(e) {
-  var data = JSON.parse(e.postData.contents);          // {row, gid?, sheet?, page?, status?, note?}
+  var data = JSON.parse(e.postData.contents);          // {row, gid?, sheet?, page?, status?, note?} | {action:"upsert_pages", pages:[...]}
   var ss = SpreadsheetApp.getActiveSpreadsheet();
+  if (data.action === "upsert_pages") {
+    return ContentService.createTextOutput(JSON.stringify(upsertPages_(ss, data.pages || [])))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
   var sh = null;
   if (data.gid !== undefined && data.gid !== null) {   // tab theo gid trong link Sheet
     sh = ss.getSheets().filter(function (s) { return s.getSheetId() == data.gid; })[0] || null;
