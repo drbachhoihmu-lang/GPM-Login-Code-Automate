@@ -32,8 +32,8 @@ from PIL import Image                     # noqa: E402
 import app as webapp                      # noqa: E402
 
 URL = f"http://127.0.0.1:{webapp.UI_PORT}"
-ICON = ROOT / "assets" / "gpm_reels.ico"
-APP_NAME = "Dang Reels GPM"
+ICON = ROOT / "assets" / "gpmreels.ico"
+APP_NAME = "GPMReels"
 
 
 def port_in_use(port):
@@ -62,7 +62,7 @@ def main():
         pass
     frm = ttk.Frame(root, padding=18)
     frm.grid()
-    ttk.Label(frm, text="Đăng Reels lên Fanpage – GPM Login", font=("Segoe UI", 12, "bold")).grid(column=0, row=0, columnspan=2, pady=(0, 6))
+    ttk.Label(frm, text="GPMReels – Đăng Reels lên Fanpage", font=("Segoe UI", 12, "bold")).grid(column=0, row=0, columnspan=2, pady=(0, 6))
     status = ttk.Label(frm, text=f"Server đang chạy ngầm tại {URL}", foreground="#1f9d55")
     status.grid(column=0, row=1, columnspan=2, pady=(0, 12))
     ttk.Button(frm, text="Mở giao diện web", width=24, command=lambda: webbrowser.open(URL)).grid(column=0, row=2, padx=4, pady=3)
@@ -107,6 +107,13 @@ def main():
         root.after(200, lambda: os._exit(0))
 
     root.protocol("WM_DELETE_WINDOW", hide)
+
+    # Đặt cửa sổ ra giữa màn hình
+    root.update_idletasks()
+    w, h = root.winfo_reqwidth(), root.winfo_reqheight()
+    x = (root.winfo_screenwidth() - w) // 2
+    y = (root.winfo_screenheight() - h) // 2 - 40
+    root.geometry(f"+{max(x, 0)}+{max(y, 0)}")
 
     # 3. Icon ở khay
     menu = pystray.Menu(

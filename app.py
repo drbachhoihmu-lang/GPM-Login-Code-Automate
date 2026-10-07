@@ -37,8 +37,9 @@ DEFAULT_CONFIG = {
     "pages_tab": ps.TAB_PAGES,
 }
 
-app = FastAPI(title="GPM Reels Automation")
+app = FastAPI(title="GPMReels")
 app.mount("/logs", StaticFiles(directory=str(LOG_DIR)), name="logs")
+app.mount("/assets", StaticFiles(directory=str(ROOT / "assets")), name="assets")
 
 
 # ----------------------------------------------------------------- cấu hình

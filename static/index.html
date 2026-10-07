@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Đăng Reels – GPM</title>
+<title>GPMReels</title>
+<link rel="icon" href="/assets/gpmreels.ico">
 <style>
   :root { --bg:#f3f5f9; --card:#fff; --line:#e3e6ec; --text:#1d2433; --muted:#6b7385; --blue:#1b74e4; --green:#1f9d55; --red:#d6453d; --amber:#c98a00; }
   * { box-sizing:border-box; }
@@ -56,7 +57,7 @@
 </head>
 <body>
 <header>
-  <h1>Đăng Reels lên Fanpage – GPM Login</h1>
+  <h1>GPMReels <span class="muted" style="font-weight:normal;font-size:13px">– đăng Reels lên Fanpage qua GPM Login</span></h1>
   <span id="gpmPill" class="pill">GPM: …</span>
   <span id="jobPill" class="pill">Rảnh</span>
   <span class="sp"></span>
@@ -212,10 +213,10 @@ async function stopJob() { if (JOB && confirm('Dừng việc đang chạy?')) { 
 async function shutdown() {
   const running = $('#btnStop').style.display !== 'none';
   const msg = (running ? 'ĐANG CÓ VIỆC CHẠY – tắt sẽ cắt ngang bài đang đăng.\n\n' : '') +
-    'Tắt phần mềm (server chạy ngầm)? Các bài đã lên lịch trên Facebook vẫn tự đăng bình thường.\nMở lại bằng icon "Dang Reels GPM" ngoài Desktop.';
+    'Tắt phần mềm (server chạy ngầm)? Các bài đã lên lịch trên Facebook vẫn tự đăng bình thường.\nMở lại bằng icon "GPMReels" ngoài Desktop.';
   if (!confirm(msg)) return;
   try { await post('/api/shutdown'); } catch (e) {}
-  document.body.innerHTML = '<div style="padding:60px;text-align:center;font:16px Segoe UI,sans-serif;color:#1d2433"><h2>Đã tắt phần mềm</h2><p>Có thể đóng tab này. Mở lại bằng icon <b>Dang Reels GPM</b> ngoài Desktop.</p></div>';
+  document.body.innerHTML = '<div style="padding:60px;text-align:center;font:16px Segoe UI,sans-serif;color:#1d2433"><h2>Đã tắt phần mềm</h2><p>Có thể đóng tab này. Mở lại bằng icon <b>GPMReels</b> ngoài Desktop.</p></div>';
 }
 async function loadScreens() {
   const d = await api('/api/screens');
