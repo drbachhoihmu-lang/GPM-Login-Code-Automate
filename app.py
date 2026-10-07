@@ -30,7 +30,7 @@ LOG_DIR = pr.LOG_DIR
 CONFIG_FILE = ROOT / "config.json"
 UI_PORT = 8765
 DEFAULT_CONFIG = {
-    "sheet_url": "https://docs.google.com/spreadsheets/d/1jSb7KeAV3diH-JrGDBPQqABIFZZnIw9fAv4_ILohtSg/edit",
+    "sheet_url": "https://docs.google.com/spreadsheets/d/1966ErI9SHTrLOFM1MPor3EPovJOz6CNsWPH7Q4b_aQ8/edit",
     "webhook": "",
     "default_profile": pr.PROFILE_ID,
     "tab": ps.TAB_QUEUE,
@@ -76,7 +76,9 @@ def get_config():
 @app.post("/api/config")
 def set_config(c: Config):
     cfg = load_config()
-    cfg.update({k: v for k, v in c.model_dump().items() if v is not None})
+    cfg.update(c.model_dump(exclude_unset=True))      # chỉ ghi đè các khoá được gửi lên
+    if not cfg.get("default_profile"):
+        cfg["default_profile"] = pr.PROFILE_ID
     save_config(cfg)
     return cfg
 
