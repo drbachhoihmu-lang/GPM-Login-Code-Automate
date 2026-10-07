@@ -85,8 +85,10 @@
   <section>
     <div class="card">
       <h2>Lịch đăng (tab <span id="tabName">…</span>) <span class="sp"></span>
+        <button class="small" onclick="openSheet()">Mở Google Sheet ↗</button>
         <button class="small" onclick="loadSheet()">↻</button></h2>
       <div id="sheetErr" class="warn" style="display:none"></div>
+      <div id="sheetStruct" class="warn" style="display:none"></div>
       <table id="queue"><thead><tr><th>Hàng</th><th>Thời gian</th><th>Page</th><th>Profile</th><th>Tiêu đề</th><th>Trạng thái</th><th>Kế hoạch</th></tr></thead><tbody></tbody></table>
       <div class="actions" style="margin-top:10px">
         <button onclick="run('plan')">Xem kế hoạch</button>
@@ -101,11 +103,6 @@
       <h2>Đang chạy: <span id="jobLabel" class="muted">—</span> <span class="sp"></span>
         <button class="small danger" id="btnStop" onclick="stopJob()" style="display:none">Dừng</button></h2>
       <pre class="log" id="log">(chưa chạy gì)</pre>
-    </div>
-
-    <div class="card">
-      <h2>Google Sheet <span class="sp"></span><span class="muted" style="font-weight:normal;font-size:12px">nếu khung trống: bấm "Mở Google Sheet" ở trên</span></h2>
-      <iframe id="sheetFrame" src="about:blank" loading="lazy"></iframe>
     </div>
 
     <div class="card">
@@ -176,8 +173,13 @@ async function loadSheet() {
     tb.insertAdjacentHTML('beforeend', `<tr class="${r.will?'':'skip'}"><td>${r.row}</td><td>${esc(r.when)}</td><td>${esc(r.page||'(mặc định)')}</td><td>${esc(r.profile||'(mặc định)')}</td><td>${esc((r.title||'(lấy từ kịch bản Drive)').slice(0,60))}</td><td>${st}</td><td>${plan}</td></tr>`);
   }
   if (!(d.rows||[]).length) tb.innerHTML = '<tr><td colspan="7" class="muted">Không có hàng nào</td></tr>';
-  const f = $('#sheetFrame');
-  if (d.embed && f.dataset.src !== d.embed) { f.src = d.embed; f.dataset.src = d.embed; }
+  const st = $('#sheetStruct');
+  const tabs = Object.keys(d.tabs || {});
+  if (d.ok && tabs.length && (!tabs.includes(CFG.tab) || !tabs.includes(CFG.pages_tab))) {
+    st.style.display = '';
+    st.innerHTML = `Sheet hiện có tab: <b>${esc(tabs.join(', '))}</b> — chưa có cấu trúc 3 tab (<b>${esc(CFG.tab)}</b> / <b>${esc(CFG.pages_tab)}</b> / Đã đăng). `
+      + `Mở Sheet → Tiện ích mở rộng → Apps Script → dán <code>sheet_webhook.gs</code> → chạy hàm <b>setupSheet</b> một lần. Trong lúc chờ, script vẫn đọc tab hiện có.`;
+  } else st.style.display = 'none';
 }
 
 async function run(mode, profile) {
