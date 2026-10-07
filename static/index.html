@@ -70,7 +70,7 @@
     <div class="card">
       <h2>Profile GPM <span class="sp"></span><button class="small" onclick="loadProfiles()">↻</button></h2>
       <div id="profiles" class="muted">Đang tải…</div>
-      <div class="actions"><button class="small" onclick="run('scan')">Quét fanpage của mọi profile</button></div>
+      <div class="muted" style="font-size:12px;margin-top:6px">Mỗi profile gắn với 1 fanpage theo tab <b>Pages</b> của Sheet (cột Profile GPM).</div>
     </div>
 
     <div class="card" id="settings" style="display:none">
@@ -142,9 +142,9 @@ async function loadProfiles() {
     if (!d.profiles.length) { box.textContent = 'Không có profile nào.'; return; }
     for (const p of d.profiles) {
       const st = {controlled:'đang mở (điều khiển được)', manual:'đang mở tay (script sẽ mở lại)', closed:'đang đóng'}[p.status];
-      const pages = p.pages.length ? p.pages.map(pg => `<div class="page"><span>${esc(pg.name)}</span><span class="src">${esc(pg.src)}</span><span class="sp" style="flex:1"></span>
+      const pages = p.pages.length ? p.pages.map((pg, i) => `<div class="page"><span class="src">${i === 0 ? 'Fanpage mặc định' : 'Fanpage'}</span><span>${esc(pg.name)}</span><span class="sp" style="flex:1"></span>
           <button class="small" onclick="openPage('${p.id}','${pg.asset}')" title="Mở Business Suite của page này trong profile">Mở ↗</button></div>`).join('')
-        : '<div class="page muted">chưa gắn page nào (điền tab Pages hoặc Quét fanpage)</div>';
+        : '<div class="page muted">chưa gắn fanpage — ghi tên profile này vào cột "Profile GPM" của tab Pages</div>';
       box.insertAdjacentHTML('beforeend', `<div class="profile">
         <div class="top"><span class="dot ${p.status}"></span><span class="name">${esc(p.name)}</span>${p.default ? '<span class="pill">mặc định</span>' : ''}<span class="sp" style="flex:1"></span><span class="muted" style="font-size:12px">${st}</span></div>
         <div class="id">${p.id}${p.port ? ' · cổng ' + p.port : ''}</div>
@@ -153,7 +153,6 @@ async function loadProfiles() {
           <button class="small" onclick="startProfile('${p.id}')">Mở Chrome</button>
           <button class="small" onclick="startProfile('${p.id}','https://business.facebook.com/latest/home/')">Mở Business Suite</button>
           <button class="small" onclick="stopProfile('${p.id}')" ${p.status==='closed'?'disabled':''}>Đóng Chrome</button>
-          <button class="small" onclick="run('scan','${esc(p.name)}')">Quét fanpage</button>
         </div></div>`);
     }
   } catch (e) { $('#profiles').textContent = 'Lỗi: ' + e.message; }

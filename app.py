@@ -118,19 +118,12 @@ def debug_port(profile_id):
 
 
 def pages_for_profile(profile_id, profile_name, sheet_pages):
-    """Fanpage gắn với profile: tab Pages (nếu đọc được) + cache quét logs/pages_<id>.json."""
-    out, seen = [], set()
+    """Fanpage gắn với profile theo tab Pages (mỗi profile thường = 1 fanpage; nhiều hàng thì liệt kê hết)."""
+    out = []
     for p in sheet_pages:
-        if p.get("profile") and pr.norm_text(p["profile"]) in pr.norm_text(profile_name) or p.get("profile") == profile_id:
-            out.append({"name": p["name"], "asset": p["asset"], "src": "Pages"})
-            seen.add(p["asset"])
-    try:
-        cache = json.loads(pr.pages_file(profile_id).read_text(encoding="utf-8"))
-        for name, aid in cache.items():
-            if aid not in seen:
-                out.append({"name": name, "asset": aid, "src": "quét"})
-    except Exception:
-        pass
+        prof = (p.get("profile") or "").strip()
+        if prof and (pr.norm_text(prof) in pr.norm_text(profile_name) or prof == profile_id or profile_id.startswith(prof.lower())):
+            out.append({"name": p["name"], "asset": p["asset"]})
     return out
 
 

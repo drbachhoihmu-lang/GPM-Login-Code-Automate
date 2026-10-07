@@ -406,9 +406,19 @@ def main():
         log(f"Tab {a.pages_tab}: {len(pages)} page – " + ", ".join(f"{p['name']} ({p['profile'] or 'profile mặc định'})" for p in pages))
     else:
         log(f"(không có tab {a.pages_tab}: page sẽ được tra qua bộ chọn trang trong Business Suite)")
-    # Tra tab Pages: cột Page -> asset_id + profile (cột Profile trên hàng, nếu có, được ưu tiên)
+    # Tra tab Pages: cột Page -> asset_id + profile (cột Profile trên hàng, nếu có, được ưu tiên).
+    # Hàng không ghi Page -> lấy fanpage mặc định của profile (hàng đầu tiên trong tab Pages có Profile GPM đó).
+    def default_page_of(profile_want):
+        for p in pages:
+            if p["profile"] and (norm(p["profile"]) in norm(profile_want) or norm(profile_want) in norm(p["profile"])):
+                return p
+        return None
+    profile_names = dict(gpm_profiles()) if pages else {}
     for it in items:
         p = lookup_page(pages, it["page"]) if it["page"] else None
+        if p is None and not it["page"] and pages:
+            want = it["profile"] or profile_names.get(a.profile, a.profile)
+            p = default_page_of(want)
         it["asset"] = p["asset"] if p else ""
         if p and not it["profile"]:
             it["profile"] = p["profile"]

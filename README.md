@@ -8,8 +8,9 @@ thao tác trong Meta Business Suite y như người thật: Tạo thước phim 
 - GPM Login Global đang mở (API cục bộ ở `http://127.0.0.1:9495/api/v1`)
 
 ## Giao diện web (khuyên dùng)
-Bấm đúp **`start_ui.bat`** (hoặc `python app.py`) rồi mở `http://127.0.0.1:8765`. Giao diện chạy cục bộ trên máy, gồm:
-- **Profile GPM**: mỗi profile một thẻ, chấm xanh = đang mở và điều khiển được, vàng = mở tay, xám = đóng; danh sách fanpage gắn với profile (từ tab Pages + kết quả quét); nút **Mở Chrome / Mở Business Suite / Đóng Chrome / Quét fanpage**, nút **Mở ↗** cạnh từng page để mở đúng trang đó trong profile.
+Bấm đúp icon **Dang Reels GPM** ngoài Desktop (= `pythonw tray.py`): phần mềm chạy **ở khay hệ thống** cạnh đồng hồ như Unikey, không có cửa sổ đen. Bấm đúp icon ở khay → cửa sổ nhỏ (nút *Mở giao diện web*, *Mở Google Sheet*, *Ẩn*, *Thoát hẳn*); bấm **X** chỉ ẩn xuống khay; chuột phải icon khay → **Thoát hẳn** mới tắt. Bấm icon Desktop lần nữa khi đang chạy chỉ mở lại giao diện web. (Cách cũ có cửa sổ đen: `start_ui.bat`.)
+Giao diện web tại `http://127.0.0.1:8765` gồm:
+- **Profile GPM**: mỗi profile một thẻ, chấm xanh = đang mở và điều khiển được, vàng = mở tay, xám = đóng; **fanpage mặc định** của profile lấy từ tab Pages (cột Profile GPM — mỗi profile 1 fanpage); nút **Mở Chrome / Mở Business Suite / Đóng Chrome**, nút **Mở ↗** để mở đúng trang đó trong profile.
 - **Lịch đăng**: bảng hàng đợi đọc từ Sheet với cột *Kế hoạch* (sẽ đăng / vì sao bỏ qua); nút **Xem kế hoạch**, **Chạy thử**, **Đăng / lên lịch theo Sheet** (có hỏi xác nhận), lọc theo hàng / số bài tối đa.
 - **Log** chạy trực tiếp, nút Dừng; **Google Sheet nhúng** ngay trong trang (sửa được nếu trình duyệt đã đăng nhập Google); **ảnh chụp** các lần chạy.
 - **Cài đặt**: link Sheet, URL webhook, profile mặc định, tên tab → lưu vào `config.json` (không đưa lên git).
@@ -41,7 +42,7 @@ Sheet: **Lịch đăng Reels - Fanpage** (chia sẻ *Bất kỳ ai có đường
 |---|---|---|---|---|---|---|
 | `08/10/2026 19:00`, hoặc `ngay` | chọn từ dropdown (tab Pages) | link file Drive / thư mục Drive / đường dẫn máy | mô tả (có thể gộp hashtag) | tuỳ chọn | script ghi; tay ghi `bỏ qua` | script ghi |
 
-- **Page** → script tra tab Pages lấy **asset_id + profile GPM**, kiểm tra ô "Đăng lên" của trình soạn đúng trang đó mới đăng, và sau khi đăng ghi lại tên trang thật. Page không có trong tab Pages → script mở bộ chọn trang trong Business Suite để dò asset_id (cache `logs/pages_<profile>.json`), dùng profile mặc định. Có thể thêm cột `Profile` trên hàng để ghi đè profile.
+- **Page** → script tra tab Pages lấy **asset_id + profile GPM**, kiểm tra ô "Đăng lên" của trình soạn đúng trang đó mới đăng, và sau khi đăng ghi lại tên trang thật. **Để trống Page** → dùng fanpage mặc định của profile (hàng đầu tiên trong tab Pages có Profile GPM đó). Page không có trong tab Pages → script mở bộ chọn trang trong Business Suite để dò asset_id (cache `logs/pages_<profile>.json`). Có thể thêm cột `Profile` trên hàng để ghi đè profile.
 - Các hàng cùng profile được gom lại, mở trình duyệt một lần. Profile đang mở bằng tay sẽ bị đóng và mở lại qua API để có cổng điều khiển.
 - Nhìn riêng từng page: *Dữ liệu → Chế độ xem bộ lọc*, mỗi người tự lưu một view. Sort cột Thời gian để thấy lịch chung của mọi page.
 
