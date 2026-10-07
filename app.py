@@ -247,9 +247,18 @@ def _spawn(args, label):
     logf = LOG_DIR / f"ui_{jid}.log"
     env = dict(os.environ, PYTHONIOENCODING="utf-8", PYTHONUNBUFFERED="1")
     fh = open(logf, "w", encoding="utf-8")
-    # Chạy bằng python.exe (có stdout/stderr thật) nhưng ẩn cửa sổ; log ghi ra file
+    # Chạy bằng python.exe (có stdout/stderr thật) nhưng ẩn cửa sổ; log ghi ra file.
+    # stdin=DEVNULL: dưới pythonw không có stdin, để kế thừa sẽ lỗi.
     exe = sys.executable.replace("pythonw.exe", "python.exe")
-    proc = subprocess.Popen([exe] + args, cwd=str(ROOT), stdout=fh, stderr=subprocess.STDOUT, env=env, **pr.HIDDEN)
+    print(f"[ui] spawn {label}: {exe} {' '.join(args)}", flush=True)
+    try:
+        proc = subprocess.Popen([exe] + args, cwd=str(ROOT), stdin=subprocess.DEVNULL, stdout=fh,
+                                stderr=subprocess.STDOUT, env=env, **pr.HIDDEN)
+    except Exception as e:
+        fh.close()
+        print(f"[ui] spawn lỗi: {e!r}", flush=True)
+        raise HTTPException(500, f"Không chạy được script: {e}")
+    print(f"[ui] spawn OK pid={proc.pid}", flush=True)
     JOBS[jid] = {"proc": proc, "log": logf, "label": label, "started": datetime.now().isoformat(timespec="seconds"), "fh": fh}
     return jid
 
