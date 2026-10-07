@@ -62,6 +62,7 @@
   <span class="sp"></span>
   <button id="btnSheet" onclick="openSheet()">Mở Google Sheet ↗</button>
   <button onclick="toggleSettings()">Cài đặt</button>
+  <button class="danger" onclick="shutdown()" title="Tắt server chạy ngầm (cửa sổ đen). Bài đã lên lịch trên Facebook không bị ảnh hưởng.">Tắt phần mềm</button>
 </header>
 
 <main>
@@ -209,6 +210,14 @@ function watch(jid) {
   tick(); jobTimer = setInterval(tick, 2000);
 }
 async function stopJob() { if (JOB && confirm('Dừng việc đang chạy?')) { await post(`/api/jobs/${JOB}/stop`); } }
+async function shutdown() {
+  const running = $('#btnStop').style.display !== 'none';
+  const msg = (running ? 'ĐANG CÓ VIỆC CHẠY – tắt sẽ cắt ngang bài đang đăng.\n\n' : '') +
+    'Tắt phần mềm (server chạy ngầm)? Các bài đã lên lịch trên Facebook vẫn tự đăng bình thường.\nMở lại bằng icon "Dang Reels GPM" ngoài Desktop.';
+  if (!confirm(msg)) return;
+  try { await post('/api/shutdown'); } catch (e) {}
+  document.body.innerHTML = '<div style="padding:60px;text-align:center;font:16px Segoe UI,sans-serif;color:#1d2433"><h2>Đã tắt phần mềm</h2><p>Có thể đóng tab này. Mở lại bằng icon <b>Dang Reels GPM</b> ngoài Desktop.</p></div>';
+}
 async function loadScreens() {
   const d = await api('/api/screens');
   $('#shots').innerHTML = d.map(s => `<a href="/logs/${encodeURIComponent(s.name)}" target="_blank"><img src="/logs/${encodeURIComponent(s.name)}" loading="lazy"><span>${esc(s.time)} ${esc(s.name.replace(/^\d{8}_\d{6}_/,''))}</span></a>`).join('') || '<span class="muted">chưa có</span>';

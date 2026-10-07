@@ -315,6 +315,16 @@ def api_job_stop(jid: str):
     return {"ok": True}
 
 
+@app.post("/api/shutdown")
+def api_shutdown():
+    """Tắt server (nút 'Tắt phần mềm' trên giao diện). Dừng cả việc đang chạy nếu có."""
+    for j in JOBS.values():
+        if j["proc"].poll() is None:
+            j["proc"].kill()
+    threading.Timer(0.7, lambda: os._exit(0)).start()
+    return {"ok": True}
+
+
 @app.get("/api/screens")
 def api_screens():
     files = sorted(LOG_DIR.glob("*.png"), key=lambda f: f.stat().st_mtime, reverse=True)[:12]
