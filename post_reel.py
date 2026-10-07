@@ -161,12 +161,27 @@ def gpm_stop(profile_id):
         pass
 
 
+# Chạy lệnh con mà không bật cửa sổ console (khi phần mềm chạy ở khay bằng pythonw, mỗi lần gọi
+# PowerShell bình thường sẽ nháy một cửa sổ cmd lên rồi tắt).
+HIDDEN = {"creationflags": getattr(subprocess, "CREATE_NO_WINDOW", 0)}
+if hasattr(subprocess, "STARTUPINFO"):
+    _si = subprocess.STARTUPINFO()
+    _si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+    _si.wShowWindow = 0            # SW_HIDE
+    HIDDEN["startupinfo"] = _si
+
+
+def run_hidden(cmd, **kw):
+    """subprocess.run không hiện cửa sổ."""
+    return subprocess.run(cmd, **HIDDEN, **kw)
+
+
 def kill_profile_browser(profile_id):
     """GPM stop đôi khi không đóng được cửa sổ mở bằng tay -> tự tắt chrome của profile."""
     ps = ("Get-CimInstance Win32_Process -Filter \"name='chrome.exe'\" | "
           f"Where-Object {{ $_.CommandLine -match '{profile_id}' }} | "
           "ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }")
-    subprocess.run(["powershell", "-NoProfile", "-Command", ps], capture_output=True)
+    run_hidden(["powershell", "-NoProfile", "-Command", ps], capture_output=True)
     log("GPM: đã tắt tiến trình chrome của profile")
     time.sleep(4)
 

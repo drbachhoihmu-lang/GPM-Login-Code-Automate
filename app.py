@@ -90,14 +90,14 @@ _proc_cache = {"t": 0, "ids": {}}
 
 def running_profiles():
     """{profile_id: có cổng debug?} cho các profile đang có chrome chạy (cache 5s)."""
-    if time.time() - _proc_cache["t"] < 5:
+    if time.time() - _proc_cache["t"] < 20:      # cache 20s: gọi PowerShell ít thôi
         return _proc_cache["ids"]
     ids = {}
     try:
         ps_cmd = ("Get-CimInstance Win32_Process -Filter \"name='chrome.exe'\" | "
                   "Where-Object { $_.CommandLine -match 'user-data-dir' -and $_.CommandLine -notmatch '--type=' } | "
                   "ForEach-Object { $_.CommandLine }")
-        out = subprocess.run(["powershell", "-NoProfile", "-Command", ps_cmd], capture_output=True, text=True, timeout=20).stdout
+        out = pr.run_hidden(["powershell", "-NoProfile", "-Command", ps_cmd], capture_output=True, text=True, timeout=20).stdout
         for line in out.splitlines():
             m = re.search(r"Profile\\([0-9a-f-]{36})", line)
             if m:
@@ -247,7 +247,9 @@ def _spawn(args, label):
     logf = LOG_DIR / f"ui_{jid}.log"
     env = dict(os.environ, PYTHONIOENCODING="utf-8", PYTHONUNBUFFERED="1")
     fh = open(logf, "w", encoding="utf-8")
-    proc = subprocess.Popen([sys.executable] + args, cwd=str(ROOT), stdout=fh, stderr=subprocess.STDOUT, env=env)
+    # Chạy bằng python.exe (có stdout/stderr thật) nhưng ẩn cửa sổ; log ghi ra file
+    exe = sys.executable.replace("pythonw.exe", "python.exe")
+    proc = subprocess.Popen([exe] + args, cwd=str(ROOT), stdout=fh, stderr=subprocess.STDOUT, env=env, **pr.HIDDEN)
     JOBS[jid] = {"proc": proc, "log": logf, "label": label, "started": datetime.now().isoformat(timespec="seconds"), "fh": fh}
     return jid
 
