@@ -41,7 +41,7 @@ Phong cách: Thu Thủy – Dược liệu Việt · Khuôn TT-F3 · 24 giây ·
 [16–20s] Bốn, rau ngót luộc. Lá mềm, nước luộc ngọt mát, chan cơm rất dễ nuốt.
 [20–24s] Năm, bí đỏ luộc. Bùi, mềm, ngọt, ăn với cơm hay ăn không đều no lâu mà bụng vẫn êm.
 
-**Hình ảnh & dựng:** Bác sĩ Hội nửa người giữa-dưới khung, nền tường xám trơn, nói nhanh đều, tay đếm số rồi chỉ lên hình. Banner vàng chữ đen in hoa: 5 LOẠI RAU LUỘC DỄ CHỊU CHO DẠ DÀY. 1/3 trên: ảnh tách nền từng loại rau, đổi đúng lúc nói. Nhãn số lớn “#1: BÍ XANH”. Dừng ngay sau món 5.
+**Hình ảnh & dựng:** Bác sĩ Hội nửa người giữa-dưới khung, nền tường xám trơn, nói nhanh đều, tay đếm số rồi chỉ lên hình. Banner nền cam nghệ chữ đen in hoa, từ khóa vàng: 5 LOẠI RAU LUỘC DỄ CHỊU CHO DẠ DÀY. 1/3 trên: ảnh tách nền từng loại rau, đổi đúng lúc nói. Nhãn số lớn “#1: BÍ XANH”. Dừng ngay sau món 5.
 
 **Caption:** 5 loại rau luộc dễ chịu cho người đau d.ạ d.ày. Cô bác anh chị đã biết hết chưa??
 #BacSiHoi #bshoi #daday #rauluoc
@@ -61,7 +61,7 @@ Phong cách: TS Trần Hoàng Hải · Khuôn THH · 30 giây · B-roll + BS gó
 [28–30s] Bấm theo dõi để không bỏ lỡ công thức tiếp theo.
 Giọng đọc nền (tùy chọn): đọc đúng chữ trên.
 
-**Hình ảnh & dựng:** Toàn khung cận tay: đổ yến mạch vào nồi sôi, khuấy sánh, thái chuối, bát bốc hơi; mỗi bước một cảnh, 3 cảnh trong 10 giây đầu. Bác sĩ Hội blouse trắng tách nền góc phải dưới, cầm bát, mỉm cười, không nói. Thẻ tiêu đề giữa khung nền tối mờ, dòng vàng, dòng trắng. Phụ đề karaoke tô vàng.
+**Hình ảnh & dựng:** Toàn khung cận tay: đổ yến mạch vào nồi sôi, khuấy sánh, thái chuối, bát bốc hơi; mỗi bước một cảnh, 3 cảnh trong 10 giây đầu. Bác sĩ Hội blouse trắng tách nền góc phải dưới, cầm bát, mỉm cười, không nói. Thẻ tiêu đề giữa khung nền cam nghệ mờ, dòng vàng, dòng trắng. Phụ đề karaoke tô vàng.
 
 **Caption:** BỮA SÁNG 15K: YẾN MẠCH CHUỐI CHO NGƯỜI HAY CỒN CÀO 👇
 #BacSiHoi #bshoi #daday #congthuc
@@ -96,7 +96,7 @@ Phong cách: Thu Thủy – Dược liệu Việt · Khuôn TT-F2 · 21 giây ·
 
 **Lời thoại**
 
-[0–3s] Cô bác anh chị ơi, mỗi ngày ăn một trong năm thứ này, dạ dày êm hơn.
+[0–3s] Mỗi ngày ăn một trong năm thứ này, dạ dày êm hơn.
 [3–6s] Một, chuối chín. Mềm, ngọt, lót dạ nhanh lúc bụng cồn cào.
 [6–9s] Hai, khoai lang hấp. No lâu, dễ tiêu, ai hay đầy hơi thì ăn ít.
 [9–12s] Ba, yến mạch. Nấu mềm thành cháo, ăn sáng ấm bụng, êm cả buổi.
@@ -104,32 +104,32 @@ Phong cách: Thu Thủy – Dược liệu Việt · Khuôn TT-F2 · 21 giây ·
 [15–18s] Năm, sữa chua. Loại ít đường, ăn sau bữa, nếu cơ thể thấy hợp.
 [18–20s] Lưu lại nhé.
 
-**Hình ảnh & dựng:** Bác sĩ Hội nửa người, nền cây xanh, tay đếm số. Banner vàng chữ đen in hoa: MỖI NGÀY ĂN 1 TRONG 5 THỨ NÀY, DẠ DÀY ÊM HƠN. 1/3 trên: ảnh tách nền chuối, khoai lang, yến mạch, đu đủ, sữa chua, đổi đúng nhịp. Nhãn số lớn “#1: CHUỐI CHÍN”. Chữ “LƯU LẠI NHÉ” dưới 2 giây.
+**Hình ảnh & dựng:** Bác sĩ Hội nửa người, nền cây xanh, tay đếm số. Banner nền cam nghệ chữ đen in hoa, từ khóa vàng: MỖI NGÀY ĂN 1 TRONG 5 THỨ NÀY, DẠ DÀY ÊM HƠN. 1/3 trên: ảnh tách nền chuối, khoai lang, yến mạch, đu đủ, sữa chua, đổi đúng nhịp. Nhãn số lớn “#1: CHUỐI CHÍN”. Chữ “LƯU LẠI NHÉ” dưới 2 giây.
 
 **Caption:** Mỗi ngày ăn 1 trong 5 thứ này, d.ạ d.ày êm hơn. Cô bác anh chị đang ăn thứ nào rồi??
 #BacSiHoi #bshoi #daday #anuong
 
-### 6. 16:30 · CANH BÍ XANH NẤU TÔM: BÁT CANH 20K DỄ CHỊU CHO DẠ DÀY
+### 6. 16:30 · BÍ XANH NẤU CÙNG 2 THỨ NÀY: BÁT CANH 20K NHẸ BỤNG CHO NGƯỜI ĐAU DẠ DÀY
 
 Phong cách: TS Trần Hoàng Hải · Khuôn THH · 30 giây · B-roll + BS góc nhỏ (không nói)
 
 **Lời thoại**
 
-[0–3s] Ăn gì cũng ậm ạch? Bát canh bí xanh nấu tôm 20 nghìn này nấu ngay tối nay.
-[3–8s] Bí xanh mềm, nhiều nước. Tôm cho đạm dễ tiêu. Bát canh nhẹ bụng, cả nhà cùng ăn.
-[8–14s] 1. Tôm bóc vỏ, bỏ chỉ đen, băm hoặc giã sơ.
-[14–19s] 2. Đun sôi nước, thả tôm vào, hớt sạch bọt.
-[19–25s] 3. Thả bí xanh thái miếng, đun đến khi bí trong. Nêm thật nhạt, rắc hành lá.
-[25–28s] Ai dị ứng tôm, hải sản thì thay bằng thịt nạc băm.
+[0–3s] Đau dạ dày, ăn gì cũng ậm ạch? Bí xanh nấu cùng 2 thứ này, bát canh 20K cô bác nấu tối nay.
+[3–8s] Bí xanh mềm, nhiều nước; tôm cho đạm dễ tiêu; gừng cho ấm bụng, đỡ tanh.
+[8–12s] 1. Tôm: bóc vỏ, bỏ chỉ đen, băm hoặc giã sơ.
+[12–16s] 2. Gừng: đun sôi 3 bát nước với 2 lát gừng mỏng, thả tôm, hớt bọt.
+[16–21s] 3. Thả bí xanh thái miếng, đun tới khi bí trong.
+[21–25s] 4. Nêm thật nhạt, tắt bếp, ăn ấm.
+[25–28s] Dị ứng tôm, hải sản: thay thịt nạc băm. Đau thượng vị kéo dài, phân đen: đi khám ngay.
 [28–30s] Bấm theo dõi để không bỏ lỡ công thức tiếp theo.
-Giọng đọc nền (tùy chọn): đọc đúng chữ trên.
 
-**Hình ảnh & dựng:** Cận tay thả bí xanh vào nồi bốc hơi. Cảnh: bóc tôm, giã tôm, hớt bọt, bí chuyển trong, rắc hành; mỗi bước một cảnh, số to đầu dòng. Bác sĩ Hội blouse trắng tách nền góc phải dưới, cầm bát canh, mỉm cười, không nói. Thẻ tiêu đề giữa khung: dòng vàng, dòng trắng. Chữ “NÊM NHẠT” tô đỏ.
+**Hình ảnh & dựng:** 0s cận tay thả bí xanh vào nồi canh bốc hơi. Thẻ giữa khung nền cam nghệ mờ, giữ suốt: vàng “BÍ XANH NẤU CÙNG 2 THỨ NÀY”, trắng “BÁT CANH 20K NHẸ BỤNG CHO NGƯỜI ĐAU DẠ DÀY”. Cảnh <3s, số to: bóc tôm, thái gừng, bí chuyển trong. BS Hội blouse góc phải dưới cầm bát, cười.
 
-**Caption:** CANH BÍ XANH NẤU TÔM: BÁT CANH 20K DỄ CHỊU CHO D.Ạ D.ÀY 👇
+**Caption:** BÍ XANH NẤU CÙNG 2 THỨ NÀY: BÁT CANH 20K NHẸ BỤNG CHO NGƯỜI ĐAU DẠ DÀY 👇👇👇
 #BacSiHoi #bshoi #daday #canhngon
 
-**Ghi chú:** Bác sĩ ở góc nhỏ không nói; chữ trên là thẻ bước và phụ đề. Giá 20K là ước tính theo giá chợ, kiểm tra lại giá thực tế trước khi đăng.
+**Ghi chú:** Bác sĩ Hội ở góc nhỏ, không nói; các dòng lời thoại là chữ trên màn hình theo từng cảnh. Giọng đọc nền (tùy chọn) đọc đúng các dòng này, khớp phụ đề karaoke. Giá là ước tính theo giá chợ, kiểm tra lại trước khi đăng. Tiêu đề hứa “2 thứ” nên công thức nêu rõ tôm và gừng (gừng chỉ 2 lát mỏng để khử tanh; người đang ợ nóng nhiều có thể bỏ gừng). Bỏ hành lá rắc cuối để không lẫn thành thứ ba.
 
 ---
 
@@ -141,17 +141,17 @@ Phong cách: Nguyễn Thị Bích Thuận · Khuôn BT-M · 150 giây · BS làm
 
 **Lời thoại**
 
-[0–3s] Không phải cháo trắng mãi đâu. Đây mới là bữa sáng đủ chất cho người đau dạ dày.
-[3–18s] Có cô [62 tuổi] đau dạ dày [hai tháng], ngày nào cũng cháo trắng với muối vừng. Bụng đỡ xót thật, nhưng người rũ ra, sụt [bốn cân]. Sụt cân như thế, bác sĩ Hội cho cô đi khám ngay để kiểm tra trước, rồi mới chỉnh lại bữa ăn. Bát cháo này là thứ đổi đầu tiên.
-[18–60s] Thứ nhất, phải có đạm. Bác sĩ Hội cho một nắm thịt nạc băm, cỡ lòng bàn tay, đánh tơi với chút nước lạnh để thịt không vón. Cho vào nồi khi nước chưa sôi, khuấy liên tục, thịt sẽ tơi mịn, người răng yếu ăn cũng dễ. Cháo trắng chủ yếu là tinh bột với nước. No nhanh, đói cũng nhanh, mà cơ thể thì thiếu nguyên liệu. Đạm giống gạch vữa để cơ thể tự sửa chữa mỗi ngày. Thiếu gạch thì thợ giỏi mấy cũng chịu. Nhiều người sợ đạm làm dạ dày vất vả. Thật ra thịt nạc băm nhuyễn, nấu nhừ thì rất dễ tiêu. Không ăn thịt lợn thì thay bằng ức gà, cá, hoặc trứng đánh tan cho vào cuối.
-[60–100s] Thứ hai, đổi một phần gạo bằng yến mạch. Bác sĩ Hội cho nửa gạo, nửa yến mạch, đun lửa nhỏ. Yến mạch có chất xơ hòa tan, nấu lên sánh mịn, giữ no lâu hơn cháo trắng. Cháo trắng như mớ rơm, bùng lên rồi tắt nhanh. Yến mạch như hòn than, cháy đều, ấm lâu. Ăn vào bụng êm, không cồn cào sớm. Không có yến mạch thì thêm ít khoai lang hoặc bí đỏ nấu nhừ, miễn bát cháo không chỉ có gạo trắng. Ai mới tập ăn yến mạch thì cho ít trước, quen rồi tăng dần, để bụng không bị đầy hơi.
+[0–3s] Không phải cháo trắng mãi: đây là bữa sáng đủ chất cho người đau dạ dày.
+[3–15s] Nhiều cô bác anh chị nhắn bác sĩ Hội: “Đau dạ dày mấy tháng, sáng nào cũng cháo trắng muối vừng, mà người cứ rũ ra.” Bụng đỡ xót, nhưng người thiếu chất. Nồi cháo này mình đổi luôn nhé.
+[15–60s] Thứ nhất, phải có đạm. Bác sĩ Hội cho một nắm thịt nạc băm, cỡ lòng bàn tay, đánh tơi với chút nước lạnh để thịt không vón. Cho vào nồi khi nước chưa sôi, khuấy liên tục, thịt sẽ tơi mịn, người răng yếu ăn cũng dễ. Cô bác anh chị biết không, cháo trắng chủ yếu là tinh bột với nước. No nhanh, đói cũng nhanh, mà cơ thể thì thiếu nguyên liệu. Đạm giống gạch vữa để cơ thể tự sửa chữa mỗi ngày. Thiếu gạch thì thợ giỏi mấy cũng chịu. Nhiều người sợ đạm làm dạ dày vất vả. Thật ra thịt nạc băm nhuyễn, nấu nhừ thì rất dễ tiêu. Không ăn thịt lợn thì thay bằng ức gà, cá, hoặc trứng đánh tan cho vào cuối.
+[60–100s] Thứ hai, đổi một nửa gạo bằng yến mạch. Bác sĩ Hội cho nửa gạo, nửa yến mạch, đun lửa nhỏ. Cô bác anh chị nhìn này, nồi cháo sánh lại rất nhanh. Yến mạch có chất xơ hòa tan, nấu lên mịn, giữ no lâu hơn cháo trắng. Cháo trắng như mớ rơm, bùng lên rồi tắt nhanh. Yến mạch như hòn than, cháy đều, ấm lâu. Ăn vào bụng êm, không cồn cào sớm. Không có yến mạch thì thêm ít khoai lang hoặc bí đỏ nấu nhừ, miễn bát cháo không chỉ có gạo trắng. Ai mới tập ăn yến mạch thì cho ít trước, quen rồi tăng dần, để bụng không bị đầy hơi.
 [100–140s] Thứ ba, thêm rau mềm. Cà rốt thái hạt lựu cho vào cùng thịt. Nắm rau ngót băm nhỏ cho vào sau cùng, sôi lại là tắt bếp. Nêm nhạt, chút nước mắm là đủ. Rau cho thêm vitamin, khoáng chất, giúp đi ngoài đều hơn. Bát cháo có màu cam của cà rốt, màu xanh của rau, nhìn đã thấy muốn ăn. Người đau dạ dày lâu ngày hay chán ăn, mà ngon miệng là bước đầu để ăn đủ. Để cháo nguội bớt, ăn ấm thôi, đừng húp lúc còn bỏng miệng. Cô bác anh chị nào sụt cân nhanh không rõ lý do, đi khám ngay, đừng chỉ đổi món.
-[140–150s] Có đạm, có yến mạch, có rau, bát cháo mới thật sự nuôi người. Nhà cô bác anh chị sáng nay ăn gì? Kể bác sĩ Hội nghe.
+[140–150s] Tóm lại: có đạm, có yến mạch, có rau, bát cháo mới thật sự nuôi người. Nhà cô bác anh chị sáng nay ăn gì? Kể bác sĩ Hội nghe.
 
-**Hình ảnh & dựng:** Bếp sáng, cận mặt bác sĩ Hội cầm bát cháo trắng cạnh nồi cháo yến mạch thịt rau ngay giây đầu. Thẻ to: #1 CÓ ĐẠM, #2 THÊM YẾN MẠCH, #3 THÊM RAU MỀM. Làm thật: đánh tơi thịt, đổ yến mạch, thả rau. Khi kể ca, góc dưới ghi “Câu chuyện minh họa” nếu không có ca thật.
+**Hình ảnh & dựng:** Bếp nhà ánh sáng tự nhiên, áo thường ngày. Mặt cận giây 0, cầm bát cháo trắng rồi đặt sang bên, tiêu đề to. Phụ đề to giữa khung, thẻ và từ khóa cam nghệ. #1 CÓ ĐẠM, #2 THÊM YẾN MẠCH, #3 THÊM RAU MỀM. Làm thật: đánh tơi thịt, đổ yến mạch, thả rau. Cuối: chữ câu hỏi.
 
-**Caption:** Đau d.ạ d.ày mà chỉ ăn cháo trắng? Bát cháo đủ chất này mới thật sự nuôi người 👇
-#BacSiHoi #bshoi #daday #buasang
+**Caption:** Không phải cháo trắng mãi: bữa sáng đủ chất cho người đau d.ạ d.ày 👇
+#BacSiHoi #bshoi #daday
 
 **Ghi chú:** Thay chi tiết bằng ca thật đã ẩn danh, có đồng ý; nếu không có ca thật, ghi 'câu chuyện minh họa' trên video.
 
@@ -172,7 +172,7 @@ Phong cách: Thu Thủy – Dược liệu Việt · Khuôn TT-F4 · 21 giây ·
 [16,5–18,5s] Thứ tám, đồ cay, rát thêm cổ họng.
 [18,5–21s] Và cuối cùng, ăn quá no, nhất là bữa tối.
 
-**Hình ảnh & dựng:** Bác sĩ Hội nửa người, nền bếp mờ phía sau, nói nhanh, tay đếm từ 1 đến 9. Banner vàng chữ đen in hoa: NGƯỜI TRÀO NGƯỢC ĐỪNG ĂN NHIỀU 9 THỨ NÀY. 1/3 trên: ảnh tách nền từng món, dấu gạch chéo đỏ. Nhãn số lớn “#1: ĐỒ CHIÊN”. Dừng ngay ở mục 9, không lời kêu gọi.
+**Hình ảnh & dựng:** Bác sĩ Hội nửa người, nền bếp mờ phía sau, nói nhanh, tay đếm từ 1 đến 9. Banner nền cam nghệ chữ đen in hoa, từ khóa vàng: NGƯỜI TRÀO NGƯỢC ĐỪNG ĂN NHIỀU 9 THỨ NÀY. 1/3 trên: ảnh tách nền từng món, dấu gạch chéo đỏ. Nhãn số lớn “#1: ĐỒ CHIÊN”. Dừng ngay ở mục 9, không lời kêu gọi.
 
 **Caption:** Người t.rào n.gược đừng ăn nhiều 9 thứ này. Cô bác anh chị đang ăn mấy thứ rồi??
 #BacSiHoi #bshoi #traonguoc #kiengkhem
@@ -192,7 +192,7 @@ Phong cách: TS Trần Hoàng Hải · Khuôn THH · 30 giây · B-roll + BS gó
 [28–30s] Bấm theo dõi để không bỏ lỡ công thức tiếp theo.
 Giọng đọc nền (tùy chọn): đọc đúng chữ trên.
 
-**Hình ảnh & dựng:** Cận tay đập trứng vào bát ngay giây đầu. Cảnh: đánh trứng, rót qua rây, đậy đĩa, mở nồi thấy mặt trứng mịn; mỗi bước một cảnh, số to. Bác sĩ Hội blouse trắng tách nền góc phải dưới, cầm bát trứng, mỉm cười, không nói. Thẻ tiêu đề giữa khung nền tối mờ, dòng vàng, dòng trắng.
+**Hình ảnh & dựng:** Cận tay đập trứng vào bát ngay giây đầu. Cảnh: đánh trứng, rót qua rây, đậy đĩa, mở nồi thấy mặt trứng mịn; mỗi bước một cảnh, số to. Bác sĩ Hội blouse trắng tách nền góc phải dưới, cầm bát trứng, mỉm cười, không nói. Thẻ tiêu đề giữa khung nền cam nghệ mờ, dòng vàng, dòng trắng.
 
 **Caption:** TRỨNG HẤP MỀM: MÓN 5K NGƯỜI ĐAU D.Ạ D.ÀY ĂN ĐƯỢC NGAY 👇
 #BacSiHoi #bshoi #daday #monhap
@@ -223,24 +223,26 @@ Phong cách: Nguyễn Thị Bích Thuận · Khuôn BT-M · 150 giây · BS làm
 
 **Ghi chú:** Thay chi tiết bằng ca thật đã ẩn danh, có đồng ý; nếu không có ca thật, ghi 'câu chuyện minh họa' trên video. CTA đổi “sáng nay” thành “tối nay” cho khớp chủ đề bữa tối.
 
-### 11. 10:30 · 5 loại quả người đau dạ dày nên ưu tiên
+### 11. 10:30 · 5 LOẠI QUẢ NGƯỜI ĐAU DẠ DÀY ĂN SAU BỮA VẪN ÊM
 
 Phong cách: Thu Thủy – Dược liệu Việt · Khuôn TT-F2 · 21 giây · BS nói nhanh – danh sách
 
 **Lời thoại**
 
-[0–3s] Năm loại quả người đau dạ dày nên ưu tiên, cô bác anh chị nhớ ăn sau bữa, lượng vừa thôi.
-[3–6s] Một, chuối chín vàng. Mềm, ngọt, ít chua, lót dạ rất êm.
-[6–9s] Hai, đu đủ chín. Mềm, ngọt, dễ tiêu, giúp đi ngoài nhẹ nhàng hơn.
+[0–3s] Năm loại quả người đau dạ dày ăn sau bữa vẫn êm.
+[3–6s] Một, chuối chín vàng. Mềm, ngọt, ít chua, êm bụng.
+[6–9s] Hai, đu đủ chín. Mềm, ngọt, dễ tiêu, đi ngoài nhẹ nhàng hơn.
 [9–12s] Ba, táo hấp. Hấp mềm rồi ăn, dịu bụng hơn hẳn táo sống giòn.
-[12–15s] Bốn, lê. Nhiều nước, mát họng, ai hay đầy hơi thì ăn ít thôi.
-[15–18s] Năm, dưa lê. Thơm, mềm, ít chua, vài miếng nhỏ sau bữa là đủ.
-[18–20s] Lưu lại nhé.
+[12–15s] Bốn, lê. Nhiều nước, mát họng, ai hay đầy hơi thì ăn ít.
+[15–18,5s] Năm, dưa lê. Thơm, mềm, ít chua, vài miếng nhỏ mỗi lần là đủ.
+[18,5–20,5s] Chưa nhớ hết thì lưu lại nhé.
 
-**Hình ảnh & dựng:** Bác sĩ Hội nửa người, nền tường kem, đứng cạnh rổ quả, tay đếm số. Banner vàng chữ đen in hoa: 5 LOẠI QUẢ NGƯỜI ĐAU DẠ DÀY NÊN ƯU TIÊN. 1/3 trên: ảnh tách nền chuối, đu đủ, táo hấp, lê, dưa lê, đổi đúng nhịp. Nhãn số lớn “#1: CHUỐI CHÍN”. Chữ “LƯU LẠI NHÉ” dưới 2 giây.
+**Hình ảnh & dựng:** 9:16, nửa người giữa-dưới, nền cây xanh, áo y tế navy. Khung đầu: banner cam nghệ chữ đen in hoa “5 LOẠI QUẢ NGƯỜI ĐAU DẠ DÀY ĂN SAU BỮA VẪN ÊM”, giơ 5 ngón. 1/3 trên ảnh tách nền từng quả, đổi đúng nhịp. Nhãn “#1: CHUỐI CHÍN”. Tay đếm, chỉ lên hình. Chữ “LƯU LẠI NHÉ” 2 giây.
 
-**Caption:** 5 loại quả người đau d.ạ d.ày nên ưu tiên. Cô bác anh chị đã biết hết chưa??
-#BacSiHoi #bshoi #daday #traicay
+**Caption:** 5 LOẠI QUẢ NGƯỜI ĐAU D.Ạ D.ÀY ĂN SAU BỮA VẪN ÊM. Cô bác anh chị đã biết hết chưa??
+#BacSiHoi #daday #traicay #suckhoe #reelsviral
+
+**Ghi chú:** Hook chỉ đọc tiêu đề trong 3 giây, không chào. Mỗi quả khoảng 3 giây: “Số, tên quả, lợi ích ngắn”. Chuối bỏ chữ “lót dạ” cho khớp “ăn sau bữa”. “Lưu lại nhé” không quá 2 giây.
 
 ### 12. 16:30 · CHÁO KHOAI LANG YẾN MẠCH: NO LÂU, NHẸ BỤNG
 
@@ -274,19 +276,19 @@ Phong cách: Nguyễn Thị Bích Thuận · Khuôn BT-M · 150 giây · BS làm
 
 **Lời thoại**
 
-[0–3s] Nhà có người đau dạ dày, không cần nấu hai mâm. Một mâm, cả nhà cùng ăn.
-[3–18s] Bác sĩ Hội gặp không ít gia đình: người đau dạ dày ngồi riêng với bát cháo, cả nhà ăn cá rán, canh chua. Có nhà còn bắt người bệnh kiêng đủ thứ, đến bữa chỉ dám gắp rau luộc. Người bệnh vừa thèm vừa tủi, người nấu thì mệt vì ngày nào cũng hai bếp.
-[18–60s] Nguyên tắc thứ nhất: nêm nhạt, để bát ớt riêng. Nồi thịt rim này bác sĩ Hội nêm nhạt tay, không cho ớt, không rắc tiêu nhiều. Bên cạnh đặt một bát ớt tươi thái lát, một bát nước mắm tỏi ớt. Ai thích cay thì tự thêm vào bát mình. Bác sĩ Hội hay nói vui: ớt là gia vị của từng người, không phải của cả nồi. Người đau dạ dày vẫn được ăn đúng món cả nhà ăn, mà không phải nuốt cái cay rát vào chỗ đang tổn thương. Cả nhà ăn nhạt đi một chút cũng có lợi, vì bớt muối là đỡ cho huyết áp, nhất là ông bà lớn tuổi. Lúc đầu có thể thấy nhạt miệng, ăn dần lưỡi sẽ quen.
-[60–100s] Nguyên tắc thứ hai: hấp, luộc thay chiên. Cá thì hấp gừng thay vì rán giòn. Đậu phụ thì hấp hoặc sốt cà chua nhẹ thay vì rán vàng. Thịt thì luộc, thái mỏng, chấm nước mắm pha. Đồ chiên ngập dầu làm dạ dày làm việc vất vả, ăn xong dễ đầy, dễ ợ. Món hấp luộc thì người già, trẻ nhỏ trong nhà cũng ăn ngon. Mà món hấp không hề nhạt nhẽo. Cá hấp có gừng, hành, thì là, thơm cả bếp. Thịt luộc chấm mắm gừng, đậu phụ sốt cà chua, mâm cơm vẫn đủ màu, đủ vị. Nhà nào quen vị giòn, thỉnh thoảng dùng nồi chiên không dầu, đỡ ngấy hơn chảo ngập mỡ.
-[100–140s] Nguyên tắc thứ ba: tách phần trước khi nêm đậm. Nồi canh chua này, bác sĩ Hội múc riêng một bát cho người đau dạ dày trước, rồi mới cho thêm me, thêm ớt vào nồi. Đĩa rau xào cũng vậy, gắp phần nhạt ra trước khi rưới thêm tỏi phi. Chỉ mất mười giây, mà người bệnh không còn phải ăn riêng một góc. Thấy mình vẫn là một phần của bữa cơm, tâm trạng người bệnh tốt hơn, ăn cũng ngon miệng hơn. Bữa cơm vui, ăn chậm, nói chuyện, dạ dày cũng dễ chịu hơn. Căng thẳng, ăn vội trong bữa cũng làm bụng khó chịu, nên ngồi ăn cùng nhau thật sự có ích.
-[140–150s] Nêm nhạt, ớt để riêng, hấp luộc thay chiên, tách phần trước khi nêm đậm. Mâm cơm nhà cô bác anh chị tối nay có món gì? Kể bác sĩ Hội nghe.
+[0–3s] Mâm cơm có người đau dạ dày: nấu một mâm, cả nhà cùng ăn.
+[3–15s] Có chị nhắn bác sĩ Hội: “Chồng đau dạ dày, ngày nào tôi cũng nấu hai bếp, mệt lắm.” Người bệnh thì ngồi riêng với bát cháo, vừa thèm vừa tủi. Không cần thế đâu. Có 3 nguyên tắc.
+[15–60s] Thứ nhất, nêm nhạt, để bát ớt riêng. Nồi thịt rim này bác sĩ Hội nêm nhạt tay, không cho ớt, không rắc nhiều tiêu. Bên cạnh đặt một bát ớt tươi thái lát, một bát nước mắm tỏi ớt. Ai thích cay thì tự thêm vào bát mình. Bác sĩ Hội hay nói vui: ớt là gia vị của từng người, không phải của cả nồi. Người đau dạ dày vẫn được ăn đúng món cả nhà ăn, mà không phải nuốt cái cay vào chỗ đang khó chịu. Cả nhà ăn nhạt đi một chút cũng có lợi, vì bớt muối là đỡ cho huyết áp, nhất là ông bà lớn tuổi. Lúc đầu có thể thấy nhạt miệng, ăn dần lưỡi sẽ quen.
+[60–100s] Thứ hai, hấp, luộc thay chiên. Cá thì hấp gừng thay vì rán giòn. Đậu phụ thì hấp hoặc sốt cà chua nhẹ thay vì rán vàng. Thịt thì luộc, thái mỏng, chấm nước mắm pha. Đồ chiên ngập dầu làm dạ dày làm việc vất vả, ăn xong dễ đầy, dễ ợ. Giống như bắt cái máy đang yếu chạy hết công suất. Mà món hấp không hề nhạt nhẽo. Cá hấp có gừng, hành, thì là, thơm cả bếp. Thịt luộc chấm mắm gừng, đậu phụ sốt cà chua, mâm cơm vẫn đủ màu, đủ vị. Người già, trẻ nhỏ trong nhà cũng ăn ngon. Nhà nào quen vị giòn thì thỉnh thoảng dùng nồi chiên không dầu, đỡ ngấy hơn chảo ngập mỡ.
+[100–140s] Thứ ba, tách phần trước khi nêm đậm. Nồi canh chua này, bác sĩ Hội múc riêng một bát cho người đau dạ dày trước, rồi mới cho thêm me, thêm ớt vào nồi. Đĩa rau xào cũng vậy, gắp phần nhạt ra trước khi rưới thêm tỏi phi. Bát nước chấm cũng chia hai: một bát nhạt, một bát đậm. Chỉ mất mười giây, mà người bệnh không còn phải ăn riêng một góc. Thấy mình vẫn là một phần của bữa cơm, người bệnh vui hơn, ăn cũng ngon miệng hơn. Ăn chậm, nói chuyện, đừng ăn vội. Căng thẳng trong bữa cũng làm bụng khó chịu, nên ngồi ăn cùng nhau thật sự có ích.
+[140–150s] Tóm lại: nêm nhạt, ớt để riêng, hấp luộc thay chiên, tách phần trước. Mâm cơm nhà cô bác anh chị tối nay có món gì? Kể bác sĩ Hội nghe.
 
-**Hình ảnh & dựng:** Bếp nhà, mâm cơm thật. Cận mặt bác sĩ Hội đặt bát ớt riêng cạnh nồi thịt rim. Thẻ to: #1 NÊM NHẠT, ỚT ĐỂ RIÊNG, #2 HẤP LUỘC THAY CHIÊN, #3 TÁCH PHẦN TRƯỚC KHI NÊM ĐẬM. Làm thật: múc bát canh trước khi cho me ớt. Kết cảnh cả nhà ngồi mâm, dưới 3 giây.
+**Hình ảnh & dựng:** Bếp nhà, mâm cơm thật, áo thường ngày. Mặt cận giây 0, đặt bát ớt riêng cạnh nồi thịt, tiêu đề to. Phụ đề to giữa khung, thẻ và từ khóa cam nghệ. #1 NÊM NHẠT, ỚT ĐỂ RIÊNG, #2 HẤP LUỘC THAY CHIÊN, #3 TÁCH PHẦN TRƯỚC. Làm thật: múc bát canh trước khi nêm. Cuối: chữ câu hỏi.
 
-**Caption:** Nhà có người đau d.ạ d.ày không cần nấu hai mâm. 3 nguyên tắc để cả nhà ăn chung một mâm 👇
-#BacSiHoi #bshoi #daday #mamcom
+**Caption:** Mâm cơm có người đau d.ạ d.ày: nấu một mâm, cả nhà cùng ăn 👇
+#BacSiHoi #bshoi #daday
 
-**Ghi chú:** CTA đổi “sáng nay ăn gì” thành “tối nay có món gì” cho khớp chủ đề mâm cơm.
+**Ghi chú:** CTA đổi “sáng nay ăn gì” thành “tối nay có món gì” cho khớp chủ đề mâm cơm. Câu trích ở 3–15s là tin nhắn điển hình; ưu tiên thay bằng tin nhắn thật đã ẩn danh từ hộp thư page.
 
 ### 14. 10:30 · Đừng để 5 món này qua đêm ngoài tủ lạnh
 
@@ -295,18 +297,18 @@ Phong cách: Thu Thủy – Dược liệu Việt · Khuôn TT-F4 · 21 giây ·
 **Lời thoại**
 
 [0–2,5s] Đừng để năm món này qua đêm ngoài tủ lạnh.
-[2,5–6s] Thứ nhất, cơm nguội. Để ngoài quá hai giờ, vi khuẩn sinh độc tố, hâm nóng cũng không hết.
-[6–9,5s] Thứ hai, canh rau. Để qua đêm dễ thiu, rau lá sinh thêm nitrit.
-[9,5–13s] Thứ ba, trứng đã bóc vỏ. Mất lớp vỏ che chắn, vi khuẩn bám rất nhanh.
+[2,5–6s] Thứ nhất, cơm nguội. Để ngoài quá 2 tiếng, hâm nóng cũng không an toàn.
+[6–9,5s] Thứ hai, canh rau. Để qua đêm dễ thiu, ăn vào dễ tiêu chảy.
+[9,5–13s] Thứ ba, trứng đã bóc vỏ. Mất lớp vỏ che, vi khuẩn bám rất nhanh.
 [13–16,5s] Thứ tư, nấm đã nấu. Rất mau hỏng, ăn vào dễ đau bụng.
-[16,5–21s] Và cuối cùng, hải sản đã nấu. Tôm cua cá mực để lâu ôi rất nhanh, rất dễ gây ngộ độc.
+[16,5–21s] Và cuối cùng, hải sản đã nấu. Tôm, cua, cá, mực ôi rất nhanh, dễ ngộ độc.
 
-**Hình ảnh & dựng:** Bác sĩ Hội nửa người, nền tủ lạnh và bàn bếp, nói nhanh, tay đếm số. Banner vàng chữ đen in hoa: ĐỪNG ĐỂ 5 MÓN NÀY QUA ĐÊM NGOÀI TỦ LẠNH. 1/3 trên: ảnh tách nền cơm nguội, canh rau, trứng bóc, nấm, tôm mực, kèm đồng hồ. Nhãn số lớn “#1: CƠM NGUỘI”. Dừng ở món 5.
+**Hình ảnh & dựng:** 9:16, nửa người giữa-dưới, nền xám trơn, blouse trắng. Khung đầu: banner cam nghệ chữ đen in hoa “ĐỪNG ĐỂ 5 MÓN NÀY QUA ĐÊM NGOÀI TỦ LẠNH”, giơ 5 ngón. Nhãn “#1: CƠM NGUỘI”… 1/3 trên ảnh tách nền gạch đỏ: cơm, canh, trứng bóc, nấm, tôm mực. Tay đếm, chỉ lên hình. Dừng ngay món 5.
 
-**Caption:** Đừng để 5 món này qua đêm ngoài tủ lạnh. Nhà cô bác anh chị có đang để món nào không??
-#BacSiHoi #bshoi #daday #antoanthucpham
+**Caption:** ĐỪNG ĐỂ 5 MÓN NÀY QUA ĐÊM NGOÀI TỦ LẠNH. Nhà cô bác anh chị đang để món nào??
+#BacSiHoi #daday #antoanthucpham #suckhoe #reelsviral
 
-**Ghi chú:** Mốc 2 giờ là khuyến cáo an toàn thực phẩm chung cho đồ đã nấu chín để ở nhiệt độ phòng.
+**Ghi chú:** Mốc 2 tiếng là khuyến cáo an toàn thực phẩm chung cho đồ đã nấu chín để ở nhiệt độ phòng. Tiêu đề chốt 5 món nên mỗi món khoảng 3,5 giây; mục cuối “Và cuối cùng…”, dừng ngay, không kêu gọi.
 
 ### 15. 16:30 · NƯỚC GẠO LỨT RANG: LY NƯỚC 3K THAY TRÀ ĐẶC
 
@@ -367,7 +369,7 @@ Phong cách: Thu Thủy – Dược liệu Việt · Khuôn TT-F3 · 24 giây ·
 [16–20s] Bốn, bí hấp. Bí đỏ hay bí xanh đều mềm, ngọt, người già nhai rất dễ.
 [20–24s] Năm, thịt nạc hấp. Băm nhuyễn hoặc thái mỏng, hấp chín kỹ, mềm mà không ngấy.
 
-**Hình ảnh & dựng:** Bác sĩ Hội nửa người, đứng cạnh nồi hấp bốc hơi, tay đếm số. Banner vàng chữ đen in hoa: 5 MÓN HẤP DỄ LÀM, DỄ TIÊU CHO NGƯỜI ĐAU DẠ DÀY. 1/3 trên: ảnh tách nền cá hấp, trứng hấp, đậu phụ, bí, thịt nạc hấp, đổi đúng nhịp. Nhãn số lớn “#1: CÁ HẤP”. Dừng sau món 5.
+**Hình ảnh & dựng:** Bác sĩ Hội nửa người, đứng cạnh nồi hấp bốc hơi, tay đếm số. Banner nền cam nghệ chữ đen in hoa, từ khóa vàng: 5 MÓN HẤP DỄ LÀM, DỄ TIÊU CHO NGƯỜI ĐAU DẠ DÀY. 1/3 trên: ảnh tách nền cá hấp, trứng hấp, đậu phụ, bí, thịt nạc hấp, đổi đúng nhịp. Nhãn số lớn “#1: CÁ HẤP”. Dừng sau món 5.
 
 **Caption:** 5 món hấp dễ làm, dễ tiêu cho người đau d.ạ d.ày. Lưu lại để nấu dần nhé!!
 #BacSiHoi #bshoi #daday #monhap
@@ -398,25 +400,25 @@ Giọng đọc nền (tùy chọn): đọc đúng chữ trên.
 
 ## Chủ nhật · 18/10/2026
 
-### 19. 06:30 · Nồi canh để cả tuần? Cách cất thức ăn an toàn cho người đau dạ dày
+### 19. 06:30 · Nồi canh ăn cả tuần: điều người đau dạ dày hay làm sai
 
 Phong cách: Nguyễn Thị Bích Thuận · Khuôn BT-M · 150 giây · BS làm mẫu – trong bếp
 
 **Lời thoại**
 
-[0–3s] Nồi canh nấu một lần ăn cả tuần? Cất thế này mới an toàn cho dạ dày.
-[3–17s] Có bác [67 tuổi], [ở một mình], Chủ nhật nấu một nồi canh xương to, ăn dần đến thứ Sáu. Ngày nào cũng bắc cả nồi lên đun, múc một bát, rồi để nguyên trên bếp. Giữa tuần thì đau quặn bụng, đi ngoài liên tục. Bác sĩ Hội cho bác đi khám ngay, rồi mới chỉ lại cách cất đồ ăn.
-[17–60s] Bước thứ nhất: chia hộp nhỏ. Nồi canh này nấu xong, bác sĩ Hội múc ra từng hộp, mỗi hộp vừa một bữa. Hộp nhỏ nguội nhanh hơn cả nồi to rất nhiều. Mỗi lần ăn chỉ lấy đúng một hộp, phần còn lại không bị đun đi đun lại, không bị mở nắp, thò muôi vào liên tục. Cả nồi để chung giống như cả nhà dùng chung một cái cốc, một người ốm là cả nhà dễ lây. Mỗi lần thò muôi vào là một lần mang thêm vi khuẩn vào nồi. Hộp nên có nắp kín, dán mảnh giấy ghi ngày nấu, mở tủ ra là biết hộp nào ăn trước. Một lần chia hộp, cả tuần nhàn tênh.
-[60–100s] Bước thứ hai: để bớt nóng rồi cất tủ lạnh, nhưng đừng để ngoài bếp quá hai giờ. Nhiều người đợi nguội hẳn qua đêm mới cất, lúc đó vi khuẩn đã kịp sinh sôi. Ngăn mát để dưới năm độ, đậy kín nắp, đừng xếp quá chật để hơi lạnh lưu thông. Đồ đã nấu cất tủ lạnh thì nên ăn hết trong ba đến bốn ngày. Canh rau lá thì tốt nhất ăn trong ngày. Tủ lạnh chỉ làm vi khuẩn chậm lại, chứ không giết được chúng. Nấu cho cả tuần thì cất bớt vào ngăn đá, ăn đến đâu rã đông trong ngăn mát đến đó.
-[100–140s] Bước thứ ba: hâm sôi lại một lần. Lấy đúng hộp cần ăn, đổ ra nồi, đun sôi sùng sục rồi mới ăn. Ăn thừa thì bỏ, đừng cất lại lần nữa. Riêng canh xương, để lạnh sẽ có lớp mỡ trắng đóng trên mặt. Mình vớt bỏ trước khi hâm, canh vừa trong vừa bớt ngấy cho dạ dày. Hâm đi hâm lại nhiều lần, món ăn vừa mất ngon, vừa dễ hỏng. Người đau dạ dày mà ăn phải đồ ôi thiu, bụng vốn đã yếu lại càng khổ. Nếu sau ăn mà nôn liên tục, sốt cao, đau bụng dữ dội hoặc đi ngoài ra máu, cô bác anh chị đi cấp cứu ngay.
-[140–150s] Chia hộp nhỏ, cất trong hai giờ, hâm sôi một lần. Nhà cô bác anh chị hay cất canh cả nồi hay chia hộp? Kể bác sĩ Hội nghe.
+[0–3s] Nồi canh ăn cả tuần: điều người đau dạ dày hay làm sai.
+[3–15s] Có bác nhắn bác sĩ Hội: “Tôi ở một mình, Chủ nhật nấu nồi canh to, ăn dần đến thứ Sáu, giữa tuần đau quặn bụng.” Đau quặn thế thì đi khám trước đã. Còn nồi canh, có 3 chỗ hay làm sai.
+[15–60s] Thứ nhất, sai ở chỗ để cả nồi rồi múc dần. Sửa lại: chia hộp nhỏ. Nồi canh này nấu xong, bác sĩ Hội múc ra từng hộp, mỗi hộp vừa một bữa. Hộp nhỏ nguội nhanh hơn cả nồi to rất nhiều. Mỗi lần ăn chỉ lấy đúng một hộp. Phần còn lại không bị đun đi đun lại, không bị mở nắp, thò muôi vào liên tục. Cả nồi để chung giống như cả nhà dùng chung một cái cốc, một người ốm là cả nhà dễ lây. Mỗi lần thò muôi vào là một lần mang thêm vi khuẩn vào nồi. Hộp nên có nắp kín. Hộp thủy tinh hay hộp nhựa dùng cho thực phẩm đều được. Dán mảnh giấy ghi ngày nấu, mở tủ ra là biết hộp nào ăn trước. Một lần chia hộp, cả tuần nhàn tênh.
+[60–100s] Thứ hai, sai ở chỗ đợi nguội hẳn qua đêm mới cất. Lúc đó vi khuẩn đã kịp sinh sôi. Sửa lại: để bớt nóng rồi cất tủ lạnh, đừng để ngoài bếp quá hai giờ. Ngăn mát để dưới năm độ, đậy kín nắp, đừng xếp quá chật để hơi lạnh lưu thông. Đồ đã nấu cất tủ lạnh thì nên ăn hết trong ba đến bốn ngày. Nồi canh ăn đến thứ Sáu là đã quá mốc đó rồi. Canh rau lá thì tốt nhất ăn trong ngày. Để qua đêm, rau vừa mất ngon vừa dễ hỏng. Tủ lạnh chỉ làm vi khuẩn chậm lại, chứ không giết được chúng. Nấu cho cả tuần thì cất bớt vào ngăn đá, ăn đến đâu rã đông trong ngăn mát đến đó.
+[100–140s] Thứ ba, sai ở chỗ hâm đi hâm lại cả nồi. Sửa lại: hâm sôi một lần. Lấy đúng hộp cần ăn, đổ ra nồi, đun sôi sùng sục rồi mới ăn. Ăn thừa thì bỏ, đừng cất lại lần nữa. Tiếc một bát canh, khổ cả cái bụng. Riêng canh xương, để lạnh sẽ có lớp mỡ trắng đóng trên mặt. Mình vớt bỏ trước khi hâm, canh vừa trong vừa bớt ngấy cho dạ dày. Hâm đi hâm lại nhiều lần, món ăn vừa mất ngon, vừa dễ hỏng. Người đau dạ dày mà ăn phải đồ ôi, bụng vốn đã yếu lại càng khổ. Sau ăn mà nôn liên tục, sốt cao, đau bụng dữ dội hoặc đi ngoài ra máu, cô bác anh chị đi cấp cứu ngay.
+[140–150s] Tóm lại: chia hộp nhỏ, cất trong hai giờ, hâm sôi một lần. Nhà cô bác anh chị cất canh cả nồi hay chia hộp? Kể bác sĩ Hội nghe.
 
-**Hình ảnh & dựng:** Bếp sáng, cận mặt bác sĩ Hội múc canh từ nồi to sang hộp nhỏ ngay giây đầu. Thẻ to: #1 CHIA HỘP NHỎ, #2 CẤT TỦ TRONG 2 GIỜ, #3 HÂM SÔI MỘT LẦN. Đạo cụ: hộp có nắp, giấy ghi ngày, tủ lạnh. Khi kể ca, góc dưới ghi “Câu chuyện minh họa” nếu không có ca thật.
+**Hình ảnh & dựng:** Bếp sáng, áo thường ngày. Mặt cận giây 0, múc canh từ nồi to sang hộp nhỏ, tiêu đề to. Phụ đề to giữa khung, thẻ cam nghệ. Mỗi ý: chữ SAI gạch đỏ, rồi #1 CHIA HỘP NHỎ, #2 CẤT TỦ 2 GIỜ, #3 HÂM SÔI MỘT LẦN. Làm thật: dán ngày, xếp tủ. Cuối: chữ câu hỏi.
 
-**Caption:** Nấu một nồi canh ăn cả tuần? Cất sai cách, người đau d.ạ d.ày dễ khổ vì đồ ôi 👇
-#BacSiHoi #bshoi #daday #antoanthucpham
+**Caption:** Nồi canh ăn cả tuần: điều người đau d.ạ d.ày hay làm sai 👇
+#BacSiHoi #bshoi #daday
 
-**Ghi chú:** Thay chi tiết bằng ca thật đã ẩn danh, có đồng ý; nếu không có ca thật, ghi 'câu chuyện minh họa' trên video. CTA đổi thành câu hỏi về cách cất canh cho khớp chủ đề. Mốc 2 giờ, dưới 5 độ, 3–4 ngày là khuyến cáo an toàn thực phẩm chung.
+**Ghi chú:** Đã áp dụng tiêu đề mới: câu [0–3s] và caption trùng tiêu đề; mỗi ý mở bằng cái sai hay gặp (múc dần cả nồi, đợi nguội qua đêm, hâm cả nồi nhiều lần) rồi mới tới cách sửa. Mốc 2 giờ, dưới 5 độ, 3–4 ngày là khuyến cáo an toàn thực phẩm chung. Câu trích ở 3–15s là tin nhắn điển hình; ưu tiên thay bằng tin nhắn thật đã ẩn danh từ hộp thư page.
 
 ### 20. 10:30 · 6 dấu hiệu bạn đang kiêng ăn quá mức
 
@@ -433,28 +435,29 @@ Phong cách: Thu Thủy – Dược liệu Việt · Khuôn TT-F5 · 19 giây ·
 [14,5–17s] Thứ sáu, sợ ăn, nhìn bữa cơm là thấy lo.
 [17–19s] Cô bác anh chị có dấu hiệu nào?
 
-**Hình ảnh & dựng:** Bác sĩ Hội nửa người, nền phòng khách sáng, nói nhanh, tay đếm số. Banner vàng chữ đen in hoa: 6 DẤU HIỆU BẠN ĐANG KIÊNG ĂN QUÁ MỨC. 1/3 trên: hình minh họa cái cân, người mệt, tóc rụng, bát cơm. Nhãn số lớn “#1: SỤT CÂN”. Kết nhãn chữ: CÔ BÁC ANH CHỊ CÓ DẤU HIỆU NÀO?
+**Hình ảnh & dựng:** Bác sĩ Hội nửa người, nền phòng khách sáng, nói nhanh, tay đếm số. Banner nền cam nghệ chữ đen in hoa, từ khóa vàng: 6 DẤU HIỆU BẠN ĐANG KIÊNG ĂN QUÁ MỨC. 1/3 trên: hình minh họa cái cân, người mệt, tóc rụng, bát cơm. Nhãn số lớn “#1: SỤT CÂN”. Kết nhãn chữ: CÔ BÁC ANH CHỊ CÓ DẤU HIỆU NÀO?
 
 **Caption:** 6 dấu hiệu bạn đang kiêng ăn quá mức. Cô bác anh chị có dấu hiệu nào??
 #BacSiHoi #bshoi #daday #kiengkhem
 
-### 21. 16:30 · SỮA CHUA + ĐU ĐỦ CHÍN: MÓN TRÁNG MIỆNG 10K DỄ TIÊU
+### 21. 16:30 · ĐU ĐỦ CHÍN KẾT HỢP 1 THỨ NÀY: MÓN TRÁNG MIỆNG 10K NHẸ BỤNG SAU BỮA
 
 Phong cách: TS Trần Hoàng Hải · Khuôn THH · 30 giây · B-roll + BS góc nhỏ (không nói)
 
 **Lời thoại**
 
-[0–3s] Ăn xong hay nặng bụng? Bát sữa chua đu đủ 10 nghìn này tráng miệng thử xem.
-[3–8s] Đu đủ chín mềm ngọt, sữa chua mát dịu, ăn sau bữa vừa ngon vừa dễ tiêu.
-[8–16s] 1. Đu đủ chín gọt vỏ, bỏ hạt, cắt miếng vừa ăn, chừng một bát nhỏ.
-[16–25s] 2. Rưới một hộp sữa chua ít đường lên trên. Ăn sau bữa chính, đừng ăn lúc bụng đói.
-[25–28s] Ai ăn sữa chua bị đầy bụng hay đi ngoài lỏng thì chỉ ăn đu đủ. Người tiểu đường ăn lượng nhỏ.
+[0–3s] Bữa nào xong cũng nặng bụng? Đu đủ chín kết hợp 1 thứ này, món tráng miệng 10K cô bác thử xem.
+[3–8s] Đu đủ chín mềm ngọt, dễ tiêu; thêm thứ này mát dịu, có lợi khuẩn: món ngọt "nhẹ bụng" sau bữa.
+[8–12s] 1. Đu đủ chín gọt vỏ, bỏ hạt.
+[12–16s] 2. Cắt miếng vừa ăn, chừng một bát nhỏ.
+[16–21s] 3. Thứ đó là sữa chua: rưới 1 hộp ít đường lên trên.
+[21–25s] 4. Ăn sau bữa chính, đừng ăn lúc bụng đói.
+[25–28s] Ăn sữa chua bị đầy bụng, đi ngoài lỏng: chỉ ăn đu đủ. Người tiểu đường: ăn lượng nhỏ.
 [28–30s] Bấm theo dõi để không bỏ lỡ công thức tiếp theo.
-Giọng đọc nền (tùy chọn): đọc đúng chữ trên.
 
-**Hình ảnh & dựng:** Cận tay bổ đu đủ chín, nạo hạt ngay giây đầu. Cảnh: cắt miếng, xếp bát, rưới sữa chua chảy chậm, bát hoàn chỉnh cạnh mâm cơm; mỗi bước một cảnh, số to. Bác sĩ Hội blouse trắng tách nền góc phải dưới, cầm bát, mỉm cười, không nói. Thẻ tiêu đề giữa khung: dòng vàng, dòng trắng.
+**Hình ảnh & dựng:** 0s cận tay bổ đu đủ chín, nạo hạt. Thẻ giữa khung nền cam nghệ mờ, giữ suốt: vàng “ĐU ĐỦ CHÍN KẾT HỢP 1 THỨ NÀY”, trắng “MÓN TRÁNG MIỆNG 10K NHẸ BỤNG SAU BỮA”. Cảnh <3s, số to: cắt miếng, rưới sữa chua, bát cạnh mâm cơm. BS Hội blouse góc phải dưới cầm bát, cười.
 
-**Caption:** SỮA CHUA + ĐU ĐỦ CHÍN: MÓN TRÁNG MIỆNG 10K DỄ TIÊU 👇
+**Caption:** ĐU ĐỦ CHÍN KẾT HỢP 1 THỨ NÀY: MÓN TRÁNG MIỆNG 10K NHẸ BỤNG SAU BỮA 👇👇👇
 #BacSiHoi #bshoi #daday #trangmieng
 
-**Ghi chú:** Bác sĩ ở góc nhỏ không nói; chữ trên là thẻ bước và phụ đề. Giá 10K là ước tính theo giá chợ, kiểm tra lại giá thực tế trước khi đăng.
+**Ghi chú:** Bác sĩ Hội ở góc nhỏ, không nói; các dòng lời thoại là chữ trên màn hình theo từng cảnh. Giọng đọc nền (tùy chọn) đọc đúng các dòng này, khớp phụ đề karaoke. Giá là ước tính theo giá chợ, kiểm tra lại trước khi đăng. Sữa chua để đến bước 3 mới lộ (cả chữ lẫn hình), giữ tò mò theo tiêu đề; BS Hội góc nhỏ cầm bát đu đủ trước bước 3.

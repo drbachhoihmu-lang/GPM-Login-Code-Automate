@@ -69,9 +69,50 @@ def main():
     ttk.Button(frm, text="Mở Google Sheet", width=24, command=lambda: webbrowser.open(webapp.load_config().get("sheet_url") or URL)).grid(column=1, row=2, padx=4, pady=3)
     ttk.Button(frm, text="Ẩn xuống khay (X)", width=24, command=lambda: hide()).grid(column=0, row=3, padx=4, pady=3)
     ttk.Button(frm, text="Thoát hẳn", width=24, command=lambda: quit_app()).grid(column=1, row=3, padx=4, pady=3)
+
+    # Tự động kiểm tra Sheet (checkbox + số phút), dùng chung config.json với giao diện web
+    cfg0 = webapp.load_config()
+    auto_var = tk.BooleanVar(value=bool(cfg0.get("auto_check")))
+    min_var = tk.StringVar(value=str(cfg0.get("auto_interval") or 5))
+    box = ttk.LabelFrame(frm, text="Tự động kiểm tra Sheet", padding=(10, 6))
+    box.grid(column=0, row=4, columnspan=2, sticky="ew", pady=(12, 0))
+
+    def save_auto(*_):
+        cfg = webapp.load_config()
+        cfg["auto_check"] = bool(auto_var.get())
+        try:
+            cfg["auto_interval"] = max(1, int(min_var.get()))
+        except ValueError:
+            cfg["auto_interval"] = 5
+            min_var.set("5")
+        if cfg["auto_check"]:
+            webapp.AUTO["last_tick"] = 0.0        # vừa bật -> kiểm tra ngay
+        webapp.save_config(cfg)
+
+    ttk.Checkbutton(box, text="Bật: cứ mỗi", variable=auto_var, command=save_auto).grid(column=0, row=0, sticky="w")
+    sp = ttk.Spinbox(box, from_=1, to=1440, width=4, textvariable=min_var, command=save_auto)
+    sp.grid(column=1, row=0, padx=4)
+    sp.bind("<FocusOut>", save_auto)
+    sp.bind("<Return>", save_auto)
+    ttk.Label(box, text="phút kiểm tra Sheet, có bài Chờ đăng thì tự đăng").grid(column=2, row=0, sticky="w")
+    auto_info = ttk.Label(box, text="Chưa kiểm tra lần nào", foreground="#6b7385", wraplength=420, justify="left")
+    auto_info.grid(column=0, row=1, columnspan=3, sticky="w", pady=(4, 0))
+
+    def refresh_auto():
+        a = webapp.AUTO
+        cfg = webapp.load_config()
+        if bool(cfg.get("auto_check")) != auto_var.get():     # đổi từ giao diện web
+            auto_var.set(bool(cfg.get("auto_check")))
+        txt = (f"Lần kiểm tra gần nhất {a['last']}: {a['result']}" if a["last"] else "Chưa kiểm tra lần nào")
+        if cfg.get("auto_check") and a.get("next"):
+            txt += f" · lần tới {a['next']}"
+        auto_info.config(text=txt)
+        root.after(5000, refresh_auto)
+    root.after(1000, refresh_auto)
+
     ttk.Label(frm, text="Bấm X chỉ ẩn xuống khay cạnh đồng hồ; bấm đúp icon ở khay để mở lại.\n"
                         "Các bài đã lên lịch nằm trên Facebook, tắt phần mềm vẫn tự đăng.",
-              foreground="#6b7385", justify="center").grid(column=0, row=4, columnspan=2, pady=(12, 0))
+              foreground="#6b7385", justify="center").grid(column=0, row=5, columnspan=2, pady=(12, 0))
 
     icon = None
     hidden_once = {"v": False}

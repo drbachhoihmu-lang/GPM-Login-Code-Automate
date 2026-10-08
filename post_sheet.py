@@ -295,21 +295,25 @@ def row_key(sheet_link, item):
 # ----------------------------------------------------------------- lập kế hoạch
 def plan(items, sheet_link, state, only_rows=None, retry_errors=False):
     """Chia hàng thành: sẽ đăng (kèm when) / bỏ qua (kèm lý do).
-    Trạng thái bắt đầu bằng 'đã' (Đã đăng / Đã lên lịch), 'bỏ qua', 'skip', 'done', 'xong' -> bỏ qua;
-    'Lỗi' -> bỏ qua trừ khi --retry-errors; 'Đang đăng' (lần trước bị ngắt) -> làm lại."""
+    Trạng thái trống hoặc 'Chờ đăng' -> sẽ đăng. 'Đã …' (Đã đăng / Đã lên lịch), 'bỏ qua', 'skip', 'done',
+    'xong' -> bỏ qua; 'Lỗi' (trên Sheet hoặc trong logs/sheet_state.json) -> bỏ qua trừ khi retry_errors;
+    'Đang đăng' (lần trước bị ngắt) -> làm lại."""
     todo, skipped = [], []
     for it in items:
         reason = None
         when = None
         st = norm(it["status"])
+        prev = state.get(row_key(sheet_link, it), {})
         if only_rows and it["row"] not in only_rows:
             reason = "không nằm trong --rows"
         elif st.startswith("da ") or st in ("bo qua", "skip", "done", "xong"):
             reason = f"trạng thái '{it['status']}'"
         elif st.startswith("loi") and not retry_errors:
-            reason = f"trạng thái '{it['status']}' (thêm --retry-errors để đăng lại)"
-        elif state.get(row_key(sheet_link, it), {}).get("status") == "done":
+            reason = f"trạng thái '{it['status']}' (bấm 'Đăng lại hàng lỗi' / --retry-errors để đăng lại)"
+        elif prev.get("status") == "done":
             reason = "đã đăng lần chạy trước (logs/sheet_state.json)"
+        elif prev.get("status") == "error" and not retry_errors:
+            reason = f"lỗi lần trước: {(prev.get('note') or '')[:60]} (sửa hàng, hoặc 'Đăng lại hàng lỗi')"
         elif not it["video"]:
             reason = "thiếu video"
         elif not it["time"] or (it.get("date_only") and re.fullmatch(r"\d{2}/\d{2}/\d{4}", it["time"])):
@@ -358,6 +362,50 @@ def resolve_video(it):
     if p.suffix.lower() not in VIDEO_EXT:
         raise RuntimeError(f"Không phải file video: {src}")
     return str(p), with_tags(title or p.stem, tags)
+
+
+# ----------------------------------------------------------------- lập kế hoạch dùng chung
+def prepare(link, tab=TAB_QUEUE, pages_tab=TAB_PAGES, default_profile=PROFILE_ID, only_rows=None,
+            retry_errors=False, need_gpm=False):
+    """Đọc Sheet + tab Pages, gắn asset/profile/giờ mặc định cho từng hàng, chia sẽ-đăng / bỏ-qua.
+    Dùng chung cho dòng lệnh, giao diện web và bộ tự động kiểm tra.
+    Trả về dict: items, pages, todo, skipped, profile_names, gpm_ok, messages."""
+    msgs = []
+    items = read_sheet(link, tab)
+    pages = read_pages(link, pages_tab)
+    if pages:
+        msgs.append(f"Tab {pages_tab}: {len(pages)} page – " + ", ".join(f"{p['name']} ({p['profile'] or 'profile mặc định'})" for p in pages))
+    else:
+        msgs.append(f"(không có tab {pages_tab}: page sẽ được tra qua bộ chọn trang trong Business Suite)")
+    try:
+        profile_names = dict(gpm_profiles())
+        gpm_ok = True
+    except Exception as e:
+        profile_names, gpm_ok = {}, False
+        if need_gpm:
+            raise RuntimeError("Không kết nối được GPM Login (cổng 9495) – hãy mở GPM Login rồi chạy lại") from e
+        msgs.append("(GPM Login chưa chạy – chỉ lập kế hoạch)")
+
+    def default_page_of(profile_want):
+        for p in pages:
+            if p["profile"] and (norm(p["profile"]) in norm(profile_want) or norm(profile_want) in norm(p["profile"])):
+                return p
+        return None
+    for it in items:
+        p = lookup_page(pages, it["page"]) if it["page"] else None
+        if p is None and not it["page"] and pages:
+            p = default_page_of(it["profile"] or profile_names.get(default_profile, default_profile))
+        it["asset"] = p["asset"] if p else ""
+        if p and not it["profile"]:
+            it["profile"] = p["profile"]
+        if p:
+            it["page"] = p["name"]
+        if it.get("date_only") and it["time"]:
+            hour = norm_time(p["hour"]) if p and p.get("hour") else ""
+            it["time"] = f"{it['time']} {hour}" if hour else ""
+    todo, skipped = plan(items, link, load_state(), only_rows, retry_errors)
+    return {"items": items, "pages": pages, "todo": todo, "skipped": skipped,
+            "profile_names": profile_names, "gpm_ok": gpm_ok, "messages": msgs}
 
 
 # ----------------------------------------------------------------- quét profile / fanpage
@@ -442,62 +490,23 @@ def main():
     only_rows = {int(x) for x in a.rows.split(",")} if a.rows else None
     lo, hi = (int(x) for x in a.pause.split("-")) if "-" in a.pause else (int(a.pause), int(a.pause))
 
-    items = read_sheet(a.sheet, a.tab)
-    pages = read_pages(a.sheet, a.pages_tab)
-    if pages:
-        log(f"Tab {a.pages_tab}: {len(pages)} page – " + ", ".join(f"{p['name']} ({p['profile'] or 'profile mặc định'})" for p in pages))
-    else:
-        log(f"(không có tab {a.pages_tab}: page sẽ được tra qua bộ chọn trang trong Business Suite)")
-    # Tra tab Pages: cột Page -> asset_id + profile (cột Profile trên hàng, nếu có, được ưu tiên).
-    # Hàng không ghi Page -> lấy fanpage mặc định của profile (hàng đầu tiên trong tab Pages có Profile GPM đó).
-    def default_page_of(profile_want):
-        for p in pages:
-            if p["profile"] and (norm(p["profile"]) in norm(profile_want) or norm(profile_want) in norm(p["profile"])):
-                return p
-        return None
     try:
-        profile_names = dict(gpm_profiles()) if pages else {}
-    except Exception:
-        if not a.plan_only:
-            sys.exit("Không kết nối được GPM Login (cổng 9495) – hãy mở GPM Login rồi chạy lại")
-        log("(GPM Login chưa chạy – chỉ in kế hoạch)")
-        profile_names = {}
-    for it in items:
-        p = lookup_page(pages, it["page"]) if it["page"] else None
-        if p is None and not it["page"] and pages:
-            want = it["profile"] or profile_names.get(a.profile, a.profile)
-            p = default_page_of(want)
-        it["asset"] = p["asset"] if p else ""
-        if p and not it["profile"]:
-            it["profile"] = p["profile"]
-        if p:
-            it["page"] = p["name"]          # tên đầy đủ, để đối chiếu ô "Đăng lên"
-        if it.get("date_only") and it["time"]:   # có ngày, thiếu giờ -> giờ mặc định của page (tab Pages)
-            hour = norm_time(p["hour"]) if p and p.get("hour") else ""
-            if hour:
-                it["time"] = f"{it['time']} {hour}"
-                it["note_auto"] = f"giờ mặc định {hour} của page"
-            else:
-                it["time"] = ""                 # không có giờ -> plan() sẽ báo thiếu thời gian
+        prep = prepare(a.sheet, a.tab, a.pages_tab, a.profile, only_rows, a.retry_errors, need_gpm=not a.plan_only)
+    except RuntimeError as e:
+        sys.exit(str(e))
+    for m in prep["messages"]:
+        log(m)
+    items, pages, todo, skipped = prep["items"], prep["pages"], prep["todo"], prep["skipped"]
     state = load_state()
-    todo, skipped = plan(items, a.sheet, state, only_rows, a.retry_errors)
     if a.max:
         todo = todo[:a.max]
 
     log(f"Sheet có {len(items)} hàng: sẽ đăng {len(todo)}, bỏ qua {len(skipped)}"
         + ("" if a.webhook else " (không có webhook: trạng thái chỉ ghi vào logs/, không ghi vào Sheet)"))
     # Cột Profile -> id profile GPM (trống = --profile); gom các hàng cùng profile để mở trình duyệt 1 lần
-    try:
-        profile_names = dict(gpm_profiles())
-        default_profile = resolve_profile_id(a.profile)
-    except Exception as e:
-        if a.plan_only:
-            log(f"(GPM Login chưa chạy – kế hoạch chưa gán được profile: {str(e)[:80]})")
-            profile_names, default_profile = {}, a.profile
-        else:
-            sys.exit("Không kết nối được GPM Login (cổng 9495) – hãy mở GPM Login rồi chạy lại")
+    profile_names, gpm_ok = prep["profile_names"], prep["gpm_ok"]
+    default_profile = resolve_profile_id(a.profile) if gpm_ok else a.profile
     groups, bad = {}, []
-    gpm_ok = bool(profile_names)
     for it, when in todo:
         try:
             if gpm_ok:

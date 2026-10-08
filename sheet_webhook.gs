@@ -76,7 +76,7 @@ function setupSheet() {
     .setHelpText("Chọn page trong tab Pages").build();
   queue.getRange("C2:C").setDataValidation(rule);
   var stRule = SpreadsheetApp.newDataValidation()
-    .requireValueInList(["", "bỏ qua", "Đang đăng", "Đã lên lịch", "Đã đăng", "Lỗi", "Chạy thử OK"], true)
+    .requireValueInList(["", "Chờ đăng", "bỏ qua", "Đang đăng", "Đã lên lịch", "Đã đăng", "Lỗi", "Chạy thử OK"], true)
     .setAllowInvalid(true).build();
   queue.getRange("G2:G").setDataValidation(stRule);
   var widths = [130, 90, 230, 320, 320, 200, 110, 260];

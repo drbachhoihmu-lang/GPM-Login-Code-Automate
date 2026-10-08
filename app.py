@@ -35,6 +35,8 @@ DEFAULT_CONFIG = {
     "default_profile": pr.PROFILE_ID,
     "tab": ps.TAB_QUEUE,
     "pages_tab": ps.TAB_PAGES,
+    "auto_check": False,          # tự động kiểm tra Sheet và đăng bài chờ
+    "auto_interval": 5,           # phút
 }
 
 app = FastAPI(title="GPMReels")
@@ -62,6 +64,8 @@ class Config(BaseModel):
     default_profile: str = ""
     tab: str = ps.TAB_QUEUE
     pages_tab: str = ps.TAB_PAGES
+    auto_check: bool = False
+    auto_interval: int = 5
 
 
 @app.get("/")
@@ -198,6 +202,20 @@ def api_stop(pid: str):
 
 
 # ----------------------------------------------------------------- Sheet
+def compute_plan(cfg, retry_errors=False):
+    """Kế hoạch đăng theo Sheet (dùng chung cho /api/sheet và bộ tự động)."""
+    link = cfg["sheet_url"]
+    prep = ps.prepare(link, cfg["tab"], cfg["pages_tab"], cfg["default_profile"], None, retry_errors)
+    rows = []
+    for it, when in prep["todo"]:
+        rows.append({**it, "when": when.strftime("%d/%m/%Y %H:%M") if when else "ngay", "will": True, "reason": ""})
+    for it, reason in prep["skipped"]:
+        rows.append({**it, "when": it["time"], "will": False, "reason": reason})
+    rows.sort(key=lambda r: r["row"])
+    prep["rows"] = rows
+    return prep
+
+
 @app.get("/api/sheet")
 def api_sheet():
     cfg = load_config()
@@ -208,25 +226,84 @@ def api_sheet():
         return {"ok": False, "error": "Chưa có link Sheet hợp lệ"}
     try:
         tabs = ps.sheet_tabs(link)
-        items = ps.read_sheet(link, cfg["tab"])
-        pages = ps.read_pages(link, cfg["pages_tab"])
-        for it in items:
-            p = ps.lookup_page(pages, it["page"]) if it["page"] else None
-            it["asset"] = p["asset"] if p else ""
-            if p and not it["profile"]:
-                it["profile"] = p["profile"]
-        todo, skipped = ps.plan(items, link, ps.load_state(), None, False)
-        plan_rows = []
-        for it, when in todo:
-            plan_rows.append({**it, "when": when.strftime("%d/%m/%Y %H:%M") if when else "ngay", "will": True, "reason": ""})
-        for it, reason in skipped:
-            plan_rows.append({**it, "when": it["time"], "will": False, "reason": reason})
-        plan_rows.sort(key=lambda r: r["row"])
+        prep = compute_plan(cfg)
         gid = tabs.get(cfg["tab"])
-        return {"ok": True, "id": sid, "tabs": tabs, "queue_gid": gid, "rows": plan_rows, "pages": pages,
-                "embed": f"https://docs.google.com/spreadsheets/d/{sid}/edit?rm=minimal" + (f"#gid={gid}" if gid is not None else "")}
+        return {"ok": True, "id": sid, "tabs": tabs, "queue_gid": gid, "rows": prep["rows"], "pages": prep["pages"],
+                "gpm_ok": prep["gpm_ok"], "pending": sum(1 for r in prep["rows"] if r["will"])}
     except Exception as e:
         return {"ok": False, "id": sid, "error": str(e)[:300]}
+
+
+# ----------------------------------------------------------------- tự động kiểm tra Sheet
+AUTO = {"last": None, "result": "", "next": None, "last_tick": 0.0, "job": None}
+
+
+def auto_check_once(cfg):
+    """Một lần kiểm tra: có bài chờ đăng + không có việc đang chạy + GPM đang bật -> chạy đăng thật."""
+    if any(j["proc"].poll() is None for j in JOBS.values()):
+        return "đang có việc khác chạy, bỏ qua lần này"
+    prep = compute_plan(cfg)
+    pending = [r for r in prep["rows"] if r["will"]]
+    if not pending:
+        return "không có bài chờ đăng"
+    if not prep["gpm_ok"]:
+        return f"có {len(pending)} bài chờ nhưng GPM Login chưa chạy"
+    jid = _spawn(_base_args(cfg), f"Tự động: đăng {len(pending)} bài chờ")
+    AUTO["job"] = jid
+    return f"đã bắt đầu đăng {len(pending)} bài (job {jid})"
+
+
+def auto_loop():
+    while True:
+        try:
+            cfg = load_config()
+            interval = max(1, int(cfg.get("auto_interval") or 5)) * 60
+            if cfg.get("auto_check"):
+                now = time.time()
+                if now - AUTO["last_tick"] >= interval:
+                    AUTO["last_tick"] = now
+                    AUTO["last"] = datetime.now().strftime("%H:%M:%S %d/%m")
+                    try:
+                        AUTO["result"] = auto_check_once(cfg)
+                    except Exception as e:
+                        AUTO["result"] = f"lỗi: {str(e)[:200]}"
+                    print(f"[auto] {AUTO['last']}: {AUTO['result']}", flush=True)
+                AUTO["next"] = datetime.fromtimestamp(AUTO["last_tick"] + interval).strftime("%H:%M:%S")
+            else:
+                AUTO["next"] = None
+        except Exception as e:
+            print(f"[auto] lỗi vòng lặp: {e!r}", flush=True)
+        time.sleep(10)
+
+
+@app.on_event("startup")
+def _start_auto():
+    threading.Thread(target=auto_loop, daemon=True).start()
+
+
+class AutoReq(BaseModel):
+    enabled: bool | None = None
+    interval: int | None = None
+
+
+@app.get("/api/auto")
+def api_auto():
+    cfg = load_config()
+    return {"enabled": bool(cfg.get("auto_check")), "interval": int(cfg.get("auto_interval") or 5),
+            "last": AUTO["last"], "result": AUTO["result"], "next": AUTO["next"], "job": AUTO["job"]}
+
+
+@app.post("/api/auto")
+def api_auto_set(r: AutoReq):
+    cfg = load_config()
+    if r.enabled is not None:
+        cfg["auto_check"] = bool(r.enabled)
+        if r.enabled:
+            AUTO["last_tick"] = 0.0          # vừa bật -> kiểm tra ngay trong ~10 giây
+    if r.interval is not None:
+        cfg["auto_interval"] = max(1, int(r.interval))
+    save_config(cfg)
+    return api_auto()
 
 
 # ----------------------------------------------------------------- chạy script (tiến trình con) + log
@@ -238,6 +315,15 @@ class RunReq(BaseModel):
     rows: str | None = None
     max: int | None = None
     profile: str | None = None   # cho scan
+    retry: bool = False          # đăng lại cả hàng 'Lỗi'
+
+
+def _base_args(cfg):
+    base = ["post_sheet.py", "--sheet", cfg["sheet_url"], "--tab", cfg["tab"], "--pages-tab", cfg["pages_tab"],
+            "--profile", cfg["default_profile"]]
+    if cfg.get("webhook"):
+        base += ["--webhook", cfg["webhook"]]
+    return base
 
 
 def _spawn(args, label):
@@ -266,10 +352,9 @@ def _spawn(args, label):
 @app.post("/api/run")
 def api_run(r: RunReq):
     cfg = load_config()
-    base = ["post_sheet.py", "--sheet", cfg["sheet_url"], "--tab", cfg["tab"], "--pages-tab", cfg["pages_tab"],
-            "--profile", cfg["default_profile"]]
-    if cfg.get("webhook"):
-        base += ["--webhook", cfg["webhook"]]
+    base = _base_args(cfg)
+    if r.retry:
+        base += ["--retry-errors"]
     if r.mode == "scan":
         args = ["post_sheet.py", "--scan-pages", r.profile or "all"] + (["--webhook", cfg["webhook"]] if cfg.get("webhook") else [])
         label = "Quét fanpage"
@@ -279,7 +364,9 @@ def api_run(r: RunReq):
             args += ["--rows", r.rows]
         if r.max:
             args += ["--max", str(r.max)]
-        label = {"plan": "Xem kế hoạch", "dry": "Chạy thử (dry-run)", "real": "ĐĂNG THẬT"}[r.mode]
+        label = {"plan": "Xem kế hoạch", "dry": "Chạy thử (dry-run)", "real": "Đăng các bài chờ"}[r.mode]
+        if r.retry and r.mode == "real":
+            label = "Đăng lại hàng lỗi + bài chờ"
     else:
         raise HTTPException(400, "mode không hợp lệ")
     jid = _spawn(args, label)

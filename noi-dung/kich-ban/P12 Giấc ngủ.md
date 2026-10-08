@@ -18,11 +18,11 @@ Phong cách: Bác sĩ Hải · Khuôn HAI-Q · 75 giây · BS nói – studio
 
 [0–3s] “Bác sĩ ơi, sao cứ căng thẳng là em đau dạ dày?”
 [3–10s] Câu trả lời là: cơn đau đó có thật. Giữa não và ruột có một đường dây nói chuyện hai chiều, gọi là trục não – ruột.
-[10–35s] Cô bác anh chị hình dung thế này nhé. Dây thần kinh nối não với dạ dày giống như một đường dây điện thoại. Khi mình lo, não gọi xuống liên tục. Dạ dày co bóp thất thường, còn lớp cảm giác bên trong thì nhạy hơn hẳn. Một chút axit bình thường, lúc vui không thấy gì, lúc căng thẳng lại thành rát, thành cồn cào. Có người còn buồn nôn, đi ngoài liền mấy lần. Bác sĩ Hội gặp rất nhiều người cứ đến kỳ báo cáo, kỳ thi, hay trong nhà có chuyện là cái bụng lên tiếng trước.
+[10–35s] Cô bác anh chị hình dung thế này nhé. Dây thần kinh nối não với dạ dày giống như một đường dây điện thoại. Khi mình lo, não gọi xuống liên tục. Dạ dày co bóp thất thường, còn lớp cảm giác bên trong thì nhạy hơn hẳn. Một chút axit bình thường, lúc vui không thấy gì, lúc căng thẳng lại thành rát, thành cồn cào. Có người còn buồn nôn, đi ngoài liền mấy lần. Tôi gặp rất nhiều người cứ đến kỳ báo cáo, kỳ thi, hay trong nhà có chuyện là cái bụng lên tiếng trước.
 [35–60s] Việc làm được ngay: thở bụng một phút. Đặt một tay lên bụng. Hít vào bằng mũi bốn giây, bụng phồng lên. Thở ra bằng miệng sáu giây, bụng xẹp xuống. Làm sáu nhịp, trước bữa ăn, trước khi ngủ, và ngay lúc thấy bụng bắt đầu thắt lại. Thở ra dài hơn hít vào là cách đơn giản nhất để nhắn lên não rằng mọi thứ đang ổn.
 [60–75s] Nếu đau kéo dài nhiều tuần, hoặc đau làm thức giấc giữa đêm, nên đi khám. Còn kèm sụt cân nhanh, phân đen, nôn ra máu thì đừng đổ cho căng thẳng, hãy đi khám ngay. Phục hồi tiêu hóa từ gốc là chăm cả cái bụng lẫn cái đầu. Theo dõi trang để nghe câu trả lời tiếp theo.
 
-**Hình ảnh & dựng:** Studio tối, hai đèn bàn vàng, kệ sách, micro, áo polo trắng; dọc 9:16, mặt nửa trên. 0–3s ô bình luận che tên. Chữ hồng: “TRỤC NÃO – RUỘT”, “HÍT 4 – THỞ 6”. B-roll 3D dây thần kinh nối não với dạ dày; cận tay đặt bụng thở. Cuối: thẻ đỏ “ĐI KHÁM NGAY”.
+**Hình ảnh & dựng:** Studio tối, hai đèn bàn vàng, kệ sách, micro, áo polo trắng; dọc 9:16, mặt nửa trên. 0–3s ô bình luận che tên. Chữ nền xanh chàm: “TRỤC NÃO – RUỘT”, “HÍT 4 – THỞ 6”. B-roll 3D dây thần kinh nối não với dạ dày; cận tay đặt bụng thở. Cuối: thẻ đỏ “ĐI KHÁM NGAY”.
 
 **Caption:** Cứ căng thẳng là đau d.ạ d.ày? Cơn đau đó không phải do bạn tưởng tượng. #BacSiHoi #bshoi #daday #stress #giacngu
 
@@ -33,16 +33,16 @@ Phong cách: Hải Ninh Yoga · Khuôn YOGA · 150 giây · BS làm mẫu
 **Lời thoại**
 
 [0–1s] Căng thẳng là đau bụng?
-[1–5s] Tối nào cũng làm ba động tác này, bụng nhẹ đến sáng.
-[5–20s] Vì sao vậy? Cô bác anh chị để ý nhé, mỗi lần căng thẳng, vai mình gồng lên, hơi thở ngắn lại, bụng thắt lại, và dạ dày cũng co thắt theo. Lên giường rồi mà cơ thể vẫn đang ở chế độ báo động. Ba động tác này giúp cơ thể chuyển sang chế độ nghỉ ngơi. Mình làm cùng nhau luôn nhé.
-[20–55s] Động tác một: thở bụng. Nằm ngửa hoặc ngồi tựa lưng. Một tay đặt lên ngực, một tay đặt lên bụng. Hít vào bằng mũi, để bụng phồng lên như quả bóng, tay trên ngực đứng yên. Hít vào… hai… ba… bốn. Thở ra bằng miệng thật chậm… hai… ba… bốn… năm… sáu. Rất tốt. Lần nữa nhé. Hít vào… hai… ba… bốn. Thở ra… hai… ba… bốn… năm… sáu. Thở ra dài hơn hít vào, đó là điều quan trọng nhất. Cô bác anh chị làm thêm ba lần theo nhịp của mình.
-[55s–1:30] Động tác hai: xoa bụng. Hai bàn tay chồng lên nhau, đặt quanh rốn. Xoa vòng tròn theo chiều kim đồng hồ, chậm và nhẹ, như đang vuốt một tấm lụa. Chiều kim đồng hồ là đi theo đường của khung ruột. Một vòng… hai… ba… bốn… năm. Tay nhẹ thôi, không ấn sâu. Sáu… bảy… tám… chín… mười. Vừa xoa vừa thở chậm. Cảm nhận hơi ấm từ bàn tay lan vào bụng.
-[1:30–2:10] Động tác ba: nằm bướm. Nằm ngửa, hai lòng bàn chân áp vào nhau, hai đầu gối mở sang hai bên như đôi cánh bướm. Ai đau gối thì kê hai chiếc gối dưới đầu gối. Hai tay đặt nhẹ lên bụng. Nhắm mắt lại. Thả lỏng vai… thả lỏng hàm… thả lỏng bụng. Đầu còn nghĩ chuyện công việc cũng không sao, nhẹ nhàng đưa sự chú ý về bàn tay trên bụng. Giữ ba mươi giây, bác sĩ đếm cùng. Mười… chín… tám… bảy… sáu… năm… bốn… ba… hai… một. Từ từ khép gối, nghiêng sang bên trái rồi mới ngồi dậy.
-[2:10–2:30] Ba động tác, chưa tới ba phút. Làm đều bảy ngày, nhớ tập sau bữa tối ít nhất hai tiếng. Nếu đau bụng kéo dài nhiều tuần thì đi khám. Phân đen, nôn ra máu thì đi khám ngay. Đau bụng dữ dội, bụng cứng thì đi cấp cứu ngay. Còn bây giờ, lưu lại và gửi cho bố mẹ nhé.
+[1–5s] Tối nào cũng làm 3 động tác này, bụng nhẹ đến sáng.
+[5–20s] Vì sao? Cô bác anh chị để ý nhé, mỗi lần căng thẳng, vai gồng lên, hơi thở ngắn lại, bụng thắt lại, dạ dày cũng co thắt theo. Lên giường rồi mà cơ thể vẫn ở chế độ báo động. Ba động tác này đưa cơ thể sang chế độ nghỉ. Làm cùng tôi nhé.
+[20–55s] Động tác 1: thở bụng. Nằm ngửa hoặc ngồi tựa lưng. Một tay đặt ngực, một tay đặt bụng. Hít vào bằng mũi, bụng phồng lên như quả bóng, tay trên ngực đứng yên. Hít vào, hai, ba, bốn. Thở ra bằng miệng thật chậm, hai, ba, bốn, năm, sáu. Tốt lắm. Lần nữa nhé. Hít vào, hai, ba, bốn. Thở ra, hai, ba, bốn, năm, sáu. Thở ra dài hơn hít vào, đó là điều quan trọng nhất. Thêm ba lần theo nhịp của mình.
+[55s–1:30] Động tác 2: xoa bụng. Hai bàn tay chồng lên nhau, đặt dưới rốn bên phải. Xoa vòng tròn theo chiều kim đồng hồ, lên trên, ngang qua, xuống bên trái, chậm và nhẹ như vuốt tấm lụa. Một vòng, hai, ba, bốn, năm. Tốt lắm. Tay nhẹ thôi, không ấn sâu. Bụng mềm dần dưới tay. Sáu, bảy, tám, chín, mười. Vừa xoa vừa thở chậm. Cảm nhận hơi ấm từ bàn tay lan vào bụng.
+[1:30–2:10] Động tác 3: nằm bướm. Nằm ngửa, hai lòng bàn chân áp vào nhau, hai đầu gối mở sang hai bên như đôi cánh bướm. Đau gối thì kê gối dưới hai đầu gối. Hai tay đặt nhẹ lên bụng. Nhắm mắt. Thả lỏng vai, thả lỏng hàm, thả lỏng bụng. Đầu còn nghĩ chuyện công việc cũng không sao, nhẹ nhàng đưa sự chú ý về bàn tay trên bụng. Giữ ba mươi giây, tôi đếm cùng. Mười, chín, tám, bảy, sáu, năm, bốn, ba, hai, một. Từ từ khép gối, nghiêng trái rồi mới ngồi dậy.
+[2:10–2:30] Làm đều 7 ngày, sau bữa tối ít nhất 2 tiếng, cảm nhận bụng dịu dần. Đau bụng kéo dài nhiều tuần thì đi khám. Phân đen, nôn ra máu thì đi khám ngay; đau bụng dữ dội, bụng cứng thì đi cấp cứu ngay. Lưu lại và gửi cho bố mẹ nhé.
 
-**Hình ảnh & dựng:** Cận mặt, tường sáng, cây xanh, áo trơn nhạt. Giây 0: thẻ vàng in hoa “CĂNG THẲNG LÀ ĐAU BỤNG?”, tay đặt thượng vị rồi giơ 3 ngón. Trung cảnh làm mẫu, thẻ số “1 THỞ BỤNG”, “2 XOA BỤNG”, “3 NẰM BƯỚM”. Minh họa 1/3 trên: mũi tên chiều kim đồng hồ quanh rốn. Phụ đề đếm nhịp.
+**Hình ảnh & dựng:** Phòng ngủ sáng dịu, áo trơn nhạt. 0s cận mặt, thẻ in hoa nền xanh chàm, từ khóa vàng, ngang ngực “CĂNG THẲNG LÀ ĐAU BỤNG?”, tay đặt thượng vị rồi giơ 3 ngón. Trung cảnh trên giường; phụ đề đếm nhịp; thẻ số “1 THỞ BỤNG”, “2 XOA BỤNG”, “3 NẰM BƯỚM”. Kết cận mặt mỉm cười.
 
-**Caption:** Cứ căng thẳng là bụng thắt lại? Tối nay làm cùng bác sĩ 3 động tác này trước khi ngủ. #BacSiHoi #bshoi #daday #giacngu #stress
+**Caption:** Bài tập tốt nhất trước khi ngủ cho người cứ căng thẳng là đau bụng #BacSiHoi #bshoi #giacngu
 
 ### 3. 22:00 · Chuyện đêm khuya số 1: Người phụ nữ cứ 2 giờ sáng là đau bụng
 
@@ -76,10 +76,10 @@ Phong cách: Bác sĩ Hải · Khuôn HAI-Q · 75 giây · BS nói – studio
 [0–3s] “Mất ngủ có làm trào ngược nặng hơn không, bác sĩ?”
 [3–10s] Có. Và chiều ngược lại cũng đúng: trào ngược làm mình mất ngủ. Hai thứ này kéo nhau thành một vòng luẩn quẩn.
 [10–35s] Nhiều người nghĩ mất ngủ là chuyện của cái đầu, trào ngược là chuyện của cái bụng. Thật ra hai bên nói chuyện với nhau mỗi đêm. Khi ngủ không đủ, thực quản nhạy cảm hơn, cùng một lượng axit mà thấy rát hơn. Ngược lại, khi nằm ngủ, mình nuốt ít, nước bọt tiết ít, nên axit trào lên nằm lâu hơn trong thực quản và đánh thức mình dậy. Giống như cái chuông cửa: ngủ chập chờn thì chuông nhỏ cũng giật mình, mà chuông càng kêu thì càng khó ngủ lại.
-[35–60s] Một việc làm ngay tối nay: chốt bữa tối trước giờ ngủ ít nhất ba tiếng. Ngủ lúc mười giờ thì ăn xong trước bảy giờ. Lỡ đói muộn, chỉ uống vài ngụm nước ấm, đừng ăn thêm. Dạ dày được trống khi nằm xuống thì axit khó trào lên hơn, giấc ngủ cũng ít bị cắt ngang hơn. Bác sĩ Hội thấy đây là thay đổi nhỏ nhất mà nhiều người bỏ qua nhất.
+[35–60s] Một việc làm ngay tối nay: chốt bữa tối trước giờ ngủ ít nhất ba tiếng. Ngủ lúc mười giờ thì ăn xong trước bảy giờ. Lỡ đói muộn, chỉ uống vài ngụm nước ấm, đừng ăn thêm. Dạ dày được trống khi nằm xuống thì axit khó trào lên hơn, giấc ngủ cũng ít bị cắt ngang hơn. Tôi thấy đây là thay đổi nhỏ nhất mà nhiều người bỏ qua nhất.
 [60–75s] Khi nào cần đi khám: ợ nóng hơn hai lần mỗi tuần, ho hay khàn tiếng kéo dài. Nuốt nghẹn tăng dần, sụt cân nhanh thì đi khám ngay. Đau ngực thì đi cấp cứu ngay, vì cần loại trừ bệnh tim. Ngủ đủ cũng là một phần của phục hồi tiêu hóa từ gốc. Theo dõi trang để nghe câu tiếp theo.
 
-**Hình ảnh & dựng:** Studio tối, đèn bàn vàng, kệ sách, micro, áo polo trắng; dọc 9:16. 0–3s ô bình luận che tên. Chữ hồng “CÓ – VÀ NGƯỢC LẠI”, sơ đồ vòng tròn mất ngủ ⇄ trào ngược. B-roll 3D axit trào lên thực quản khi nằm; đồng hồ 7 giờ, 10 giờ. Cuối: thẻ dấu hiệu đi khám.
+**Hình ảnh & dựng:** Studio tối, đèn bàn vàng, kệ sách, micro, áo polo trắng; dọc 9:16. 0–3s ô bình luận che tên. Chữ nền xanh chàm “CÓ – VÀ NGƯỢC LẠI”, sơ đồ vòng tròn mất ngủ ⇄ trào ngược. B-roll 3D axit trào lên thực quản khi nằm; đồng hồ 7 giờ, 10 giờ. Cuối: thẻ dấu hiệu đi khám.
 
 **Caption:** Mất ngủ làm t.rào n.gược nặng hơn, và ngược lại. Một việc nhỏ tối nay để cắt vòng luẩn quẩn này. #BacSiHoi #bshoi #traonguoc #giacngu
 
@@ -89,18 +89,18 @@ Phong cách: Hải Ninh Yoga · Khuôn YOGA · 150 giây · BS làm mẫu
 
 **Lời thoại**
 
-[0–1s] Bốn, bảy, tám.
-[1–5s] Đầu vẫn chạy, bụng vẫn thắt? Bốn vòng thở này giúp dịu lại.
-[5–20s] Vì sao? Khi mình thở ra dài gấp đôi hít vào, nhịp tim chậm lại, cơ thể bật một cái công tắc thư giãn. Công tắc ấy nằm trên một dây thần kinh chạy từ não xuống tận bụng, nên khi nó bật, dạ dày cũng dịu theo, đầu nhẹ hơn. Chuẩn bị nhé: nằm ngửa, một tay đặt lên bụng, đầu lưỡi chạm nhẹ sau răng cửa trên. Thở ra hết bằng miệng trước. Bài này bác sĩ hay gửi cho những người cứ nằm xuống là bụng cồn cào, đầu nghĩ mông lung.
-[20–50s] Vòng một. Hít vào bằng mũi, bụng phồng lên… hai… ba… bốn. Giữ hơi… hai… ba… vai vẫn mềm… năm… sáu… bảy. Thở ra bằng miệng như thổi nguội bát cháo, phù… hai… ba… bốn… năm… sáu… bảy… tám. Nghe tiếng thở ra là biết mình đang thả lỏng. Rất tốt. Không cần đúng từng giây, cô bác anh chị đếm theo nhịp của mình là được.
-[50s–1:15] Vòng hai. Hít vào… hai… ba… bốn. Giữ… hai… ba… không gồng cổ… năm… sáu… bảy. Thở ra… hai… ba… bốn… để hơi đi hết… sáu… bảy… tám. Vai thả xuống. Hàm thả lỏng. Bụng mềm ra dưới bàn tay.
-[1:15–1:40] Vòng ba. Hít vào… hai… ba… bốn. Giữ… hai… ba… bốn… năm… sáu… bảy. Thở ra… hai… ba… bốn… năm… sáu… bảy… tám. Đầu có nghĩ đến việc ngày mai, cứ để ý nghĩ trôi qua như mây, rồi quay về con số. Thấy hơi choáng thì giữ hơi ngắn lại, đừng cố.
-[1:40–2:10] Vòng bốn, vòng cuối. Hít vào… hai… ba… bốn. Giữ… hai… ba… bốn… năm… sáu… bảy. Thở ra thật dài… hai… ba… bốn… năm… sáu… bảy… tám. Giờ thở bình thường. Cảm nhận bụng lên xuống nhẹ nhàng, đầu óc chậm lại. Nếu thấy ngáp, đó là cơ thể đang chuyển sang chế độ nghỉ.
-[2:10–2:30] Làm đều bảy ngày, mỗi tối bốn vòng, ngay khi lên giường. Lần đầu chỉ bốn vòng thôi, đừng làm quá nhiều. Người có bệnh tim, phổi hay đang mang thai thì thở nhẹ nhàng, không cần giữ hơi lâu. Nếu mất ngủ kéo dài nhiều tuần, hoặc đêm nào cũng bị ợ chua, đau bụng đánh thức, hãy đi khám để bác sĩ đánh giá. Lưu lại và gửi cho bố mẹ nhé.
+[0–1s] Nằm xuống mà đầu vẫn chạy?
+[1–5s] Tối nào cũng thở 4 vòng bốn, bảy, tám này, bụng dịu, đầu nhẹ.
+[5–20s] Vì sao? Thở ra dài gấp đôi hít vào, nhịp tim chậm lại, cơ thể bật công tắc thư giãn. Công tắc ấy nằm trên dây thần kinh chạy từ não xuống tận bụng, nên bụng dịu theo, đầu nhẹ hơn. Nằm ngửa, một tay đặt bụng, đầu lưỡi chạm sau răng cửa trên. Làm cùng tôi nhé.
+[20–50s] Vòng 1. Lần đầu làm chậm thôi. Thở ra hết bằng miệng trước. Hít vào bằng mũi, bụng phồng lên, hai, ba, bốn. Giữ hơi, hai, ba, vai vẫn mềm, năm, sáu, bảy. Thở ra bằng miệng như thổi nguội bát cháo, phù, hai, ba, bốn, năm, sáu, bảy, tám. Nghe tiếng thở ra là biết mình đang thả lỏng. Không cần đúng từng giây, đếm theo nhịp của mình là được.
+[50s–1:15] Vòng 2. Hít vào, hai, ba, bốn. Giữ, hai, ba, không gồng cổ, năm, sáu, bảy. Thở ra, hai, ba, bốn, để hơi đi hết, sáu, bảy, tám. Vai thả xuống. Hàm thả lỏng. Bụng mềm ra dưới bàn tay. Rất tốt. Hơi thở ra càng dài, người càng mềm.
+[1:15–1:40] Vòng 3. Hít vào, hai, ba, bốn. Giữ, hai, ba, bốn, năm, sáu, bảy. Thở ra, hai, ba, bốn, năm, sáu, bảy, tám. Bụng phồng khi hít, xẹp khi thở. Ý nghĩ chuyện ngày mai cứ để trôi qua như mây, rồi quay về con số. Hơi choáng thì giữ hơi ngắn lại, đừng cố.
+[1:40–2:10] Vòng 4, vòng cuối. Hít vào, hai, ba, bốn. Giữ, hai, ba, bốn, năm, sáu, bảy. Thở ra thật dài, hai, ba, bốn, năm, sáu, bảy, tám. Giờ thở bình thường. Hai tay để yên trên bụng. Bụng lên xuống nhẹ nhàng, đầu óc chậm lại. Cô bác anh chị thấy đầu nhẹ hơn chưa? Thấy ngáp là cơ thể đang chuyển sang chế độ nghỉ.
+[2:10–2:30] Làm đều 7 ngày, mỗi tối 4 vòng ngay khi lên giường, cảm nhận giấc ngủ khác đi. Bệnh tim, phổi hay đang mang thai thì không giữ hơi lâu. Mất ngủ nhiều tuần, đêm nào cũng ợ chua đánh thức thì đi khám; nôn ra máu, phân đen thì đi khám ngay. Lưu lại và gửi cho bố mẹ nhé.
 
-**Hình ảnh & dựng:** Cận mặt, tường sáng, cây xanh, áo trơn nhạt. Giây 0: thẻ vàng in hoa nền tối “THỞ 4-7-8: BỤNG DỊU, ĐẦU NHẸ”, tay lần lượt giơ 4, 7, 8 ngón. Nằm trên giường, quay từ trên xuống, tay đặt bụng. Thẻ số “VÒNG 1…4”; ba ô HÍT 4 – GIỮ 7 – THỞ 8 sáng dần theo nhịp.
+**Hình ảnh & dựng:** Phòng ngủ sáng dịu, áo trơn nhạt. 0s cận mặt, thẻ in hoa nền xanh chàm, từ khóa vàng, ngang ngực “NẰM XUỐNG MÀ ĐẦU VẪN CHẠY?”, tay chạm thái dương rồi giơ 4 ngón. Nằm giường, quay từ trên xuống; phụ đề đếm nhịp; thẻ số “VÒNG 1” đến “VÒNG 4”. Kết cận mặt mỉm cười.
 
-**Caption:** Hít 4, giữ 7, thở 8. Bốn vòng trước khi ngủ cho bụng dịu, đầu nhẹ. #BacSiHoi #bshoi #giacngu #daday #stress
+**Caption:** Thở 4-7-8 trước khi ngủ: bụng dịu, đầu nhẹ #BacSiHoi #bshoi #giacngu
 
 ### 6. 22:00 · Chuyện đêm khuya số 2: Anh kỹ sư khám 5 nơi vì sợ ung thư
 
@@ -137,29 +137,29 @@ Phong cách: Bác sĩ Hải · Khuôn HAI-Q · 75 giây · BS nói – studio
 [35–60s] Việc làm ngay: nói rõ với bác sĩ đang kê thuốc ngủ rằng mình có trào ngược hay đau dạ dày, để bác sĩ cân nhắc. Ăn tối trước khi ngủ ba tiếng, kê cao đầu giường mười lăm đến hai mươi phân. Không uống thuốc ngủ cùng rượu bia. Không tự mua thuốc ngủ uống kéo dài. Và đừng tự ngưng thuốc trước khi hỏi bác sĩ, vì có loại ngưng đột ngột sẽ khiến mất ngủ nặng hơn.
 [60–75s] Nếu sáng nào cũng đắng miệng, khàn tiếng, hay ho về đêm, hãy đi khám để kiểm tra trào ngược đêm. Đau ngực, khó thở thì đi cấp cứu ngay. Giấc ngủ ngon thật sự là khi dạ dày cũng được nghỉ, đó là phục hồi tiêu hóa từ gốc. Theo dõi trang để nghe câu tiếp theo.
 
-**Hình ảnh & dựng:** Studio tối, đèn bàn vàng, kệ sách, micro, áo polo trắng; dọc 9:16. 0–3s ô bình luận che tên. Chữ hồng “KHÔNG HẠI TRỰC TIẾP”, rồi “NHƯNG CHE LẤP TRÀO NGƯỢC ĐÊM”. B-roll: chuông báo bị tắt tiếng, 3D axit đọng ở thực quản khi ngủ. Không quay vỉ, hộp thuốc có tên. Cuối: thẻ dấu hiệu đi khám.
+**Hình ảnh & dựng:** Studio tối, đèn vàng, kệ sách, micro, áo polo trắng; dọc 9:16. 0–3s ô bình luận che tên. Chữ nền xanh chàm “KHÔNG HẠI TRỰC TIẾP”, rồi “NHƯNG CHE LẤP TRÀO NGƯỢC ĐÊM”. B-roll: chuông báo bị tắt tiếng, 3D axit đọng ở thực quản khi ngủ. Không quay vỉ, hộp thuốc có tên. Cuối: thẻ dấu hiệu đi khám.
 
 **Caption:** Thuốc ngủ ít khi hại d.ạ d.ày trực tiếp, nhưng có thể che đi t.rào n.gược ban đêm. Đừng tự ngưng thuốc trước khi hỏi bác sĩ. #BacSiHoi #bshoi #giacngu #traonguoc
 
 **Ghi chú:** Chủ đề thuốc: cần Clinical duyệt trước khi đăng. Không nêu tên thuốc ngủ hay liều.
 
-### 8. 20:30 · Thả lỏng hàm và vai 2 phút: khi căng thẳng dồn xuống bụng
+### 8. 20:30 · Thả lỏng hàm và vai 2 phút trước khi ngủ, bụng nhẹ theo
 
 Phong cách: Hải Ninh Yoga · Khuôn YOGA · 150 giây · BS làm mẫu
 
 **Lời thoại**
 
 [0–1s] Hàm đang cắn chặt?
-[1–5s] Hai phút thả hàm, hạ vai, bụng sẽ nhẹ theo.
-[5–20s] Vì sao lại là hàm và vai? Cô bác anh chị thử để ý ngay bây giờ: răng có đang cắn vào nhau không, vai có đang nhô lên không? Căng thẳng cả ngày, mình nghiến răng, nhún vai mà không biết. Vai gồng thì chỉ thở nông bằng ngực. Cơ hoành, tấm cơ nằm ngay trên dạ dày, ít được chuyển động. Mà cơ hoành lại ôm quanh chỗ thực quản đi xuống dạ dày, như một chiếc đai giữ cửa. Thả hàm, hạ vai là trả lại chỗ cho hơi thở đi xuống bụng.
-[20–55s] Động tác một: thả hàm. Môi khép nhẹ, hai hàm răng hơi tách nhau, lưỡi nằm mềm trong miệng. Đặt hai đầu ngón tay lên chỗ cơ nhô lên khi cắn chặt, ngay trước tai. Xoa vòng tròn chậm, ấn vừa đủ. Một… hai… ba… bốn… năm… sáu… bảy… tám… chín… mười. Giờ há miệng thật nhẹ, thở ra một tiếng “ha”. Lần nữa, “ha”. Lần cuối, “ha”. Cô bác anh chị thấy hàm đã mềm hơn chưa?
-[55s–1:30] Động tác hai: hạ vai. Hít vào, nhún hai vai lên sát tai. Giữ… hai… ba. Thở ra, thả rơi vai xuống thật tự nhiên. Lần hai, hít vào, nhún lên… giữ… hai… ba. Thả. Lần ba… giữ… hai… ba. Thả. Giờ xoay vai ra sau thật chậm, như đang vẽ vòng tròn bằng bả vai: một… hai… ba… bốn… năm. Hai vai đã thấp xuống, cổ dài ra.
-[1:30–2:10] Động tác ba: thở bụng. Một tay đặt lên bụng, một tay đặt lên ngực. Hít vào bằng mũi bốn nhịp, bụng phồng lên, tay trên ngực đứng yên: một… hai… ba… bốn. Thở ra bằng miệng sáu nhịp: một… hai… ba… bốn… năm… sáu. Kiểm tra lại: hàm vẫn lỏng, vai vẫn thấp. Thêm một lần: hít vào… hai… ba… bốn. Thở ra… hai… ba… bốn… năm… sáu. Cảm nhận hơi thở chạm xuống tận bàn tay trên bụng.
-[2:10–2:30] Làm đều bảy ngày, trước khi ngủ, hoặc bất cứ lúc nào thấy người căng lên. Lưu ý quan trọng: đau hàm kèm đau ngực, khó thở, vã mồ hôi thì đi cấp cứu ngay. Đau dạ dày kéo dài nhiều tuần thì đi khám. Lưu lại và gửi cho bố mẹ nhé.
+[1–5s] Trước khi ngủ, thả hàm, hạ vai 2 phút này, bụng nhẹ theo.
+[5–20s] Vì sao? Răng có đang cắn vào nhau, vai có đang nhô lên không? Căng thẳng cả ngày, mình nghiến răng, nhún vai mà không biết. Vai gồng thì chỉ thở nông bằng ngực, cơ hoành ngay trên dạ dày ít được chuyển động, bụng cứ thắt lại. Thả hàm, hạ vai là trả hơi thở về bụng. Làm cùng tôi nhé.
+[20–55s] Động tác 1: thả hàm. Môi khép nhẹ, hai hàm răng hơi tách, lưỡi nằm mềm trong miệng. Hai đầu ngón tay đặt lên chỗ cơ nhô lên khi cắn chặt, ngay trước tai. Xoa vòng tròn chậm, ấn vừa đủ. Cảm nhận chỗ cơ ấy mềm dần dưới ngón tay. Một, hai, ba, bốn, năm, sáu, bảy, tám, chín, mười. Giờ há miệng thật nhẹ, thở ra một tiếng “ha”. Lần nữa, “ha”. Lần cuối, “ha”. Hàm đã mềm hơn chưa?
+[55s–1:30] Động tác 2: hạ vai. Hít vào, nhún hai vai lên sát tai. Giữ, hai, ba. Thở ra, thả rơi vai xuống thật tự nhiên. Lần hai. Nhún lên, giữ, hai, ba. Thả. Lần ba. Giữ, hai, ba. Thả. Tốt lắm. Mỗi lần thả, vai lại thấp thêm một chút. Giờ xoay vai ra sau thật chậm, như vẽ vòng tròn bằng bả vai. Một, hai, ba, bốn, năm. Hai vai đã thấp xuống, cổ dài ra.
+[1:30–2:10] Động tác 3: thở bụng. Một tay đặt bụng, một tay đặt ngực. Hít vào bằng mũi, bụng phồng, tay trên ngực đứng yên. Một, hai, ba, bốn. Thở ra bằng miệng. Một, hai, ba, bốn, năm, sáu. Kiểm tra lại: hàm vẫn lỏng, vai vẫn thấp. Lần nữa. Hít vào, hai, ba, bốn. Thở ra, hai, ba, bốn, năm, sáu. Lần cuối. Hít vào, hai, ba, bốn. Thở ra, hai, ba, bốn, năm, sáu. Cảm nhận hơi thở chạm xuống tận bàn tay trên bụng.
+[2:10–2:30] Làm đều 7 ngày, trước khi ngủ hoặc lúc thấy người căng lên, cảm nhận bụng nhẹ dần. Lúc làm việc, lúc lái xe cũng nhớ kiểm tra hàm và vai. Đau hàm kèm đau ngực, khó thở, vã mồ hôi thì đi cấp cứu ngay. Đau dạ dày kéo dài nhiều tuần thì đi khám. Lưu lại và gửi cho bố mẹ nhé.
 
-**Hình ảnh & dựng:** Cận mặt, tường sáng, cây xanh, áo trơn nhạt. Giây 0: thẻ vàng in hoa “CĂNG THẲNG DỒN XUỐNG BỤNG?”, hai tay đặt lên má rồi lên vai. Trung cảnh ngồi, thẻ số “1 THẢ HÀM”, “2 HẠ VAI”, “3 THỞ BỤNG”. Minh họa 1/3 trên: cơ hoành ôm quanh chỗ nối thực quản – dạ dày.
+**Hình ảnh & dựng:** Tường sáng, áo trơn nhạt, ngồi giường. 0s cận mặt, thẻ in hoa nền xanh chàm, từ khóa vàng, ngang ngực “HÀM ĐANG CẮN CHẶT?”, hai ngón tay đặt cơ hàm trước tai, rồi giơ 3 ngón. Trung cảnh; phụ đề đếm nhịp; thẻ số “1 THẢ HÀM”, “2 HẠ VAI”, “3 THỞ BỤNG”. Kết cận mặt mỉm cười.
 
-**Caption:** Căng thẳng cả ngày dồn xuống bụng? 2 phút thả hàm, hạ vai trước khi ngủ. #BacSiHoi #bshoi #stress #giacngu #daday
+**Caption:** Thả lỏng hàm và vai 2 phút trước khi ngủ, bụng nhẹ theo #BacSiHoi #bshoi #stress
 
 ### 9. 22:00 · Chuyện đêm khuya số 3: Mùa thi của con và cái dạ dày của mẹ
 
@@ -192,11 +192,11 @@ Phong cách: Bác sĩ Hải · Khuôn HAI-Q · 75 giây · BS nói – studio
 
 [0–3s] “Em lo âu suốt mấy năm nay, có phải vì thế mà em bị viêm dạ dày không?”
 [3–10s] Lo âu thường không trực tiếp gây viêm hay loét dạ dày. Nhưng nó làm triệu chứng nặng hơn rất nhiều.
-[10–35s] Những nguyên nhân gây viêm loét hay gặp là vi khuẩn HP, thuốc giảm đau chống viêm, rượu bia, thuốc lá. Còn lo âu thì giống như vặn to cái loa: tổn thương có thể chỉ nhỏ, thậm chí không có, nhưng tín hiệu đau bị khuếch đại lên. Chưa kể người hay lo thường ăn vội, bỏ bữa, uống nhiều cà phê, thức khuya. Chính những thói quen đó mới âm thầm làm dạ dày mệt. Bác sĩ Hội gặp không ít người chữa mãi phần dạ dày mà quên mất phần lo âu.
+[10–35s] Những nguyên nhân gây viêm loét hay gặp là vi khuẩn HP, thuốc giảm đau chống viêm, rượu bia, thuốc lá. Còn lo âu thì giống như vặn to cái loa: tổn thương có thể chỉ nhỏ, thậm chí không có, nhưng tín hiệu đau bị khuếch đại lên. Chưa kể người hay lo thường ăn vội, bỏ bữa, uống nhiều cà phê, thức khuya. Chính những thói quen đó mới âm thầm làm dạ dày mệt. Tôi gặp không ít người chữa mãi phần dạ dày mà quên mất phần lo âu.
 [35–60s] Việc làm ngay: đặt cho mình một giờ lo, mười lăm phút mỗi chiều. Lấy giấy viết hết những điều đang lo ra, cạnh mỗi điều ghi một việc nhỏ làm được. Ngoài khung giờ đó, nỗi lo nào kéo đến, mình hẹn nó lại chiều mai. Nghe đơn giản, nhưng cách này giúp đầu óc bớt quay vòng, bữa ăn và giấc ngủ cũng yên hơn.
 [60–75s] Nếu đau vùng trên rốn kéo dài nhiều tuần, nhất là trên bốn mươi lăm tuổi mới bắt đầu đau, nên đi khám, có thể cần kiểm tra cả HP. Phân đen, nôn ra máu, sụt cân nhanh thì đi khám ngay. Lo âu làm mất ngủ triền miên thì gặp chuyên gia tâm lý, đó cũng là phục hồi tiêu hóa từ gốc. Theo dõi trang để nghe câu tiếp theo.
 
-**Hình ảnh & dựng:** Studio tối, đèn bàn vàng, kệ sách, micro, áo polo trắng; dọc 9:16. 0–3s ô bình luận che tên. Chữ hồng “KHÔNG TRỰC TIẾP GÂY LOÉT”, “GIỜ LO 15 PHÚT”. B-roll: cái loa vặn to, tay viết nỗi lo lên giấy, đồng hồ buổi chiều. Phụ đề trắng nền mờ. Cuối: thẻ dấu hiệu đi khám.
+**Hình ảnh & dựng:** Studio tối, đèn bàn vàng, kệ sách, micro, áo polo trắng; dọc 9:16. 0–3s ô bình luận che tên. Chữ nền xanh chàm “KHÔNG TRỰC TIẾP GÂY LOÉT”, “GIỜ LO 15 PHÚT”. B-roll: cái loa vặn to, tay viết nỗi lo lên giấy, đồng hồ buổi chiều. Phụ đề trắng nền mờ. Cuối: thẻ dấu hiệu đi khám.
 
 **Caption:** Lo âu có gây viêm d.ạ d.ày không? Câu trả lời không đơn giản là có hay không. #BacSiHoi #bshoi #daday #stress
 
@@ -206,17 +206,17 @@ Phong cách: Hải Ninh Yoga · Khuôn YOGA · 150 giây · BS làm mẫu
 
 **Lời thoại**
 
-[0–1s] Lưng cứng, khó ngủ?
-[1–5s] Ba động tác ngay trên giường, lưng mềm ra, dễ ngủ hơn.
-[5–20s] Ngồi cả ngày, lưng gồng cả ngày. Lên giường rồi mà cơ lưng vẫn đang làm việc, cơ thể chưa chịu nghỉ, hơi thở cũng chưa chịu chậm. Thả lỏng lưng là gửi cho cơ thể một tín hiệu: hết giờ làm rồi. Bác sĩ Hội hay gọi ba động tác này là ba nút tắt của cái lưng. Lưu ý, tập sau bữa tối ít nhất hai tiếng, vì có động tác ép nhẹ vào bụng. Mình làm luôn nhé.
-[20–55s] Động tác một: ôm gối. Nằm ngửa, co hai đầu gối, hai tay ôm gối kéo nhẹ về phía ngực. Lưng dưới áp sát mặt giường. Đung đưa thật nhẹ sang trái, sang phải, như đang ru mình ngủ. Thở chậm, hơi thở ra dài, bụng mềm. Bác sĩ đếm, mình giữ ba mươi giây. Một… hai… ba… bốn… năm… sáu… bảy… tám… chín… mười. Thả hai chân xuống, duỗi thẳng.
-[55s–1:30] Động tác hai: vặn mình nằm. Dang hai tay sang hai bên như chữ T. Hai đầu gối co lại, từ từ đổ sang bên phải, mặt quay sang trái. Vai vẫn áp xuống giường. Thở vào ở giữa, thở ra khi đổ gối, để sức nặng của chân kéo giãn lưng. Một… hai… ba… bốn… năm. Đưa gối về giữa. Giờ đổ sang trái, mặt quay sang phải. Một… hai… ba… bốn… năm. Về giữa. Không cần đổ sát giường, đến đâu dễ chịu thì dừng ở đó.
-[1:30–2:10] Động tác ba: duỗi người. Duỗi thẳng hai chân, hai tay vươn qua đầu. Hít vào, kéo dài người như vươn vai buổi sáng, mũi chân duỗi ra xa. Giữ… hai… ba. Thở ra, thả lỏng toàn thân, để cả người chìm xuống mặt giường, như cả ngày dài đang trôi ra khỏi người. Lần hai, hít vào, vươn dài… giữ… hai… ba. Thả. Lần ba… giữ… hai… ba. Thả. Hai tay đặt lên bụng. Nằm yên, cảm nhận lưng nằm phẳng và nhẹ.
-[2:10–2:30] Làm đều bảy ngày, mỗi động tác ba mươi giây, tập xong kéo chăn ngủ luôn. Ai đang đau lưng cấp hay thoát vị đĩa đệm thì hỏi bác sĩ trước khi tập. Nếu đau lưng lan xuống chân, tê hay yếu chân thì đi khám. Đau lưng kèm đau bụng dữ dội thì đi cấp cứu ngay. Lưu lại và gửi cho bố mẹ nhé.
+[0–1s] Lưng cứng, nằm mãi không ngủ?
+[1–5s] Cô bác ngồi cả ngày, tối làm 3 động tác này, lưng mềm, dễ ngủ.
+[5–20s] Vì sao? Ngồi cả ngày, lưng gồng cả ngày. Lên giường rồi mà cơ lưng vẫn làm việc, cơ thể chưa chịu nghỉ, hơi thở cũng chưa chịu chậm. Thả lỏng lưng là báo cho cơ thể: hết giờ làm rồi. Tập sau bữa tối ít nhất 2 tiếng nhé, vì có động tác ép nhẹ vào bụng.
+[20–55s] Động tác 1: ôm gối. Nằm ngửa, co hai gối, hai tay ôm kéo nhẹ về phía ngực. Lưng dưới áp sát mặt giường. Đung đưa thật nhẹ sang trái, sang phải, như đang ru mình ngủ. Thở chậm, hơi thở ra dài, bụng mềm. Tốt lắm. Tôi đếm, mình giữ ba mươi giây. Một, hai, ba, bốn, năm, sáu, bảy, tám, chín, mười. Mười một, mười hai, mười ba, mười bốn, mười lăm. Thả hai chân xuống, duỗi thẳng.
+[55s–1:30] Động tác 2: vặn mình nằm. Dang hai tay sang hai bên như chữ T. Hai gối co lại, từ từ đổ sang phải, mặt quay sang trái. Vai vẫn áp xuống giường. Thở vào ở giữa, thở ra khi đổ gối. Thở đều nhé. Một, hai, ba, bốn, năm. Đưa gối về giữa. Giờ đổ sang trái, mặt quay sang phải. Một, hai, ba, bốn, năm. Về giữa. Không cần đổ sát giường, đến đâu dễ chịu thì dừng ở đó.
+[1:30–2:10] Động tác 3: duỗi người. Duỗi thẳng hai chân, hai tay vươn qua đầu. Hít vào, kéo dài người như vươn vai buổi sáng, mũi chân duỗi ra xa. Giữ, hai, ba. Thở ra, thả lỏng toàn thân, để cả người chìm xuống mặt giường, như cả ngày dài đang trôi đi hết. Lần hai. Hít vào, vươn dài, giữ, hai, ba. Thả. Lần ba. Giữ, hai, ba. Thả. Tốt lắm, tay chân nặng dần. Hai tay đặt lên bụng. Nằm yên, cảm nhận lưng nằm phẳng và nhẹ.
+[2:10–2:30] Làm đều 7 ngày, tập xong kéo chăn ngủ luôn, cảm nhận lưng nhẹ dần. Đau lưng cấp, thoát vị đĩa đệm thì hỏi bác sĩ trước. Đau lan xuống chân, tê yếu chân thì đi khám; đau lưng kèm đau bụng dữ dội thì đi cấp cứu ngay. Lưu lại và gửi cho bố mẹ nhé.
 
-**Hình ảnh & dựng:** Cận mặt, tường sáng, áo trơn nhạt. Giây 0: thẻ vàng in hoa “LƯNG CỨNG, KHÓ NGỦ?”, tay đặt thắt lưng rồi giơ 3 ngón. Quay trên giường, góc nghiêng thấy rõ thân người. Thẻ số “1 ÔM GỐI”, “2 VẶN MÌNH”, “3 DUỖI NGƯỜI”, đồng hồ đếm 30 giây góc trên. Đèn ngủ ánh ấm.
+**Hình ảnh & dựng:** Phòng ngủ đèn ấm, áo trơn nhạt. 0s cận mặt, thẻ in hoa nền xanh chàm, từ khóa vàng, ngang ngực “LƯNG CỨNG, NẰM MÃI KHÔNG NGỦ?”, tay đặt thắt lưng, giơ 3 ngón. Trên giường, góc nghiêng; phụ đề đếm nhịp; thẻ số “1 ÔM GỐI”, “2 VẶN MÌNH”, “3 DUỖI NGƯỜI”. Kết cận mặt mỉm cười.
 
-**Caption:** Lưng cứng cả ngày, nằm mãi không ngủ được? 3 động tác ngay trên giường, mỗi động tác 30 giây. #BacSiHoi #bshoi #giacngu #stress
+**Caption:** 3 động tác thả lỏng lưng ngay trên giường trước khi ngủ #BacSiHoi #bshoi #giacngu
 
 ### 12. 22:00 · Chuyện đêm khuya số 4: Ông bố mất ngủ vì trào ngược mà không biết
 
@@ -253,7 +253,7 @@ Phong cách: Bác sĩ Hải · Khuôn HAI-Q · 75 giây · BS nói – studio
 [35–60s] Cách khắc phục: để điều hòa hai mươi sáu đến hai mươi tám độ, không để gió thổi thẳng vào mặt. Đặt một chậu nước nhỏ hoặc máy tạo ẩm trong phòng. Trước khi ngủ, rửa mũi bằng nước muối sinh lý cho dễ thở bằng mũi. Ăn tối trước khi ngủ ba tiếng, và kê cao đầu giường mười lăm đến hai mươi phân.
 [60–75s] Khô miệng kèm khát nhiều, tiểu nhiều, sụt cân thì nên đi khám, kiểm tra đường huyết. Ngáy to, có lúc ngưng thở khi ngủ cũng cần đi khám. Đắng miệng kèm nuốt nghẹn tăng dần thì đi khám ngay. Phục hồi tiêu hóa từ gốc bắt đầu từ cả căn phòng mình ngủ. Theo dõi trang để nghe câu tiếp theo.
 
-**Hình ảnh & dựng:** Studio tối, đèn bàn vàng, kệ sách, micro, áo polo trắng; dọc 9:16. 0–3s ô bình luận che tên. Chữ hồng “KHÔNG KHÍ KHÔ – THỞ MIỆNG – TRÀO NGƯỢC”, rồi “26–28°C”. B-roll: điều hòa thổi thẳng mặt, cây héo, chậu nước, rửa mũi. Cuối: thẻ dấu hiệu đi khám.
+**Hình ảnh & dựng:** Studio tối, đèn bàn vàng, kệ sách, micro, áo polo trắng; dọc 9:16. 0–3s ô bình luận che tên. Chữ nền xanh chàm “KHÔNG KHÍ KHÔ – THỞ MIỆNG – TRÀO NGƯỢC”, rồi “26–28°C”. B-roll: điều hòa thổi thẳng mặt, cây héo, chậu nước, rửa mũi. Cuối: thẻ dấu hiệu đi khám.
 
 **Caption:** Sáng dậy khô miệng, đắng họng sau một đêm điều hòa? Có 3 thủ phạm, một trong số đó là t.rào n.gược. #BacSiHoi #bshoi #traonguoc #giacngu
 
@@ -264,16 +264,16 @@ Phong cách: Hải Ninh Yoga · Khuôn YOGA · 150 giây · BS làm mẫu
 **Lời thoại**
 
 [0–1s] Nửa đêm bị ợ chua đánh thức?
-[1–5s] Nằm đúng ba điều này, ngủ sâu hơn, ít bị đánh thức hơn.
-[5–20s] Cô bác anh chị hình dung một chai nước đặt nằm ngang: nước rất dễ chảy ra miệng chai. Rất nhiều người kể với bác sĩ: cứ nằm xuống là thấy chua lên tận cổ. Khi mình nằm phẳng, dạ dày và thực quản cũng nằm ngang nhau như thế, axit dễ trào lên. Tối nay mình dùng trọng lực làm đồng minh. Bác sĩ làm mẫu luôn, cô bác anh chị làm theo nhé.
-[20s–1:00] Điều một: kê đầu giường. Không phải chồng gối. Chồng gối chỉ gập cổ, gập bụng, ép dạ dày thêm. Mình kê hai chân giường phía đầu cao khoảng mười lăm đến hai mươi phân, bằng gạch hoặc khúc gỗ chắc chắn, kiểm tra kỹ để giường không trượt. Giường không kê được thì đặt một tấm nêm dốc dưới nệm. Cả nửa người trên, từ hông lên đến đầu, nghiêng như một con dốc thoải. Nằm thử, thở chậm ba nhịp: một… hai… ba. Thấy chưa, bụng không bị gập.
-[1:00–1:35] Điều hai: nằm nghiêng bên trái. Dạ dày nằm lệch về bên trái cơ thể. Nghiêng trái, chỗ nối với thực quản nằm cao hơn, axit khó trào lên hơn. Ở nhiều người, nằm nghiêng phải lại dễ trào ngược hơn. Bác sĩ nghiêng trái, đầu gối hơi co, tay trái đặt thoải mái trước mặt. Ai quen nằm ngửa thì tập dần, mỗi tối bắt đầu giấc ngủ bằng tư thế nghiêng trái. Thở chậm cùng bác sĩ: một… hai… ba… bốn… năm.
-[1:35–2:10] Điều ba: gối kẹp giữa hai chân. Đặt một chiếc gối giữa hai đầu gối. Hông thẳng, lưng thoải mái, và mình không bị lăn sang phải hay nằm ngửa giữa đêm. Có thể ôm thêm một chiếc gối trước ngực cho vai đỡ mỏi. Hai chiếc gối này giúp mình giữ tư thế nghiêng trái được lâu hơn. Giữ tư thế này, nhắm mắt, thở ra thật dài… hai… ba… bốn… năm… sáu. Đây là tư thế bác sĩ Hội hay dặn những người bị ợ chua về đêm.
-[2:10–2:30] Ba điều nên làm cùng nhau. Làm đều bảy đêm, nhớ ăn tối trước khi ngủ ba tiếng. Nếu vẫn ợ chua hơn hai lần mỗi tuần thì đi khám. Nuốt nghẹn tăng dần, sụt cân nhanh thì đi khám ngay. Đau ngực thì đi cấp cứu ngay. Lưu lại và gửi cho bố mẹ nhé.
+[1–5s] Tối nào cũng nằm đúng 3 điều này, ngủ sâu hơn, ít bị đánh thức.
+[5–20s] Vì sao? Hình dung chai nước đặt nằm ngang: nước rất dễ chảy ra miệng chai. Nhiều người cứ nằm xuống là chua lên tận cổ. Nằm phẳng, dạ dày và thực quản cũng nằm ngang như thế, dịch chua dễ trào lên. Tối nay mình dùng trọng lực làm đồng minh. Tôi làm mẫu, cô bác anh chị làm theo nhé.
+[20s–1:00] Điều 1: kê cao đầu giường 15 đến 20 phân. Không phải chồng gối, chồng gối chỉ gập cổ, gập bụng, ép dạ dày thêm. Tôi kê mẫu cho cô bác xem. Kê gạch hoặc gỗ chắc dưới hai chân giường phía đầu, kiểm tra kỹ để giường không trượt. Không kê được thì đặt tấm nêm dốc dưới nệm. Cả người từ hông lên đầu nghiêng như con dốc thoải. Nằm thử, thở chậm. Một, hai, ba. Thấy chưa, bụng không bị gập.
+[1:00–1:35] Điều 2: nằm nghiêng trái. Dạ dày nằm lệch về bên trái. Nghiêng trái, chỗ nối thực quản nằm cao hơn, dịch chua khó trào hơn. Ở nhiều người, nằm nghiêng phải lại dễ trào ngược hơn. Tôi nghiêng trái, gối hơi co, tay trái đặt thoải mái trước mặt. Thở chậm cùng nhé. Một, hai, ba, bốn, năm. Quen nằm ngửa thì tập dần, mỗi tối bắt đầu giấc ngủ bằng tư thế nghiêng trái.
+[1:35–2:10] Điều 3: gối kẹp giữa hai chân. Đặt chiếc gối giữa hai đầu gối. Hông thẳng, lưng thoải mái, mình không bị lăn sang phải hay nằm ngửa giữa đêm. Ôm thêm chiếc gối trước ngực cho vai đỡ mỏi. Hai chiếc gối này giúp mình giữ nghiêng trái được lâu hơn. Giữ tư thế này, nhắm mắt, thở ra thật dài. Một, hai, ba, bốn, năm, sáu. Lần nữa. Một, hai, ba, bốn, năm, sáu.
+[2:10–2:30] Ba điều nên làm cùng nhau. Làm đều 7 ngày, ăn tối trước khi ngủ 3 tiếng, cảm nhận giấc ngủ khác đi. Vẫn ợ chua hơn hai lần mỗi tuần thì đi khám. Nuốt nghẹn tăng dần, sụt cân nhanh thì đi khám ngay; đau ngực thì đi cấp cứu ngay. Lưu lại và gửi cho bố mẹ nhé.
 
-**Hình ảnh & dựng:** Cận mặt, tường sáng, áo trơn nhạt. Giây 0: thẻ vàng in hoa “NỬA ĐÊM BỊ Ợ CHUA ĐÁNH THỨC?”. Làm mẫu trên giường: kê gạch chân giường, nằm nghiêng trái, gối kẹp chân. Thẻ số “1 KÊ CAO 15–20 CM”, “2 NGHIÊNG TRÁI”, “3 GỐI KẸP CHÂN”. Minh họa 1/3 trên: chai nước nằm ngang.
+**Hình ảnh & dựng:** Phòng ngủ đèn ấm, áo trơn nhạt. 0s cận mặt, thẻ in hoa nền xanh chàm, từ khóa vàng, ngang ngực “NỬA ĐÊM BỊ Ợ CHUA ĐÁNH THỨC?”, tay đặt sau xương ức, giơ 3 ngón. Trên giường; phụ đề đếm nhịp; thẻ số “1 KÊ CAO 15–20CM”, “2 NGHIÊNG TRÁI”, “3 GỐI KẸP CHÂN”. Kết cận mặt mỉm cười.
 
-**Caption:** Nửa đêm bị ợ chua đánh thức? Nằm đúng 3 điều này để ngủ sâu hơn. #BacSiHoi #bshoi #traonguoc #giacngu
+**Caption:** Nằm thế nào để vừa ngủ sâu vừa ít bị t.rào n.gược đánh thức? #BacSiHoi #bshoi #traonguoc
 
 ### 15. 22:00 · Chuyện đêm khuya số 5: “Bác sĩ ơi, có phải tôi bị tâm lý không?”
 
@@ -307,10 +307,10 @@ Phong cách: Bác sĩ Hải · Khuôn HAI-Q · 75 giây · BS nói – studio
 [0–3s] “Cứ sắp họp là em cồn cào, muốn đi vệ sinh, như vậy có phải bệnh không bác sĩ?”
 [3–10s] Phần lớn trường hợp là không. Đó là phản ứng bình thường của trục não – ruột khi cơ thể chuẩn bị đối mặt với áp lực.
 [10–35s] Trước một việc quan trọng, cơ thể bật chế độ báo động. Tim đập nhanh, máu dồn về tay chân, còn ruột thì co bóp thất thường. Nên mới có cảm giác bụng thắt lại, cồn cào, có người muốn đi ngoài ngay. Giống như chuông báo khói kêu khi mình nướng bánh: chuông vẫn tốt, chỉ là hơi nhạy. Họp xong, bụng êm lại, thì đó là chuông nhạy chứ không phải nhà cháy.
-[35–60s] Việc làm ngay trước cuộc họp: thở hộp một phút. Hít vào bốn giây, giữ bốn giây, thở ra bốn giây, nghỉ bốn giây. Làm bốn vòng. Ăn nhẹ trước họp một đến hai tiếng, tránh uống cà phê lúc bụng đói. Đi bộ vài phút trước khi vào phòng cũng giúp bụng dịu hơn. Bác sĩ Hội hay dặn thêm: chuẩn bị kỹ nội dung cũng là một cách làm dịu cái bụng.
+[35–60s] Việc làm ngay trước cuộc họp: thở hộp một phút. Hít vào bốn giây, giữ bốn giây, thở ra bốn giây, nghỉ bốn giây. Làm bốn vòng. Ăn nhẹ trước họp một đến hai tiếng, tránh uống cà phê lúc bụng đói. Đi bộ vài phút trước khi vào phòng cũng giúp bụng dịu hơn. Tôi hay dặn thêm: chuẩn bị kỹ nội dung cũng là một cách làm dịu cái bụng.
 [60–75s] Nhưng nếu cồn cào cả khi không có áp lực, đau làm thức giấc ban đêm, hay đi ngoài thay đổi kéo dài nhiều tuần, nên đi khám. Kèm phân đen, đi ngoài ra máu, sụt cân nhanh thì đi khám ngay. Hiểu cơ thể mình là bước đầu của phục hồi tiêu hóa từ gốc. Theo dõi trang để nghe câu tiếp theo.
 
-**Hình ảnh & dựng:** Studio tối, đèn bàn vàng, kệ sách, micro, áo polo trắng; dọc 9:16. 0–3s ô bình luận che tên. Chữ hồng “PHẢN ỨNG BÌNH THƯỜNG”, “THỞ HỘP 4-4-4-4”. B-roll: phòng họp, chuông báo khói khi nướng bánh, hình vuông thở hộp chạy theo nhịp. Phụ đề trắng nền mờ. Cuối: thẻ dấu hiệu đi khám.
+**Hình ảnh & dựng:** Studio tối, đèn bàn vàng, kệ sách, micro, áo polo trắng; dọc 9:16. 0–3s ô bình luận che tên. Chữ nền xanh chàm “PHẢN ỨNG BÌNH THƯỜNG”, “THỞ HỘP 4-4-4-4”. B-roll: phòng họp, chuông báo khói khi nướng bánh, hình vuông thở hộp chạy theo nhịp. Phụ đề trắng nền mờ. Cuối: thẻ dấu hiệu đi khám.
 
 **Caption:** Sắp họp là bụng cồn cào, muốn đi vệ sinh? Phần lớn là phản ứng bình thường, nhưng có lúc cần đi khám. #BacSiHoi #bshoi #stress #daday
 
@@ -320,18 +320,20 @@ Phong cách: Hải Ninh Yoga · Khuôn YOGA · 150 giây · BS làm mẫu
 
 **Lời thoại**
 
-[0–1s] Tắt công tắc căng thẳng.
-[1–5s] Thả lỏng từ chân lên đầu, cơ thể dễ vào giấc hơn.
-[5–20s] Cơ thể mình có hai chế độ: báo động và nghỉ ngơi. Căng thẳng cả ngày thì nằm xuống rồi cơ bắp vẫn gồng, bụng vẫn thắt. Mẹo là gồng nhẹ năm giây rồi thả ra, để cơ thể nhận ra thế nào là lỏng. Khi cơ thể về chế độ nghỉ, dạ dày cũng tiêu hóa yên hơn. Trong video bác sĩ làm nhanh. Bác sĩ Hội hay dùng bài này cho những người nằm xuống là đầu chạy, bụng thắt. Tối nay ở nhà, mỗi phần cô bác anh chị làm chậm gấp đôi, cộng hơi thở cuối là khoảng năm phút.
-[20–50s] Phần một: đôi chân. Nằm ngửa, hai tay xuôi theo người, lòng bàn tay ngửa. Quặp các ngón chân, gồng bắp chân, gồng đùi. Gồng… hai… ba… bốn… năm. Thả. Cảm nhận đôi chân nặng xuống, ấm lên, như đang lún vào nệm. Gót chân nặng, đầu gối mềm. Thở ra… hai… ba… bốn… năm… sáu.
-[50s–1:20] Phần hai: bụng và lưng. Hóp nhẹ bụng, ép nhẹ lưng xuống giường, không cần mạnh. Ai vừa ăn no thì bỏ qua bước hóp bụng, chỉ thở thôi. Giữ… hai… ba… bốn… năm. Thả. Để bụng mềm, phồng lên xẹp xuống theo hơi thở, như mặt hồ gợn sóng nhẹ. Thở ra… hai… ba… bốn… năm… sáu.
-[1:20–1:45] Phần ba: tay và vai. Nắm chặt hai bàn tay, nhún vai lên sát tai. Gồng… hai… ba… bốn… năm. Thả. Hai bàn tay mở ra, vai rơi xuống, cánh tay nặng như hai túi cát. Ngón tay hơi cong, thả lỏng tự nhiên. Thở ra… hai… ba… bốn… năm… sáu.
-[1:45–2:10] Phần bốn: khuôn mặt. Nhắm chặt mắt, nhăn mũi, cắn nhẹ răng. Giữ… hai… ba… bốn… năm. Thả. Trán giãn ra, lông mày giãn ra, mí mắt nặng xuống, hàm mở nhẹ, lưỡi mềm. Giờ quét một lượt từ chân lên đầu: bàn chân, bắp chân, bụng, vai, khuôn mặt. Chỗ nào còn căng, thở ra và thả chỗ đó. Công tắc đã tắt.
-[2:10–2:30] Làm đều bảy ngày, sau bữa tối ít nhất hai tiếng. Làm xong thì nằm yên, không cầm điện thoại lên nữa. Nếu mất ngủ kéo dài nhiều tuần, ngáy to, ngưng thở khi ngủ, hãy đi khám. Đau bụng kèm phân đen, nôn ra máu thì đi khám ngay. Lưu lại và gửi cho bố mẹ nhé.
+[0–1s] Lên giường rồi, người vẫn gồng?
+[1–5s] Tối nào cũng tắt công tắc căng thẳng thế này, dễ vào giấc hơn.
+[5–20s] Vì sao? Cơ thể có hai chế độ: báo động và nghỉ ngơi. Căng thẳng cả ngày thì nằm xuống cơ vẫn gồng, bụng vẫn thắt. Mẹo là gồng nhẹ 5 giây rồi thả, để cơ thể nhận ra thế nào là lỏng. Cơ thể về chế độ nghỉ, dạ dày cũng tiêu hóa yên hơn. Làm cùng tôi nhé.
+[20–50s] Phần 1: đôi chân. Nằm ngửa, hai tay xuôi theo người, lòng bàn tay ngửa. Quặp các ngón chân, gồng bắp chân, gồng đùi. Gồng, hai, ba, bốn, năm. Thả. Cảm nhận đôi chân nặng xuống, ấm lên, như đang lún vào nệm. Gót chân nặng, đầu gối mềm. Ai hay chuột rút thì gồng nhẹ thôi. Thở ra, hai, ba, bốn, năm, sáu. Tốt lắm, đôi chân đã nghỉ.
+[50s–1:20] Phần 2: bụng và lưng. Hóp nhẹ bụng, ép nhẹ lưng xuống giường, không cần mạnh. Vừa ăn no thì bỏ bước hóp bụng, chỉ thở thôi. Giữ, hai, ba, bốn, năm. Thả. Để bụng mềm, phồng lên xẹp xuống theo hơi thở, như mặt hồ gợn sóng nhẹ. Lưng dưới nằm phẳng, thật nhẹ. Thở ra, hai, ba, bốn, năm, sáu.
+[1:20–1:45] Phần 3: tay và vai. Nắm chặt hai bàn tay, nhún vai lên sát tai. Gồng, hai, ba, bốn, năm. Thả. Hai bàn tay mở ra, vai rơi xuống, cánh tay nặng như hai túi cát. Ngón tay hơi cong, thả lỏng tự nhiên. Cổ dài ra, vai rộng ra. Thở ra, hai, ba, bốn, năm, sáu.
+[1:45–2:10] Phần 4: khuôn mặt. Nhắm chặt mắt, nhăn mũi, cắn nhẹ răng. Giữ, hai, ba, bốn, năm. Thả. Trán giãn ra, mí mắt nặng xuống, hàm mở nhẹ, lưỡi mềm. Giờ quét một lượt từ chân lên đầu. Chỗ nào còn căng, thở ra và thả chỗ đó. Cả người nặng, ấm và mềm. Công tắc đã tắt.
+[2:10–2:30] Làm đều 7 ngày, ở nhà làm chậm gấp đôi là đủ 5 phút, cảm nhận giấc ngủ khác đi. Làm xong thì nằm yên, không cầm điện thoại lên nữa. Mất ngủ nhiều tuần, ngáy to, ngưng thở khi ngủ thì đi khám. Đau bụng kèm phân đen, nôn ra máu thì đi khám ngay. Lưu lại và gửi cho bố mẹ nhé.
 
-**Hình ảnh & dựng:** Cận mặt, tường sáng, áo trơn nhạt. Giây 0: thẻ vàng in hoa “TẮT CÔNG TẮC CĂNG THẲNG”, ngón tay bấm như tắt công tắc. Quay nằm trên giường từ trên xuống. Thẻ số “1 ĐÔI CHÂN”, “2 BỤNG – LƯNG”, “3 TAY – VAI”, “4 KHUÔN MẶT”; ô đếm GỒNG 5 – THẢ. Đèn ngủ ánh ấm.
+**Hình ảnh & dựng:** Phòng ngủ đèn ấm, áo trơn nhạt. 0s cận mặt, thẻ in hoa nền xanh chàm, từ khóa vàng, ngang ngực “LÊN GIƯỜNG RỒI, NGƯỜI VẪN GỒNG?”, tay bấm tắt công tắc, giơ 4 ngón. Quay từ trên xuống; phụ đề đếm nhịp; thẻ số “1 CHÂN”, “2 BỤNG LƯNG”, “3 TAY VAI”, “4 MẶT”. Kết cận mặt mỉm cười.
 
-**Caption:** Nằm xuống mà người vẫn gồng? Tắt công tắc căng thẳng từ chân lên đầu trước khi ngủ. #BacSiHoi #bshoi #giacngu #stress
+**Caption:** 5 phút thả lỏng toàn thân: “tắt công tắc” căng thẳng trước khi ngủ #BacSiHoi #bshoi #stress
+
+**Ghi chú:** Video 2:30 làm nhanh; lời thoại nhắc ở nhà làm chậm gấp đôi cho đủ 5 phút như tiêu đề.
 
 ### 18. 22:00 · Chuyện đêm khuya số 6: Cô giáo và chiếc gối thứ ba
 
@@ -365,10 +367,10 @@ Phong cách: Bác sĩ Hải · Khuôn HAI-Q · 75 giây · BS nói – studio
 [0–3s] “Em quen ngủ sau mười hai giờ đêm, như vậy dạ dày có sao không bác sĩ?”
 [3–10s] Có ảnh hưởng, và thường qua hai đường: ăn khuya và lệch nhịp sinh học.
 [10–35s] Dạ dày cũng có giờ làm việc. Ban ngày nó co bóp, tiêu hóa; về đêm nó chậm lại để nghỉ. Thức khuya thì đói, đói thì ăn, ăn xong lại nằm. Dạ dày đang đầy mà nằm xuống, axit dễ trào lên. Giống như quán ăn đã kéo cửa mà khách vẫn gõ cửa gọi món, làm mãi thì ai cũng kiệt sức. Nhiều bạn trẻ còn uống trà sữa, cà phê lúc khuya cho tỉnh, dạ dày càng mệt. Ngủ thiếu kéo dài còn làm cơ thể căng thẳng hơn, dạ dày nhạy cảm hơn, sáng ra dễ chán ăn, cồn cào.
-[35–60s] Việc làm ngay: chốt bếp. Ăn bữa cuối trước giờ ngủ ít nhất ba tiếng. Lỡ thức khuya mà đói, uống vài ngụm nước ấm hoặc ăn nửa quả chuối, đừng ăn mì gói, đồ chiên. Rồi mỗi tuần dời giờ ngủ sớm hơn mười lăm phút, đến khi ngủ được trước mười một giờ. Đổi từ từ, cơ thể mới theo kịp. Bác sĩ Hội thấy nhiều người chỉ cần chốt bếp đúng giờ là bụng đã nhẹ hơn hẳn.
+[35–60s] Việc làm ngay: chốt bếp. Ăn bữa cuối trước giờ ngủ ít nhất ba tiếng. Lỡ thức khuya mà đói, uống vài ngụm nước ấm hoặc ăn nửa quả chuối, đừng ăn mì gói, đồ chiên. Rồi mỗi tuần dời giờ ngủ sớm hơn mười lăm phút, đến khi ngủ được trước mười một giờ. Đổi từ từ, cơ thể mới theo kịp. Tôi thấy nhiều người chỉ cần chốt bếp đúng giờ là bụng đã nhẹ hơn hẳn.
 [60–75s] Nếu thường xuyên ợ chua, đau vùng trên rốn về đêm, nên đi khám. Nôn ra máu, phân đen, sụt cân nhanh thì đi khám ngay. Ngủ đúng giờ là một phần của phục hồi tiêu hóa từ gốc. Theo dõi trang để nghe câu tiếp theo.
 
-**Hình ảnh & dựng:** Studio tối, đèn bàn vàng, kệ sách, micro, áo polo trắng; dọc 9:16. 0–3s ô bình luận che tên. Chữ hồng “ĂN KHUYA + LỆCH NHỊP”, “CHỐT BẾP TRƯỚC 3 TIẾNG”. B-roll: đồng hồ 0:30, bát mì đêm, quán ăn kéo cửa vẫn có người gõ. Phụ đề trắng nền mờ. Cuối: thẻ dấu hiệu đi khám.
+**Hình ảnh & dựng:** Studio tối, đèn bàn vàng, kệ sách, micro, áo polo trắng; dọc 9:16. 0–3s ô bình luận che tên. Chữ nền xanh chàm “ĂN KHUYA + LỆCH NHỊP”, “CHỐT BẾP TRƯỚC 3 TIẾNG”. B-roll: đồng hồ 0:30, bát mì đêm, quán ăn kéo cửa vẫn có người gõ. Phụ đề trắng nền mờ. Cuối: thẻ dấu hiệu đi khám.
 
 **Caption:** Ngủ sau 12 giờ đêm mỗi ngày, d.ạ d.ày chịu gì? Một việc nhỏ bắt đầu từ tối nay. #BacSiHoi #bshoi #daday #giacngu
 
@@ -378,18 +380,20 @@ Phong cách: Hải Ninh Yoga · Khuôn YOGA · 150 giây · BS làm mẫu
 
 **Lời thoại**
 
-[0–1s] Năm phút mỗi tối.
-[1–5s] Một chuỗi gom cả tuần: ngủ ngon hơn, bụng yên hơn.
-[5–20s] Cả tuần nay bác sĩ đã hướng dẫn từng động tác lẻ. Tối nay mình ghép lại thành một nghi thức trước khi ngủ. Làm cùng giờ, cùng thứ tự mỗi tối, cơ thể sẽ học được: đến lúc này là nghỉ, dạ dày cũng nghỉ. Mấy tối đầu có thể chưa thấy khác nhiều, cứ làm đều. Nhớ tập sau bữa tối ít nhất hai tiếng. Bắt đầu nhé.
-[20–50s] Một: thả hàm, hạ vai. Ngồi trên giường, lưng thẳng, hai bàn tay đặt trên đùi, lòng bàn tay ngửa. Răng tách nhau, lưỡi nằm mềm trong miệng. Hít vào, nhún vai lên sát tai… giữ… hai… ba. Thở ra, thả rơi. Thêm hai lần nữa. Nhún… giữ… thả. Nhún… giữ… thả. Hàm lỏng, vai thấp, cổ dài ra, như vừa cởi một chiếc áo nặng.
-[50s–1:20] Hai: thở bốn – bảy – tám. Nằm xuống, một tay đặt lên bụng. Bụng phồng lên khi hít, xẹp xuống khi thở ra. Hít vào bằng mũi… hai… ba… bốn. Giữ… hai… ba… bốn… năm… sáu… bảy. Thở ra bằng miệng… hai… ba… bốn… năm… sáu… bảy… tám. Trong video bác sĩ làm một vòng. Ở nhà, cô bác anh chị làm đủ bốn vòng, thấy choáng thì giữ hơi ngắn lại.
-[1:20–1:50] Ba: ôm gối và vặn mình. Ôm hai gối vào ngực, đung đưa nhẹ: một… hai… ba… bốn… năm. Dang tay chữ T, đổ gối sang phải, mặt quay trái: một… hai… ba. Đổi bên, đổ sang trái, mặt quay phải: một… hai… ba. Không cần đổ sát giường, đến đâu dễ chịu thì dừng. Về giữa, duỗi thẳng chân, thả lỏng lưng.
-[1:50–2:10] Bốn: tư thế ngủ. Nghiêng sang trái, gối kẹp giữa hai chân, đầu giường đã kê cao mười lăm đến hai mươi phân. Ôm thêm một chiếc gối trước ngực nếu thích. Đèn tắt, điện thoại để xa giường. Nhắm mắt. Thở ra thật dài. Thế là xong một vòng năm phút, cơ thể đã sẵn sàng cho giấc ngủ.
-[2:10–2:30] Làm đều bảy ngày, đừng bỏ tối nào. Mỗi tối làm xong, đánh một dấu vào lịch, đủ bảy dấu là đã có một thói quen mới. Nếu mất ngủ hay ợ chua, đau bụng vẫn đánh thức mình nhiều tuần, hãy đi khám. Phân đen, nôn ra máu, sụt cân nhanh thì đi khám ngay. Lưu lại, gửi cho người hay mất ngủ, và gửi cho bố mẹ nhé.
+[0–1s] 5 phút tối, ngủ ngon, bụng yên!
+[1–5s] Tối nào cũng làm chuỗi này, cơ thể tự biết đến giờ nghỉ.
+[5–20s] Vì sao? Làm cùng giờ, cùng thứ tự mỗi tối, cơ thể sẽ học: đến lúc này là nghỉ, dạ dày cũng nghỉ. Đây là chuỗi gom cả tuần. Mấy tối đầu chưa thấy khác thì cứ làm đều. Nhớ tập sau bữa tối ít nhất 2 tiếng. Bắt đầu cùng tôi nhé.
+[20–50s] Động tác 1: thả hàm, hạ vai. Ngồi trên giường, lưng thẳng, hai bàn tay đặt trên đùi. Răng tách nhau, lưỡi nằm mềm. Hít vào, nhún vai sát tai, giữ, hai, ba. Thở ra, thả rơi. Thêm hai lần. Nhún, giữ, hai, ba, thả. Nhún, giữ, hai, ba, thả. Tốt lắm. Hàm lỏng, vai thấp, cổ dài ra, như vừa cởi chiếc áo nặng.
+[50s–1:20] Động tác 2: thở bốn, bảy, tám. Nằm xuống, một tay đặt bụng. Bụng phồng khi hít, xẹp khi thở. Hít vào bằng mũi, hai, ba, bốn. Giữ, hai, ba, bốn, năm, sáu, bảy. Thở ra bằng miệng, hai, ba, bốn, năm, sáu, bảy, tám. Trong video làm một vòng. Ở nhà làm đủ bốn vòng, cả chuỗi là khoảng 5 phút. Thấy choáng thì giữ hơi ngắn lại.
+[1:20–1:50] Động tác 3: ôm gối, vặn mình. Ôm hai gối vào ngực, đung đưa nhẹ. Một, hai, ba, bốn, năm. Dang tay chữ T, thở ra, đổ gối sang phải, mặt quay trái. Một, hai, ba. Đổi bên, đổ sang trái, mặt quay phải. Một, hai, ba. Không cần đổ sát giường, đến đâu dễ chịu thì dừng. Về giữa, duỗi chân, thả lỏng lưng.
+[1:50–2:10] Động tác 4: tư thế ngủ. Nghiêng sang trái, gối kẹp giữa hai chân, đầu giường đã kê cao 15 đến 20 phân. Ôm thêm chiếc gối trước ngực nếu thích. Đèn tắt, điện thoại để xa giường. Nhắm mắt. Thở ra thật dài. Xong một vòng, cơ thể đã sẵn sàng cho giấc ngủ.
+[2:10–2:30] Làm đều 7 ngày, đừng bỏ tối nào, mỗi tối đánh một dấu vào lịch, cảm nhận giấc ngủ khác đi. Mất ngủ, ợ chua vẫn đánh thức nhiều tuần thì đi khám. Phân đen, nôn ra máu, sụt cân nhanh thì đi khám ngay. Lưu lại và gửi cho người nhà hay mất ngủ nhé.
 
-**Hình ảnh & dựng:** Cận mặt, tường sáng, áo trơn nhạt. Giây 0: thẻ vàng in hoa “5 PHÚT TỐI: NGỦ NGON, BỤNG YÊN”, xòe năm ngón tay. Trên giường, thẻ số “1 THẢ HÀM – HẠ VAI”, “2 THỞ 4-7-8”, “3 ÔM GỐI – VẶN MÌNH”, “4 NGHIÊNG TRÁI”. Góc trên: lịch 7 ô, đánh dấu từng ngày.
+**Hình ảnh & dựng:** Phòng ngủ đèn ấm, áo trơn nhạt. 0s cận mặt, thẻ in hoa nền xanh chàm, từ khóa vàng, ngang ngực “5 PHÚT TỐI: NGỦ NGON, BỤNG YÊN”, giơ 4 ngón. Phụ đề đếm nhịp; thẻ số “1 HÀM VAI”, “2 THỞ 4-7-8”, “3 ÔM GỐI”, “4 NGHIÊNG TRÁI”; góc trên lịch 7 ô. Kết cận mặt mỉm cười.
 
-**Caption:** 5 phút mỗi tối, làm đều 7 ngày: ngủ ngon hơn, bụng yên hơn. Lưu lại và gửi cho người hay mất ngủ. #BacSiHoi #bshoi #giacngu #daday #stress
+**Caption:** Làm đều 7 ngày: chuỗi 5 phút buổi tối giúp ngủ ngon, bụng yên #BacSiHoi #bshoi #giacngu
+
+**Ghi chú:** Lời mời theo ý chính của spec: gửi cho người nhà hay mất ngủ (vẫn là 1 lời mời duy nhất).
 
 ### 21. 22:00 · Chuyện đêm khuya số 7: Lá thư của một bạn xem lúc 1 giờ sáng
 

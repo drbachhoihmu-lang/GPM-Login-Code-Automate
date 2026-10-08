@@ -93,12 +93,23 @@
       <div id="sheetStruct" class="warn" style="display:none"></div>
       <table id="queue"><thead><tr><th>Hàng</th><th>Thời gian</th><th>Page</th><th>Profile</th><th>Tiêu đề</th><th>Trạng thái</th><th>Kế hoạch</th></tr></thead><tbody></tbody></table>
       <div class="actions" style="margin-top:10px">
+        <button class="primary" onclick="runReal(false)">▶ Bắt đầu đăng các bài chờ</button>
         <button onclick="run('plan')">Xem kế hoạch</button>
         <button onclick="run('dry')">Chạy thử (không đăng)</button>
-        <button class="primary" onclick="runReal()">Đăng / lên lịch theo Sheet</button>
+        <button onclick="runReal(true)" title="Đăng lại cả những hàng đang ghi Lỗi">Đăng lại hàng lỗi</button>
         <label class="f" style="flex-direction:row;align-items:center;gap:6px">Chỉ hàng <input type="text" id="rows" placeholder="vd 2,5" style="width:90px"></label>
         <label class="f" style="flex-direction:row;align-items:center;gap:6px">Tối đa <input type="number" id="max" min="0" style="width:70px" placeholder="tất cả"></label>
       </div>
+      <div class="muted" style="font-size:12px;margin-top:8px">Trạng thái trống hoặc <b>Chờ đăng</b> = sẽ đăng · <b>bỏ qua</b> = không đăng · <b>Đã lên lịch / Đã đăng</b> = xong · <b>Lỗi</b> = chỉ đăng lại khi bấm "Đăng lại hàng lỗi".</div>
+    </div>
+
+    <div class="card">
+      <h2>Tự động kiểm tra Sheet <span class="sp"></span><span id="autoPill" class="pill">…</span></h2>
+      <div class="row">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="autoOn" onchange="setAuto()"> Bật: cứ mỗi
+          <input type="number" id="autoMin" min="1" max="1440" style="width:60px" onchange="setAuto()"> phút kiểm tra Sheet, có bài <b>Chờ đăng</b> thì tự đăng</label>
+      </div>
+      <div id="autoInfo" class="muted" style="font-size:12px;margin-top:6px">—</div>
     </div>
 
     <div class="card">
@@ -183,16 +194,38 @@ async function loadSheet() {
   } else st.style.display = 'none';
 }
 
-async function run(mode, profile) {
-  const body = {mode};
+async function run(mode, profile, retry) {
+  const body = {mode, retry: !!retry};
   if (mode !== 'scan') { body.rows = $('#rows').value.trim() || null; const m = parseInt($('#max').value); if (m > 0) body.max = m; }
   else body.profile = profile || 'all';
   try { const d = await post('/api/run', body); watch(d.job); } catch (e) { alert(e.message); }
 }
-function runReal() {
-  const n = (SHEET && SHEET.rows || []).filter(r => r.will).length;
-  if (!n) { alert('Không có hàng nào sẽ đăng (xem cột Kế hoạch).'); return; }
-  if (confirm(`Sẽ ĐĂNG / LÊN LỊCH THẬT ${n} bài theo Sheet. Tiếp tục?`)) run('real');
+function runReal(retry) {
+  const rows = (SHEET && SHEET.rows) || [];
+  const n = rows.filter(r => r.will).length;
+  const nErr = rows.filter(r => !r.will && /lỗi/i.test(r.reason || '') ).length;
+  if (retry) {
+    if (!n && !nErr) { alert('Không có hàng chờ đăng hay hàng lỗi.'); return; }
+    if (confirm(`Sẽ ĐĂNG THẬT ${n} bài chờ + đăng lại ${nErr} hàng lỗi. Tiếp tục?`)) run('real', null, true);
+    return;
+  }
+  if (!n) { alert('Không có hàng nào chờ đăng (xem cột Kế hoạch).'); return; }
+  if (confirm(`Sẽ ĐĂNG / LÊN LỊCH THẬT ${n} bài chờ theo Sheet. Tiếp tục?`)) run('real');
+}
+async function loadAuto() {
+  try {
+    const d = await api('/api/auto');
+    $('#autoOn').checked = d.enabled; if (document.activeElement !== $('#autoMin')) $('#autoMin').value = d.interval;
+    $('#autoPill').textContent = d.enabled ? `ĐANG BẬT · mỗi ${d.interval} phút` : 'đang tắt';
+    $('#autoPill').className = 'pill ' + (d.enabled ? 'ok' : '');
+    $('#autoInfo').textContent = (d.last ? `Lần kiểm tra gần nhất ${d.last}: ${d.result}` : 'Chưa kiểm tra lần nào') + (d.next && d.enabled ? ` · lần tới ${d.next}` : '');
+    if (d.job && !JOB) { const j = await api(`/api/jobs/${d.job}`); if (j.running) watch(d.job); }
+  } catch (e) {}
+}
+async function setAuto() {
+  const m = parseInt($('#autoMin').value) || 5;
+  await post('/api/auto', {enabled: $('#autoOn').checked, interval: m});
+  loadAuto();
 }
 function watch(jid) {
   JOB = jid; clearInterval(jobTimer);
@@ -224,7 +257,7 @@ async function loadScreens() {
 }
 async function resumeJobs() { const jobs = await api('/api/jobs'); const r = jobs.find(j => j.running); if (r) watch(r.job); }
 
-(async () => { await loadConfig(); loadProfiles(); loadSheet(); loadScreens(); resumeJobs(); setInterval(loadProfiles, 15000); })();
+(async () => { await loadConfig(); loadProfiles(); loadSheet(); loadScreens(); loadAuto(); resumeJobs(); setInterval(loadProfiles, 20000); setInterval(loadAuto, 10000); })();
 </script>
 </body>
 </html>

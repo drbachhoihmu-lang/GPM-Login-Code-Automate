@@ -25,7 +25,7 @@ Phong cách: Thu Thủy – Dược liệu Việt · Khuôn TT-F1 · 18 giây ·
 [12–15s] Nóng rát khi nằm – ăn tối trước giờ ngủ 3 tiếng.
 [15–18s] Đau bụng về đêm, lặp đi lặp lại – đi khám.
 
-**Hình ảnh & dựng:** Nửa người, áo blouse, ngồi bàn laptop có ly cà phê. Banner vàng chữ đen: “DÂN VĂN PHÒNG BỊ GÌ – LÀM GÌ??”. 1/3 trên đổi ảnh tách nền đúng lúc nói: hộp cơm, trứng, đũa, cốc nước, lon có ga gạch chéo, đồng hồ, gối. Nhãn “#1”–“#8” màu nổi. Tay đếm số, không nhạc lấn giọng.
+**Hình ảnh & dựng:** Nửa người, áo blouse, ngồi bàn laptop có ly cà phê. Banner nền xanh dương sáng chữ trắng in hoa, từ khóa vàng: “DÂN VĂN PHÒNG BỊ GÌ – LÀM GÌ??”. 1/3 trên đổi ảnh tách nền đúng lúc nói: hộp cơm, trứng, đũa, cốc nước, lon có ga gạch chéo, đồng hồ, gối. Nhãn “#1”–“#8” màu nổi. Tay đếm số, không nhạc lấn giọng.
 
 **Caption:** Ợ chua, cồn cào, đầy hơi… dân văn phòng bị gì thì làm nấy?? Xem 2 lần mới nhớ hết! #BacSiHoi #DaDayVanPhong #daday #suckhoe
 
@@ -33,19 +33,19 @@ Phong cách: Thu Thủy – Dược liệu Việt · Khuôn TT-F1 · 18 giây ·
 
 ### 2. 12:00 · Cà phê trước hay sau bữa sáng: dân văn phòng nên chọn?
 
-Phong cách: Bác sĩ Hoa · Khuôn HOA-K2 · 40 giây · BS nói – studio
+Phong cách: Bác sĩ Hoa · Khuôn HOA-K2 · 32 giây · BS nói – studio
 
 **Lời thoại**
 
-[0–3s] Cà phê thì uống trước hay sau bữa sáng?
-[3–7s] Sau bữa sáng nhá. Đừng để ly cà phê đi làm trước cái bánh mì.
-[7–18s] Caffeine kích thích dạ dày tiết axit. Bụng đang rỗng, axit không có thức ăn để làm việc, nó quay sang làm phiền chính lớp niêm mạc. Thế là cồn cào, xót ruột, chưa tới 10 giờ đã khó chịu.
-[18–32s] Ở một số người, caffeine còn làm cơ vòng cuối thực quản, giống cánh cửa giữa dạ dày và thực quản, khép lỏng hơn. Cửa lỏng thì axit dễ trào lên cổ. Nên uống sau ăn khoảng 30 đến 60 phút, lúc dạ dày đã có thức ăn lót.
-[32–40s] Ai nghiện cà phê sáng thì ăn vài miếng trước đã, pha loãng hơn hoặc thêm chút sữa, uống chậm từng ngụm. Còn các bạn, đang uống trước hay sau bữa sáng? Comment A hay B nhá.
+[0–2s] Cà phê thì uống trước hay sau bữa sáng mới đúng?
+[2–6s] Sau bữa sáng nhá. Đừng để ly cà phê đi trước cái bánh mì.
+[6–26s] Caffeine kích thích dạ dày tiết axit. Bụng đang rỗng, axit không có thức ăn để làm việc, quay sang làm phiền chính lớp niêm mạc. Thế là cồn cào, xót ruột, chưa tới 10 giờ đã khó chịu. Ở một số người, caffeine còn làm cánh cửa cuối thực quản khép lỏng hơn, axit dễ trào lên cổ. Uống sau ăn khoảng 30 phút, lúc dạ dày đã có thức ăn lót, là êm hơn.
+[26–32s] Nghiện cà phê sáng thì nhớ ăn vài miếng trước đã, pha loãng hơn, uống chậm từng ngụm như thế này nhá. Các bạn đang là A uống trước, hay B uống sau bữa sáng? Comment cho tôi biết.
 
-**Hình ảnh & dựng:** Studio đèn ấm, blouse xanh, cầm ly cà phê và ổ bánh mì. Thẻ 2 dòng ngang ngực: “CÀ PHÊ / TRƯỚC HAY SAU ĂN SÁNG?”, từ khóa vàng. Giây 3 chữ to “SAU BỮA SÁNG”. Minh họa 3D dạ dày tiết axit, cơ vòng như cánh cửa, đổi mỗi 3–5 giây. Cuối: “A: TRƯỚC – B: SAU?”.
+**Hình ảnh & dựng:** Bàn làm việc, áo sơ mi. 0–3s cầm ly cà phê và ổ bánh mì. Thẻ ngang ngực nền xanh dương sáng, từ khóa vàng: “CÀ PHÊ SÁNG / TRƯỚC HAY SAU ĂN?”. 3–8s chữ to “SAU BỮA SÁNG”. 3D dạ dày tiết axit, đổi 3–5 giây. Chữ to viền đen “SAU ĂN 30 PHÚT”. Kết “A TRƯỚC – B SAU?”.
 
-**Caption:** Ly cà phê đi trước hay ổ bánh mì đi trước?? Chọn sai là d.ạ d.ày kêu cả buổi sáng. #BacSiHoi #DaDayVanPhong #caphe #daday
+**Caption:** Cà phê trước hay sau bữa sáng: dân văn phòng nên chọn?
+#BacSiHoi #bshoi #DaDayVanPhong
 
 **Ghi chú:** Không kết bằng cảm ơn; dừng ở câu hỏi A hay B.
 
@@ -84,35 +84,36 @@ Phong cách: Thu Thủy – Dược liệu Việt · Khuôn TT-F4 · 21 giây ·
 
 **Lời thoại**
 
-[0–2,5s] Dân văn phòng đừng uống 6 thứ này khi bụng đói.
-[2,5–5s] Thứ nhất, cà phê đặc – axit tiết ra mà bụng chưa có gì lót.
-[5–8s] Thứ hai, trà đặc, nhất là trà xanh pha đậm – dễ cồn cào, nôn nao.
-[8–11s] Thứ ba, nước cam, nước chanh – chua chồng lên chua.
-[11–14s] Thứ tư, nước có ga – bụng rỗng mà căng hơi, ợ liên tục.
-[14–17s] Thứ năm, trà sữa – ngọt gắt, nhiều béo, uống thay bữa càng không.
-[17–21s] Và cuối cùng, rượu bia – lúc đói càng xót ruột.
+[0–2,5s] Dân văn phòng, đừng uống sáu thứ này khi bụng đói.
+[2,5–5,5s] Thứ nhất, cà phê đặc. Bụng chưa có gì lót, dễ cồn cào.
+[5,5–8,5s] Thứ hai, trà đặc, nhất là trà xanh đậm.
+[8,5–11,5s] Thứ ba, nước cam, nước chanh. Chua chồng lên chua, dễ xót.
+[11,5–14,5s] Thứ tư, nước có ga. Bụng rỗng mà căng hơi, ợ liên tục.
+[14,5–17,5s] Thứ năm, trà sữa. Ngọt gắt, nhiều béo, càng không uống thay bữa.
+[17,5–21s] Và cuối cùng, rượu bia. Lúc đói, uống vào càng xót ruột.
 
-**Hình ảnh & dựng:** Nửa người tại bàn làm việc, nền tường xám. Banner vàng chữ đen: “ĐỪNG UỐNG 6 THỨ NÀY KHI BỤNG ĐÓI”. 1/3 trên: ly cà phê phin, ấm trà, cốc cam chanh, lon có ga, ly trà sữa, cốc bia, mỗi thứ hiện dấu X đỏ đúng lúc nói. Nhãn “THỨ 1”–“THỨ 6”. Tay đếm ngón.
+**Hình ảnh & dựng:** 9:16, nửa người giữa-dưới, nền xám, áo navy. Khung đầu: banner xanh dương sáng chữ trắng in hoa “ĐỪNG UỐNG 6 THỨ NÀY KHI BỤNG ĐÓI”, giơ 6 ngón. Nhãn “#1: CÀ PHÊ ĐẶC”… 1/3 trên ảnh tách nền gạch đỏ: ly phin, ấm trà, cam, lon ga, trà sữa, bia. Tay đếm, chỉ lên hình. Dừng ngay mục 6.
 
-**Caption:** Bụng đói mà uống mấy thứ này là d.ạ d.ày “xót” cả buổi sáng. Bạn từng uống thứ nào?? #BacSiHoi #DaDayVanPhong #daday #suckhoe
+**Caption:** DÂN VĂN PHÒNG ĐỪNG UỐNG 6 THỨ NÀY KHI BỤNG ĐÓI. Bạn đang uống mấy thứ rồi??
+#BacSiHoi #DaDayVanPhong #daday #suckhoe #reelsviral
 
-**Ghi chú:** Dừng ngay ở mục cuối, không kêu gọi.
+**Ghi chú:** Mỗi mục 2 nhịp ngắn, không giải thích cơ chế, khoảng 3 giây vì tiêu đề chốt 6 mục. Mục cuối “Và cuối cùng…”, dừng ngay, không kêu gọi.
 
 ### 5. 12:00 · Ngủ trưa gục bàn hay ngả ghế: cách nào ít ợ chua hơn?
 
-Phong cách: Bác sĩ Hoa · Khuôn HOA-K2 · 40 giây · BS nói – studio
+Phong cách: Bác sĩ Hoa · Khuôn HOA-K2 · 32 giây · BS nói – studio
 
 **Lời thoại**
 
-[0–3s] Ngủ trưa gục mặt xuống bàn hay ngả ghế ra sau, cách nào ít ợ chua hơn?
-[3–7s] Ngả ghế nhá, nhưng chờ ăn xong 20 đến 30 phút đã.
-[7–18s] Gục bàn là gập người, bụng bị ép vào mép bàn. Dạ dày vừa đầy cơm như cái túi căng, bị ép thì axit và thức ăn dễ trào ngược lên. Dậy là chua miệng, nóng rát cổ.
-[18–32s] Ngả ghế nửa nằm, đầu và ngực cao hơn bụng, trọng lực giúp giữ thức ăn ở dưới. Đừng nằm phẳng ngay sau bữa, nằm phẳng thì axit dễ chảy ngược hơn. Chợp mắt khoảng 15 đến 20 phút là đủ.
-[32–40s] Trước khi ngủ, nới thắt lưng, đi lại vài phút, bữa trưa ăn vừa no thôi. Bạn đang là team gục bàn hay team ngả ghế? Comment A hay B nhá.
+[0–2s] Ngủ trưa gục mặt xuống bàn hay ngả ghế ra sau, cách nào ít ợ chua hơn?
+[2–6s] Ngả ghế nhá, nhưng ăn xong chờ 20 đến 30 phút đã.
+[6–26s] Gục bàn là gập người, bụng bị ép vào mép bàn như thế này. Dạ dày vừa đầy cơm như cái túi căng, bị ép thì axit dễ trào lên. Dậy là chua miệng, rát cổ. Ngả ghế nửa nằm thì đầu và ngực cao hơn bụng, trọng lực giữ thức ăn ở dưới. Ghế không ngả được thì kê gối sau lưng cho thẳng người. Đừng nằm phẳng ngay sau bữa, nằm phẳng thì axit dễ chảy ngược hơn.
+[26–32s] Chợp mắt 15 đến 20 phút là đủ. Trước khi ngủ nhớ nới thắt lưng, đi lại vài phút, bữa trưa ăn vừa no thôi nhá. Các bạn đang là team A gục bàn, hay team B ngả ghế? Comment cho tôi biết.
 
-**Hình ảnh & dựng:** Cận mặt tường trơn, cắt sang bàn làm việc. Thẻ 2 dòng: “NGỦ TRƯA / GỤC BÀN HAY NGẢ GHẾ?”, từ khóa vàng. Bác sĩ diễn gục bàn ép bụng, rồi ngả ghế nửa nằm. Chữ to “NGẢ GHẾ – CHỜ 20–30 PHÚT”. 3D dạ dày bị ép, axit trào. Cuối: “A: GỤC BÀN – B: NGẢ GHẾ?”.
+**Hình ảnh & dựng:** Văn phòng, áo sơ mi. 0–3s gục mặt xuống bàn rồi ngả ghế ra sau. Thẻ ngang ngực nền xanh dương sáng, từ khóa vàng: “NGỦ TRƯA / GỤC BÀN HAY NGẢ GHẾ?”. 3–8s chữ to “NGẢ GHẾ – CHỜ 20–30 PHÚT”. 3D dạ dày bị ép, axit trào, đổi 3–5 giây. Kết “A GỤC BÀN – B NGẢ GHẾ?”.
 
-**Caption:** Ngủ trưa dậy là chua miệng, nóng rát cổ? Có khi lỗi nằm ở tư thế ngủ đấy. #BacSiHoi #DaDayVanPhong #traonguoc #ngutrua
+**Caption:** Ngủ trưa gục bàn hay ngả ghế: cách nào ít ợ chua hơn?
+#BacSiHoi #bshoi #DaDayVanPhong
 
 **Ghi chú:** Không kết bằng cảm ơn; dừng ở câu hỏi A hay B.
 
@@ -143,19 +144,20 @@ Phong cách: Thu Thủy – Dược liệu Việt · Khuôn TT-F5 · 19 giây ·
 
 **Lời thoại**
 
-[0–2s] 5 biểu hiện dạ dày dân văn phòng đang quá tải.
-[2–5s] Thứ nhất, cồn cào giữa buổi sáng, chưa tới trưa đã xót ruột.
-[5–7s] Thứ hai, ợ chua sau bữa trưa, chua tận cổ.
-[7–10s] Thứ ba, đầy hơi buổi chiều, bụng căng như trống.
-[10–12s] Thứ tư, ợ hơi liên tục, đang họp cũng phải nín.
-[12–15s] Thứ năm, nằm xuống là nóng rát, mất ngủ giữa đêm.
-[15–19s] Bạn có biểu hiện nào? Kéo dài nhiều tuần thì đi khám nhé.
+[0–2s] Năm biểu hiện dạ dày dân văn phòng đang quá tải.
+[2–4,5s] Thứ nhất, cồn cào giữa buổi sáng, chưa trưa đã xót.
+[4,5–7s] Thứ hai, ợ chua sau bữa trưa, chua lên tận cổ.
+[7–9,5s] Thứ ba, đầy hơi buổi chiều, bụng căng như trống.
+[9,5–12s] Thứ tư, ợ hơi liên tục, đang họp cũng phải nín.
+[12–14,5s] Thứ năm, nằm xuống là nóng rát, mất ngủ giữa đêm.
+[14,5–17,5s] Bạn có biểu hiện nào? Kéo dài vài tuần thì đi khám nhé.
 
-**Hình ảnh & dựng:** Nửa người cạnh laptop, nền cây xanh văn phòng. Banner vàng chữ đen: “5 BIỂU HIỆN DẠ DÀY ĐANG QUÁ TẢI”. 1/3 trên: đồng hồ 10 giờ, hộp cơm, bụng căng, bong bóng hơi, gối và mặt trăng. Nhãn “#1”–“#5”. Tay đếm ngón. Cuối hiện nhãn chữ: “BẠN CÓ BIỂU HIỆN NÀO? GHI SỐ 1–5”.
+**Hình ảnh & dựng:** 9:16, nửa người giữa-dưới, nền cây xanh, blouse. Khung đầu: banner xanh dương sáng chữ trắng in hoa “5 BIỂU HIỆN DẠ DÀY ĐANG QUÁ TẢI”, giơ 5 ngón. Nhãn “#1: CỒN CÀO”… 1/3 trên ảnh tách nền đổi theo từng ý. Tay đếm, chỉ lên hình. Nhãn kết “CÓ SỐ MẤY? BÌNH LUẬN ĐỂ BÁC SĨ HỘI HỖ TRỢ”.
 
-**Caption:** Cồn cào, ợ chua, đầy hơi… d.ạ d.ày dân văn phòng đang kêu cứu đấy. Bạn có biểu hiện số mấy?? #BacSiHoi #DaDayVanPhong #daday #suckhoe
+**Caption:** 5 BIỂU HIỆN D.Ạ D.ÀY DÂN VĂN PHÒNG ĐANG QUÁ TẢI. Bạn có biểu hiện số mấy??
+#BacSiHoi #DaDayVanPhong #daday #suckhoe #reelsviral
 
-**Ghi chú:** Câu hỏi cuối hiện bằng nhãn chữ, lời nói không quá 3–4 giây.
+**Ghi chú:** Đọc nhanh khoảng 2,5 giây mỗi biểu hiện. Câu hỏi cuối nói dưới 3 giây; lời mời bình luận để ở nhãn chữ, tự xưng “bác sĩ Hội” như KOL xưng “dược sĩ Thủy”.
 
 ### 8. 12:00 · 2 phút tại bàn làm việc giúp bụng bớt căng sau bữa trưa
 
@@ -163,20 +165,21 @@ Phong cách: Bác sĩ Hoa · Khuôn HOA-K1 · 55 giây · BS làm mẫu
 
 **Lời thoại**
 
-[0–3s] Ăn trưa xong ngồi vào máy là bụng căng cứng, cúc quần muốn bung?
-[3–12s] Ngồi gù ngay sau ăn, bụng bị gập lại, ruột khó co bóp, hơi cứ ứ ở đó. Làm cùng bác sĩ Hội 2 phút này, ngay tại ghế nhá.
-[12–20s] Bước 1, ngồi thẳng. Lưng thẳng, hai bàn chân đặt phẳng xuống sàn, vai thả lỏng. Giữ 5 nhịp thở.
-[20–28s] Bước 2, vặn mình nhẹ. Tay phải đặt lên gối trái, xoay chậm sang trái, chỉ nửa chừng, về giữa rồi đổi bên. Mỗi bên 5 lần.
-[28–36s] Bước 3, đứng dậy kiễng chân. Đứng cạnh bàn, nhón gót lên, hạ xuống, 15 lần.
-[36–45s] Bước 4, thở bụng. Một tay đặt lên bụng, hít vào 4 giây cho bụng phồng, thở ra 6 giây cho bụng xẹp. 5 lần.
-[45–52s] Kiên trì mỗi trưa khoảng 1 tháng, nhiều bạn sẽ thấy buổi chiều nhẹ bụng hơn. Đau bụng dữ dội, bụng cứng thì đừng tập, đi cấp cứu ngay.
-[52–55s] Nhớ lưu lại video này để mỗi trưa mở ra tập nhá.
+[0–3s] Ăn trưa xong ngồi vào máy là bụng căng cứng? Có khi tại dáng ngồi đấy. Làm 2 phút này nhá.
+[3–12s] Ngồi gù ngay sau ăn, bụng bị gập lại, ruột khó co bóp, hơi cứ ứ ở đó. Làm ngay tại ghế, không cần thay đồ.
+[12–20s] Bước 1, ngồi thẳng. Ngồi sâu vào ghế, lưng thẳng, hai bàn chân đặt phẳng xuống sàn như thế này, vai thả lỏng. Lỗi hay gặp là ngồi mép ghế mà lưng vẫn gù. Giữ 5 nhịp thở: một, hai, ba, bốn, năm.
+[20–28s] Bước 2, vặn mình nhẹ. Tay phải đặt lên gối trái, xoay chậm sang trái như thế này, chỉ nửa chừng thôi, về giữa rồi đổi bên. Đếm nhá: một, hai, ba, bốn, năm. Mỗi bên 5 lần. Đừng vặn hết cỡ, vặn mạnh là khó chịu ngay.
+[28–36s] Bước 3, đứng dậy cạnh bàn, tay vịn mép bàn, nhón gót lên, hạ xuống như thế này. Một, hai, ba, bốn, năm, cứ thế đến mười lăm. Hạ gót từ từ, đừng dậm mạnh xuống sàn.
+[36–45s] Bước 4, thở bụng. Một tay đặt lên bụng như thế này. Hít vào 4 giây cho bụng phồng: một, hai, ba, bốn. Thở ra 6 giây cho bụng xẹp: một, hai, ba, bốn, năm, sáu. 5 lần. Hít vào mà vai nhô lên là sai, vai để yên nhá.
+[45–51s] Kiên trì mỗi trưa khoảng 1 tháng, nhiều bạn thấy buổi chiều nhẹ bụng hơn. Đau bụng dữ dội, bụng cứng thì đừng tập, đi cấp cứu ngay.
+[51–55s] Nhớ lưu lại video này để mỗi trưa mở ra tập cùng tôi nhá.
 
-**Hình ảnh & dựng:** Bàn làm việc thật, laptop, ghế văn phòng; áo thường, quay toàn thân. Thẻ 2 dòng: “BỤNG CĂNG SAU BỮA TRƯA? / 2 PHÚT TẠI BÀN”. Mỗi bước chữ to giữa khung: “BƯỚC 1 – 5 NHỊP THỞ”, “MỖI BÊN 5 LẦN”, “15 LẦN”, “HÍT 4 – THỞ 6”. Chèn 3D ruột. Cuối chữ “LƯU LẠI” và mũi tên.
+**Hình ảnh & dựng:** Bàn làm việc, laptop, áo sơ mi, quay toàn thân. 0–3s ôm bụng căng, nới cúc quần. Thẻ ngang ngực nền xanh dương sáng, từ khóa vàng: “BỤNG CĂNG SAU BỮA TRƯA? / 2 PHÚT TẠI BÀN”. Chữ to viền đen: “5 NHỊP THỞ”, “MỖI BÊN 5 LẦN”, “15 LẦN”, “HÍT 4 – THỞ 6”. Kết “LƯU LẠI” mũi tên.
 
-**Caption:** Ăn trưa xong bụng căng như trống? 2 phút ngay tại ghế, làm xong rồi hẵng mở mail. #BacSiHoi #DaDayVanPhong #dayhoi #suckhoe
+**Caption:** 2 phút tại bàn làm việc giúp bụng bớt căng sau bữa trưa
+#BacSiHoi #bshoi #DaDayVanPhong
 
-**Ghi chú:** Bác sĩ làm mẫu chậm, đếm số lần thành tiếng; vặn mình biên độ nhỏ vì vừa ăn xong.
+**Ghi chú:** Bác sĩ làm mẫu chậm, đếm số lần thành tiếng; vặn mình biên độ nhỏ vì vừa ăn xong. Nhón gót 15 lần và thở bụng 5 lần: làm mẫu đủ một lượt đếm rồi tua nhanh kèm chữ đếm. Lời thoại dài khoảng 250–275 tiếng cho 55 giây, nói nhanh khoảng 300 tiếng/phút theo nhịp KOL; giữ đúng khung 0–3s triệu chứng, 3–12s nguyên nhân, 12–45s làm mẫu, 45–55s lời hứa thời gian và lưu lại. Đếm thành tiếng khớp đúng nhịp tay; câu “lỗi hay gặp”: chèn X đỏ lên dáng sai 1–2 giây.
 
 ### 9. 21:30 · Ngồi 8 tiếng mà bụng cứ căng: đừng xoa mãi tới 2030, làm 3 động tác này
 
@@ -211,36 +214,37 @@ Phong cách: Thu Thủy – Dược liệu Việt · Khuôn TT-F4 · 21 giây ·
 
 **Lời thoại**
 
-[0–2,5s] Muốn bụng nhẹ buổi chiều, đừng làm 7 điều này buổi trưa.
-[2,5–5s] Thứ nhất, đừng ăn xong bữa trong 10 phút.
-[5–7s] Thứ hai, đừng vừa ăn vừa nhìn máy tính.
-[7–9,5s] Thứ ba, đừng vừa buông đũa là gục xuống bàn ngủ.
-[9,5–12s] Thứ tư, ít ăn cơm rang, mì xào nhiều dầu.
-[12–14,5s] Thứ năm, đừng lấy nước ngọt có ga thay nước lọc.
-[14,5–17s] Thứ sáu, đừng bỏ bữa trưa rồi chiều ăn vặt bù.
-[17–21s] Và cuối cùng, đừng ăn no căng tới mức phải nới thắt lưng.
+[0–2,5s] Muốn bụng nhẹ buổi chiều, đừng làm bảy điều này buổi trưa.
+[2,5–5s] Thứ nhất, đừng ăn vội, mười phút đã xong bữa.
+[5–7,5s] Thứ hai, đừng vừa ăn, vừa nhìn máy tính.
+[7,5–10s] Thứ ba, đừng buông đũa, gục xuống bàn ngủ ngay.
+[10–12,5s] Thứ tư, đừng ăn cơm rang, mì xào ngập dầu.
+[12,5–15s] Thứ năm, đừng thay nước lọc bằng nước ngọt có ga.
+[15–17,5s] Thứ sáu, đừng bỏ bữa trưa, chiều lại ăn vặt bù.
+[17,5–21s] Và cuối cùng, đừng ăn no căng, tới mức nới thắt lưng.
 
-**Hình ảnh & dựng:** Nửa người tại bàn ăn trưa văn phòng. Banner vàng chữ đen: “MUỐN BỤNG NHẸ BUỔI CHIỀU – ĐỪNG LÀM 7 ĐIỀU NÀY”. 1/3 trên: đồng hồ 10 phút, laptop cạnh hộp cơm, người gục bàn, đĩa cơm rang, lon nước ngọt, đĩa trống, thắt lưng, mỗi thứ dấu X đỏ. Nhãn “THỨ 1”–“THỨ 7”. Tay đếm.
+**Hình ảnh & dựng:** 9:16, nửa người giữa-dưới, nền cây xanh, áo navy. Khung đầu: banner xanh dương sáng chữ trắng in hoa “MUỐN BỤNG NHẸ BUỔI CHIỀU ĐỪNG LÀM 7 ĐIỀU NÀY”, giơ 7 ngón. Nhãn “#1: ĂN VỘI”… 1/3 trên ảnh tách nền từng việc, gạch đỏ, đổi đúng nhịp. Tay đếm, chỉ lên hình. Dừng ngay mục 7.
 
-**Caption:** Chiều nào bụng cũng nặng ì? Có khi lỗi nằm ở bữa trưa đấy. Bạn đang mắc điều thứ mấy?? #BacSiHoi #DaDayVanPhong #daday #antrua
+**Caption:** MUỐN BỤNG NHẸ BUỔI CHIỀU, ĐỪNG LÀM 7 ĐIỀU NÀY BUỔI TRƯA. Bạn đang mắc điều thứ mấy??
+#BacSiHoi #DaDayVanPhong #daday #antrua #reelsviral
 
-**Ghi chú:** Dừng ngay ở mục cuối, không kêu gọi.
+**Ghi chú:** Khuôn lặp “Thứ…, đừng…” suốt video, khoảng 2,5 giây mỗi mục. Mục cuối “Và cuối cùng…”, dừng ngay, không kêu gọi.
 
 ### 11. 12:00 · Trà sữa hay cà phê sữa: ly nào nặng bụng hơn?
 
-Phong cách: Bác sĩ Hoa · Khuôn HOA-K2 · 40 giây · BS nói – studio
+Phong cách: Bác sĩ Hoa · Khuôn HOA-K2 · 32 giây · BS nói – studio
 
 **Lời thoại**
 
-[0–3s] Trà sữa hay cà phê sữa, ly nào làm bụng nặng hơn?
-[3–7s] Thường là trà sữa nhá, nhất là ly to, đủ đường, nhiều topping.
-[7–18s] Một ly trà sữa thường có đường, bột kem béo, thêm trân châu là tinh bột dai. Chất béo làm dạ dày tiêu chậm lại, trân châu thì hay nuốt vội chẳng nhai, thế là cả chiều no ì, đầy bụng.
-[18–32s] Tổ chức Y tế Thế giới khuyên đường tự do mỗi ngày lý tưởng là dưới khoảng 25 gram, cỡ 6 thìa cà phê. Một ly trà sữa lớn đủ đường có thể đã vượt mức này. Còn cà phê sữa ly nhỏ hơn, nhưng nhiều caffeine, uống lúc đói dễ cồn cào, ợ chua.
-[32–40s] Muốn uống thì chọn ly nhỏ, ít đường, bớt topping, uống sau bữa ăn, đừng uống thay bữa. Bạn team trà sữa hay team cà phê sữa? Comment A hay B nhá.
+[0–2s] Trà sữa hay cà phê sữa, ly nào làm bụng nặng hơn?
+[2–6s] Thường là trà sữa nhá, nhất là ly to, đủ đường, nhiều topping.
+[6–26s] Một ly trà sữa thường có đường, bột kem béo, thêm trân châu là tinh bột dai. Chất béo làm dạ dày tiêu chậm lại, trân châu hay nuốt vội chẳng nhai, thế là cả chiều no ì. Tổ chức Y tế Thế giới khuyên đường tự do mỗi ngày tốt nhất dưới khoảng 25 gam, cỡ 6 thìa cà phê. Một ly lớn đủ đường có thể đã vượt mức này. Cà phê sữa ly nhỏ hơn, nhưng nhiều caffeine, uống lúc đói dễ cồn cào, ợ chua.
+[26–32s] Muốn uống thì nhớ chọn ly nhỏ, ít đường, bớt topping, uống sau bữa ăn nhá. Các bạn team A trà sữa, hay team B cà phê sữa? Comment cho tôi biết.
 
-**Hình ảnh & dựng:** Studio đèn ấm, blouse xanh, hai tay cầm ly trà sữa và ly cà phê sữa. Thẻ 2 dòng: “TRÀ SỮA HAY CÀ PHÊ SỮA / LY NÀO NẶNG BỤNG HƠN?”. Chữ to “THƯỜNG LÀ TRÀ SỮA”. Minh họa: thìa đường xếp hàng, trân châu, dạ dày tiêu chậm. Chữ “25G ≈ 6 THÌA”. Cuối: “A hay B?”.
+**Hình ảnh & dựng:** Bàn làm việc, áo sơ mi. 0–3s giơ ly trà sữa, ly cà phê sữa. Thẻ ngang ngực nền xanh dương sáng, từ khóa vàng: “TRÀ SỮA HAY CÀ PHÊ SỮA / LY NÀO NẶNG BỤNG?”. 3–8s chữ to “THƯỜNG LÀ TRÀ SỮA”. Thìa đường xếp hàng, đổi 3–5 giây. Chữ to “25G ≈ 6 THÌA (WHO)”. Kết “A HAY B?”.
 
-**Caption:** Team trà sữa hay team cà phê sữa? Ly nào khiến d.ạ d.ày bạn ì cả buổi chiều?? #BacSiHoi #DaDayVanPhong #trasua #caphe
+**Caption:** Trà sữa hay cà phê sữa: ly nào nặng bụng hơn?
+#BacSiHoi #bshoi #DaDayVanPhong
 
 **Ghi chú:** Mốc đường tự do dưới khoảng 25g/ngày (khoảng 6 thìa cà phê) theo khuyến cáo của WHO; lượng đường mỗi ly trà sữa khác nhau tùy quán nên chỉ nói “có thể”.
 
@@ -251,22 +255,22 @@ Phong cách: Health coach Nam Hà · Khuôn NH-B1 · 33 giây · BS nói – ngo
 **Lời thoại**
 
 [0–3s] Tăng ca về, cả đời nhớ hạn chế 7 thói quen ăn đêm này.
-[3–6s] Một, mì gói lúc nửa đêm: mặn, nhiều dầu. Hạn chế!
-[6–9s] Hai, ăn xong lăn ra ngủ: axit leo lên cổ. Hạn chế!
-[9–12s] Ba, đồ chiên: dạ dày phải tăng ca theo. Hạn chế!
-[12–15s] Bốn, trà sữa đêm: ngọt, béo, lại khó ngủ. Hạn chế!
-[15–18s] Năm, ăn no căng cho bõ đói: hạn chế!
-[18–21s] Sáu, vừa ăn vừa gõ máy: nuốt cả hơi lẫn stress. Hạn chế!
-[21–24s] Bảy, bỏ bữa tối rồi khuya ăn bù: hạn chế luôn!
-[24–28s] Đói quá thì ăn nhẹ, một quả chuối hay hộp sữa chua. Bữa chính xong trước giờ ngủ 2 đến 3 tiếng.
-[28–31s] Nhớ lưu lại và lan tỏa cho hội tăng ca nhé.
-[31–33s] Dạ dày khỏe, deadline nhẹ. Hẹn gặp lại, xin chào!
+[3–6s] Một, mì gói nửa đêm: mặn, nhiều dầu. Hạn chế!
+[6–8s] Hai, ăn xong nằm ngay: axit trào lên. Hạn chế!
+[8–11s] Ba, đồ chiên: dạ dày phải tăng ca theo. Hạn chế!
+[11–13s] Bốn, trà sữa đêm: ngọt, béo, khó ngủ. Hạn chế!
+[13–16s] Năm, ăn cho bõ đói, no căng tới cổ. Hạn chế!
+[16–19s] Sáu, ăn cạnh bàn phím: nuốt cả hơi lẫn stress. Hạn chế!
+[19–22s] Bảy, bỏ bữa tối, khuya mới ăn bù: hạn chế luôn!
+[22–25s] Đói quá thì một quả chuối hay hộp sữa chua là đủ.
+[25–30s] Nhớ lưu lại, lan tỏa cho hội tăng ca. Bạn đang dính mấy thói quen? Comment một con số nhé.
+[30–33s] Dạ dày khỏe, deadline nhẹ. Hẹn gặp lại, xin chào!
 
-**Hình ảnh & dựng:** Ngoài trời, sân thượng tòa văn phòng buổi tối, áo sáng. Box xanh dương: “CẢ ĐỜI NHỚ HẠN CHẾ 7 THÓI QUEN ĂN ĐÊM SAU TĂNG CA”, sticker STOP. Mỗi ý một sticker bật cạnh mặt: gói mì, giường, gà rán, trà sữa, bụng căng, laptop, đồng hồ khuya; tay chỉ. Chữ vàng “HẠN CHẾ!”. Kết vẫy tay.
+**Hình ảnh & dựng:** Sân thượng văn phòng, áo sáng, mic cài áo. Giây 0 box xanh dương “CẢ ĐỜI NHỚ HẠN CHẾ / 7 THÓI QUEN ĂN ĐÊM SAU TĂNG CA”, sticker STOP. Tay đếm 1–7, số chữ vàng; sticker bật cạnh mặt: gói mì, giường, gà rán, trà sữa, bụng căng, laptop, đồng hồ. “HẠN CHẾ!” bật theo nhịp. Kết vẫy tay.
 
-**Caption:** Tăng ca về đói quá là lao vào mì gói? D.ạ d.ày cũng đang tăng ca cùng bạn đấy. #BacSiHoi #DaDayVanPhong #tangca #traonguoc
+**Caption:** Cả đời nhớ hạn chế 7 thói quen ăn đêm sau tăng ca, d.ạ d.ày cũng đang tăng ca cùng bạn đấy. Bạn đang dính mấy cái? #BacSiHoi #DaDayVanPhong #tangca #traonguoc
 
-**Ghi chú:** Mỗi ý khoảng 2,5–3 giây, chữ “HẠN CHẾ!” bật cùng nhịp nói.
+**Ghi chú:** Không chào ở đầu. Mỗi ý khoảng 2,5–3 giây, chữ “HẠN CHẾ!” bật cùng nhịp nói. Bác sĩ duyệt danh sách trước khi quay.
 
 ---
 
@@ -287,7 +291,7 @@ Phong cách: Thu Thủy – Dược liệu Việt · Khuôn TT-F1 · 18 giây ·
 [12–15s] Nước tăng lực – tránh lúc bụng rỗng, tránh buổi tối.
 [15–18s] Trà sữa – thỉnh thoảng thôi, ly nhỏ, ít đường.
 
-**Hình ảnh & dựng:** Nửa người, cầm cốc nước tại bàn làm việc. Banner vàng chữ đen: “ĐỒ UỐNG VĂN PHÒNG: UỐNG GÌ – LÚC NÀO??”. 1/3 trên đổi ảnh tách nền đúng lúc nói: cốc nước ấm, ly phin, chai nước, ấm trà xanh, cốc cam, lon có ga, lon tăng lực, ly trà sữa nhỏ. Nhãn “#1”–“#8”. Tay đếm số.
+**Hình ảnh & dựng:** Nửa người, cầm cốc nước tại bàn làm việc. Banner nền xanh dương sáng chữ trắng in hoa, từ khóa vàng: “ĐỒ UỐNG VĂN PHÒNG: UỐNG GÌ – LÚC NÀO??”. 1/3 trên đổi ảnh tách nền đúng lúc nói: cốc nước ấm, ly phin, chai nước, ấm trà xanh, cốc cam, lon có ga, lon tăng lực, ly trà sữa nhỏ. Nhãn “#1”–“#8”. Tay đếm số.
 
 **Caption:** Cà phê, trà xanh, trà sữa… uống lúc nào cho d.ạ d.ày đỡ “phản đối”?? #BacSiHoi #DaDayVanPhong #douong #suckhoe
 
@@ -295,19 +299,19 @@ Phong cách: Thu Thủy – Dược liệu Việt · Khuôn TT-F1 · 18 giây ·
 
 ### 14. 12:00 · Nhịn ăn sáng để giảm cân: sai lầm khiến dân văn phòng đau dạ dày
 
-Phong cách: Bác sĩ Hoa · Khuôn HOA-K2 · 40 giây · BS nói – studio
+Phong cách: Bác sĩ Hoa · Khuôn HOA-K2 · 32 giây · BS nói – studio
 
 **Lời thoại**
 
-[0–3s] Dân văn phòng ơi, nhịn ăn sáng cho nhanh giảm cân? Sai lầm đấy.
-[3–7s] Nhịn sáng không làm bạn ăn ít đi đâu, nó chỉ dồn cơn đói sang bữa trưa.
-[7–20s] Thử tính nhé: ăn tối lúc 7 giờ, nhịn tới 12 giờ trưa hôm sau là 17 tiếng dạ dày rỗng. Tới giờ ăn quen, dạ dày vẫn tiết dịch như mọi ngày, mà không có gì để tiêu, thế là cồn cào, xót ruột.
-[20–32s] Tới trưa đói quá, ăn vội, ăn nhiều, lại hay chọn món nhiều dầu. Chiều đầy bụng, ợ chua, buồn ngủ díp mắt. Còn cân nặng thì chưa chắc đã giảm.
-[32–40s] Thay vì nhịn, ăn một bữa sáng nhỏ có đạm: một quả trứng với lát bánh mì, hoặc hộp sữa chua với quả chuối. Ai đang đau dạ dày thì đừng tự nhịn, hỏi bác sĩ trước. Bạn chọn nhịn sáng hay ăn sáng nhẹ? Comment A hay B nhá.
+[0–2s] Một sai lầm rất nhiều bạn văn phòng mắc: nhịn ăn sáng cho nhanh giảm cân.
+[2–6s] Nhịn sáng thường không làm bạn ăn ít đi đâu nhá, nó chỉ dồn cơn đói sang bữa trưa.
+[6–26s] Thử tính nhé: ăn tối 7 giờ, nhịn tới 12 giờ trưa hôm sau là 17 tiếng dạ dày rỗng. Tới giờ ăn quen, dạ dày vẫn tiết dịch, mà không có gì để tiêu, thế là cồn cào, xót ruột. Trưa đói quá, ăn vội, ăn nhiều, lại hay chọn món nhiều dầu. Chiều đầy bụng, ợ chua, buồn ngủ díp mắt. Còn cân thì chưa chắc đã giảm.
+[26–32s] Nhớ thay bằng bữa sáng nhỏ có đạm: một quả trứng với lát bánh mì, hoặc hộp sữa chua với quả chuối nhá. Đang đau dạ dày thì đừng tự nhịn. Các bạn chọn A nhịn sáng, hay B ăn sáng nhẹ? Comment nhá.
 
-**Hình ảnh & dựng:** Studio đèn ấm, blouse xanh; đạo cụ đĩa trống, hộp sữa chua, quả chuối. Thẻ 2 dòng: “NHỊN ĂN SÁNG ĐỂ GIẢM CÂN? / SAI LẦM”. Chữ to “17 TIẾNG DẠ DÀY RỖNG”, đồng hồ 7 giờ tối – 12 giờ trưa. Minh họa đĩa cơm trưa nhiều dầu. Cuối: “A: NHỊN – B: ĂN NHẸ?”.
+**Hình ảnh & dựng:** Bàn làm việc, áo sơ mi. 0–3s đẩy đĩa trống ra, lắc đầu. Thẻ ngang ngực nền xanh dương sáng, từ khóa vàng: “NHỊN ĂN SÁNG / ĐỂ GIẢM CÂN?”. Đồng hồ 19h–12h, chữ to viền đen “17 TIẾNG DẠ DÀY RỖNG”. Đạo cụ trứng, bánh mì, sữa chua, chuối. Kết “A NHỊN – B ĂN NHẸ?”.
 
-**Caption:** Nhịn ăn sáng cho nhanh giảm cân? Coi chừng cân chưa giảm mà d.ạ d.ày đã cồn cào cả buổi. #BacSiHoi #DaDayVanPhong #ansang #daday
+**Caption:** Nhịn ăn sáng để giảm cân: sai lầm khiến dân văn phòng đau d.ạ d.ày
+#BacSiHoi #bshoi #DaDayVanPhong
 
 **Ghi chú:** Con số 17 tiếng là phép tính minh họa từ 19 giờ tối tới 12 giờ trưa, không phải số liệu nghiên cứu.
 
@@ -347,7 +351,7 @@ Phong cách: Thu Thủy – Dược liệu Việt · Khuôn TT-F5 · 19 giây ·
 [14,5–17s] Thứ sáu, miếng cơm nhai vài cái đã nuốt.
 [17–19s] Bạn có mấy dấu hiệu? Từ trưa mai, đặt đũa xuống giữa mỗi miếng nhé.
 
-**Hình ảnh & dựng:** Nửa người, ngồi bàn ăn văn phòng, cầm đũa. Banner vàng chữ đen: “6 DẤU HIỆU BẠN ĐANG “NGHIỆN” ĂN VỘI”. 1/3 trên: đồng hồ bấm giờ, điện thoại, bong bóng hơi, bụng căng, chữ “HỨC”, miếng cơm. Nhãn “#1”–“#6”. Tay đếm ngón. Cuối hiện nhãn chữ: “BẠN CÓ MẤY DẤU HIỆU?”.
+**Hình ảnh & dựng:** Nửa người, ngồi bàn ăn văn phòng, cầm đũa. Banner nền xanh dương sáng chữ trắng in hoa, từ khóa vàng: “6 DẤU HIỆU BẠN ĐANG “NGHIỆN” ĂN VỘI”. 1/3 trên: đồng hồ bấm giờ, điện thoại, bong bóng hơi, bụng căng, chữ “HỨC”, miếng cơm. Nhãn “#1”–“#6”. Tay đếm ngón. Cuối hiện nhãn chữ: “BẠN CÓ MẤY DẤU HIỆU?”.
 
 **Caption:** Lúc nào cũng ăn xong trước cả phòng? Coi chừng bạn đang “nghiện” ăn vội. Bạn có mấy dấu hiệu?? #BacSiHoi #DaDayVanPhong #anvoi #daday
 
@@ -355,19 +359,19 @@ Phong cách: Thu Thủy – Dược liệu Việt · Khuôn TT-F5 · 19 giây ·
 
 ### 17. 12:00 · Ăn trưa lúc 11 giờ hay 1 giờ: giờ nào tốt cho dạ dày?
 
-Phong cách: Bác sĩ Hoa · Khuôn HOA-K2 · 40 giây · BS nói – studio
+Phong cách: Bác sĩ Hoa · Khuôn HOA-K2 · 32 giây · BS nói – studio
 
 **Lời thoại**
 
-[0–3s] Ăn trưa lúc 11 giờ hay 1 giờ chiều, giờ nào tốt cho dạ dày hơn?
-[3–7s] Giờ nào cũng được nhá, quan trọng là ngày nào cũng gần đúng giờ đó.
-[7–18s] Dạ dày có một cái đồng hồ riêng. Ăn đều giờ, cứ tới giờ quen là nó tiết dịch sẵn chờ cơm. Hôm 11 giờ, hôm 2 giờ, đồng hồ loạn nhịp: lúc thì axit chờ mà chẳng có cơm, lúc thì đói quá ăn dồn, no căng.
-[18–32s] Một mốc dễ nhớ: bữa trưa cách bữa sáng khoảng 4 đến 5 tiếng. Ăn sáng 7 giờ thì trưa tầm 11 rưỡi tới 12 giờ là vừa. Ăn sáng muộn thì lùi bữa trưa theo.
-[32–40s] Mẹo giữ giờ: đặt báo thức, chặn 30 phút ăn trưa trên lịch làm việc, họp trễ thì có sẵn quả chuối trong ngăn bàn. Bạn hay ăn trưa lúc 11 giờ hay 1 giờ? Comment A hay B nhá.
+[0–2s] Ăn trưa lúc 11 giờ hay 1 giờ chiều, giờ nào tốt cho dạ dày hơn?
+[2–6s] Giờ nào cũng được nhá, miễn ngày nào cũng gần đúng giờ đó.
+[6–26s] Dạ dày có một cái đồng hồ riêng. Ăn đều giờ, cứ tới giờ quen là nó tiết dịch sẵn chờ cơm. Hôm 11 giờ, hôm 2 giờ, đồng hồ loạn nhịp: lúc axit chờ mà chẳng có cơm, lúc đói quá ăn dồn, no căng. Mốc dễ nhớ: bữa trưa cách bữa sáng khoảng 4 đến 5 tiếng. Ăn sáng 7 giờ thì trưa tầm 11 rưỡi tới 12 giờ là vừa.
+[26–32s] Nhớ đặt báo thức, chặn 30 phút ăn trưa trên lịch làm việc như thế này, họp trễ thì có sẵn quả chuối trong ngăn bàn nhá. Các bạn hay ăn trưa A 11 giờ, hay B 1 giờ? Comment nhá.
 
-**Hình ảnh & dựng:** Cận mặt tường trơn, blouse xanh, cầm điện thoại. Thẻ 2 dòng: “ĂN TRƯA 11 GIỜ HAY 1 GIỜ? / GIỜ NÀO TỐT CHO DẠ DÀY”. Chữ to “ĐỀU GIỜ MỚI QUAN TRỌNG”. Minh họa dạ dày đeo đồng hồ, lịch làm việc chặn “ĂN TRƯA 30 PHÚT”. Cuối: “A: 11 GIỜ – B: 1 GIỜ?”.
+**Hình ảnh & dựng:** Bàn làm việc, áo sơ mi. 0–3s cầm hộp cơm, chỉ đồng hồ. Thẻ ngang ngực nền xanh dương sáng, từ khóa vàng: “ĂN TRƯA 11 GIỜ / HAY 1 GIỜ?”. 3–8s chữ to “ĐỀU GIỜ MỚI QUAN TRỌNG”. Dạ dày đeo đồng hồ, đổi 3–5 giây. Chữ to “4–5 TIẾNG”. Cận màn hình lịch chặn 30 phút. Kết “A HAY B?”.
 
-**Caption:** Ăn trưa 11 giờ hay 1 giờ mới tốt? Câu trả lời của bác sĩ có thể khiến bạn bất ngờ. #BacSiHoi #DaDayVanPhong #antrua #daday
+**Caption:** Ăn trưa lúc 11 giờ hay 1 giờ: giờ nào tốt cho d.ạ d.ày?
+#BacSiHoi #bshoi #DaDayVanPhong
 
 **Ghi chú:** Khoảng cách 4–5 tiếng giữa hai bữa là mốc hướng dẫn chung, tùy từng người.
 
@@ -377,23 +381,23 @@ Phong cách: Health coach Nam Hà · Khuôn NH-B1 · 33 giây · BS nói – ngo
 
 **Lời thoại**
 
-[0–3s] Bụng mỡ dân văn phòng sợ nhất: sau bữa trưa đi bộ chậm 10 phút.
-[3–6s] Sợ thứ hai: ly nước lọc thay ly nước ngọt.
-[6–9s] Sợ thứ ba: ngủ đủ 7 tiếng mỗi đêm.
-[9–12s] Sợ thứ tư: bỏ thang máy, leo cầu thang vài tầng.
-[12–15s] Sợ thứ năm: ngồi một tiếng, đứng dậy một lần.
-[15–18s] Sợ thứ sáu: ăn tối xong trước giờ ngủ 3 tiếng.
-[18–21s] Sợ thứ bảy: đĩa cơm trưa có một nửa là rau.
-[21–24s] Và sợ thứ tám: trái cây thay bánh ngọt lúc xế chiều.
-[24–28s] Vì mỡ bụng ép lên dạ dày, đẩy axit ngược lên, nên giảm được vòng bụng thường cũng đỡ ợ chua.
-[28–31s] Nhớ lưu lại và lan tỏa cho cả phòng cùng giảm bụng nhé.
+[0–3s] Bụng mỡ dân văn phòng sợ nhất: đi bộ 10 phút sau bữa trưa.
+[3–5s] Sợ thứ hai: nước lọc thay nước ngọt.
+[5–8s] Sợ thứ ba: ngủ đủ 7 tiếng mỗi đêm.
+[8–11s] Sợ thứ tư: bỏ thang máy, leo cầu thang.
+[11–14s] Sợ thứ năm: ngồi một tiếng, đứng dậy một lần.
+[14–17s] Sợ thứ sáu: ăn tối xong trước giờ ngủ 3 tiếng.
+[17–20s] Sợ thứ bảy: đĩa cơm trưa một nửa là rau.
+[20–23s] Và sợ thứ tám: trái cây thay bánh ngọt lúc xế chiều.
+[23–27s] Mỡ bụng ép dạ dày, đẩy axit ngược lên; bụng gọn lại, ợ chua thường cũng bớt.
+[27–31s] Nhớ lưu lại, lan tỏa cho cả phòng. Bạn làm được mấy điều rồi? Comment một con số nhé.
 [31–33s] Dạ dày khỏe, deadline nhẹ. Hẹn gặp lại, xin chào!
 
-**Hình ảnh & dựng:** Ngoài trời, sân tòa văn phòng, áo thể thao sáng màu. Box xanh dương: “BỤNG MỠ DÂN VĂN PHÒNG: SỢ NHẤT 8 ĐIỀU NÀY”. Mỗi ý một sticker bật cạnh mặt: giày, chai nước, giường, cầu thang, ghế, đồng hồ, đĩa rau, quả táo; tay chỉ. Chữ vàng “SỢ THỨ…”. 3D mỡ bụng ép dạ dày. Kết vẫy tay.
+**Hình ảnh & dựng:** Sân tòa văn phòng, nắng sáng, áo thể thao sáng, mic cài áo. Giây 0 box xanh dương “BỤNG MỠ DÂN VĂN PHÒNG: SỢ NHẤT 8 ĐIỀU NÀY”. Tay đếm, chữ vàng “SỢ THỨ…”; sticker bật cạnh mặt: giày, chai nước, giường, cầu thang, ghế, đồng hồ, đĩa rau, táo. 3D mỡ bụng ép dạ dày. Kết vẫy tay.
 
-**Caption:** Bụng mỡ không chỉ khó mặc đồ, nó còn làm t.rào n.gược nặng hơn. 8 điều này bụng mỡ sợ nhất! #BacSiHoi #DaDayVanPhong #bungmo #traonguoc
+**Caption:** Bụng mỡ dân văn phòng sợ nhất 8 điều này, điều nào cũng làm được ngay ở công ty. Bụng gọn thì t.rào n.gược cũng bớt khổ. #BacSiHoi #DaDayVanPhong #bungmo #traonguoc
 
-**Ghi chú:** Không chào ở đầu; mỗi ý một câu cùng khuôn “Sợ thứ…”.
+**Ghi chú:** Không chào ở đầu; mỗi ý một câu cùng khuôn “Sợ thứ…”, khoảng 2,5–3 giây.
 
 ---
 
@@ -405,19 +409,20 @@ Phong cách: Thu Thủy – Dược liệu Việt · Khuôn TT-F2 · 21 giây ·
 
 **Lời thoại**
 
-[0–3s] Mỗi ngày mang 1 trong 5 món này đi làm, giữa buổi sáng bớt cồn cào.
-[3–6s] Một, chuối chín: mềm, dễ ăn, lót dạ nhanh trước ly cà phê.
-[6–9s] Hai, sữa chua ít đường: có lợi khuẩn cho đường ruột.
-[9–12s] Ba, một nắm hạt vừa lòng bàn tay: có đạm, chất béo tốt, no lâu, nhớ nhai kỹ.
-[12–15s] Bốn, bánh mì nguyên cám: nhiều chất xơ, no lâu hơn bánh mì trắng.
-[15–19s] Năm, khoai lang hấp: êm bụng, ăn nửa củ thôi kẻo đầy hơi.
-[19–21s] Lưu lại nhé!
+[0–3s] Mỗi ngày mang một trong năm món này đi làm, bớt cồn cào.
+[3–6s] Một, chuối chín. Mềm, dễ ăn, lót dạ trước cà phê.
+[6–9s] Hai, sữa chua ít đường. Nhẹ bụng, thêm lợi khuẩn cho ruột.
+[9–12s] Ba, một nắm hạt. Vừa lòng bàn tay, no lâu, nhớ nhai thật kỹ.
+[12–15s] Bốn, bánh mì nguyên cám. Nhiều xơ, no hơn bánh mì trắng.
+[15–18,5s] Năm, khoai lang hấp. Êm bụng, nửa củ thôi, kẻo đầy hơi.
+[18,5–20,5s] Đã nhớ hết chưa? Chưa nhớ lưu lại nhé!
 
-**Hình ảnh & dựng:** Nửa người tại bàn làm việc, mở ngăn bàn. Banner vàng chữ đen: “MỖI NGÀY MANG 1 TRONG 5 MÓN NÀY ĐI LÀM”. 1/3 trên ảnh tách nền đổi theo lời: chuối, hộp sữa chua, nắm hạt, lát bánh mì nguyên cám, nửa củ khoai lang. Nhãn “#1: CHUỐI”… màu nổi. Tay đếm. Cuối chữ “LƯU LẠI”.
+**Hình ảnh & dựng:** 9:16, nửa người giữa-dưới, mở ngăn bàn, nền xám trơn, blouse trắng. Khung đầu: banner xanh dương sáng chữ trắng in hoa “MỖI NGÀY MANG 1 TRONG 5 MÓN NÀY ĐI LÀM”, giơ 5 ngón. 1/3 trên ảnh tách nền từng món, đổi đúng nhịp. Nhãn “#1: CHUỐI”. Tay đếm, chỉ lên hình. Chữ “LƯU LẠI NHÉ” dưới 2 giây.
 
-**Caption:** 10 giờ sáng bụng cồn cào? Ngăn bàn có 1 trong 5 món này là dễ chịu hơn nhiều. #BacSiHoi #DaDayVanPhong #anvat #daday
+**Caption:** MỖI NGÀY MANG 1 TRONG 5 MÓN NÀY ĐI LÀM, BỚT CỒN CÀO. Bạn đang mang món nào rồi??
+#BacSiHoi #DaDayVanPhong #anvat #daday #reelsviral
 
-**Ghi chú:** Câu “lưu lại nhé” không quá 2 giây.
+**Ghi chú:** Mỗi món khoảng 3 giây: “Số, tên món, lợi ích ngắn”. Câu “Đã nhớ hết chưa? Chưa nhớ lưu lại nhé!” khoảng 2 giây, đúng câu lưu ngắn của KOL.
 
 ### 20. 12:00 · Tập gym xong là ợ chua? Sửa 3 động tác này
 
@@ -425,19 +430,20 @@ Phong cách: Bác sĩ Hoa · Khuôn HOA-K1 · 55 giây · BS làm mẫu
 
 **Lời thoại**
 
-[0–3s] Tập gym xong là chua miệng, nóng rát lên tận cổ?
-[3–12s] Vì có những động tác ép mạnh lên bụng, hoặc bắt bạn nằm phẳng, trong khi dạ dày còn đầy. Áp lực trong bụng tăng, axit bị đẩy ngược lên.
-[12–22s] Động tác 1, gập bụng nằm. Đổi sang nâng gối đứng: nâng từng gối lên ngang hông, siết bụng nhẹ, mỗi bên 12 lần.
-[22–32s] Động tác 2, nằm đẩy ngực ghế phẳng. Đổi sang ghế dốc lên cho đầu cao hơn bụng, hoặc máy đẩy ngực ngồi. 10 đến 12 lần, 3 hiệp, thở ra khi đẩy, đừng nín thở.
-[32–42s] Động tác 3, ăn xong chạy luôn. Đổi sang đi bộ nhanh hoặc đạp xe nhẹ. Muốn tập nặng thì cách bữa chính khoảng 3 tiếng, ăn nhẹ thì cách 1 đến 2 tiếng.
-[42–50s] Kiên trì khoảng 1 tháng, nhiều bạn thấy tập êm bụng hơn. Đang tập mà đau ngực, khó thở thì dừng ngay, đi cấp cứu ngay.
-[50–55s] Nhớ lưu lại video này để lên phòng gym tập nhá.
+[0–3s] Tập gym xong là chua miệng, rát lên tận cổ? Có khi lỗi ở 3 động tác này. Sửa thế này nhá.
+[3–12s] Có động tác ép mạnh lên bụng, có động tác bắt nằm phẳng, trong khi dạ dày còn đầy. Áp lực trong bụng tăng, axit bị đẩy ngược lên.
+[12–22s] Động tác 1, gập bụng nằm. Đổi sang nâng gối đứng như thế này: đứng thẳng, nâng từng gối lên ngang hông, siết bụng nhẹ, hạ xuống. Đếm cùng tôi: một, hai, ba, bốn, đến mười hai thì đổi chân. Lỗi hay gặp là ngả người ra sau để kéo gối, lưng phải thẳng nhá.
+[22–33s] Động tác 2, đẩy ngực ghế phẳng. Đổi sang ghế dốc lên cho đầu cao hơn bụng như thế này, hoặc máy đẩy ngực ngồi. Đẩy lên thở ra, hạ xuống hít vào. Một, hai, ba, bốn, cứ thế 10 đến 12 lần, 3 hiệp. Lỗi hay gặp nhất là nín thở gồng khi đẩy, bụng bị ép, axit lên ngay.
+[33–45s] Động tác 3, ăn xong chạy luôn. Đổi sang đi bộ nhanh hoặc đạp xe nhẹ như thế này. Tập nặng thì cách bữa chính khoảng 3 tiếng, ăn nhẹ thì cách 1 đến 2 tiếng. Lỗi hay gặp là vừa lên máy chạy đã tăng tốc ngay, khởi động nhẹ vài phút đã nhá.
+[45–51s] Kiên trì khoảng 1 tháng, nhiều bạn thấy tập êm bụng hơn. Đang tập mà đau ngực, khó thở thì dừng ngay, đi cấp cứu ngay.
+[51–55s] Nhớ lưu lại video này để mỗi lần lên phòng gym mở ra tập nhá.
 
-**Hình ảnh & dựng:** Phòng gym, áo thể thao, quay toàn thân. Thẻ 2 dòng: “TẬP GYM XONG LÀ Ợ CHUA? / SỬA 3 ĐỘNG TÁC”. Mỗi động tác: dấu X đỏ trên động tác sai, rồi làm mẫu động tác thay thế; chữ to “MỖI BÊN 12 LẦN”, “GHẾ DỐC LÊN”, “CÁCH BỮA CHÍNH 3 TIẾNG”. Cuối “LƯU LẠI”.
+**Hình ảnh & dựng:** Phòng gym, áo thể thao, toàn thân. 0–3s đặt tạ, tay đặt sau xương ức. Thẻ ngang ngực nền xanh dương sáng, từ khóa vàng: “TẬP GYM XONG / LẠI Ợ CHUA?”. X đỏ động tác sai, làm mẫu động tác thay. Chữ to viền đen: “MỖI BÊN 12 LẦN”, “GHẾ DỐC LÊN”, “CÁCH BỮA 3 TIẾNG”. Kết “LƯU LẠI”.
 
-**Caption:** Tập gym xong là chua miệng, nóng rát cổ? Có thể bạn đang tập sai thời điểm và sai tư thế. #BacSiHoi #DaDayVanPhong #gym #traonguoc
+**Caption:** Tập gym xong là ợ chua? Sửa 3 động tác này
+#BacSiHoi #bshoi #DaDayVanPhong
 
-**Ghi chú:** Bác sĩ duyệt động tác thay thế trước khi quay. Mốc cách bữa ăn là hướng dẫn chung, tùy từng người. Giữ câu đau ngực khi tập phải dừng và đi cấp cứu.
+**Ghi chú:** Bác sĩ duyệt động tác thay thế trước khi quay. Mốc cách bữa ăn là hướng dẫn chung, tùy từng người. Giữ câu đau ngực khi tập phải dừng và đi cấp cứu. Mốc giây đã đưa về đúng khuôn: làm mẫu kết thúc ở giây 45, lời hứa và lưu lại ở 45–55s. Lời thoại dài khoảng 250–275 tiếng cho 55 giây, nói nhanh khoảng 300 tiếng/phút theo nhịp KOL; giữ đúng khung 0–3s triệu chứng, 3–12s nguyên nhân, 12–45s làm mẫu, 45–55s lời hứa thời gian và lưu lại. Đếm thành tiếng khớp đúng nhịp tay; câu “lỗi hay gặp”: chèn X đỏ lên dáng sai 1–2 giây.
 
 ### 21. 21:30 · Ai hay quên ăn trưa vì deadline thì nhất định phải xem video này
 

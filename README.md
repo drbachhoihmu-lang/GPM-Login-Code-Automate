@@ -58,7 +58,8 @@ python post_sheet.py --list-profiles                 # danh sách profile GPM hi
 python post_sheet.py --scan-pages                     # mở từng profile, dò mọi fanpage + asset_id -> logs/pages_scan.csv
 python post_sheet.py --scan-pages 002 --webhook URL   # chỉ profile 002, và ghi thẳng vào tab Pages (thêm mới / cập nhật theo asset_id)
 ```
-- **Trạng thái** do script ghi: `Đang đăng` → `Đã lên lịch` / `Đã đăng` / `Lỗi` (kèm lý do ở Ghi chú) / `Chạy thử OK` (dry-run). Bạn ghi tay `bỏ qua` để không đăng. Hàng `Đã …` và `bỏ qua` không bao giờ đăng lại; hàng `Lỗi` chỉ đăng lại khi chạy với `--retry-errors`; hàng `Đang đăng` (lần trước bị ngắt) sẽ được làm lại.
+- **Trạng thái**: trống hoặc `Chờ đăng` = sẽ đăng; bạn ghi tay `bỏ qua` để không đăng. Script ghi: `Đang đăng` → `Đã lên lịch` / `Đã đăng` / `Lỗi` (kèm lý do ở Ghi chú) / `Chạy thử OK` (dry-run). Hàng `Đã …` và `bỏ qua` không bao giờ đăng lại; hàng `Lỗi` chỉ đăng lại khi bấm **Đăng lại hàng lỗi** (hoặc `--retry-errors`); hàng `Đang đăng` (lần trước bị ngắt) sẽ được làm lại.
+- **Tự động kiểm tra**: bật checkbox *Tự động kiểm tra Sheet* (trên cửa sổ GPMReels hoặc trang web), đặt số phút (mặc định 5). Đến kỳ, phần mềm đọc Sheet; có bài `Chờ đăng` (và GPM Login đang bật, không có việc khác đang chạy) thì tự chạy đăng; kết quả mỗi lần kiểm tra hiện ngay dưới checkbox. Hàng lỗi không bị thử lại vô hạn — chỉ đăng lại khi bạn bấm *Đăng lại hàng lỗi*.
 - Thư mục Drive mà **Tiêu đề để trống** → lấy dòng `Tiêu đề:` trong file kịch bản `.docx`, rồi nối thêm cột Hashtag.
 - Cột Thời gian nên để định dạng *Văn bản thuần* (hoặc gõ `'08/10/2026 19:00` với dấu `'` đầu ô) để Sheets không tự đổi thành ngày.
 - Hàng đã đăng còn được ghi nhớ trong `logs/sheet_state.json` → chạy lại không đăng trùng kể cả khi chưa có webhook. Mỗi lần chạy xuất `logs/sheet_report_*.csv` (Hàng / Page / Thời gian / Trạng thái / Ghi chú).

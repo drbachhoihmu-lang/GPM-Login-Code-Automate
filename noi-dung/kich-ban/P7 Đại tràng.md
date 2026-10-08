@@ -16,37 +16,37 @@ Phong cách: TS Trần Hoàng Hải · Khuôn THH · 30 giây · B-roll + BS gó
 
 **Lời thoại**
 
-[0–3s] Táo bón mấy ngày liền? Bữa sáng 10 nghìn này làm trong 3 phút.
-[3–8s] Đu đủ chín mềm, sữa chua có lợi khuẩn, hạt chia nở ra giữ nước: phân mềm hơn, đi ngoài nhẹ nhàng hơn.
-[8–13s] 1. Đu đủ chín cắt miếng vừa ăn, khoảng một bát con.
-[13–18s] 2. Thêm 3–4 thìa sữa chua không đường.
-[18–25s] 3. Rắc 1 thìa hạt chia đã ngâm nước 15–20 phút cho nở hết. Trộn đều, ăn chậm, uống thêm một cốc nước.
-[25–28s] Người tiểu đường: ăn lượng vừa, khoảng nửa bát, chọn sữa chua không đường.
+[0–3s] Táo bón mấy ngày liền? Đu đủ chín thêm 2 thứ này, bữa sáng 10K cô bác thử xem.
+[3–8s] Đu đủ chín nhiều chất xơ mềm và nước, như "bôi trơn" đường ruột: phân mềm hơn, đi ngoài nhẹ hơn.
+[8–12s] 1. Đu đủ chín cắt miếng, chừng một bát con.
+[12–16s] 2. Thứ nhất: 3–4 thìa sữa chua không đường.
+[16–21s] 3. Thứ hai: 1 thìa hạt chia đã ngâm nước 15–20 phút cho nở hết.
+[21–25s] 4. Trộn đều, ăn chậm, uống thêm một cốc nước.
+[25–28s] Người tiểu đường: chỉ nửa bát đu đủ. Táo bón kèm phân có máu, sụt cân: đi khám ngay.
 [28–30s] Bấm theo dõi để không bỏ lỡ công thức tiếp theo.
-Giọng đọc nền (tùy chọn): đọc đúng các dòng chữ trên, giọng ấm, nhịp nhanh.
 
-**Hình ảnh & dựng:** Giây 0 cận cảnh tay bổ đôi quả đu đủ chín, hạt đen rơi. Thẻ tiêu đề giữa khung, dải nền tối mờ: dòng vàng “ĐU ĐỦ CHÍN + 2 THỨ NÀY”, dòng trắng “BỮA SÁNG 10K CHO NGƯỜI TÁO BÓN”. Mỗi bước một cảnh, số to. Bác sĩ Hội blouse trắng góc phải dưới, cầm bát, không nói.
+**Hình ảnh & dựng:** 0s cận tay bổ đôi đu đủ chín. Thẻ giữa khung nền nâu cà phê mờ, giữ suốt: vàng “ĐU ĐỦ CHÍN + 2 THỨ NÀY”, trắng “BỮA SÁNG 10K CHO NGƯỜI TÁO BÓN”. Cảnh <3s, số to: cắt miếng, thìa sữa chua, hạt chia nở. BS Hội blouse góc phải dưới cầm bát, cười. Karaoke tô vàng “uống thêm nước”.
 
-**Caption:** Táo bón mấy ngày liền thì thử bữa sáng 10 nghìn này: đu đủ chín, sữa chua, hạt chia. Lưu lại để sáng mai làm luôn.
-#BacSiHoi #taobon #duongruot #buasang
+**Caption:** ĐU ĐỦ CHÍN + 2 THỨ NÀY: BỮA SÁNG 10K CHO NGƯỜI TÁO BÓN 👇👇👇
+#BacSiHoi #bshoi #taobon #duongruot
 
-**Ghi chú:** Bác sĩ không nói; các dòng trong lời thoại là chữ hiện trên màn hình theo từng cảnh.
+**Ghi chú:** Bác sĩ Hội ở góc nhỏ, không nói; các dòng lời thoại là chữ trên màn hình theo từng cảnh. Giọng đọc nền (tùy chọn) đọc đúng các dòng này, khớp phụ đề karaoke. Giá là ước tính theo giá chợ, kiểm tra lại trước khi đăng.
 
 ### 2. 12:00 · Sai lầm khi đi vệ sinh mà ai cũng mắc: rặn mạnh, ngồi quá lâu
 
-Phong cách: Bác sĩ Hoa · Khuôn HOA-K2 · 40 giây · BS nói – studio
+Phong cách: Bác sĩ Hoa · Khuôn HOA-K2 · 32 giây · BS nói – studio
 
 **Lời thoại**
 
-[0–3s] Một sai lầm khi đi vệ sinh mà rất nhiều người mắc: ngồi thật lâu, rặn thật mạnh.
-[3–8s] Đây là đường tắt dẫn tới trĩ và nứt hậu môn đấy nhá.
-[8–35s] Ngồi bồn cầu, vùng hậu môn như bị treo lơ lửng, máu dồn xuống các búi mạch quanh đó. Ngồi càng lâu, máu dồn càng nhiều. Mình lại nín thở rặn mạnh, các búi mạch phình ra như quả bóng bơm căng, lâu dần thành trĩ. Phân cứng mà cố rặn thì dễ rách niêm mạc, đi xong rát như dao cứa.
-[35–45s] Từ nay ngồi không quá 5–10 phút, không mang điện thoại vào. Chưa ra thì đứng dậy, lát quay lại. Thấy máu khi đi ngoài thì đi khám, đừng tự đoán. Cô bác anh chị là A, vào năm phút là xong, hay B, ôm điện thoại ngồi cả buổi? Comment nhá.
+[0–2s] Một sai lầm khi đi vệ sinh mà gần như ai cũng mắc: ôm điện thoại ngồi thật lâu, rặn thật mạnh.
+[2–6s] Ngồi lâu, rặn mạnh là dễ sinh trĩ, nứt hậu môn đấy nhá.
+[6–26s] Ngồi bồn cầu, vùng hậu môn như bị treo lơ lửng, máu dồn xuống các búi mạch quanh đó. Ngồi càng lâu, máu dồn càng nhiều. Mình lại nín thở rặn mạnh, búi mạch phình ra như quả bóng bơm căng, lâu dần thành trĩ. Phân cứng mà cố rặn thì dễ rách niêm mạc, đi xong rát như dao cứa.
+[26–32s] Từ nay nhớ ngồi không quá 5 đến 10 phút, để điện thoại ngoài cửa nhá. Chưa ra thì đứng dậy, lát quay lại. Đi ngoài thấy máu thì đi khám sớm, đừng tự đoán. Cô bác anh chị là A, năm phút xong, hay B, ngồi cả buổi? Bình luận nhá.
 
-**Hình ảnh & dựng:** Studio rèm, đèn ấm, blouse xanh. Giây 0 giơ điện thoại, lắc đầu. Thẻ 2 dòng ngang ngực nền nâu cà phê: “SAI LẦM KHI ĐI VỆ SINH / AI CŨNG MẮC”, từ khóa vàng. Minh họa 3D búi mạch, quả bóng bơm căng, đổi mỗi 3–5 giây. Chữ to giữa khung: “5–10 PHÚT”, “A HAY B?”.
+**Hình ảnh & dựng:** Studio rèm, đèn ấm, blouse xanh. 0–3s giơ điện thoại, lắc đầu, đặt xuống. Thẻ ngang ngực nền nâu cà phê, từ khóa vàng: “SAI LẦM KHI ĐI VỆ SINH / BẠN CÓ MẮC?”. 3D búi mạch phình như bóng bơm căng, đổi 3–5 giây. Chữ to viền đen: “KHÔNG QUÁ 5–10 PHÚT”, “ĐIỆN THOẠI ĐỂ NGOÀI”. Kết “A HAY B?”.
 
-**Caption:** Ngồi toilet lướt điện thoại 20 phút, rặn đỏ mặt: đường tắt tới t.rĩ và nứt h.ậu m.ôn. Cô bác anh chị là A hay B?
-#BacSiHoi #taobon #tri #duongruot
+**Caption:** Sai lầm khi đi vệ sinh mà ai cũng mắc: rặn mạnh, ngồi quá lâu
+#BacSiHoi #bshoi #duongruot
 
 ### 3. 20:00 · Đường ruột khỏe: sợ nhất 10 thứ này
 
@@ -76,43 +76,43 @@ Phong cách: Health coach Nam Hà · Khuôn NH-B1 · 33 giây · BS nói – ngo
 
 ## Thứ 3 · 13/10/2026
 
-### 4. 06:30 · NƯỚC GẠO RANG: CÁCH NẤU CHO NGƯỜI ĐI NGOÀI PHÂN LỎNG
+### 4. 06:30 · ĐI NGOÀI PHÂN LỎNG LƯU NGAY CÔNG THỨC NƯỚC GẠO RANG CHƯA ĐẾN 2K
 
 Phong cách: TS Trần Hoàng Hải · Khuôn THH · 30 giây · B-roll + BS góc nhỏ (không nói)
 
 **Lời thoại**
 
-[0–3s] Đi ngoài phân lỏng cả ngày? Nồi nước gạo rang này nấu ngay hôm nay.
-[3–8s] Nước gạo rang ấm, dễ uống, giúp bù nước nhẹ nhàng cho người đi ngoài nhiều lần.
-[8–13s] 1. Rang 1 nắm gạo tẻ, khoảng 50g, trên chảo khô tới khi vàng thơm, đừng để cháy.
-[13–18s] 2. Cho vào nồi với khoảng 1 lít nước, đun nhỏ lửa 15–20 phút.
-[18–25s] 3. Lọc lấy nước, thêm 1 nhúm muối nhỏ, uống ấm từng ngụm trong ngày.
-[25–28s] Phân lỏng kèm sốt, có máu, mệt lả, khát nhiều: đi khám ngay, đừng chỉ uống nước gạo.
+[0–3s] Đi ngoài phân lỏng cả ngày? Cô bác lưu ngay công thức nước gạo rang chưa đến 2K này.
+[3–8s] Gạo rang vàng nấu thành nước ấm, thơm, dễ uống, giúp "bù" lại phần nước mất đi, bụng dễ chịu hơn.
+[8–12s] 1. Một nắm gạo tẻ, khoảng 50g, rang chảo khô tới vàng thơm, đừng để cháy.
+[12–17s] 2. Thêm khoảng 1 lít nước, đun nhỏ lửa 15–20 phút.
+[17–21s] 3. Lọc lấy nước, thêm một nhúm muối nhỏ.
+[21–25s] 4. Uống ấm từng ngụm, rải đều trong ngày.
+[25–28s] Kèm sốt, phân có máu, mệt lả, khát nhiều: đi khám ngay. Đi nhiều lần: ưu tiên gói bù nước điện giải.
 [28–30s] Bấm theo dõi để không bỏ lỡ công thức tiếp theo.
-Giọng đọc nền (tùy chọn): đọc đúng các dòng chữ trên, giọng ấm, nhịp nhanh.
 
-**Hình ảnh & dựng:** Giây 0 cận cảnh tay đảo gạo trên chảo khô, hạt chuyển vàng. Thẻ giữa khung nền tối mờ: dòng vàng “NƯỚC GẠO RANG”, dòng trắng “CHO NGƯỜI ĐI NGOÀI PHÂN LỎNG”. Cảnh: nồi bốc hơi, rây lọc, ly nước vàng nhạt. Bác sĩ Hội blouse trắng góc phải dưới, cầm ly, không nói. Cảnh báo chữ đỏ.
+**Hình ảnh & dựng:** 0s cận tay đảo gạo vàng trên chảo khô. Thẻ giữa khung nền nâu cà phê mờ, giữ suốt: vàng “ĐI NGOÀI PHÂN LỎNG”, trắng “LƯU NGAY CÔNG THỨC NƯỚC GẠO RANG CHƯA ĐẾN 2K”. Cảnh <3s, số to: nồi bốc hơi, rây lọc, nhúm muối. BS Hội blouse góc phải dưới cầm ly, cười. Cảnh báo chữ đỏ.
 
-**Caption:** Đi ngoài phân lỏng cả ngày, mệt rũ người? Nồi nước gạo rang này nấu 20 phút là có, nhớ đọc kỹ dòng cảnh báo cuối video.
-#BacSiHoi #tieuchay #duongruot #meohay
+**Caption:** ĐI NGOÀI PHÂN LỎNG LƯU NGAY CÔNG THỨC NƯỚC GẠO RANG CHƯA ĐẾN 2K 👇👇👇
+#BacSiHoi #bshoi #tieuchay #duongruot
 
-**Ghi chú:** Bác sĩ không nói; các dòng trong lời thoại là chữ hiện trên màn hình theo từng cảnh.
+**Ghi chú:** Bác sĩ Hội ở góc nhỏ, không nói; các dòng lời thoại là chữ trên màn hình theo từng cảnh. Giọng đọc nền (tùy chọn) đọc đúng các dòng này, khớp phụ đề karaoke. Giá là ước tính theo giá chợ, kiểm tra lại trước khi đăng. Gói bù nước điện giải quay đạo cụ trơn, không lộ nhãn hiệu.
 
 ### 5. 12:00 · Ngồi xổm hay ngồi bệt: tư thế nào đi ngoài dễ hơn?
 
-Phong cách: Bác sĩ Hoa · Khuôn HOA-K2 · 40 giây · BS nói – studio
+Phong cách: Bác sĩ Hoa · Khuôn HOA-K2 · 32 giây · BS nói – studio
 
 **Lời thoại**
 
-[0–3s] Đi ngoài thì ngồi xổm hay ngồi bệt trên bồn cầu mới dễ?
-[3–8s] Tư thế gần giống ngồi xổm nhá. Mà nhà dùng bồn cầu vẫn làm được.
-[8–35s] Cuối ruột già có một bó cơ ôm vòng như sợi dây thòng lọng. Ngồi thẳng lưng trên bồn cầu, sợi dây này kéo ống ruột gập lại, giống vòi nước bị gập, phân khó đi, phải rặn nhiều. Khi đầu gối cao hơn hông như lúc ngồi xổm, sợi dây chùng ra, đường ra thẳng hơn, đi nhẹ hơn hẳn.
-[35–45s] Mẹo đây: kê một chiếc ghế nhỏ cao khoảng 15–20cm dưới hai bàn chân, người hơi đổ về trước, khuỷu tay chống lên đùi, thở đều, không rặn mạnh. Đau gối thì chỉ cần kê ghế, không cố ngồi xổm. Nhà cô bác anh chị đang dùng A, bồn cầu, hay B, xí xổm? Comment nhá.
+[0–2s] Đi ngoài thì ngồi xổm hay ngồi bệt trên bồn cầu mới dễ?
+[2–6s] Gần giống ngồi xổm nhá. Nhà dùng bồn cầu vẫn làm được.
+[6–26s] Cuối ruột già có một bó cơ ôm vòng như sợi dây thòng lọng. Ngồi thẳng lưng trên bồn cầu, sợi dây kéo ống ruột gập lại, giống vòi nước bị gập, phân khó ra, phải rặn nhiều. Đầu gối cao hơn hông như lúc ngồi xổm thì sợi dây chùng ra, đường ra thẳng hơn, đi nhẹ hơn. Nhiều người chỉ đổi tư thế là đỡ phải rặn hơn.
+[26–32s] Mẹo đây: nhớ kê ghế nhỏ cao khoảng 15 đến 20 phân dưới hai bàn chân, người đổ về trước, khuỷu tay chống đùi như thế này. Thở đều, đừng rặn. Đau gối thì chỉ kê ghế thôi nhá. Nhà mình đang dùng A bồn cầu, hay B xí xổm? Bình luận nhá.
 
-**Hình ảnh & dựng:** Studio, blouse xanh. Giây 0 tay diễn “ngồi xổm”, “ngồi bệt”. Thẻ ngang ngực nền nâu cà phê: “NGỒI XỔM HAY NGỒI BỆT? / CÁCH NÀO DỄ ĐI HƠN”. Minh họa 3D ống ruột gập như vòi nước. Làm mẫu: ngồi trên bồn cầu đậy nắp, kê ghế nhỏ, đổ người về trước. Chữ to “15–20CM”, “A HAY B?”.
+**Hình ảnh & dựng:** Studio, blouse xanh. 0–3s tay diễn “ngồi xổm”, “ngồi bệt”. Thẻ ngang ngực nền nâu cà phê, từ khóa vàng: “NGỒI XỔM HAY NGỒI BỆT / CÁCH NÀO DỄ ĐI?”. 3D ống ruột gập như vòi nước, đổi 3–5 giây. Làm mẫu trên bồn cầu đậy nắp, kê ghế nhỏ, đổ người. Chữ to “15–20 CM”. Kết “A HAY B?”.
 
-**Caption:** Ngồi bồn cầu mà cứ phải rặn mãi? Thử kê một chiếc ghế nhỏ dưới chân xem khác hẳn. Nhà cô bác anh chị dùng A hay B?
-#BacSiHoi #taobon #duongruot #meohay
+**Caption:** Ngồi xổm hay ngồi bệt: tư thế nào đi ngoài dễ hơn?
+#BacSiHoi #bshoi #duongruot
 
 **Ghi chú:** Làm mẫu trên bồn cầu đậy nắp, mặc nguyên trang phục, quay ngang thân để thấy rõ góc đầu gối cao hơn hông.
 
@@ -136,27 +136,26 @@ Phong cách: Health coach Nam Hà · Khuôn NH-B3 · 70 giây · BS nói – ngo
 
 ## Thứ 4 · 14/10/2026
 
-### 7. 06:30 · KHOAI LANG ĂN THẾ NÀY: ĐI NGOÀI ÊM MÀ ÍT ĐẦY HƠI
+### 7. 06:30 · ĐI NGOÀI ÊM, ÍT ĐẦY HƠI NHỜ ĂN KHOAI LANG ĐÚNG 3 BƯỚC NÀY
 
 Phong cách: TS Trần Hoàng Hải · Khuôn THH · 30 giây · B-roll + BS góc nhỏ (không nói)
 
 **Lời thoại**
 
-[0–3s] Ăn khoai lang xong là bụng sôi, đầy hơi? Có thể do ăn chưa đúng cách.
-[3–8s] Khoai lang nhiều chất xơ giúp phân mềm, đi ngoài êm, nếu ăn vừa đủ và đúng lúc.
-[8–13s] 1. Rửa sạch, hấp chín mềm khoảng 20–25 phút. Hấp thay vì chiên, nướng cháy.
-[13–18s] 2. Mỗi lần khoảng 1 củ vừa, cỡ nắm tay.
-[18–25s] 3. Ăn cùng bữa chính, thay bớt một phần cơm, nhai kỹ. Không ăn lúc bụng quá đói.
-[25–28s] Người hay đầy hơi, ruột kích thích: bắt đầu nửa củ. Người tiểu đường: tính vào phần tinh bột của bữa.
+[0–3s] Ăn khoai lang xong bụng sôi, đầy hơi? Cô bác ăn đúng 3 bước này, đi ngoài êm mà bụng nhẹ hơn.
+[3–8s] Khoai lang nhiều chất xơ, "đẩy" phân mềm và đi đều, nhưng ăn quá nhiều hay lúc đói thì dễ sinh hơi.
+[8–13s] 1. Hấp chín mềm 20–25 phút, thay vì chiên hay nướng cháy.
+[13–19s] 2. Mỗi lần 1 củ vừa, cỡ nắm tay, ăn cùng bữa chính, bớt một phần cơm.
+[19–25s] 3. Nhai kỹ, không ăn lúc bụng quá đói.
+[25–28s] Hay đầy hơi, ruột kích thích: bắt đầu nửa củ. Người tiểu đường: tính vào phần tinh bột của bữa.
 [28–30s] Bấm theo dõi để không bỏ lỡ công thức tiếp theo.
-Giọng đọc nền (tùy chọn): đọc đúng các dòng chữ trên, giọng ấm, nhịp nhanh.
 
-**Hình ảnh & dựng:** Giây 0 cận cảnh mở nắp nồi hấp, khói bốc lên từ khoai lang. Thẻ giữa khung nền tối mờ: dòng vàng “KHOAI LANG ĂN THẾ NÀY”, dòng trắng “ĐI NGOÀI ÊM MÀ ÍT ĐẦY HƠI”. Cảnh: so củ khoai với nắm tay, đĩa khoai cạnh mâm cơm. Bác sĩ Hội blouse trắng góc phải dưới, cầm củ khoai.
+**Hình ảnh & dựng:** 0s cận tay mở nồi hấp khoai lang, khói bốc. Thẻ giữa khung nền nâu cà phê mờ, giữ suốt: vàng “ĐI NGOÀI ÊM, ÍT ĐẦY HƠI”, trắng “NHỜ ĂN KHOAI LANG ĐÚNG 3 BƯỚC NÀY”. Cảnh <3s, số to 1–3: củ cạnh nắm tay, đĩa cạnh mâm cơm. BS Hội blouse góc phải dưới cầm khoai, cười.
 
-**Caption:** Ăn khoai lang mà bụng sôi ùng ục cả buổi? Đổi cách ăn thế này, đi ngoài êm mà ít đầy hơi hơn.
-#BacSiHoi #taobon #dayhoi #duongruot
+**Caption:** ĐI NGOÀI ÊM, ÍT ĐẦY HƠI NHỜ ĂN KHOAI LANG ĐÚNG 3 BƯỚC NÀY 👇👇👇
+#BacSiHoi #bshoi #taobon #dayhoi
 
-**Ghi chú:** Bác sĩ không nói; các dòng trong lời thoại là chữ hiện trên màn hình theo từng cảnh.
+**Ghi chú:** Bác sĩ Hội ở góc nhỏ, không nói; các dòng lời thoại là chữ trên màn hình theo từng cảnh. Giọng đọc nền (tùy chọn) đọc đúng các dòng này, khớp phụ đề karaoke. Tiêu đề hứa 3 bước nên thân bài gộp lại đúng 3 bước đánh số (bước 2 gộp lượng ăn và ăn cùng bữa chính).
 
 ### 8. 12:00 · Xoa bụng theo chiều kim đồng hồ: 1 phút giúp ruột chạy đều hơn
 
@@ -164,16 +163,20 @@ Phong cách: Bác sĩ Hoa · Khuôn HOA-K1 · 55 giây · BS làm mẫu
 
 **Lời thoại**
 
-[0–3s] Ai ba bốn ngày mới đi ngoài một lần, bụng cứ ì ạch thì xoa cùng bác sĩ Hội nhá.
-[3–12s] Ruột già nằm vòng quanh rốn như chữ U úp ngược: đi lên bên phải, ngang qua trên rốn, rồi xuống bên trái. Ruột lười co bóp thì phân nằm lâu, khô và cứng.
-[12–45s] Bước 1: nằm ngửa, co hai gối cho bụng mềm. Bước 2: xoa hai lòng bàn tay cho ấm, đặt quanh rốn. Bước 3: ấn nhẹ, xoa vòng theo chiều kim đồng hồ, từ bụng dưới bên phải lên trên, sang trái, rồi xuống dưới. Chậm thôi, mỗi vòng một hơi thở. Làm 30 vòng, khoảng 1 phút. Sáng lúc vừa thức dậy và tối trước khi ngủ, không xoa lúc vừa ăn no.
-[45–55s] Kiên trì khoảng 2 tuần, nhiều người thấy ruột chạy đều hơn. Đang mang thai thì hỏi bác sĩ trước. Đau bụng dữ dội, bụng cứng thì không xoa, đi khám ngay.
-[55–60s] Nhớ lưu lại video này để tập.
+[0–3s] Ai ba bốn ngày mới đi ngoài một lần thì nằm xuống xoa bụng cùng tôi 1 phút nhá.
+[3–12s] Ruột già nằm vòng quanh rốn như chữ U úp ngược: lên bên phải, ngang qua trên rốn, xuống bên trái. Ruột lười co bóp thì phân nằm lâu, khô và cứng.
+[12–22s] Bước 1, nằm ngửa, co hai gối như thế này cho bụng mềm, hai bàn chân đặt trên giường. Xoa hai lòng bàn tay vào nhau cho ấm, như thế này, chừng mười cái. Lỗi hay gặp là để chân duỗi thẳng, bụng căng, xoa không thấm.
+[22–34s] Bước 2, đặt tay quanh rốn, ấn nhẹ, xoa vòng theo chiều kim đồng hồ như thế này: bắt đầu từ bụng dưới bên phải, đi lên trên, ngang qua trên rốn sang trái, rồi đi xuống bụng dưới bên trái. Ấn vừa đủ thấy bụng lún nhẹ. Lỗi hay gặp là xoa ngược chiều, hoặc chỉ xoa lướt trên da.
+[34–45s] Bước 3, giữ nhịp đều, mỗi vòng chừng 2 giây. Đếm cùng tôi: một, hai, ba, bốn, năm, sáu, bảy, tám. Cứ thế đến 30 vòng, khoảng 1 phút là xong. Lỗi hay gặp là xoa nhanh như chạy, ruột không kịp theo. Chậm thôi nhá.
+[45–51s] Sáng thức dậy một lượt, tối trước khi ngủ một lượt, không xoa lúc vừa ăn no. Kiên trì khoảng 2 tuần, nhiều người thấy ruột chạy đều hơn. Đau bụng dữ dội, bụng cứng thì không xoa, đi khám ngay.
+[51–55s] Nhớ lưu lại video này để mỗi sáng mở ra xoa cùng tôi nhá.
 
-**Hình ảnh & dựng:** Blouse xanh, nằm ngửa trên giường, máy quay chéo từ trên. Giây 0 hai tay đặt quanh rốn. Thẻ ngang ngực nền nâu cà phê: “XOA BỤNG 1 PHÚT / RUỘT CHẠY ĐỀU HƠN”. Minh họa 3D ruột già chữ U ngược, mũi tên chiều kim đồng hồ. Chữ to “30 VÒNG”, “KIÊN TRÌ 2 TUẦN”, cuối “LƯU LẠI”.
+**Hình ảnh & dựng:** Áo thường, nằm ngửa trên giường. 0–3s tay đặt quanh rốn. Thẻ ngang ngực nền nâu cà phê, từ khóa vàng: “BA BỐN NGÀY MỚI ĐI? / XOA BỤNG 1 PHÚT”. 3D ruột già chữ U ngược, mũi tên chiều kim đồng hồ. Chữ to viền đen: “BƯỚC 1/2/3”, “30 VÒNG”, “KIÊN TRÌ 2 TUẦN”. Kết “LƯU LẠI” mũi tên.
 
-**Caption:** Ba bốn ngày mới đi ngoài một lần? Nằm xuống xoa bụng cùng bác sĩ Hội 1 phút, sáng một lần, tối một lần.
-#BacSiHoi #taobon #daitrang #duongruot
+**Caption:** Xoa bụng theo chiều kim đồng hồ: 1 phút giúp ruột chạy đều hơn
+#BacSiHoi #bshoi #duongruot
+
+**Ghi chú:** Chèn chữ nhỏ: “Đang mang thai, mới mổ bụng: hỏi bác sĩ trước”. 30 vòng ≈ 1 phút: làm mẫu đủ 8 vòng có đếm thành tiếng, phần còn lại tua nhanh kèm chữ “×30”. Lời thoại dài khoảng 250–275 tiếng cho 55 giây, nói nhanh khoảng 300 tiếng/phút theo nhịp KOL; giữ đúng khung 0–3s triệu chứng, 3–12s nguyên nhân, 12–45s làm mẫu, 45–55s lời hứa thời gian và lưu lại. Đếm thành tiếng khớp đúng nhịp tay; câu “lỗi hay gặp”: chèn X đỏ lên dáng sai 1–2 giây.
 
 ### 9. 20:00 · Cả đời nhớ hạn chế 7 thói quen này nếu không muốn ruột “biểu tình”
 
@@ -207,37 +210,37 @@ Phong cách: TS Trần Hoàng Hải · Khuôn THH · 30 giây · B-roll + BS gó
 
 **Lời thoại**
 
-[0–3s] Tối nào bụng cũng chướng căng? Ly nước gừng 2 nghìn này pha trong 5 phút.
-[3–8s] Gừng ấm giúp bụng dễ chịu hơn, bớt cảm giác căng tức sau bữa tối nhiều dầu mỡ.
-[8–13s] 1. Thái 3 lát gừng tươi mỏng, đập dập nhẹ.
-[13–18s] 2. Hãm với 1 cốc nước sôi khoảng 200ml, đậy nắp 5–10 phút.
-[18–25s] 3. Để còn ấm, uống chậm từng ngụm, sau bữa tối khoảng 30 phút.
-[25–28s] Người trào ngược nặng: pha loãng, chỉ 1 lát gừng. Đang dùng thuốc chống đông: hỏi bác sĩ trước.
+[0–3s] Tối nào bụng cũng chướng căng? Ly nước gừng ấm chỉ 2K này cô bác pha thử xem.
+[3–8s] Gừng ấm "xoa dịu" cái bụng căng tức sau bữa tối nhiều dầu mỡ, đầy hơi dễ chịu hơn.
+[8–12s] 1. Ba lát gừng tươi thái mỏng, đập dập nhẹ.
+[12–16s] 2. Một cốc nước sôi khoảng 200ml, đậy nắp 5–10 phút.
+[16–21s] 3. Để còn ấm tay, uống chậm từng ngụm.
+[21–25s] 4. Uống sau bữa tối khoảng 30 phút.
+[25–28s] Trào ngược nặng: chỉ 1 lát, pha loãng. Đang dùng thuốc chống đông: hỏi bác sĩ trước. Chướng kèm đau dữ dội, nôn: đi khám ngay.
 [28–30s] Bấm theo dõi để không bỏ lỡ công thức tiếp theo.
-Giọng đọc nền (tùy chọn): đọc đúng các dòng chữ trên, giọng ấm, nhịp nhanh.
 
-**Hình ảnh & dựng:** Giây 0 cận cảnh rót nước sôi vào ly có lát gừng, hơi nóng bốc lên. Thẻ giữa khung nền tối mờ: dòng vàng “LY NƯỚC GỪNG ẤM 2K”, dòng trắng “CHO NGƯỜI HAY CHƯỚNG BỤNG BUỔI TỐI”. Cảnh: dao thái gừng, đậy nắp ly, đồng hồ 30 phút. Bác sĩ Hội blouse trắng góc phải dưới, cầm ly.
+**Hình ảnh & dựng:** 0s cận tay rót nước sôi vào ly gừng, hơi bốc. Thẻ giữa khung nền nâu cà phê mờ, giữ suốt: vàng “LY NƯỚC GỪNG ẤM 2K”, trắng “CHO NGƯỜI HAY CHƯỚNG BỤNG BUỔI TỐI”. Cảnh <3s, số to: dao thái gừng, đậy nắp, đồng hồ 30 phút. BS Hội blouse góc phải dưới cầm ly, cười. Karaoke tô vàng “30 phút”.
 
-**Caption:** Tối nào bụng cũng căng như trống? Ly nước gừng ấm 2 nghìn này pha 5 phút là xong, người trào ngược nhớ pha loãng.
-#BacSiHoi #chuongbung #dayhoi #duongruot
+**Caption:** LY NƯỚC GỪNG ẤM 2K CHO NGƯỜI HAY CHƯỚNG BỤNG BUỔI TỐI 👇👇👇
+#BacSiHoi #bshoi #chuongbung #dayhoi
 
-**Ghi chú:** Bác sĩ không nói; các dòng trong lời thoại là chữ hiện trên màn hình theo từng cảnh.
+**Ghi chú:** Bác sĩ Hội ở góc nhỏ, không nói; các dòng lời thoại là chữ trên màn hình theo từng cảnh. Giọng đọc nền (tùy chọn) đọc đúng các dòng này, khớp phụ đề karaoke. Giá là ước tính theo giá chợ, kiểm tra lại trước khi đăng.
 
 ### 11. 12:00 · Uống nước ấm hay nước lạnh buổi sáng: cái nào giúp dễ đi ngoài?
 
-Phong cách: Bác sĩ Hoa · Khuôn HOA-K2 · 40 giây · BS nói – studio
+Phong cách: Bác sĩ Hoa · Khuôn HOA-K2 · 32 giây · BS nói – studio
 
 **Lời thoại**
 
-[0–3s] Sáng ngủ dậy nên uống nước ấm hay nước lạnh thì dễ đi ngoài hơn?
-[3–8s] Nước ấm nhá. Một cốc nước ấm lúc vừa thức dậy giúp nhiều người dễ đi hơn.
-[8–35s] Sau một đêm dài, cơ thể thiếu nước, ruột cũng còn ngái ngủ. Cốc nước ấm xuống dạ dày như tiếng chuông báo thức, đánh thức phản xạ co bóp của ruột. Nước ấm lại êm, không làm bụng co thắt như nước đá với người ruột nhạy cảm. Một cốc khoảng 200–300ml, uống chậm, rồi ăn sáng. Nhưng nhớ nhá: một cốc buổi sáng không bù được cả ngày thiếu nước.
-[35–45s] Quan trọng nhất là uống đủ, rải đều cả ngày, khoảng 1,5–2 lít tùy người. Ai bệnh tim, bệnh thận thì uống theo lời bác sĩ. Sáng nay cô bác anh chị uống A, nước ấm, hay B, nước lạnh? Comment nhá.
+[0–2s] Sáng ngủ dậy uống nước ấm hay nước lạnh thì dễ đi ngoài hơn?
+[2–6s] Nước ấm nhá. Một cốc ấm lúc vừa dậy giúp nhiều người dễ đi hơn.
+[6–26s] Sau một đêm, cơ thể thiếu nước, ruột cũng còn ngái ngủ. Cốc nước ấm xuống dạ dày như tiếng chuông báo thức, đánh thức nhịp co bóp của ruột. Nước ấm lại êm, không làm bụng co thắt như nước đá ở người ruột nhạy cảm. Một cốc chừng 200 đến 300 ml, uống chậm, rồi ăn sáng. Nhưng một cốc buổi sáng không bù được cả ngày thiếu nước đâu nhá.
+[26–32s] Nhớ uống đủ, rải đều cả ngày, khoảng 1,5 đến 2 lít tùy người. Ai bệnh tim, bệnh thận thì uống theo lời bác sĩ. Sáng nay cô bác anh chị uống A nước ấm, hay B nước lạnh? Bình luận nhá.
 
-**Hình ảnh & dựng:** Studio, blouse xanh. Giây 0 hai tay cầm hai cốc: cốc bốc hơi và cốc đá. Thẻ ngang ngực nền nâu cà phê: “NƯỚC ẤM HAY NƯỚC LẠNH? / SÁNG DẬY UỐNG GÌ DỄ ĐI NGOÀI”. Đặt cốc đá xuống, giơ cốc ấm. Minh họa chuông báo thức trong bụng. Chữ to “200–300ML”, “1,5–2 LÍT”, “A HAY B?”.
+**Hình ảnh & dựng:** Bếp nhà, áo thường. 0–3s cầm cốc bốc hơi và cốc đá, giơ cao cốc ấm. Thẻ ngang ngực nền nâu cà phê, từ khóa vàng: “SÁNG DẬY UỐNG NƯỚC / ẤM HAY LẠNH?”. 3–8s chữ to “NƯỚC ẤM”. Minh họa chuông báo thức trong bụng, đổi 3–5 giây. Chữ to viền đen “200–300 ML”, “1,5–2 LÍT”. Kết “A HAY B?”.
 
-**Caption:** Sáng ngủ dậy uống nước ấm hay nước lạnh mới dễ đi ngoài? Đáp án có ngay giây thứ 3, nhưng điều quan trọng hơn nằm ở cuối video.
-#BacSiHoi #taobon #duongruot #thoiquentot
+**Caption:** Uống nước ấm hay nước lạnh buổi sáng: cái nào giúp dễ đi ngoài?
+#BacSiHoi #bshoi #duongruot
 
 ### 12. 20:00 · Táo bón lâu năm: đừng ngồi rặn tới 2030, làm 3 động tác này
 
@@ -272,37 +275,37 @@ Phong cách: TS Trần Hoàng Hải · Khuôn THH · 30 giây · B-roll + BS gó
 
 **Lời thoại**
 
-[0–3s] Ruột chạy thất thường? Cốc nước 5 nghìn này chuẩn bị từ tối hôm trước.
-[3–8s] Hạt chia ngâm nở thành lớp gel mềm, giữ nước trong ruột, giúp phân mềm và đi đều hơn.
-[8–13s] 1. Cho 1 thìa canh hạt chia vào cốc khoảng 250ml nước.
-[13–18s] 2. Khuấy đều, để ngăn mát qua đêm cho hạt nở hết.
-[18–25s] 3. Sáng khuấy lại, uống từ từ. Trong ngày nhớ uống thêm đủ nước.
-[25–28s] Không ăn hạt chia khô rồi mới uống nước. Người khó nuốt, hẹp thực quản: hỏi bác sĩ trước khi dùng.
+[0–3s] Ruột lúc nhanh lúc chậm? Cốc hạt chia chỉ 5K này cô bác ngâm sẵn từ tối nay.
+[3–8s] Hạt chia ngâm nở thành lớp gel mềm, "giữ nước" cho phân, giúp đi ngoài mềm và đều hơn.
+[8–12s] 1. Một thìa canh hạt chia vào cốc 250ml nước.
+[12–16s] 2. Khuấy đều, đợi 2 phút, khuấy lại cho khỏi vón.
+[16–21s] 3. Đậy nắp, để ngăn mát qua đêm cho nở hết.
+[21–25s] 4. Sáng khuấy lại, uống từ từ, trong ngày uống đủ nước.
+[25–28s] Không ăn hạt chia khô rồi mới uống nước. Khó nuốt, hẹp thực quản: hỏi bác sĩ trước.
 [28–30s] Bấm theo dõi để không bỏ lỡ công thức tiếp theo.
-Giọng đọc nền (tùy chọn): đọc đúng các dòng chữ trên, giọng ấm, nhịp nhanh.
 
-**Hình ảnh & dựng:** Giây 0 cận cảnh rắc hạt chia vào cốc nước, hạt chìm dần. Thẻ giữa khung nền tối mờ: dòng vàng “HẠT CHIA NGÂM QUA ĐÊM”, dòng trắng “CỐC NƯỚC 5K GIÚP RUỘT CHẠY ĐỀU”. Cảnh: thìa khuấy, cốc vào tủ lạnh, sáng ra hạt nở trong. Bác sĩ Hội blouse trắng góc phải dưới, cầm cốc, không nói.
+**Hình ảnh & dựng:** 0s cận tay rắc hạt chia vào cốc nước. Thẻ giữa khung nền nâu cà phê mờ, giữ suốt: vàng “HẠT CHIA NGÂM QUA ĐÊM”, trắng “CỐC NƯỚC 5K GIÚP RUỘT CHẠY ĐỀU”. Cảnh <3s, số to: thìa khuấy, cốc vào tủ lạnh, sáng hạt nở trong. BS Hội blouse góc phải dưới cầm cốc, cười. Karaoke tô đỏ “không ăn khô”.
 
-**Caption:** Ruột chạy lúc nhanh lúc chậm? Tối nay ngâm sẵn cốc hạt chia 5 nghìn này, sáng mai uống. Đừng bỏ qua dòng lưu ý cuối.
-#BacSiHoi #taobon #duongruot #meohay
+**Caption:** HẠT CHIA NGÂM QUA ĐÊM: CỐC NƯỚC 5K GIÚP RUỘT CHẠY ĐỀU 👇👇👇
+#BacSiHoi #bshoi #taobon #duongruot
 
-**Ghi chú:** Bác sĩ không nói; các dòng trong lời thoại là chữ hiện trên màn hình theo từng cảnh.
+**Ghi chú:** Bác sĩ Hội ở góc nhỏ, không nói; các dòng lời thoại là chữ trên màn hình theo từng cảnh. Giọng đọc nền (tùy chọn) đọc đúng các dòng này, khớp phụ đề karaoke. Giá là ước tính theo giá chợ, kiểm tra lại trước khi đăng.
 
 ### 14. 12:00 · Ăn nhiều chất xơ mà vẫn táo bón: sai ở đâu?
 
-Phong cách: Bác sĩ Hoa · Khuôn HOA-K2 · 40 giây · BS nói – studio
+Phong cách: Bác sĩ Hoa · Khuôn HOA-K2 · 32 giây · BS nói – studio
 
 **Lời thoại**
 
-[0–3s] Ăn rau ầm ầm, ăn khoai đều đặn mà vẫn táo bón?
-[3–8s] Thường là sai ở 3 chỗ: thiếu nước, tăng chất xơ quá nhanh và ít vận động.
-[8–35s] Chất xơ giống miếng bọt biển. Có nước, nó nở ra mềm mại, kéo phân trôi đi. Thiếu nước, nó thành cục khô, phân càng cứng hơn. Thứ hai, đang ăn ít rau mà hôm sau ăn cả rổ, ruột chưa quen, bụng chướng, đầy hơi, có khi còn táo hơn. Thứ ba, ngồi cả ngày thì ruột cũng lười, đủ xơ đủ nước mà không có lực đẩy.
-[35–45s] Nên làm thế này: uống đủ nước rải đều, khoảng 1,5–2 lít mỗi ngày tùy người. Tăng rau từ từ trong 2–3 tuần. Đi bộ 20–30 phút mỗi ngày. Táo bón kèm sụt cân nhanh, phân đen thì đi khám ngay. Cô bác anh chị sai ở chỗ nào: A, thiếu nước, hay B, ít vận động? Comment nhá.
+[0–2s] Ăn rau cả rổ, khoai đều đặn mà vẫn táo bón? Sai ở chỗ này nhá.
+[2–6s] Thường là sai 3 chỗ: thiếu nước, tăng xơ quá nhanh, ít vận động.
+[6–26s] Chất xơ giống miếng bọt biển. Có nước, nó nở ra mềm, kéo phân trôi đi. Thiếu nước, nó thành cục khô, phân càng cứng. Thứ hai, đang ăn ít rau mà hôm sau ăn cả rổ, ruột chưa quen, bụng chướng, đầy hơi. Thứ ba, ngồi cả ngày thì ruột cũng lười, đủ xơ đủ nước mà thiếu lực đẩy.
+[26–32s] Nhớ uống đủ nước, khoảng 1,5 đến 2 lít tùy người, tăng rau từ từ trong 2 đến 3 tuần, đi bộ 20 đến 30 phút mỗi ngày nhá. Táo bón kèm sụt cân nhanh, phân đen thì đi khám ngay. Cô bác anh chị sai chỗ nào? Bình luận số 1, 2 hay 3 nhá.
 
-**Hình ảnh & dựng:** Studio, blouse xanh. Giây 0 ôm rổ rau đầy, nhíu mày. Thẻ ngang ngực nền nâu cà phê: “ĂN NHIỀU CHẤT XƠ / SAO VẪN TÁO BÓN?”. Đạo cụ: miếng bọt biển khô và ướt. Giơ 3 ngón tay khi nêu 3 lỗi. Minh họa đổi mỗi 3–5 giây. Chữ to “1,5–2 LÍT”, “2–3 TUẦN”, “20–30 PHÚT”, “A HAY B?”.
+**Hình ảnh & dựng:** Studio, blouse xanh. 0–3s ôm rổ rau đầy, nhíu mày. Thẻ ngang ngực nền nâu cà phê, từ khóa vàng: “ĂN NHIỀU CHẤT XƠ / SAO VẪN TÁO BÓN?”. 3–8s giơ 3 ngón tay. Đạo cụ bọt biển khô và ướt. Minh họa đổi 3–5 giây. Chữ to viền đen “1,5–2 LÍT”, “2–3 TUẦN”, “20–30 PHÚT”. Kết “SỐ 1, 2 HAY 3?”.
 
-**Caption:** Ăn rau cả rổ mà vẫn t.áo b.ón? Có thể cô bác anh chị đang sai ở 1 trong 3 chỗ này.
-#BacSiHoi #taobon #chatxo #duongruot
+**Caption:** Ăn nhiều chất xơ mà vẫn t.áo b.ón: sai ở đâu?
+#BacSiHoi #bshoi #duongruot
 
 ### 15. 20:00 · Thứ nước “rẻ như cho” giúp người đi ngoài nhiều lần bù nước đúng cách
 
@@ -310,14 +313,14 @@ Phong cách: Health coach Nam Hà · Khuôn NH-B3 · 70 giây · BS nói – ngo
 
 **Lời thoại**
 
-[0–4s] Đi ngoài nhiều lần trong ngày thì có một thứ nước rẻ như cho, nhà nào cũng nên biết pha cho đúng.
-[4–25s] Cô bác anh chị cứ hình dung cơ thể như cái chum nước bị thủng đáy. Mỗi lần đi ngoài phân lỏng là nước chảy đi, kèm theo cả muối khoáng. Mất ít thì mệt, mất nhiều thì chóng mặt, chuột rút, có khi tụt huyết áp. Nhiều người chỉ uống nước lọc, hoặc tệ hơn là nước ngọt có ga, nước tăng lực. Nước lọc thiếu muối, còn nước nhiều đường có thể làm đi ngoài nặng hơn. Ruột cần đúng tỉ lệ muối và đường mới kéo được nước vào cơ thể.
-[25–60s] Thứ nước đó chính là oresol, gói muối bù nước có ở hiệu thuốc. Pha đúng lượng nước ghi trên gói, không pha đặc hơn, không pha loãng hơn, không thêm đường. Pha xong dùng trong 24 giờ, uống từng ngụm nhỏ sau mỗi lần đi ngoài. Nhà không có thì nấu nước cháo muối: một nắm gạo khoảng 50g, một nhúm muối, 6 bát nước, nấu tới khi hạt gạo nở bung, chắt lấy khoảng 1 lít, dùng trong ngày. Còn nếu khát nhiều, môi khô, tiểu ít, mệt lả, lơ mơ, phân có máu, hoặc nôn liên tục không uống được, thì đi viện ngay. Trẻ nhỏ và người già càng phải đi sớm.
-[60–70s] Nhớ lưu lại và lan tỏa để lúc cần có ngay. Chúc cô bác anh chị bụng êm ruột nhẹ, hẹn gặp lại, xin chào!
+[0–5s] Đi ngoài nhiều lần mà chỉ uống nước lọc? Chưa đủ đâu! Có một thứ nước rẻ như cho, nhà nào cũng pha được.
+[5–25s] Bác sĩ Hội gặp rất nhiều người đi ngoài tới lả mà chỉ tu nước lọc, có người còn uống nước ngọt có ga cho lại sức. Cơ thể lúc đó như cái chum thủng đáy: mỗi lần đi ngoài là nước chảy đi, kéo theo cả muối khoáng. Mất ít thì mệt, mất nhiều thì chóng mặt, chuột rút, tụt huyết áp. Nước lọc uống cả can cũng không bù được muối, còn nước nhiều đường có thể làm đi ngoài nặng hơn.
+[25–60s] Thứ nước đó là gói muối bù nước, hay gọi là oresol, hiệu thuốc nào cũng có. Ruột cần đúng tỉ lệ muối và đường mới kéo được nước vào người. Một: pha đúng lượng nước ghi trên gói, không đặc hơn, không loãng hơn, không thêm đường. Hai: uống từng ngụm nhỏ sau mỗi lần đi ngoài, pha xong dùng trong 24 giờ. Nhà chưa có gói thì nấu nước cháo muối: một nắm gạo khoảng 50g, một nhúm muối, 6 bát nước, nấu tới khi gạo nở bung, chắt lấy chừng 1 lít, dùng trong ngày. Còn môi khô, tiểu ít, mệt lả, lơ mơ, phân có máu, hay nôn liên tục không uống được thì đi viện ngay, trẻ nhỏ và người già càng phải đi sớm.
+[60–70s] Nhớ lưu lại và lan tỏa để lúc cần có ngay. Nhà mình có sẵn gói bù nước chưa? Comment cho bác sĩ Hội biết. Chúc cô bác anh chị bụng êm ruột nhẹ, hẹn gặp lại, xin chào!
 
-**Hình ảnh & dựng:** Ngoài trời, cầm gói muối bù nước úp mặt chữ. Box nâu cà phê “THỨ NƯỚC RẺ NHƯ CHO / BÙ NƯỚC KHI ĐI NGOÀI NHIỀU LẦN”. Sticker chum nước thủng đáy. Đáp án chữ vàng. B-roll: pha gói đúng vạch nước, nồi cháo muối. Dấu hiệu đi viện hiện chữ đỏ từng dòng. Kết vẫy tay.
+**Hình ảnh & dựng:** Vườn sáng, mic cài, cầm gói muối bù nước úp mặt chữ. Giây 0 box nâu cà phê “THỨ NƯỚC RẺ NHƯ CHO / BÙ NƯỚC KHI ĐI NGOÀI NHIỀU LẦN”. Sticker chum thủng đáy. Đáp án chữ vàng, tay đếm 1-2. B-roll pha gói đúng vạch, nồi cháo muối. Dấu hiệu đi viện chữ đỏ. Kết vẫy tay.
 
-**Caption:** Đi ngoài nhiều lần mà chỉ uống nước lọc là chưa đủ. Thứ nước rẻ như cho này nhà nào cũng nên biết pha đúng, lưu lại để lúc cần có ngay.
+**Caption:** Thứ nước rẻ như cho giúp người đi ngoài nhiều lần bù nước đúng cách, chỉ uống nước lọc là chưa đủ. Lưu lại để lúc cần có ngay!
 #BacSiHoi #tieuchay #bunuoc #duongruot
 
 **Ghi chú:** Khi quay không để lộ nhãn hiệu gói muối bù nước. Đối chiếu lại hướng dẫn pha trên gói thực tế trước khi quay.
@@ -332,40 +335,42 @@ Phong cách: TS Trần Hoàng Hải · Khuôn THH · 30 giây · B-roll + BS gó
 
 **Lời thoại**
 
-[0–3s] Mấy ngày chưa đi ngoài? Bát canh mồng tơi 15 nghìn này nấu ngay bữa tối.
-[3–8s] Mồng tơi có chất nhớt và chất xơ, giúp phân mềm, đi ngoài dễ hơn.
-[8–13s] 1. Tôm tươi bóc vỏ, băm nhỏ, xào sơ với chút hành tím.
-[13–18s] 2. Thêm khoảng 3 bát nước, đun sôi, hớt bọt.
-[18–25s] 3. Cho một bó mồng tơi đã nhặt rửa, sôi lại 2–3 phút là tắt bếp, nêm nhạt.
-[25–28s] Đang đi ngoài phân lỏng thì tạm chưa ăn. Dị ứng tôm thì thay bằng thịt nạc băm.
+[0–3s] Đi ngoài khó, phân khô cứng? Bát canh mồng tơi 15K này cô bác nấu ngay tối nay.
+[3–8s] Chất nhớt và chất xơ của mồng tơi giúp phân "trơn" và mềm hơn, đi ngoài dễ hơn.
+[8–12s] 1. Tôm tươi bóc vỏ, băm nhỏ, xào sơ với chút hành tím.
+[12–16s] 2. Thêm khoảng 3 bát nước, đun sôi, hớt bọt.
+[16–21s] 3. Thả một bó mồng tơi đã nhặt rửa, sôi lại 2–3 phút.
+[21–25s] 4. Tắt bếp, nêm nhạt, ăn khi còn ấm.
+[25–28s] Đang đi ngoài phân lỏng thì tạm chưa ăn. Dị ứng tôm: thay thịt nạc băm.
 [28–30s] Bấm theo dõi để không bỏ lỡ công thức tiếp theo.
-Giọng đọc nền (tùy chọn): đọc đúng các dòng chữ trên, giọng ấm, nhịp nhanh.
 
-**Hình ảnh & dựng:** Giây 0 cận cảnh thả mồng tơi xanh vào nồi canh tôm đang sôi. Thẻ giữa khung nền tối mờ: dòng vàng “CANH MỒNG TƠI NẤU TÔM”, dòng trắng “BÁT CANH 15K CHO NGƯỜI TÁO BÓN”. Cảnh: bóc tôm, băm, xào hành, múc bát. Bác sĩ Hội blouse trắng góc phải dưới, cầm bát canh, mỉm cười.
+**Hình ảnh & dựng:** 0s cận tay thả mồng tơi xanh vào nồi canh tôm đang sôi. Thẻ giữa khung nền nâu cà phê mờ, giữ suốt: vàng “CANH MỒNG TƠI NẤU TÔM”, trắng “BÁT CANH 15K CHO NGƯỜI TÁO BÓN”. Cảnh <3s, số to: bóc tôm, băm, xào hành, múc bát. BS Hội blouse góc phải dưới cầm bát canh, cười. Karaoke tô vàng “nêm nhạt”.
 
-**Caption:** Mấy ngày chưa đi ngoài? Bát canh mồng tơi nấu tôm 15 nghìn, 3 bước là xong, ăn ngay bữa tối nay.
-#BacSiHoi #taobon #monngon #duongruot
+**Caption:** CANH MỒNG TƠI NẤU TÔM: BÁT CANH 15K CHO NGƯỜI TÁO BÓN 👇👇👇
+#BacSiHoi #bshoi #taobon #duongruot
 
-**Ghi chú:** Bác sĩ không nói; các dòng trong lời thoại là chữ hiện trên màn hình theo từng cảnh.
+**Ghi chú:** Bác sĩ Hội ở góc nhỏ, không nói; các dòng lời thoại là chữ trên màn hình theo từng cảnh. Giọng đọc nền (tùy chọn) đọc đúng các dòng này, khớp phụ đề karaoke. Giá là ước tính theo giá chợ, kiểm tra lại trước khi đăng.
 
-### 17. 12:00 · Động tác ôm gối vào ngực giúp xì hơi, bớt chướng bụng
+### 17. 12:00 · Cách giảm chướng bụng bằng 1 động tác ôm gối
 
 Phong cách: Bác sĩ Hoa · Khuôn HOA-K1 · 55 giây · BS làm mẫu
 
 **Lời thoại**
 
-[0–3s] Bụng căng như cái trống, hơi cứ cuộn trong ruột mà không ra? Nằm xuống làm cùng bác sĩ Hội nhá.
-[3–12s] Hơi hay bị kẹt lại ở những khúc gấp của ruột già. Ngồi lâu, nằm im, ruột ít chuyển động thì hơi càng ứ, bụng càng chướng.
-[12–45s] Bước 1: nằm ngửa trên giường, hai chân duỗi thẳng, thở đều. Bước 2: co hai gối, vòng tay ôm sát gối vào ngực, đầu vẫn để trên gối nằm. Bước 3: giữ yên 20 giây, thở chậm bằng bụng. Rồi thả ra, duỗi chân, nghỉ vài giây. Làm 5 lần. Khó ôm cả hai chân thì ôm từng chân một. Lúc ôm có thể lắc nhẹ sang hai bên.
-[45–55s] Làm mỗi sáng và tối, cách bữa ăn 1–2 tiếng. Kiên trì khoảng 1 tháng, nhiều người thấy bụng nhẹ nhàng, dễ xì hơi hơn. Chướng bụng kèm đau dữ dội, nôn, không xì hơi được thì đi cấp cứu ngay.
-[55–60s] Nhớ lưu lại video này để tập.
+[0–3s] Bụng căng như trống mà hơi không ra? Ngồi im là hơi càng kẹt. Làm 1 động tác ôm gối cùng tôi nhá.
+[3–12s] Hơi hay kẹt ở những khúc gấp của ruột già. Ngồi lâu, nằm im, ruột ít chuyển động thì hơi càng ứ, bụng càng chướng.
+[12–22s] Bước 1, nằm ngửa trên giường, hai chân duỗi thẳng, hai tay để xuôi như thế này. Thở đều ba nhịp cho bụng mềm ra. Hít vào, thở ra. Hít vào, thở ra. Hít vào, thở ra. Bụng thả lỏng, đừng gồng nhá.
+[22–34s] Bước 2, co hai gối lên, vòng tay ôm sát gối vào ngực như thế này, đầu vẫn để trên gối nằm. Kéo gối vào từ từ, thấy bụng hơi ép là được, đừng ghì mạnh. Lỗi hay gặp là nhấc cả đầu lên, cằm dí vào gối, cổ mỏi ngay. Đầu cứ để yên nhá. Khó ôm cả hai thì ôm từng chân, như thế này.
+[34–45s] Bước 3, giữ yên 20 giây, thở chậm bằng bụng, lắc nhẹ sang hai bên như thế này. Đếm cùng tôi: một, hai, ba, bốn, năm, sáu, bảy, tám, chín, mười, cứ thế đến hai mươi. Lỗi hay gặp là nín thở khi ôm. Cứ thở đều. Thả ra, duỗi chân, nghỉ vài giây. Làm 5 lần.
+[45–51s] Mỗi sáng và tối, cách bữa ăn 1 đến 2 tiếng. Kiên trì khoảng 1 tháng, nhiều người thấy bụng nhẹ nhàng hơn. Chướng kèm đau dữ dội, nôn, không xì hơi được thì đi cấp cứu ngay.
+[51–55s] Nhớ lưu lại video này, tối nào chướng bụng thì mở ra tập nhá.
 
-**Hình ảnh & dựng:** Phòng ngủ sáng, áo thường, nằm ngửa trên giường, máy quay ngang thân. Giây 0 tay xoa bụng căng. Thẻ ngang ngực nền nâu cà phê: “ÔM GỐI VÀO NGỰC / BỤNG BỚT CHƯỚNG”. Minh họa 3D hơi kẹt ở khúc gấp ruột. Chữ to “BƯỚC 1–3”, “GIỮ 20 GIÂY”, “5 LẦN”, cuối “LƯU LẠI” và mũi tên.
+**Hình ảnh & dựng:** Phòng ngủ sáng, áo thường, quay ngang thân. 0–3s xoa bụng căng rồi nằm xuống. Thẻ ngang ngực nền nâu cà phê, từ khóa vàng: “CHƯỚNG BỤNG / HƠI KHÔNG RA?”. 3D hơi kẹt ở khúc gấp ruột, đổi 3–5 giây. Chữ to viền đen: “BƯỚC 1/2/3”, “GIỮ 20 GIÂY”, “5 LẦN”. Kết “LƯU LẠI” mũi tên.
 
-**Caption:** Bụng căng như trống mà hơi không chịu ra? Nằm xuống ôm gối cùng bác sĩ Hội, giữ 20 giây, làm 5 lần.
-#BacSiHoi #chuongbung #dayhoi #duongruot
+**Caption:** Cách giảm chướng bụng bằng 1 động tác ôm gối
+#BacSiHoi #bshoi #duongruot
 
-**Ghi chú:** Chèn chữ nhỏ ở bước 1: “Mới mổ bụng, đang mang thai, đau cột sống: hỏi bác sĩ trước khi tập”.
+**Ghi chú:** Chèn chữ nhỏ ở bước 1: “Mới mổ bụng, đang mang thai, đau cột sống: hỏi bác sĩ trước khi tập”. Đã áp dụng tiêu đề mới: câu mở nhắc “1 động tác ôm gối”, caption trùng tiêu đề; thẻ chữ ngực giữ dạng vấn đề + câu hỏi của KOL. Giữ 20 giây: đếm thành tiếng đến mười rồi tua nhanh kèm chữ đếm giây. Lời thoại dài khoảng 250–275 tiếng cho 55 giây, nói nhanh khoảng 300 tiếng/phút theo nhịp KOL; giữ đúng khung 0–3s triệu chứng, 3–12s nguyên nhân, 12–45s làm mẫu, 45–55s lời hứa thời gian và lưu lại. Đếm thành tiếng khớp đúng nhịp tay; câu “lỗi hay gặp”: chèn X đỏ lên dáng sai 1–2 giây.
 
 ### 18. 20:00 · Ruột kích thích: sợ nhất 8 điều này
 
@@ -394,42 +399,43 @@ Phong cách: Health coach Nam Hà · Khuôn NH-B1 · 33 giây · BS nói – ngo
 
 ## Chủ nhật · 18/10/2026
 
-### 19. 06:30 · SỮA CHUA + CHUỐI CHÍN: MÓN TRÁNG MIỆNG 10K CHO ĐƯỜNG RUỘT
+### 19. 06:30 · SỮA CHUA KẾT HỢP 1 LOẠI QUẢ NÀY: TRÁNG MIỆNG 10K ÊM CHO ĐƯỜNG RUỘT
 
 Phong cách: TS Trần Hoàng Hải · Khuôn THH · 30 giây · B-roll + BS góc nhỏ (không nói)
 
 **Lời thoại**
 
-[0–3s] Ăn xong thèm món ngọt mà vẫn muốn nhẹ bụng? Hai thứ này trộn lại là xong.
-[3–8s] Sữa chua có lợi khuẩn, chuối chín mềm có chất xơ dịu: món tráng miệng êm cho đường ruột.
-[8–15s] 1. Chọn chuối chín vàng, vỏ có vài chấm nâu, không dùng chuối còn xanh. Cắt lát 1 quả.
-[15–25s] 2. Trộn với 1 hộp sữa chua không đường, ăn sau bữa chính khoảng 30 phút.
-[25–28s] Ai uống sữa là đầy bụng, đi ngoài: thử nửa hộp trước, hoặc chọn loại không lactose. Người tiểu đường: nửa quả chuối.
+[0–3s] Ăn xong thèm ngọt mà sợ nặng bụng? Sữa chua kết hợp 1 loại quả này, cô bác trộn trong 1 phút.
+[3–8s] Sữa chua có lợi khuẩn, thêm loại quả có chất xơ mềm này: món ngọt "dễ chịu" cho đường ruột.
+[8–12s] 1. Quả đó là chuối chín vàng, vỏ lấm tấm chấm nâu, không dùng chuối xanh.
+[12–16s] 2. Cắt lát 1 quả vào bát.
+[16–21s] 3. Thêm 1 hộp sữa chua không đường, trộn nhẹ.
+[21–25s] 4. Ăn sau bữa chính khoảng 30 phút.
+[25–28s] Uống sữa là đầy bụng, đi ngoài: thử nửa hộp hoặc loại không lactose. Người tiểu đường: nửa quả chuối.
 [28–30s] Bấm theo dõi để không bỏ lỡ công thức tiếp theo.
-Giọng đọc nền (tùy chọn): đọc đúng các dòng chữ trên, giọng ấm, nhịp nhanh.
 
-**Hình ảnh & dựng:** Giây 0 cận cảnh thả lát chuối vàng vào bát sữa chua trắng. Thẻ giữa khung nền tối mờ: dòng vàng “SỮA CHUA + CHUỐI CHÍN”, dòng trắng “TRÁNG MIỆNG 10K CHO ĐƯỜNG RUỘT”. Cảnh: đặt chuối xanh cạnh chuối chín có chấm nâu, thìa trộn. Bác sĩ Hội blouse trắng góc phải dưới, cầm bát, mỉm cười.
+**Hình ảnh & dựng:** 0s cận tay thả lát chuối vào bát sữa chua. Thẻ giữa khung nền nâu cà phê mờ, giữ suốt: vàng “SỮA CHUA KẾT HỢP 1 LOẠI QUẢ NÀY”, trắng “TRÁNG MIỆNG 10K ÊM CHO ĐƯỜNG RUỘT”. Cảnh <3s, số to: chuối chấm nâu, cắt lát, trộn. BS Hội blouse góc phải dưới cầm bát, cười.
 
-**Caption:** Món tráng miệng 10 nghìn, 2 bước là xong mà êm cho đường ruột. Nhớ chọn đúng loại chuối như trong video.
-#BacSiHoi #duongruot #loikhuan #monngon
+**Caption:** SỮA CHUA KẾT HỢP 1 LOẠI QUẢ NÀY: TRÁNG MIỆNG 10K ÊM CHO ĐƯỜNG RUỘT 👇👇👇
+#BacSiHoi #bshoi #duongruot #loikhuan
 
-**Ghi chú:** Bác sĩ không nói; các dòng trong lời thoại là chữ hiện trên màn hình theo từng cảnh.
+**Ghi chú:** Bác sĩ Hội ở góc nhỏ, không nói; các dòng lời thoại là chữ trên màn hình theo từng cảnh. Giọng đọc nền (tùy chọn) đọc đúng các dòng này, khớp phụ đề karaoke. Giá là ước tính theo giá chợ, kiểm tra lại trước khi đăng. Tên quả để đến bước 1 mới hiện chữ, giữ tò mò theo tiêu đề.
 
 ### 20. 12:00 · Đi ngoài ngay sau bữa ăn: bình thường hay bất thường?
 
-Phong cách: Bác sĩ Hoa · Khuôn HOA-K2 · 40 giây · BS nói – studio
+Phong cách: Bác sĩ Hoa · Khuôn HOA-K2 · 32 giây · BS nói – studio
 
 **Lời thoại**
 
-[0–3s] Vừa ăn xong đã phải chạy vào nhà vệ sinh: bình thường hay bất thường?
-[3–8s] Phần lớn là bình thường nhá, cô bác anh chị đừng lo.
-[8–35s] Thức ăn vừa xuống dạ dày, dạ dày lập tức báo xuống ruột già: dọn chỗ đi. Ruột già co bóp, đẩy phần phân có sẵn từ trước ra ngoài. Y học gọi là phản xạ dạ dày, đại tràng. Còn bữa vừa ăn thì thường phải mất khoảng 1 đến 3 ngày mới đi hết đường ruột, chứ không phải ăn vào là ra ngay đâu. Người ruột nhạy cảm thì phản xạ này mạnh hơn.
-[35–45s] Bất thường là khi kèm đau quặn, phân lỏng kéo dài nhiều tuần, đi ngoài ra máu, sụt cân nhanh. Lúc đó đi khám ngay. Cô bác anh chị là A, đi xong là nhẹ, hay B, kèm đau và phân lỏng? Comment nhá.
+[0–2s] Vừa buông đũa đã phải chạy vào nhà vệ sinh: bình thường hay bất thường?
+[2–6s] Phần lớn là bình thường nhá, cô bác anh chị đừng lo.
+[6–26s] Thức ăn vừa xuống, dạ dày lập tức báo xuống ruột già: dọn chỗ đi. Ruột già co bóp, đẩy phần phân có sẵn từ trước ra ngoài. Y học gọi là phản xạ dạ dày, đại tràng. Còn bữa vừa ăn thường mất khoảng 1 đến 3 ngày mới đi hết đường ruột, chứ không phải ăn vào là ra ngay. Người ruột nhạy cảm thì phản xạ này mạnh hơn.
+[26–32s] Nhớ để ý 4 dấu hiệu: đau quặn, phân lỏng kéo dài nhiều tuần, đi ngoài ra máu, sụt cân nhanh. Có một trong số đó thì đi khám ngay nhá. Cô bác anh chị là A, đi xong nhẹ bụng, hay B, kèm đau quặn? Bình luận nhá.
 
-**Hình ảnh & dựng:** Studio, blouse xanh. Giây 0 đặt đũa xuống, đứng dậy vội. Thẻ ngang ngực nền nâu cà phê: “ĂN XONG ĐI NGOÀI NGAY / BÌNH THƯỜNG KHÔNG?”. Minh họa: dạ dày gọi điện cho ruột già, mũi tên co bóp, đổi mỗi 3–5 giây. Chữ to “1–3 NGÀY”. Dấu hiệu bất thường chữ đỏ. Kết “A HAY B?”.
+**Hình ảnh & dựng:** Bàn ăn, áo thường. 0–3s đặt đũa xuống, đứng dậy vội. Thẻ ngang ngực nền nâu cà phê, từ khóa vàng: “ĂN XONG ĐI NGOÀI NGAY / CÓ SAO KHÔNG?”. 3–8s chữ to “PHẦN LỚN BÌNH THƯỜNG”. Minh họa dạ dày gọi ruột già, đổi 3–5 giây. Chữ to viền đen “1–3 NGÀY”; 4 dấu hiệu chữ đỏ. Kết “A HAY B?”.
 
-**Caption:** Vừa buông đũa đã phải chạy vào nhà vệ sinh? Phần lớn là bình thường, nhưng có 4 dấu hiệu thì đừng chủ quan.
-#BacSiHoi #daitrang #duongruot #ruotkichthich
+**Caption:** Đi ngoài ngay sau bữa ăn: bình thường hay bất thường?
+#BacSiHoi #bshoi #duongruot
 
 ### 21. 20:00 · Ai đi ngoài phân nát mỗi sáng thì đừng bỏ lỡ video này
 
@@ -437,14 +443,14 @@ Phong cách: Health coach Nam Hà · Khuôn NH-B3 · 70 giây · BS nói – ngo
 
 **Lời thoại**
 
-[0–4s] Ai đi ngoài phân nát mỗi sáng thì đừng bỏ lỡ video này. Có 3 việc rất đơn giản, làm được từ tối nay.
-[4–25s] Ruột già của mình giống một cái máy vắt nước. Phân đi qua tới đâu, nước được vắt lại tới đó, ra ngoài mới thành khuôn. Ruột chạy vội quá, máy chưa kịp vắt, phân ra nát. Mà cái gì làm ruột chạy vội? Hay gặp nhất là bữa tối nhiều dầu mỡ, rượu bia đêm trước, cà phê lúc sáng sớm, uống sữa mà cơ thể không hợp, căng thẳng kéo dài, hoặc ruột kích thích.
-[25–60s] Việc thứ nhất: ghi nhật ký 2 tuần, tối qua ăn gì, sáng nay đi thế nào, sẽ thấy thủ phạm. Việc thứ hai: bữa tối nhẹ, ít dầu mỡ, bớt rượu bia, ăn xong 2–3 tiếng mới đi ngủ. Việc thứ ba: ăn chậm, đúng giờ, thêm chất xơ mềm như yến mạch, khoai, chuối chín, và uống đủ nước. Còn khi nào phải nội soi đại tràng? Khi phân nát kéo dài kèm đi ngoài ra máu, phân đen, sụt cân nhanh, đau bụng về đêm. Hoặc từ khoảng 45–50 tuổi mà thói quen đi ngoài mới thay đổi kéo dài, hay nhà có người bị polyp, u đại tràng. Gặp những tín hiệu này thì đi khám ngay, bác sĩ sẽ đánh giá có cần nội soi hay không.
-[60–70s] Nhớ lưu lại và lan tỏa cho người nhà nhá. Chúc cô bác anh chị bụng êm ruột nhẹ, hẹn gặp lại, xin chào!
+[0–5s] Ai đi ngoài phân nát mỗi sáng thì đừng bỏ lỡ video này. Có 3 việc không tốn đồng nào, làm ngay từ tối nay.
+[5–25s] Bác sĩ Hội gặp nhiều người sáng nào cũng chạy vội vào nhà vệ sinh rồi bảo: chắc tại cơ địa. Khoan đã! Ruột già giống cái máy vắt nước, phân đi tới đâu, nước được vắt lại tới đó. Ruột chạy vội quá, máy chưa kịp vắt, phân ra nát. Ai bắt ruột chạy vội? Hay gặp là bữa tối nhiều dầu mỡ, rượu bia, cà phê lúc bụng đói, sữa không hợp, căng thẳng kéo dài, hoặc ruột kích thích. Cuối video bác sĩ Hội nói rõ lúc nào phải đi nội soi.
+[25–60s] Việc thứ nhất: ghi nhật ký 2 tuần, tối qua ăn gì, sáng nay đi thế nào, nhìn lại là thấy thủ phạm. Việc thứ hai: bữa tối nhẹ, ít dầu mỡ, bớt rượu bia, cà phê để sau bữa sáng. Việc thứ ba: ăn chậm, đúng giờ, thêm chất xơ mềm như yến mạch, khoai, chuối chín, uống đủ nước. Còn lúc nào phải nội soi? Khi phân nát kéo dài kèm đi ngoài ra máu, phân đen, sụt cân nhanh, đau bụng về đêm. Hoặc từ khoảng 45–50 tuổi mà thói quen đi ngoài mới thay đổi kéo dài, hay nhà có người bị polyp, u đại tràng. Gặp những tín hiệu này thì đi khám ngay để bác sĩ đánh giá.
+[60–70s] Nhớ lưu lại và lan tỏa cho người nhà nhá. Cô bác anh chị bị phân nát bao lâu rồi? Comment cho bác sĩ Hội biết. Chúc cô bác anh chị bụng êm ruột nhẹ, hẹn gặp lại, xin chào!
 
-**Hình ảnh & dựng:** Vườn buổi sáng, mic cài áo. Giây 0 box nâu cà phê “AI ĐI NGOÀI PHÂN NÁT MỖI SÁNG / ĐỪNG BỎ LỠ VIDEO NÀY”. Sticker máy vắt nước, cuốn nhật ký, bát yến mạch. Giơ 3 ngón tay, tên việc chữ vàng. Phần nội soi: minh họa ống soi, tín hiệu cảnh báo chữ đỏ. Kết vẫy tay.
+**Hình ảnh & dựng:** Vườn sáng, mic cài. Giây 0 box nâu cà phê “AI ĐI NGOÀI PHÂN NÁT MỖI SÁNG / ĐỪNG BỎ LỠ VIDEO NÀY”. Sticker máy vắt nước, mâm cơm dấu hỏi. Giơ 3 ngón tay, tên việc chữ vàng, sticker cuốn nhật ký, bát yến mạch. B-roll ống nội soi, cảnh báo chữ đỏ. Kết vẫy tay.
 
-**Caption:** Sáng nào cũng đi ngoài phân nát, không thành khuôn? 3 việc làm từ tối nay, và lúc nào thì cần n.ội s.oi đ.ại t.ràng.
+**Caption:** Ai đi ngoài phân nát mỗi sáng thì đừng bỏ lỡ: 3 việc không tốn đồng nào làm từ tối nay, và lúc nào thì cần n.ội s.oi đ.ại t.ràng.
 #BacSiHoi #daitrang #duongruot #ruotkichthich
 
 **Ghi chú:** Mốc tuổi bắt đầu tầm soát đại tràng khác nhau theo hướng dẫn; bác sĩ Hội xác nhận câu “từ khoảng 45–50 tuổi” trước khi quay.
