@@ -11,6 +11,7 @@ thao tác trong Meta Business Suite y như người thật: Tạo thước phim 
 Bấm đúp icon **GPMReels** ngoài Desktop (= `pythonw tray.py`): phần mềm chạy **ở khay hệ thống** cạnh đồng hồ như Unikey, không có cửa sổ đen. Bấm đúp icon ở khay → cửa sổ nhỏ (nút *Mở giao diện web*, *Mở Google Sheet*, *Ẩn*, *Thoát hẳn*); bấm **X** chỉ ẩn xuống khay; chuột phải icon khay → **Thoát hẳn** mới tắt. Bấm icon Desktop lần nữa khi đang chạy chỉ mở lại giao diện web. `pythonw tray.py --tray` = khởi động ẩn sẵn ở khay, không bật cửa sổ. (Cách cũ có cửa sổ đen: `start_ui.bat`.)
 Giao diện web tại `http://127.0.0.1:8765`: **menu dọc bên trái** (5 tab), nội dung tab đang chọn hiện bên phải; tab đang mở được nhớ lại (và có trên URL: `#lich`, `#profile`, `#log`, `#anh`, `#caidat`). Cuối menu là trạng thái GPM Login / việc đang chạy / tự động kiểm tra và nút *Mở Google Sheet*.
 - **Lịch đăng** (badge = số bài chờ): bảng hàng đợi đọc từ Sheet với cột *Kế hoạch* (sẽ đăng / vì sao bỏ qua); nút **Bắt đầu đăng các bài chờ** (có hỏi xác nhận), **Xem kế hoạch**, **Chạy thử**, **Đăng lại hàng lỗi**, lọc theo hàng / số bài tối đa; khung **Tự động kiểm tra Sheet**.
+- **Giờ đăng**: khung giờ đăng mặc định của từng page (chip giờ, thêm/xoá, *Lưu* / *Theo Sheet* / *Áp dụng cho tất cả page*), số phút tối thiểu khi tự xếp, 3 khung trống sắp tới của mỗi page.
 - **Profile GPM** (badge = số profile đang mở / tổng): mỗi profile một thẻ, chấm xanh = đang mở và điều khiển được, vàng = mở tay, xám = đóng; **fanpage mặc định** của profile lấy từ tab Pages (cột Profile GPM — mỗi profile 1 fanpage); nút **Mở Chrome / Mở Business Suite / Đóng Chrome**, nút **Mở ↗** để mở đúng trang đó trong profile.
 - **Đang chạy & Log**: log chạy trực tiếp, nút Dừng; bấm bất kỳ nút chạy nào ở tab Lịch đăng sẽ tự chuyển sang tab này.
 - **Ảnh chụp**: ảnh màn hình các bước đăng trong `logs/`.
@@ -67,6 +68,11 @@ python post_sheet.py --scan-pages 002 --webhook URL   # chỉ profile 002, và g
 - Thư mục Drive mà **Tiêu đề để trống** → lấy dòng `Tiêu đề:` trong file kịch bản `.docx`, rồi nối thêm cột Hashtag.
 - Cột Thời gian nên để định dạng *Văn bản thuần* (hoặc gõ `'08/10/2026 19:00` với dấu `'` đầu ô) để Sheets không tự đổi thành ngày.
 - Hàng đã đăng còn được ghi nhớ trong `logs/sheet_state.json` → chạy lại không đăng trùng kể cả khi chưa có webhook. Mỗi lần chạy xuất `logs/sheet_report_*.csv` (Hàng / Page / Thời gian / Trạng thái / Ghi chú).
+
+**Khung giờ đăng mặc định & tự xếp giờ** (tab *Giờ đăng* trên web, hoặc cột *Giờ đăng mặc định* của tab Pages ghi `07:00, 10:00, 12:00, 14:00, 18:00`; bộ giờ sửa trên web được ưu tiên, có webhook thì ghi luôn vào Sheet):
+- Hàng **để trống cả Ngày và Giờ** → tự xếp vào các khung giờ trống kế tiếp của page, tính từ hiện tại (chế độ *Lên lịch trên Facebook*: cách hiện tại ít nhất N phút, mặc định 20; chế độ *Tới giờ mới đăng*: đăng đúng khi khung giờ đến). Nhiều hàng trống → lần lượt 14:00, 18:00, 07:00 hôm sau…; khung đã có bài (hàng khác trên Sheet, bài đã đăng/lên lịch) được bỏ qua.
+- Chỉ ghi **Ngày** → khung trống đầu tiên của ngày đó; chỉ ghi **Giờ** → hôm nay (hoặc mai nếu đã qua); ghi đủ → đúng lúc đó.
+- Giờ tự xếp hiện ở cột Thời gian với nhãn *tự xếp* (web / log); khi đăng, Ngày/Giờ đã xếp được ghi vào Sheet qua webhook. Page chưa có khung giờ → hàng trống bị bỏ qua với lý do "page chưa có khung giờ mặc định".
 
 **Cài Apps Script (1 lần, ~3 phút)** — dựng 3 tab + webhook ghi ngược + dọn bài cũ:
 1. Mở Sheet → *Tiện ích mở rộng → Apps Script* → dán toàn bộ [sheet_webhook.gs](sheet_webhook.gs) → Lưu.

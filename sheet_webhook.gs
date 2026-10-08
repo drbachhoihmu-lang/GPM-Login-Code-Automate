@@ -1,7 +1,8 @@
 /**
  * Apps Script gắn vào Sheet "Lịch đăng Reels" – 3 việc:
  *   1. setupSheet()   : dựng 3 tab  Pages / Lịch đăng / Đã đăng  (chạy 1 lần, chạy lại không hỏng dữ liệu)
- *   2. doPost()       : webhook để post_sheet.py ghi Page / Trạng thái / Ghi chú vào đúng hàng
+ *   2. doPost()       : webhook để post_sheet.py ghi Page / Trạng thái / Ghi chú (và Ngày/Giờ tự xếp) vào đúng hàng;
+ *                       action "upsert_pages" thêm/cập nhật tab Pages (tên, asset_id, profile, Giờ đăng mặc định)
  *   3. archiveOld()   : dọn bài đã đăng/đã lên lịch quá N ngày sang tab "Đã đăng" (installNightlyTrigger() để tự chạy 3h sáng)
  *
  * Cài (1 lần):
@@ -18,7 +19,7 @@ var TAB_QUEUE = "Lịch đăng";
 var TAB_DONE = "Đã đăng";
 var ARCHIVE_AFTER_DAYS = 7;
 
-var HEAD_PAGES = ["Tên page", "asset_id", "Profile GPM", "Người phụ trách", "Giờ đăng mặc định", "Ghi chú"];
+var HEAD_PAGES = ["Tên page", "asset_id", "Profile GPM", "Người phụ trách", "Giờ đăng mặc định (vd 07:00, 10:00, 14:00, 18:00)", "Ghi chú"];
 var HEAD_QUEUE = ["Ngày đăng (dd/mm/yyyy)", "Giờ đăng (hh:mm)", "Page", "Video (link Drive / thư mục Drive / đường dẫn máy)",
                   "Tiêu đề", "Hashtag", "Trạng thái", "Ghi chú"];
 var HEAD_DONE = HEAD_QUEUE.concat(["Ngày dọn"]);
@@ -60,8 +61,8 @@ function setupSheet() {
   var pages = getOrCreate_(ss, TAB_PAGES, HEAD_PAGES);
   if (pages.getLastRow() < 2) {
     pages.getRange(2, 1, 2, HEAD_PAGES.length).setValues([
-      ["Thạc sĩ A.Đức - Rối loạn lo âu", "1105165602680340", "001", "", "19:00", "ví dụ – sửa lại cho đúng"],
-      ["Thạc sĩ A.Đức - Trầm Cảm",       "1056835234187428", "002", "", "19:00", "ví dụ – sửa lại cho đúng"]
+      ["Thạc sĩ A.Đức - Rối loạn lo âu", "1105165602680340", "001", "", "07:00, 12:00, 19:00", "ví dụ – sửa lại cho đúng"],
+      ["Thạc sĩ A.Đức - Trầm Cảm",       "1056835234187428", "002", "", "07:00, 12:00, 19:00", "ví dụ – sửa lại cho đúng"]
     ]);
   }
   pages.getRange("B2:B").setNumberFormat("@");            // asset_id là chữ, không bị làm tròn
@@ -127,6 +128,7 @@ function upsertPages_(ss, pages) {
   var cName = findCol_(header, ["ten page", "ten trang", "page"]) || 1;
   var cAsset = findCol_(header, ["asset", "id"]) || 2;
   var cProfile = findCol_(header, ["profile", "gpm"]) || 3;
+  var cHours = findCol_(header, ["gio", "hour"]) || 5;
   var last = sh.getLastRow();
   var assets = last >= 2 ? sh.getRange(2, cAsset, last - 1, 1).getValues().map(function (r) { return String(r[0]).trim(); }) : [];
   var added = 0, updated = 0;
@@ -134,14 +136,17 @@ function upsertPages_(ss, pages) {
     var idx = assets.indexOf(String(p.asset).trim());
     if (idx >= 0) {
       var row = idx + 2;
-      sh.getRange(row, cName).setValue(p.name);
+      if (p.name) sh.getRange(row, cName).setValue(p.name);
       if (!String(sh.getRange(row, cProfile).getValue()).trim() && p.profile) sh.getRange(row, cProfile).setValue(p.profile);
+      if (p.hours !== undefined && p.hours !== null) sh.getRange(row, cHours).setNumberFormat("@").setValue(String(p.hours));
       updated++;
     } else {
+      if (!p.name) return;                                  // chỉ cập nhật giờ cho page chưa có trong tab -> bỏ qua
       var newRow = sh.getLastRow() + 1;
       sh.getRange(newRow, cName).setValue(p.name);
       sh.getRange(newRow, cAsset).setNumberFormat("@").setValue(String(p.asset));
       sh.getRange(newRow, cProfile).setValue(p.profile || "");
+      if (p.hours !== undefined && p.hours !== null) sh.getRange(newRow, cHours).setNumberFormat("@").setValue(String(p.hours));
       assets.push(String(p.asset).trim());
       added++;
     }
@@ -150,7 +155,7 @@ function upsertPages_(ss, pages) {
 }
 
 function doPost(e) {
-  var data = JSON.parse(e.postData.contents);          // {row, gid?, sheet?, page?, status?, note?} | {action:"upsert_pages", pages:[...]}
+  var data = JSON.parse(e.postData.contents);          // {row, gid?, sheet?, page?, status?, note?, date?, time?} | {action:"upsert_pages", pages:[...]}
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   if (data.action === "upsert_pages") {
     return ContentService.createTextOutput(JSON.stringify(upsertPages_(ss, data.pages || [])))
@@ -166,8 +171,13 @@ function doPost(e) {
   var cols = {
     page:   findCol_(header, ["page", "fanpage", "trang dang"]),
     status: findCol_(header, ["trang thai", "status"]),
-    note:   findCol_(header, ["ghi chu", "note"])
+    note:   findCol_(header, ["ghi chu", "note"]),
+    date:   findCol_(header, ["ngay dang", "ngay"]),                      // Ngày/Giờ tự xếp (hàng để trống)
+    time:   findCol_(header, ["gio dang", "thoi gian", "gio", "lich"])
   };
+  if (!cols.date && cols.time && data.date !== undefined && data.date !== null) {   // bố cục 1 cột gộp
+    data.time = String(data.date) + " " + String(data.time || ""); data.date = null;
+  }
   var written = [];
   for (var key in cols) {
     if (cols[key] > 0 && data[key] !== undefined && data[key] !== null) {

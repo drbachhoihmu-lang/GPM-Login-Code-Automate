@@ -71,6 +71,10 @@
   .st { font-size:11px; padding:1px 7px; border-radius:99px; background:#eef1f6; white-space:nowrap; }
   .st.will { background:#e3f5ea; color:var(--green); } .st.err { background:#fde8e6; color:var(--red); }
   .st.wait { background:#fff4e0; color:#9a5b00; }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; margin:8px 0; min-height:26px; }
+  .chip { display:inline-flex; align-items:center; gap:6px; padding:3px 10px; border-radius:99px; background:#e8f0fe; color:#1b4fa0; font-size:13px; font-weight:600; }
+  .chip b { cursor:pointer; color:#7a8aa6; font-weight:normal; } .chip b:hover { color:var(--red); }
+  .chips .empty { color:var(--muted); font-size:12px; font-weight:normal; }
   pre.log { background:#101522; color:#d7dce6; padding:12px; border-radius:8px; height:calc(100vh - 330px); min-height:260px; overflow:auto; font:12px/1.5 Consolas, monospace; white-space:pre-wrap; margin:0; }
   .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
   input[type=text], input[type=number] { border:1px solid var(--line); border-radius:7px; padding:6px 9px; font:inherit; }
@@ -101,6 +105,7 @@
   <div class="brand"><img src="/assets/gpmreels.ico" alt=""><div><b>GPMReels</b><small>Đăng Reels lên Fanpage qua GPM Login</small></div></div>
   <div class="tabs" id="tabs">
     <button class="tab" data-tab="lich" onclick="showTab('lich')"><span class="ico">📅</span>Lịch đăng<span class="sp"></span><span class="badge" id="bLich"></span></button>
+    <button class="tab" data-tab="gio" onclick="showTab('gio')"><span class="ico">⏰</span>Giờ đăng<span class="sp"></span><span class="badge" id="bGio"></span></button>
     <button class="tab" data-tab="profile" onclick="showTab('profile')"><span class="ico">👤</span>Profile GPM<span class="sp"></span><span class="badge" id="bProfile"></span></button>
     <button class="tab" data-tab="log" onclick="showTab('log')"><span class="ico">▶</span>Đang chạy &amp; Log<span class="sp"></span><span class="badge" id="bLog"></span></button>
     <button class="tab" data-tab="anh" onclick="showTab('anh')"><span class="ico">🖼</span>Ảnh chụp<span class="sp"></span><span class="badge" id="bAnh"></span></button>
@@ -148,6 +153,27 @@
       </div>
       <div id="autoInfo" class="muted" style="font-size:12px;margin-top:6px">—</div>
     </div>
+  </section>
+
+  <!-- ===== Giờ đăng mặc định ===== -->
+  <section class="panel" id="p-gio">
+    <h1>Khung giờ đăng mặc định <span class="sub">mỗi page một bộ giờ riêng; hàng không ghi ngày giờ sẽ tự xếp vào khung trống kế tiếp</span><span class="sp"></span>
+      <button class="small" onclick="loadHours()">↻ Tải lại</button></h1>
+    <div class="card">
+      <div class="row">
+        <label style="display:flex;align-items:center;gap:6px">Chỉ xếp vào khung giờ cách hiện tại ít nhất <input type="number" id="leadMin" min="0" max="1440" style="width:70px" onchange="saveLead()"> phút</label>
+        <span class="muted" style="font-size:12px">(áp dụng cho chế độ <b>Lên lịch trên Facebook</b>; chế độ <b>Tới giờ mới đăng</b> đăng đúng khung giờ)</span>
+        <span id="hoursMsg" class="muted" style="font-size:12px"></span>
+      </div>
+      <div class="muted" style="font-size:12px;margin-top:8px;line-height:1.6">
+        <b>Cách dùng:</b> dán link video vào tab <b>Lịch đăng</b>, chọn Page, <b>để trống Ngày và Giờ</b> → phần mềm tự xếp lần lượt vào các khung giờ trống kế tiếp
+        (vd bộ giờ 07 · 10 · 12 · 14 · 18, bây giờ 13:05 → bài 1: 14:00 hôm nay, bài 2: 18:00, bài 3: 07:00 ngày mai…), bỏ qua khung đã có bài.
+        Chỉ ghi <b>Ngày</b> → khung trống đầu tiên của ngày đó · chỉ ghi <b>Giờ</b> → hôm nay (hoặc mai nếu đã qua) · ghi đủ Ngày + Giờ → đúng lúc đó.
+        Giờ tự xếp hiện ở tab Lịch đăng (nhãn <i>tự xếp</i>) và được ghi vào Sheet khi đăng (cần webhook).
+        Bộ giờ sửa ở đây được ưu tiên hơn cột <i>Giờ đăng mặc định</i> của tab Pages (bấm <i>Theo Sheet</i> để dùng lại cột đó).
+      </div>
+    </div>
+    <div id="hours" class="grid2 muted">Đang tải…</div>
   </section>
 
   <!-- ===== Profile GPM ===== -->
@@ -199,7 +225,7 @@ async function api(path, opt) { const r = await fetch(path, opt); if (!r.ok) { l
 const post = (path, body) => api(path, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body || {})});
 
 // ---------- tab dọc ----------
-const TABS = ['lich', 'profile', 'log', 'anh', 'caidat'];
+const TABS = ['lich', 'gio', 'profile', 'log', 'anh', 'caidat'];
 function showTab(name) {
   if (!TABS.includes(name)) name = 'lich';
   document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
@@ -207,7 +233,67 @@ function showTab(name) {
   try { localStorage.setItem('gpmreels.tab', name); } catch {}
   if (location.hash !== '#' + name) history.replaceState(null, '', '#' + name);
   if (name === 'anh') loadScreens();
+  if (name === 'gio') loadHours();
 }
+
+// ---------- khung giờ đăng mặc định ----------
+let HOURS = {};          // asset -> mảng giờ đang sửa trên trang
+async function loadHours() { renderHours(await api('/api/page_hours')); }
+function renderHours(d) {
+  $('#leadMin').value = d.lead;
+  const box = $('#hours'); box.innerHTML = '';
+  if (!d.ok) { box.innerHTML = `<div class="warn">${esc(d.error)}</div>`; return; }
+  if (!d.pages.length) { box.innerHTML = '<div class="warn">Tab Pages của Sheet chưa có page nào (chạy setupSheet / điền tab Pages trước).</div>'; return; }
+  $('#bGio').textContent = d.pages.filter(p => !p.hours.length).length ? '!' : ''; $('#bGio').className = 'badge bad';
+  for (const p of d.pages) {
+    HOURS[p.asset] = p.hours.slice();
+    const src = p.src === 'web' ? '<span class="pill ok">bộ giờ sửa trên web</span>' : p.src === 'sheet' ? '<span class="pill">theo cột Giờ đăng mặc định (Sheet)</span>' : '<span class="pill bad">chưa có giờ</span>';
+    box.insertAdjacentHTML('beforeend', `<div class="profile" id="hp-${esc(p.asset)}">
+      <div class="top"><span class="name">${esc(p.name)}</span><span class="id">${esc(p.profile || '')}</span><span class="sp" style="flex:1"></span>${src}</div>
+      <div class="chips" id="chips-${esc(p.asset)}"></div>
+      <div class="row">
+        <input type="time" id="t-${esc(p.asset)}" step="300" style="border:1px solid var(--line);border-radius:7px;padding:5px 8px;font:inherit">
+        <button class="small" onclick="addHour('${esc(p.asset)}')">+ Thêm giờ</button>
+        <button class="small primary" onclick="saveHours('${esc(p.asset)}')">Lưu</button>
+        <button class="small" onclick="resetHours('${esc(p.asset)}')" title="Bỏ bộ giờ sửa trên web, dùng lại cột Giờ đăng mặc định của tab Pages">Theo Sheet</button>
+        <button class="small" onclick="applyAll('${esc(p.asset)}')" title="Dùng bộ giờ này cho mọi page trong tab Pages">Áp dụng cho tất cả page</button>
+      </div>
+      <div class="muted" style="font-size:12px;margin-top:6px">Trên Sheet: ${esc(p.sheet_hours.join(', ') || '(trống)')} · Khung trống sắp tới: ${esc(p.next_free.join(' · ') || '—')}</div>
+    </div>`);
+    renderChips(p.asset);
+  }
+}
+function renderChips(asset) {
+  const el = $(`#chips-${CSS.escape(asset)}`); if (!el) return;
+  const hs = HOURS[asset] || [];
+  el.innerHTML = hs.length ? hs.map(h => `<span class="chip">${esc(h)}<b title="Bỏ giờ này" onclick="removeHour('${esc(asset)}','${esc(h)}')">✕</b></span>`).join('')
+                           : '<span class="empty">chưa có khung giờ – thêm giờ rồi bấm Lưu</span>';
+}
+function addHour(asset) {
+  const inp = $(`#t-${CSS.escape(asset)}`); const v = (inp.value || '').slice(0, 5);
+  if (!/^\d{2}:\d{2}$/.test(v)) { alert('Chọn giờ trước (vd 14:00).'); return; }
+  const hs = HOURS[asset] || (HOURS[asset] = []);
+  if (!hs.includes(v)) { hs.push(v); hs.sort(); }
+  inp.value = ''; renderChips(asset);
+}
+function removeHour(asset, h) { HOURS[asset] = (HOURS[asset] || []).filter(x => x !== h); renderChips(asset); }
+async function saveHours(asset) {
+  try { const d = await post('/api/page_hours', {asset, hours: HOURS[asset] || []}); renderHours(d); note(d.message || 'Đã lưu'); loadSheet(); } catch (e) { alert(e.message); }
+}
+async function resetHours(asset) {
+  try { const d = await post('/api/page_hours', {asset, hours: null}); renderHours(d); note('Đã dùng lại giờ trên Sheet'); loadSheet(); } catch (e) { alert(e.message); }
+}
+async function applyAll(asset) {
+  const hs = HOURS[asset] || [];
+  if (!hs.length) { alert('Page này chưa có giờ nào.'); return; }
+  if (!confirm(`Dùng bộ giờ ${hs.join(', ')} cho TẤT CẢ page trong tab Pages?`)) return;
+  try { const d = await post('/api/page_hours', {all: true, hours: hs}); renderHours(d); note(d.message || 'Đã áp dụng cho tất cả'); loadSheet(); } catch (e) { alert(e.message); }
+}
+async function saveLead() {
+  const v = parseInt($('#leadMin').value); if (isNaN(v)) return;
+  try { await post('/api/page_hours', {lead: v}); note('Đã lưu'); loadSheet(); } catch (e) { alert(e.message); }
+}
+function note(t) { $('#hoursMsg').textContent = t + ' ' + new Date().toLocaleTimeString('vi'); setTimeout(() => $('#hoursMsg').textContent = '', 5000); }
 window.addEventListener('hashchange', () => showTab(location.hash.slice(1)));
 
 // ---------- cấu hình ----------
@@ -268,7 +354,7 @@ async function loadSheet() {
     const plan = r.will ? `<span class="st will">${r.due ? 'tới giờ → đăng ngay' : 'sẽ đăng'}</span>`
                : r.waiting ? '<span class="st wait">chưa tới giờ</span>'
                : `<span class="muted">${esc(r.reason)}</span>`;
-    tb.insertAdjacentHTML('beforeend', `<tr class="${(r.will||r.waiting)?'':'skip'}"><td>${r.row}</td><td>${esc(r.when)}</td><td>${esc(r.page||'(mặc định)')}</td><td>${esc(r.profile||'(mặc định)')}</td><td>${esc((r.title||'(lấy từ kịch bản Drive)').slice(0,60))}</td><td>${st}</td><td>${plan}</td></tr>`);
+    tb.insertAdjacentHTML('beforeend', `<tr class="${(r.will||r.waiting)?'':'skip'}"><td>${r.row}</td><td>${esc(r.when)}${r.auto ? ' <span class="st" title="Sheet không ghi ngày giờ – phần mềm tự xếp theo khung giờ của page (tab Giờ đăng)">tự xếp</span>' : ''}</td><td>${esc(r.page||'(mặc định)')}</td><td>${esc(r.profile||'(mặc định)')}</td><td>${esc((r.title||'(lấy từ kịch bản Drive)').slice(0,60))}</td><td>${st}</td><td>${plan}</td></tr>`);
   }
   if (!(d.rows||[]).length) tb.innerHTML = '<tr><td colspan="7" class="muted">Không có hàng nào</td></tr>';
   const n = (d.rows || []).filter(r => r.will).length;

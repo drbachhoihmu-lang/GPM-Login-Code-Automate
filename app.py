@@ -38,6 +38,8 @@ DEFAULT_CONFIG = {
     "auto_check": False,          # tự động kiểm tra Sheet và đăng bài chờ
     "auto_interval": 5,           # phút
     "post_mode": "schedule",      # schedule = lên lịch trên Facebook | due = tới giờ mới đăng (Chia sẻ ngay)
+    "page_hours": {},             # {asset_id: ["07:00", "10:00", ...]} khung giờ sửa trên web (ghi đè tab Pages)
+    "slot_lead_min": 20,          # tự xếp giờ: khung giờ phải cách hiện tại ít nhất N phút
 }
 
 app = FastAPI(title="GPMReels")
@@ -68,6 +70,7 @@ class Config(BaseModel):
     auto_check: bool = False
     auto_interval: int = 5
     post_mode: str = "schedule"
+    slot_lead_min: int = 20
 
 
 def post_mode_of(cfg):
@@ -209,11 +212,17 @@ def api_stop(pid: str):
 
 
 # ----------------------------------------------------------------- Sheet
+def window_of(cfg):
+    """Mode due: khung giờ vừa qua trong N phút vẫn được đăng – phải phủ được chu kỳ kiểm tra."""
+    return max(20, int(cfg.get("auto_interval") or 5) + 5)
+
+
 def compute_plan(cfg, retry_errors=False):
     """Kế hoạch đăng theo Sheet (dùng chung cho /api/sheet và bộ tự động)."""
     link = cfg["sheet_url"]
     prep = ps.prepare(link, cfg["tab"], cfg["pages_tab"], cfg["default_profile"], None, retry_errors,
-                      mode=post_mode_of(cfg))
+                      mode=post_mode_of(cfg), page_hours=cfg.get("page_hours") or {},
+                      lead_min=int(cfg.get("slot_lead_min", 20)), window_min=window_of(cfg))
     rows = []
     for it, when in prep["todo"]:
         rows.append({**it, "when": when.strftime("%d/%m/%Y %H:%M") if when else (it.get("due") or "ngay"),
@@ -243,6 +252,65 @@ def api_sheet():
                 "next_due": prep["next_due"].strftime("%H:%M %d/%m/%Y") if prep.get("next_due") else None}
     except Exception as e:
         return {"ok": False, "id": sid, "error": str(e)[:300]}
+
+
+# ----------------------------------------------------------------- khung giờ đăng mặc định của từng page
+class HoursReq(BaseModel):
+    asset: str | None = None          # page (asset_id); None + all=True = áp dụng cho mọi page
+    hours: list[str] | None = None    # None = bỏ bản sửa trên web, dùng lại cột Giờ đăng mặc định của Sheet
+    all: bool = False
+    lead: int | None = None           # slot_lead_min
+
+
+@app.get("/api/page_hours")
+def api_page_hours():
+    cfg = load_config()
+    try:
+        prep = compute_plan(cfg)
+    except Exception as e:
+        return {"ok": False, "error": str(e)[:300], "lead": int(cfg.get("slot_lead_min", 20)), "pages": []}
+    web = cfg.get("page_hours") or {}
+    pages = [{"name": p["name"], "asset": p["asset"], "profile": p.get("profile", ""),
+              "sheet_hours": p.get("sheet_hours", []), "web_hours": web.get(p["asset"]),
+              "hours": p.get("hours", []), "src": p.get("hours_src", ""), "next_free": p.get("next_free", [])}
+             for p in prep["pages"]]
+    return {"ok": True, "lead": int(cfg.get("slot_lead_min", 20)), "mode": prep["mode"], "pages": pages,
+            "webhook": bool(cfg.get("webhook"))}
+
+
+@app.post("/api/page_hours")
+def api_page_hours_set(r: HoursReq):
+    cfg = load_config()
+    msg = ""
+    if r.lead is not None:
+        cfg["slot_lead_min"] = max(0, min(1440, int(r.lead)))
+    if r.all or r.asset:
+        hours = ps.parse_hours(r.hours) if r.hours is not None else None
+        if r.hours is not None and not hours:
+            raise HTTPException(400, "Không có giờ hợp lệ (vd 07:00, 10:00, 14:00)")
+        ph = dict(cfg.get("page_hours") or {})
+        try:
+            pages = ps.read_pages(cfg["sheet_url"], cfg["pages_tab"]) if r.all else []
+        except Exception:
+            pages = []
+        targets = [p["asset"] for p in pages if p.get("asset")] if r.all else [r.asset]
+        for a in targets:
+            if hours is None:
+                ph.pop(a, None)
+            else:
+                ph[a] = hours
+        cfg["page_hours"] = ph
+        if cfg.get("webhook") and hours is not None:          # có webhook: ghi luôn vào cột Giờ đăng mặc định trên Sheet
+            try:
+                body = {"action": "upsert_pages", "pages": [{"asset": a, "hours": ", ".join(hours)} for a in targets]}
+                rr = requests.post(cfg["webhook"], json=body, timeout=30)
+                msg = "đã ghi vào tab Pages trên Sheet" if rr.status_code == 200 and '"ok"' in rr.text else f"Sheet: {rr.text[:100]}"
+            except Exception as e:
+                msg = f"không ghi được vào Sheet: {str(e)[:100]}"
+    save_config(cfg)
+    out = api_page_hours()
+    out["message"] = msg
+    return out
 
 
 # ----------------------------------------------------------------- tự động kiểm tra Sheet
@@ -353,7 +421,8 @@ class RunReq(BaseModel):
 
 def _base_args(cfg):
     base = ["post_sheet.py", "--sheet", cfg["sheet_url"], "--tab", cfg["tab"], "--pages-tab", cfg["pages_tab"],
-            "--profile", cfg["default_profile"], "--mode", post_mode_of(cfg)]
+            "--profile", cfg["default_profile"], "--mode", post_mode_of(cfg),
+            "--config", str(CONFIG_FILE), "--window", str(window_of(cfg))]
     if cfg.get("webhook"):
         base += ["--webhook", cfg["webhook"]]
     return base

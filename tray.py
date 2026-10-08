@@ -70,13 +70,15 @@ def main():
     ttk.Button(frm, text="Mở Google Sheet", width=24, command=lambda: webbrowser.open(webapp.load_config().get("sheet_url") or URL)).grid(column=1, row=2, padx=4, pady=3)
     ttk.Button(frm, text="Ẩn xuống khay (X)", width=24, command=lambda: hide()).grid(column=0, row=3, padx=4, pady=3)
     ttk.Button(frm, text="Thoát hẳn", width=24, command=lambda: quit_app()).grid(column=1, row=3, padx=4, pady=3)
+    ttk.Button(frm, text="Khung giờ đăng mặc định của từng page (mở trên web)", width=50,
+               command=lambda: webbrowser.open(URL + "/#gio")).grid(column=0, row=4, columnspan=2, padx=4, pady=3)
 
     # Tự động kiểm tra Sheet (checkbox + số phút), dùng chung config.json với giao diện web
     cfg0 = webapp.load_config()
     auto_var = tk.BooleanVar(value=bool(cfg0.get("auto_check")))
     min_var = tk.StringVar(value=str(cfg0.get("auto_interval") or 5))
     box = ttk.LabelFrame(frm, text="Tự động kiểm tra Sheet", padding=(10, 6))
-    box.grid(column=0, row=4, columnspan=2, sticky="ew", pady=(12, 0))
+    box.grid(column=0, row=5, columnspan=2, sticky="ew", pady=(12, 0))
 
     def save_auto(*_):
         cfg = webapp.load_config()
@@ -133,7 +135,7 @@ def main():
 
     ttk.Label(frm, text="Bấm X chỉ ẩn xuống khay cạnh đồng hồ; bấm đúp icon ở khay để mở lại.\n"
                         "Các bài đã lên lịch nằm trên Facebook, tắt phần mềm vẫn tự đăng.",
-              foreground="#6b7385", justify="center").grid(column=0, row=5, columnspan=2, pady=(12, 0))
+              foreground="#6b7385", justify="center").grid(column=0, row=6, columnspan=2, pady=(12, 0))
 
     icon = None
     hidden_once = {"v": False}

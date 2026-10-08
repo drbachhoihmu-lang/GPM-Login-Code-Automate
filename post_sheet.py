@@ -4,6 +4,8 @@
 Sheet gồm 3 tab (dựng bằng setupSheet() trong sheet_webhook.gs):
   "Lịch đăng" (hàng đợi, script đọc) – hàng 1 là tiêu đề cột, tên cột linh hoạt (nhận diện theo từ khoá):
     Ngày đăng + Giờ  : 2 cột "08/10/2026" | "19:00" (hoặc 1 cột gộp "08/10/2026 19:00"); ghi "ngay" để đăng ngay
+                       Để TRỐNG cả hai -> tự xếp vào khung giờ mặc định trống kế tiếp của page (tính từ hiện tại,
+                       không trùng bài đã có); chỉ ghi Ngày -> khung trống đầu tiên của ngày đó; chỉ ghi Giờ -> hôm nay/mai
                        --mode schedule (mặc định): lên lịch trên Facebook ngay khi chạy, Facebook tự phát đúng giờ
                        --mode due: tới đúng ngày/giờ đó phần mềm mới bấm "Chia sẻ ngay"; hàng chưa tới giờ để lại
     Page             : tên page (chọn từ tab Pages) -> script tra asset_id + profile GPM trong tab Pages
@@ -14,6 +16,7 @@ Sheet gồm 3 tab (dựng bằng setupSheet() trong sheet_webhook.gs):
     Ghi chú          : script ghi lý do lỗi / giờ xác nhận
     (Profile         : tuỳ chọn, ghi đè profile lấy từ tab Pages)
   "Pages" (danh mục): Tên page | asset_id | Profile GPM | Người phụ trách | Giờ đăng mặc định | Ghi chú
+                      Giờ đăng mặc định = các khung giờ, vd "07:00, 10:00, 12:00, 14:00, 18:00" (web sửa được: tab Giờ đăng)
   "Đã đăng" (lưu trữ): Apps Script dọn bài cũ sang đây
 
 Ví dụ:
@@ -31,7 +34,7 @@ import re
 import sys
 import time
 import unicodedata
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import requests
@@ -195,6 +198,18 @@ def norm_date(s):
     return s
 
 
+def parse_hours(s):
+    """Khung giờ của page: '07, 10, 12:30, 14h, 18' / '07:00; 10:00' / list -> ['07:00', '10:00', ...] (sắp xếp, bỏ trùng)."""
+    if isinstance(s, (list, tuple)):
+        s = ",".join(str(x) for x in s)
+    out = set()
+    for tok in re.split(r"[,;/|\n]+|\s+", str(s or "")):
+        t = norm_time(tok)
+        if re.fullmatch(r"\d{2}:\d{2}", t) and int(t[:2]) < 24 and int(t[3:]) < 60:
+            out.add(t)
+    return sorted(out)
+
+
 def fetch_rows(link, tab=None):
     """Các hàng CSV của một tab (None nếu tab không tồn tại). `link` có thể là file .csv trên máy."""
     if link.lower().endswith(".csv") and Path(link).is_file():
@@ -227,18 +242,26 @@ def read_sheet(link, tab=None):
         if not any(c.strip() for c in row):
             continue
         d, t = get(row, "date"), get(row, "time")
-        if "date" in cols:                       # bố cục 2 cột: Ngày | Giờ
-            if norm(d) in ("ngay", "now", "dang ngay") or norm(t) in ("ngay", "now", "dang ngay"):
-                when = "ngay"
-            elif d:
-                when = norm_date(d) + (" " + norm_time(t) if t else "")   # thiếu giờ -> điền sau từ tab Pages
+        if "date" not in cols:                   # bố cục gộp "dd/mm/yyyy hh:mm" (hoặc chỉ ngày / chỉ giờ)
+            parts = t.split()
+            if len(parts) >= 2:
+                d, t = parts[0], " ".join(parts[1:])
+            elif re.match(r"^(\d{1,2}[/\-.]\d{1,2}[/\-.]\d{4}|\d{4}-\d{1,2}-\d{1,2})$", t):
+                d, t = t, ""
             else:
-                when = ""
-        else:                                    # bố cục gộp "dd/mm/yyyy hh:mm"
-            when = t
+                d = ""
+        immediate = norm(d) in ("ngay", "now", "dang ngay") or norm(t) in ("ngay", "now", "dang ngay")
+        date = "" if immediate else norm_date(d)
+        hour = "" if immediate else norm_time(t)
+        if immediate:
+            when = "ngay"
+        elif date and hour:
+            when = f"{date} {hour}"
+        else:
+            when = ""                            # thiếu ngày và/hoặc giờ -> tự xếp theo khung giờ của page (assign_slots)
         out.append({"row": i, "profile": get(row, "profile"), "page": get(row, "page"), "video": get(row, "video"),
                     "title": get(row, "title"), "hashtag": get(row, "hashtag"), "time": when,
-                    "date_only": bool(d and not t and norm(d) not in ("ngay", "now", "dang ngay")),
+                    "date": date, "hour": hour, "date_only": bool(date and not hour),
                     "status": get(row, "status"), "note": get(row, "note")})
     return out
 
@@ -326,9 +349,8 @@ def plan(items, sheet_link, state, only_rows=None, retry_errors=False, mode="sch
             reason = f"lỗi lần trước: {(prev.get('note') or '')[:60]} (sửa hàng, hoặc 'Đăng lại hàng lỗi')"
         elif not it["video"]:
             reason = "thiếu video"
-        elif not it["time"] or (it.get("date_only") and re.fullmatch(r"\d{2}/\d{2}/\d{4}", it["time"])):
-            reason = ("thiếu giờ đăng (điền cột Giờ, hoặc Giờ đăng mặc định ở tab Pages)"
-                      if it.get("date_only") else "thiếu thời gian đăng")
+        elif not it["time"]:
+            reason = it.get("auto_fail") or "thiếu ngày/giờ đăng"
         elif norm(it["time"]) in ("ngay", "now", "dang ngay"):
             when = None
         else:
@@ -353,6 +375,91 @@ def plan(items, sheet_link, state, only_rows=None, retry_errors=False, mode="sch
     # "ngay" trước, rồi theo giờ (mode due: theo giờ ghi trên Sheet, bài tới giờ sớm nhất đăng trước)
     todo.sort(key=lambda x: (x[1] is not None, x[1] or (parse_schedule(x[0]["due"]) if x[0]["due"] else datetime.min)))
     return todo, skipped
+
+
+# ----------------------------------------------------------------- tự xếp giờ theo khung giờ của page
+def slot_candidates(hours, start, only_date=None, days=60):
+    """Các mốc (datetime) theo khung giờ `hours` ['07:00', ...] từ `start` trở đi; chỉ trong ngày `only_date` nếu có."""
+    if not hours:
+        return
+    day0 = only_date or start.date()
+    for n in range(1 if only_date else days):
+        day = day0 + timedelta(days=n)
+        for h in hours:
+            dt = datetime.combine(day, datetime.strptime(h, "%H:%M").time())
+            if dt >= start:
+                yield dt
+
+
+def assign_slots(items, sheet_link, state, mode="schedule", now=None, lead_min=20, window_min=20, retry_errors=False):
+    """Hàng chưa đủ ngày+giờ -> tự xếp vào khung giờ mặc định của page (it['hours']), tính từ hiện tại, tránh trùng
+    mốc đã có (hàng khác trên Sheet + bài đã đăng/lên lịch trong logs/sheet_state.json, kể cả hàng đã xoá khỏi Sheet).
+    Ghi vào it['time'] (dd/mm/yyyy HH:MM), it['date'], it['hour'], it['auto']=True; không xếp được -> it['auto_fail'].
+      schedule: mốc phải cách hiện tại >= lead_min phút (Facebook cần thời gian lên lịch ở tương lai).
+      due:      mốc tính từ (hiện tại - window_min) để bài có khung giờ vừa qua được đăng ngay ở lần kiểm tra này.
+    Hàm thuần theo (Sheet, state, now): không cần lưu gì, chạy lại cho cùng kết quả.
+    Trả về dict occupied {khoá page: set(datetime)} để tính khung trống sắp tới."""
+    now = now or datetime.now()
+    occupied = {}
+
+    def keys_of(asset, name):
+        return [k for k in (str(asset or "").strip(), norm(name)) if k]
+
+    def add_occ(asset, name, dt):
+        for k in keys_of(asset, name):
+            occupied.setdefault(k, set()).add(dt)
+
+    def is_occ(asset, name, dt):
+        return any(dt in occupied.get(k, ()) for k in keys_of(asset, name))
+
+    def skip_row(it):
+        st = norm(it["status"])
+        return st in ("bo qua", "skip", "done", "xong") or (st.startswith("loi") and not retry_errors)
+
+    for it in items:
+        it.setdefault("auto", False)
+        it["auto_fail"] = ""
+        if it["time"] and it["time"] != "ngay" and not skip_row(it):
+            try:
+                add_occ(it.get("asset"), it.get("page"), parse_schedule(it["time"]))
+            except ValueError:
+                pass
+    for st in state.values():                      # bài đã đăng / lên lịch (mốc trong 1 ngày qua trở đi)
+        slot = st.get("slot") or (st.get("when") if st.get("when") not in (None, "now") else None)
+        if st.get("status") == "done" and slot:
+            try:
+                dt = datetime.fromisoformat(slot)
+            except ValueError:
+                continue
+            if dt > now - timedelta(days=1):
+                add_occ(st.get("asset"), st.get("page"), dt)
+
+    start = now + timedelta(minutes=lead_min) if mode == "schedule" else now - timedelta(minutes=window_min)
+    for it in items:
+        if it["time"] or skip_row(it) or norm(it["status"]).startswith("da "):
+            continue
+        prev = state.get(row_key(sheet_link, it), {})
+        if prev.get("status") == "done" or (prev.get("status") == "error" and not retry_errors):
+            continue
+        only_date = None
+        if it.get("date"):
+            try:
+                only_date = datetime.strptime(it["date"], "%d/%m/%Y").date()
+            except ValueError:
+                it["auto_fail"] = f"không hiểu ngày '{it['date']}'"
+                continue
+        hours = [it["hour"]] if it.get("hour") else list(it.get("hours") or [])
+        if not hours:
+            it["auto_fail"] = "page chưa có khung giờ mặc định (tab Giờ đăng trên web, hoặc cột Giờ đăng mặc định ở tab Pages)"
+            continue
+        pick = next((dt for dt in slot_candidates(hours, start, only_date) if not is_occ(it.get("asset"), it.get("page"), dt)), None)
+        if pick is None:
+            it["auto_fail"] = (f"ngày {it['date']} đã qua hoặc không còn khung giờ trống" if only_date
+                               else "không còn khung giờ trống trong 60 ngày tới")
+            continue
+        it["time"], it["date"], it["hour"], it["auto"] = pick.strftime("%d/%m/%Y %H:%M"), pick.strftime("%d/%m/%Y"), pick.strftime("%H:%M"), True
+        add_occ(it.get("asset"), it.get("page"), pick)
+    return occupied
 
 
 def with_tags(caption, tags):
@@ -384,13 +491,20 @@ def resolve_video(it):
 
 # ----------------------------------------------------------------- lập kế hoạch dùng chung
 def prepare(link, tab=TAB_QUEUE, pages_tab=TAB_PAGES, default_profile=PROFILE_ID, only_rows=None,
-            retry_errors=False, need_gpm=False, mode="schedule"):
-    """Đọc Sheet + tab Pages, gắn asset/profile/giờ mặc định cho từng hàng, chia sẽ-đăng / bỏ-qua.
+            retry_errors=False, need_gpm=False, mode="schedule", page_hours=None, lead_min=20, window_min=20, now=None):
+    """Đọc Sheet + tab Pages, gắn asset/profile/khung giờ cho từng hàng, tự xếp giờ cho hàng trống, chia sẽ-đăng / bỏ-qua.
     Dùng chung cho dòng lệnh, giao diện web và bộ tự động kiểm tra.
-    Trả về dict: items, pages, todo, skipped, profile_names, gpm_ok, messages, mode,
+    page_hours: {asset_id hoặc tên page: ['07:00', ...]} sửa trên web (ghi đè cột Giờ đăng mặc định của tab Pages).
+    Trả về dict: items, pages (kèm hours / hours_src / next_free), todo, skipped, profile_names, gpm_ok, messages, mode,
     next_due (mode due: giờ sớm nhất trong các hàng chưa tới giờ, None nếu không có)."""
     if mode not in POST_MODES:
         mode = "schedule"
+    now = now or datetime.now()
+    page_hours = page_hours or {}
+
+    def hours_of(asset, name):
+        web = page_hours.get(str(asset or "").strip()) or next((v for k, v in page_hours.items() if norm(k) == norm(name)), None)
+        return (parse_hours(web), "web") if web else (None, "")
     msgs = []
     items = read_sheet(link, tab)
     pages = read_pages(link, pages_tab)
@@ -412,6 +526,10 @@ def prepare(link, tab=TAB_QUEUE, pages_tab=TAB_PAGES, default_profile=PROFILE_ID
             if p["profile"] and (norm(p["profile"]) in norm(profile_want) or norm(profile_want) in norm(p["profile"])):
                 return p
         return None
+    for p in pages:                                  # khung giờ: web ghi đè > cột Giờ đăng mặc định trên Sheet
+        p["sheet_hours"] = parse_hours(p.get("hour"))
+        web, src = hours_of(p["asset"], p["name"])
+        p["hours"], p["hours_src"] = (web, "web") if web else (p["sheet_hours"], "sheet" if p["sheet_hours"] else "")
     for it in items:
         p = lookup_page(pages, it["page"]) if it["page"] else None
         if p is None and not it["page"] and pages:
@@ -420,11 +538,21 @@ def prepare(link, tab=TAB_QUEUE, pages_tab=TAB_PAGES, default_profile=PROFILE_ID
         if p and not it["profile"]:
             it["profile"] = p["profile"]
         if p:
-            it["page"] = p["name"]
-        if it.get("date_only") and it["time"]:
-            hour = norm_time(p["hour"]) if p and p.get("hour") else ""
-            it["time"] = f"{it['time']} {hour}" if hour else ""
-    todo, skipped = plan(items, link, load_state(), only_rows, retry_errors, mode)
+            it["page"], it["hours"] = p["name"], p["hours"]
+        else:                                        # không có tab Pages: khung giờ theo tên page sửa trên web
+            it["hours"] = hours_of("", it["page"])[0] or []
+    state = load_state()
+    occupied = assign_slots(items, link, state, mode, now, lead_min, window_min, retry_errors)
+    todo, skipped = plan(items, link, state, only_rows, retry_errors, mode, now)
+    start = now + timedelta(minutes=lead_min) if mode == "schedule" else now
+    for p in pages:                                  # 3 khung giờ trống sắp tới của mỗi page (xem ở tab Giờ đăng)
+        free = []
+        for dt in slot_candidates(p["hours"], start):
+            if not any(dt in occupied.get(k, ()) for k in (p["asset"], norm(p["name"])) if k):
+                free.append(dt.strftime("%H:%M %d/%m"))
+                if len(free) >= 3:
+                    break
+        p["next_free"] = free
     waiting = [parse_schedule(it["due"]) for it, _ in skipped if it.get("waiting") and it.get("due")]
     return {"items": items, "pages": pages, "todo": todo, "skipped": skipped,
             "profile_names": profile_names, "gpm_ok": gpm_ok, "messages": msgs,
@@ -503,6 +631,9 @@ def main():
                     help="schedule = lên lịch trên Facebook ngay khi chạy (mặc định); "
                          "due = tới đúng ngày/giờ ghi trong Sheet mới đăng ('Chia sẻ ngay'), hàng chưa tới giờ để lại")
     ap.add_argument("--pause", default="20-60", help="Nghỉ ngẫu nhiên giữa 2 bài, giây (mặc định 20-60)")
+    ap.add_argument("--config", help="config.json của giao diện web: lấy khung giờ page sửa trên web (page_hours) + slot_lead_min")
+    ap.add_argument("--lead", type=int, default=None, help="Tự xếp giờ: khung giờ phải cách hiện tại ít nhất N phút (mặc định 20)")
+    ap.add_argument("--window", type=int, default=20, help="Mode due: khung giờ vừa qua trong N phút vẫn được đăng (mặc định 20)")
     ap.add_argument("--profile", default=PROFILE_ID, help="Profile GPM mặc định (id hoặc một phần tên) cho hàng không ghi cột Profile")
     ap.add_argument("--asset-id", default=PAGE_ASSET_ID)
     ap.add_argument("--close-after", action="store_true", help="Đóng profile GPM khi xong")
@@ -516,9 +647,19 @@ def main():
     only_rows = {int(x) for x in a.rows.split(",")} if a.rows else None
     lo, hi = (int(x) for x in a.pause.split("-")) if "-" in a.pause else (int(a.pause), int(a.pause))
 
+    page_hours, lead = {}, 20
+    if a.config:
+        try:
+            cfgj = json.loads(Path(a.config).read_text(encoding="utf-8"))
+            page_hours = cfgj.get("page_hours") or {}
+            lead = int(cfgj.get("slot_lead_min", 20))
+        except Exception as e:
+            log(f"(không đọc được {a.config}: {str(e)[:80]})")
+    if a.lead is not None:
+        lead = a.lead
     try:
         prep = prepare(a.sheet, a.tab, a.pages_tab, a.profile, only_rows, a.retry_errors, need_gpm=not a.plan_only,
-                       mode=a.mode)
+                       mode=a.mode, page_hours=page_hours, lead_min=lead, window_min=a.window)
     except RuntimeError as e:
         sys.exit(str(e))
     for m in prep["messages"]:
@@ -550,6 +691,7 @@ def main():
         pid = next((p for p, rows in groups.items() if any(r[0] is it for r in rows)), None)
         tm = (when.strftime('%d/%m/%Y %H:%M') if when
               else f"TỚI GIỜ {it['due']} -> đăng ngay" if it.get("due") else "ĐĂNG NGAY")
+        tm += " (tự xếp)" if it.get("auto") else ""
         log(f"  [hàng {it['row']}] {tm} | "
             f"profile: {profile_names.get(pid, it['profile'] or '?')} | trang: {it['page'] or '(mặc định)'} | "
             f"{(caption_of(it) or '(mô tả lấy từ kịch bản trong thư mục Drive)')[:50]} | {it['video'][:40]}")
@@ -581,17 +723,21 @@ def main():
                     key = row_key(a.sheet, it)
                     log(f"===== Bài {n}/{n_total} – hàng {it['row']} =====")
                     info = {"expect_page": it["page"]}
-                    if not a.dry_run:
-                        sheet_update(a.webhook, it["row"], gid, status=ST_RUNNING, note="")
+                    if not a.dry_run:                    # hàng tự xếp giờ: ghi luôn Ngày/Giờ đã xếp vào Sheet
+                        extra = {"date": it["date"], "time": it["hour"]} if it.get("auto") else {}
+                        sheet_update(a.webhook, it["row"], gid, status=ST_RUNNING, note="", **extra)
                     try:
                         asset = it.get("asset") or resolve_asset_id(page, it["page"], pid) or a.asset_id
                         video, caption = resolve_video(it)
                         ok = post_reel(page, video, caption, when, a.dry_run, asset, info=info)
                         status = "done" if ok else "dry-run"
                         note = f"Xác nhận {datetime.now():%H:%M %d/%m}" if ok else f"Chạy thử {datetime.now():%H:%M %d/%m}"
-                        if it.get("due"):                 # mode due: ghi kèm giờ trên Sheet (và độ trễ nếu đáng kể)
+                        if it.get("due"):                 # mode due: ghi kèm khung giờ (và độ trễ nếu đáng kể)
                             late = int((datetime.now() - parse_schedule(it["due"])).total_seconds() // 60)
-                            note += f" – lịch Sheet {it['due']}" + (f" (trễ {late} phút)" if late >= 15 else "")
+                            note += (f" – tự xếp {it['due']}" if it.get("auto") else f" – lịch Sheet {it['due']}") \
+                                    + (f" (trễ {late} phút)" if late >= 15 else "")
+                        elif it.get("auto"):
+                            note += f" – tự xếp {it['time']}"
                     except Exception as e:
                         shot(page, f"row{it['row']}_error")
                         status, note = "error", str(e)[:300]
@@ -600,10 +746,12 @@ def main():
                     page_name = info.get("page") or ""
                     results.append((it, when, status, note, page_name))
                     if status in ("done", "error"):
-                        state[key] = {"status": status, "note": note, "page": page_name,
+                        slot = when or (parse_schedule(it["due"]) if it.get("due") else None)
+                        state[key] = {"status": status, "note": note, "page": page_name, "asset": it.get("asset") or "",
                                       "profile": profile_names.get(pid, pid),
                                       "at": datetime.now().isoformat(timespec="seconds"),
-                                      "when": when.isoformat() if when else "now"}
+                                      "when": when.isoformat() if when else "now",
+                                      "slot": slot.isoformat() if slot else None, "auto": bool(it.get("auto"))}
                         save_state(state)
                     st_text = {"done": ST_SCHEDULED if when else ST_POSTED, "error": ST_ERROR, "dry-run": ST_DRY}[status]
                     if sheet_update(a.webhook, it["row"], gid, page=page_name or None, status=st_text, note=note):
