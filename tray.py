@@ -112,12 +112,37 @@ def main():
     ttk.Label(box, text="Cách đăng khi tới lượt:").grid(column=0, row=1, columnspan=3, sticky="w", pady=(8, 0))
     ttk.Radiobutton(box, text="Lên lịch trên Facebook – đưa bài lên ngay, Facebook tự phát đúng ngày giờ trong Sheet",
                     variable=mode_var, value="schedule", command=save_mode).grid(column=0, row=2, columnspan=3, sticky="w")
+
+    # Giới hạn ngày khi lên lịch: hôm nay chạy chỉ lên lịch tới hôm nay + N ngày (1 = tới hết ngày mai)
+    hz_var = tk.StringVar(value=str(webapp.horizon_of(cfg0)))
+    hz_row = ttk.Frame(box)
+    hz_row.grid(column=0, row=3, columnspan=3, sticky="w", padx=(22, 0))
+
+    def save_hz(*_):
+        cfg = webapp.load_config()
+        try:
+            v = max(0, min(60, int(hz_var.get())))
+        except ValueError:
+            v = 1
+            hz_var.set("1")
+        if v != webapp.horizon_of(cfg):
+            cfg["schedule_horizon_days"] = v
+            webapp.AUTO["last_tick"] = 0.0
+            webapp.save_config(cfg)
+
+    ttk.Label(hz_row, text="mỗi lần chạy chỉ lên lịch tới hôm nay +").pack(side="left")
+    hz_sp = ttk.Spinbox(hz_row, from_=0, to=60, width=3, textvariable=hz_var, command=save_hz)
+    hz_sp.pack(side="left", padx=4)
+    hz_sp.bind("<FocusOut>", save_hz)
+    hz_sp.bind("<Return>", save_hz)
+    ttk.Label(hz_row, text="ngày (1 = tới hết ngày mai, 0 = chỉ hôm nay)").pack(side="left")
+
     ttk.Radiobutton(box, text="Tới giờ mới đăng – chờ đúng ngày giờ trong Sheet rồi bấm 'Chia sẻ ngay'",
-                    variable=mode_var, value="due", command=save_mode).grid(column=0, row=3, columnspan=3, sticky="w")
+                    variable=mode_var, value="due", command=save_mode).grid(column=0, row=4, columnspan=3, sticky="w")
     ttk.Label(box, text="(Tới giờ mới đăng: máy và GPM Login phải đang bật lúc đó; bài lên trong vài phút sau giờ ghi trong Sheet.)",
-              foreground="#6b7385", wraplength=480, justify="left").grid(column=0, row=4, columnspan=3, sticky="w")
+              foreground="#6b7385", wraplength=480, justify="left").grid(column=0, row=5, columnspan=3, sticky="w")
     auto_info = ttk.Label(box, text="Chưa kiểm tra lần nào", foreground="#6b7385", wraplength=480, justify="left")
-    auto_info.grid(column=0, row=5, columnspan=3, sticky="w", pady=(6, 0))
+    auto_info.grid(column=0, row=6, columnspan=3, sticky="w", pady=(6, 0))
 
     def refresh_auto():
         a = webapp.AUTO
@@ -126,6 +151,8 @@ def main():
             auto_var.set(bool(cfg.get("auto_check")))
         if webapp.post_mode_of(cfg) != mode_var.get():
             mode_var.set(webapp.post_mode_of(cfg))
+        if str(webapp.horizon_of(cfg)) != hz_var.get() and root.focus_get() is not hz_sp:
+            hz_var.set(str(webapp.horizon_of(cfg)))
         txt = (f"Lần kiểm tra gần nhất {a['last']}: {a['result']}" if a["last"] else "Chưa kiểm tra lần nào")
         if cfg.get("auto_check") and a.get("next"):
             txt += f" · lần tới {a['next']}"

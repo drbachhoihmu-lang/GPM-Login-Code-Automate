@@ -321,20 +321,23 @@ def row_key(sheet_link, item):
 
 
 # ----------------------------------------------------------------- lập kế hoạch
-def plan(items, sheet_link, state, only_rows=None, retry_errors=False, mode="schedule", now=None):
+def plan(items, sheet_link, state, only_rows=None, retry_errors=False, mode="schedule", now=None, horizon_days=None):
     """Chia hàng thành: sẽ đăng (kèm when) / bỏ qua (kèm lý do).
     Trạng thái trống hoặc 'Chờ đăng' -> sẽ đăng. 'Đã …' (Đã đăng / Đã lên lịch), 'bỏ qua', 'skip', 'done',
     'xong' -> bỏ qua; 'Lỗi' (trên Sheet hoặc trong logs/sheet_state.json) -> bỏ qua trừ khi retry_errors;
     'Đang đăng' (lần trước bị ngắt) -> làm lại.
     mode="schedule": when = giờ trên Sheet (lên lịch trên Facebook); giờ đã qua -> bỏ qua.
     mode="due":      giờ chưa tới -> để lại (it['waiting']=True, lý do 'chưa tới giờ');
-                     giờ đã tới   -> đăng ngay (when=None, it['due'] = giờ ghi trên Sheet)."""
+                     giờ đã tới   -> đăng ngay (when=None, it['due'] = giờ ghi trên Sheet).
+    horizon_days (mode schedule): chỉ lên lịch bài có ngày <= hôm nay + N ngày (1 = tới hết ngày mai);
+                     bài xa hơn để lại (waiting, it['wake_at'] = 0h ngày nó tới lượt). None = không giới hạn."""
     now = now or datetime.now()
+    limit_date = now.date() + timedelta(days=horizon_days) if horizon_days is not None and horizon_days >= 0 else None
     todo, skipped = [], []
     for it in items:
         reason = None
         when = None
-        it["waiting"], it["due"] = False, ""
+        it["waiting"], it["due"], it["wake_at"], it["wait_label"] = False, "", None, ""
         st = norm(it["status"])
         prev = state.get(row_key(sheet_link, it), {})
         if only_rows and it["row"] not in only_rows:
@@ -362,12 +365,17 @@ def plan(items, sheet_link, state, only_rows=None, retry_errors=False, mode="sch
                 if mode == "due":
                     it["due"] = when.strftime("%d/%m/%Y %H:%M")
                     if when > now:
-                        it["waiting"] = True
+                        it["waiting"], it["wake_at"], it["wait_label"] = True, when, "chưa tới giờ"
                         reason = f"chưa tới giờ ({when:%H:%M %d/%m})"
                     else:
                         when = None                       # tới giờ -> bấm "Chia sẻ ngay"
                 elif when <= now:
                     reason = f"thời gian {it['time']} đã qua"
+                elif limit_date and when.date() > limit_date:     # ngoài giới hạn ngày -> để lại, tới ngày mới lên lịch
+                    it["waiting"], it["wait_label"] = True, "chưa tới lượt"
+                    it["wake_at"] = datetime.combine(when.date() - timedelta(days=horizon_days), datetime.min.time())
+                    reason = (f"chưa tới lượt: hôm nay chỉ lên lịch tới hết {limit_date:%d/%m}, bài này {when:%H:%M %d/%m} "
+                              f"(sẽ lên lịch từ 0h {it['wake_at']:%d/%m})")
         if reason:
             skipped.append((it, reason))
         else:
@@ -491,12 +499,14 @@ def resolve_video(it):
 
 # ----------------------------------------------------------------- lập kế hoạch dùng chung
 def prepare(link, tab=TAB_QUEUE, pages_tab=TAB_PAGES, default_profile=PROFILE_ID, only_rows=None,
-            retry_errors=False, need_gpm=False, mode="schedule", page_hours=None, lead_min=20, window_min=20, now=None):
+            retry_errors=False, need_gpm=False, mode="schedule", page_hours=None, lead_min=20, window_min=20, now=None,
+            horizon_days=1):
     """Đọc Sheet + tab Pages, gắn asset/profile/khung giờ cho từng hàng, tự xếp giờ cho hàng trống, chia sẽ-đăng / bỏ-qua.
     Dùng chung cho dòng lệnh, giao diện web và bộ tự động kiểm tra.
     page_hours: {asset_id hoặc tên page: ['07:00', ...]} sửa trên web (ghi đè cột Giờ đăng mặc định của tab Pages).
     Trả về dict: items, pages (kèm hours / hours_src / next_free), todo, skipped, profile_names, gpm_ok, messages, mode,
-    next_due (mode due: giờ sớm nhất trong các hàng chưa tới giờ, None nếu không có)."""
+    horizon_days: mode schedule chỉ lên lịch tới hôm nay + N ngày (mặc định 1 = tới hết ngày mai; None = không giới hạn).
+    next_due: mốc sớm nhất cần thức dậy (bài chưa tới giờ ở mode due / 0h ngày bài tới lượt ở mode schedule), None nếu không có."""
     if mode not in POST_MODES:
         mode = "schedule"
     now = now or datetime.now()
@@ -543,7 +553,7 @@ def prepare(link, tab=TAB_QUEUE, pages_tab=TAB_PAGES, default_profile=PROFILE_ID
             it["hours"] = hours_of("", it["page"])[0] or []
     state = load_state()
     occupied = assign_slots(items, link, state, mode, now, lead_min, window_min, retry_errors)
-    todo, skipped = plan(items, link, state, only_rows, retry_errors, mode, now)
+    todo, skipped = plan(items, link, state, only_rows, retry_errors, mode, now, horizon_days)
     start = now + timedelta(minutes=lead_min) if mode == "schedule" else now
     for p in pages:                                  # 3 khung giờ trống sắp tới của mỗi page (xem ở tab Giờ đăng)
         free = []
@@ -553,10 +563,10 @@ def prepare(link, tab=TAB_QUEUE, pages_tab=TAB_PAGES, default_profile=PROFILE_ID
                 if len(free) >= 3:
                     break
         p["next_free"] = free
-    waiting = [parse_schedule(it["due"]) for it, _ in skipped if it.get("waiting") and it.get("due")]
+    waiting = [it["wake_at"] for it, _ in skipped if it.get("waiting") and it.get("wake_at")]
     return {"items": items, "pages": pages, "todo": todo, "skipped": skipped,
             "profile_names": profile_names, "gpm_ok": gpm_ok, "messages": msgs,
-            "mode": mode, "next_due": min(waiting) if waiting else None}
+            "mode": mode, "horizon_days": horizon_days, "next_due": min(waiting) if waiting else None}
 
 
 # ----------------------------------------------------------------- quét profile / fanpage
@@ -634,6 +644,8 @@ def main():
     ap.add_argument("--config", help="config.json của giao diện web: lấy khung giờ page sửa trên web (page_hours) + slot_lead_min")
     ap.add_argument("--lead", type=int, default=None, help="Tự xếp giờ: khung giờ phải cách hiện tại ít nhất N phút (mặc định 20)")
     ap.add_argument("--window", type=int, default=20, help="Mode due: khung giờ vừa qua trong N phút vẫn được đăng (mặc định 20)")
+    ap.add_argument("--horizon", type=int, default=1,
+                    help="Mode schedule: chỉ lên lịch bài tới hôm nay + N ngày (mặc định 1 = tới hết ngày mai; 0 = chỉ hôm nay; -1 = không giới hạn)")
     ap.add_argument("--profile", default=PROFILE_ID, help="Profile GPM mặc định (id hoặc một phần tên) cho hàng không ghi cột Profile")
     ap.add_argument("--asset-id", default=PAGE_ASSET_ID)
     ap.add_argument("--close-after", action="store_true", help="Đóng profile GPM khi xong")
@@ -659,7 +671,8 @@ def main():
         lead = a.lead
     try:
         prep = prepare(a.sheet, a.tab, a.pages_tab, a.profile, only_rows, a.retry_errors, need_gpm=not a.plan_only,
-                       mode=a.mode, page_hours=page_hours, lead_min=lead, window_min=a.window)
+                       mode=a.mode, page_hours=page_hours, lead_min=lead, window_min=a.window,
+                       horizon_days=a.horizon if a.horizon >= 0 else None)
     except RuntimeError as e:
         sys.exit(str(e))
     for m in prep["messages"]:
@@ -670,9 +683,10 @@ def main():
         todo = todo[:a.max]
 
     n_wait = sum(1 for it, _ in skipped if it.get("waiting"))
+    limit_txt = (f" tới hết {(datetime.now() + timedelta(days=a.horizon)):%d/%m}" if a.mode == "schedule" and a.horizon >= 0 else "")
     log(f"Sheet có {len(items)} hàng: sẽ đăng {len(todo)}, bỏ qua {len(skipped)}"
-        + (f" (trong đó {n_wait} chưa tới giờ)" if n_wait else "")
-        + f" · cách đăng: {'tới giờ mới đăng' if a.mode == 'due' else 'lên lịch trên Facebook'}"
+        + (f" (trong đó {n_wait} {'chưa tới giờ' if a.mode == 'due' else 'chưa tới lượt'})" if n_wait else "")
+        + f" · cách đăng: {'tới giờ mới đăng' if a.mode == 'due' else 'lên lịch trên Facebook' + limit_txt}"
         + ("" if a.webhook else " (không có webhook: trạng thái chỉ ghi vào logs/, không ghi vào Sheet)"))
     # Cột Profile -> id profile GPM (trống = --profile); gom các hàng cùng profile để mở trình duyệt 1 lần
     profile_names, gpm_ok = prep["profile_names"], prep["gpm_ok"]

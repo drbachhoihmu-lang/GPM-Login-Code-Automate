@@ -78,6 +78,7 @@
   pre.log { background:#101522; color:#d7dce6; padding:12px; border-radius:8px; height:calc(100vh - 330px); min-height:260px; overflow:auto; font:12px/1.5 Consolas, monospace; white-space:pre-wrap; margin:0; }
   .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
   input[type=text], input[type=number] { border:1px solid var(--line); border-radius:7px; padding:6px 9px; font:inherit; }
+  select.tsel { border:1px solid var(--line); border-radius:7px; padding:5px 6px; font:inherit; background:#fff; }
   label.f { display:flex; flex-direction:column; gap:3px; font-size:12px; color:var(--muted); margin-bottom:10px; }
   label.f input[type=text] { width:100%; max-width:640px; }
   .shots { display:grid; grid-template-columns:repeat(auto-fill, minmax(170px,1fr)); gap:8px; }
@@ -149,6 +150,7 @@
       <div class="row" style="margin-top:8px;gap:14px">
         <span class="muted" style="font-size:13px">Cách đăng:</span>
         <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="radio" name="postMode" value="schedule" onchange="setAuto()"> Lên lịch trên Facebook <span class="muted" style="font-size:12px">(đưa lên ngay, Facebook tự phát đúng giờ)</span></label>
+        <span class="muted" style="font-size:12px">– mỗi lần chạy chỉ lên lịch tới hôm nay + <b id="horizonTxt">1</b> ngày, bài xa hơn chờ tới ngày mới lên (<a href="#caidat" onclick="showTab('caidat');return false">sửa ở Cài đặt</a>)</span>
         <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="radio" name="postMode" value="due" onchange="setAuto()"> Tới giờ mới đăng <span class="muted" style="font-size:12px">(chờ đúng ngày giờ trong Sheet rồi bấm "Chia sẻ ngay"; máy + GPM phải đang bật)</span></label>
       </div>
       <div id="autoInfo" class="muted" style="font-size:12px;margin-top:6px">—</div>
@@ -207,6 +209,8 @@
       <label class="f">URL webhook Apps Script (…/exec) <input type="text" id="cfgHook" placeholder="để trống nếu chưa cài"></label>
       <label class="f">Profile mặc định (id hoặc tên) <input type="text" id="cfgProfile"></label>
       <div class="row"><label class="f">Tab hàng đợi <input type="text" id="cfgTab" style="width:200px"></label><label class="f">Tab Pages <input type="text" id="cfgPagesTab" style="width:200px"></label></div>
+      <label class="f">Lên lịch trước tối đa (ngày) – chế độ <b>Lên lịch trên Facebook</b>: mỗi lần chạy chỉ lên lịch bài tới hôm nay + N ngày; 1 = tới hết ngày mai, 0 = chỉ hôm nay; bài xa hơn chờ tới ngày mới lên
+        <input type="number" id="cfgHorizon" min="0" max="60" style="width:90px"></label>
       <div class="actions"><button class="primary" onclick="saveConfig()">Lưu</button><span id="cfgSaved" class="muted" style="align-self:center;font-size:12px"></span></div>
     </div>
     <div class="card">
@@ -238,6 +242,10 @@ function showTab(name) {
 
 // ---------- khung giờ đăng mặc định ----------
 let HOURS = {};          // asset -> mảng giờ đang sửa trên trang
+// ô chọn giờ 24h (00–23) + phút cách 5 (00–55), không phụ thuộc ngôn ngữ Windows (tránh SA/CH)
+const pad2 = n => String(n).padStart(2, '0');
+const HOUR_OPTS = '<option value="">Giờ</option>' + Array.from({length: 24}, (_, h) => `<option value="${pad2(h)}">${pad2(h)}</option>`).join('');
+const MIN_OPTS = Array.from({length: 12}, (_, i) => `<option value="${pad2(i * 5)}">${pad2(i * 5)}</option>`).join('');
 async function loadHours() { renderHours(await api('/api/page_hours')); }
 function renderHours(d) {
   $('#leadMin').value = d.lead;
@@ -252,7 +260,7 @@ function renderHours(d) {
       <div class="top"><span class="name">${esc(p.name)}</span><span class="id">${esc(p.profile || '')}</span><span class="sp" style="flex:1"></span>${src}</div>
       <div class="chips" id="chips-${esc(p.asset)}"></div>
       <div class="row">
-        <input type="time" id="t-${esc(p.asset)}" step="300" style="border:1px solid var(--line);border-radius:7px;padding:5px 8px;font:inherit">
+        <select id="th-${esc(p.asset)}" class="tsel" title="Giờ (24h)">${HOUR_OPTS}</select><span class="muted">:</span><select id="tm-${esc(p.asset)}" class="tsel" title="Phút">${MIN_OPTS}</select>
         <button class="small" onclick="addHour('${esc(p.asset)}')">+ Thêm giờ</button>
         <button class="small primary" onclick="saveHours('${esc(p.asset)}')">Lưu</button>
         <button class="small" onclick="resetHours('${esc(p.asset)}')" title="Bỏ bộ giờ sửa trên web, dùng lại cột Giờ đăng mặc định của tab Pages">Theo Sheet</button>
@@ -270,11 +278,12 @@ function renderChips(asset) {
                            : '<span class="empty">chưa có khung giờ – thêm giờ rồi bấm Lưu</span>';
 }
 function addHour(asset) {
-  const inp = $(`#t-${CSS.escape(asset)}`); const v = (inp.value || '').slice(0, 5);
-  if (!/^\d{2}:\d{2}$/.test(v)) { alert('Chọn giờ trước (vd 14:00).'); return; }
+  const sh = $(`#th-${CSS.escape(asset)}`), sm = $(`#tm-${CSS.escape(asset)}`);
+  if (!sh.value) { alert('Chọn giờ trước (vd 14:00).'); return; }
+  const v = `${sh.value}:${sm.value}`;
   const hs = HOURS[asset] || (HOURS[asset] = []);
   if (!hs.includes(v)) { hs.push(v); hs.sort(); }
-  inp.value = ''; renderChips(asset);
+  sh.value = ''; sm.value = '00'; renderChips(asset);
 }
 function removeHour(asset, h) { HOURS[asset] = (HOURS[asset] || []).filter(x => x !== h); renderChips(asset); }
 async function saveHours(asset) {
@@ -301,10 +310,13 @@ async function loadConfig() {
   CFG = await api('/api/config');
   $('#cfgSheet').value = CFG.sheet_url || ''; $('#cfgHook').value = CFG.webhook || '';
   $('#cfgProfile').value = CFG.default_profile || ''; $('#cfgTab').value = CFG.tab || ''; $('#cfgPagesTab').value = CFG.pages_tab || '';
+  $('#cfgHorizon').value = (CFG.schedule_horizon_days ?? 1);
 }
 async function saveConfig() {
   CFG = await post('/api/config', {sheet_url: $('#cfgSheet').value.trim(), webhook: $('#cfgHook').value.trim(),
-    default_profile: $('#cfgProfile').value.trim(), tab: $('#cfgTab').value.trim(), pages_tab: $('#cfgPagesTab').value.trim()});
+    default_profile: $('#cfgProfile').value.trim(), tab: $('#cfgTab').value.trim(), pages_tab: $('#cfgPagesTab').value.trim(),
+    schedule_horizon_days: Math.max(0, Math.min(60, parseInt($('#cfgHorizon').value) || 0))});
+  loadAuto();
   $('#cfgSaved').textContent = 'Đã lưu ' + new Date().toLocaleTimeString('vi'); setTimeout(() => $('#cfgSaved').textContent = '', 4000);
   loadSheet(); loadProfiles();
 }
@@ -352,7 +364,7 @@ async function loadSheet() {
   for (const r of (d.rows || [])) {
     const st = r.status ? `<span class="st ${/^l[ỗo]i/i.test(r.status)?'err':''}">${esc(r.status)}</span>` : '';
     const plan = r.will ? `<span class="st will">${r.due ? 'tới giờ → đăng ngay' : 'sẽ đăng'}</span>`
-               : r.waiting ? '<span class="st wait">chưa tới giờ</span>'
+               : r.waiting ? `<span class="st wait" title="${esc(r.reason)}">${esc(r.wait_label || 'chưa tới giờ')}</span>`
                : `<span class="muted">${esc(r.reason)}</span>`;
     tb.insertAdjacentHTML('beforeend', `<tr class="${(r.will||r.waiting)?'':'skip'}"><td>${r.row}</td><td>${esc(r.when)}${r.auto ? ' <span class="st" title="Sheet không ghi ngày giờ – phần mềm tự xếp theo khung giờ của page (tab Giờ đăng)">tự xếp</span>' : ''}</td><td>${esc(r.page||'(mặc định)')}</td><td>${esc(r.profile||'(mặc định)')}</td><td>${esc((r.title||'(lấy từ kịch bản Drive)').slice(0,60))}</td><td>${st}</td><td>${plan}</td></tr>`);
   }
@@ -391,7 +403,7 @@ function runReal(retry) {
     return;
   }
   if (confirm(due ? `Sẽ ĐĂNG NGAY ${n} bài đã tới giờ theo Sheet${nWait ? ` (${nWait} bài khác chưa tới giờ, để lại)` : ''}. Tiếp tục?`
-                  : `Sẽ ĐƯA LÊN LỊCH FACEBOOK ${n} bài chờ theo Sheet. Tiếp tục?`)) run('real');
+                  : `Sẽ ĐƯA LÊN LỊCH FACEBOOK ${n} bài theo Sheet${nWait ? ` (${nWait} bài xa hơn giới hạn ngày, để lại)` : ''}. Tiếp tục?`)) run('real');
 }
 
 // ---------- tự động ----------
@@ -400,6 +412,7 @@ async function loadAuto() {
     const d = await api('/api/auto');
     $('#autoOn').checked = d.enabled; if (document.activeElement !== $('#autoMin')) $('#autoMin').value = d.interval;
     const rb = document.querySelector(`input[name=postMode][value="${d.mode}"]`); if (rb) rb.checked = true;
+    $('#horizonTxt').textContent = d.horizon;
     const txt = (d.enabled ? `ĐANG BẬT · mỗi ${d.interval} phút` : 'đang tắt') + (d.mode === 'due' ? ' · tới giờ mới đăng' : ' · lên lịch trên FB');
     $('#autoPill2').textContent = txt; $('#autoPill2').className = 'pill ' + (d.enabled ? 'ok' : '');
     $('#autoPill').textContent = 'Tự động: ' + txt; $('#autoDot').className = 'dot ' + (d.enabled ? 'ok' : '');

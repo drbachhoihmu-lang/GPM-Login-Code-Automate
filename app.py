@@ -40,6 +40,7 @@ DEFAULT_CONFIG = {
     "post_mode": "schedule",      # schedule = lên lịch trên Facebook | due = tới giờ mới đăng (Chia sẻ ngay)
     "page_hours": {},             # {asset_id: ["07:00", "10:00", ...]} khung giờ sửa trên web (ghi đè tab Pages)
     "slot_lead_min": 20,          # tự xếp giờ: khung giờ phải cách hiện tại ít nhất N phút
+    "schedule_horizon_days": 1,   # mode schedule: chỉ lên lịch tới hôm nay + N ngày (1 = tới hết ngày mai)
 }
 
 app = FastAPI(title="GPMReels")
@@ -71,10 +72,18 @@ class Config(BaseModel):
     auto_interval: int = 5
     post_mode: str = "schedule"
     slot_lead_min: int = 20
+    schedule_horizon_days: int = 1
 
 
 def post_mode_of(cfg):
     return cfg.get("post_mode") if cfg.get("post_mode") in ps.POST_MODES else "schedule"
+
+
+def horizon_of(cfg):
+    try:
+        return max(0, min(60, int(cfg.get("schedule_horizon_days", 1))))
+    except (TypeError, ValueError):
+        return 1
 
 
 @app.get("/")
@@ -90,10 +99,14 @@ def get_config():
 @app.post("/api/config")
 def set_config(c: Config):
     cfg = load_config()
+    before = horizon_of(cfg)
     cfg.update(c.model_dump(exclude_unset=True))      # chỉ ghi đè các khoá được gửi lên
     if not cfg.get("default_profile"):
         cfg["default_profile"] = pr.PROFILE_ID
     cfg["post_mode"] = post_mode_of(cfg)
+    cfg["schedule_horizon_days"] = horizon_of(cfg)
+    if cfg["schedule_horizon_days"] != before:
+        AUTO["last_tick"] = 0.0                       # đổi giới hạn ngày -> bộ tự động kiểm tra lại ngay
     save_config(cfg)
     return cfg
 
@@ -222,7 +235,7 @@ def compute_plan(cfg, retry_errors=False):
     link = cfg["sheet_url"]
     prep = ps.prepare(link, cfg["tab"], cfg["pages_tab"], cfg["default_profile"], None, retry_errors,
                       mode=post_mode_of(cfg), page_hours=cfg.get("page_hours") or {},
-                      lead_min=int(cfg.get("slot_lead_min", 20)), window_min=window_of(cfg))
+                      lead_min=int(cfg.get("slot_lead_min", 20)), window_min=window_of(cfg), horizon_days=horizon_of(cfg))
     rows = []
     for it, when in prep["todo"]:
         rows.append({**it, "when": when.strftime("%d/%m/%Y %H:%M") if when else (it.get("due") or "ngay"),
@@ -248,7 +261,7 @@ def api_sheet():
         gid = tabs.get(cfg["tab"])
         return {"ok": True, "id": sid, "tabs": tabs, "queue_gid": gid, "rows": prep["rows"], "pages": prep["pages"],
                 "gpm_ok": prep["gpm_ok"], "pending": sum(1 for r in prep["rows"] if r["will"]),
-                "waiting": sum(1 for r in prep["rows"] if r.get("waiting")), "mode": prep["mode"],
+                "waiting": sum(1 for r in prep["rows"] if r.get("waiting")), "mode": prep["mode"], "horizon": horizon_of(cfg),
                 "next_due": prep["next_due"].strftime("%H:%M %d/%m/%Y") if prep.get("next_due") else None}
     except Exception as e:
         return {"ok": False, "id": sid, "error": str(e)[:300]}
@@ -332,16 +345,20 @@ def auto_check_once(cfg):
     waiting = [r for r in prep["rows"] if r.get("waiting")]
     due_mode = prep["mode"] == "due"
     if not pending:
-        if waiting:
+        if waiting and due_mode:
             return f"{len(waiting)} bài chưa tới giờ, gần nhất {prep['next_due']:%H:%M %d/%m} – sẽ đăng đúng lúc đó"
+        if waiting:
+            return (f"{len(waiting)} bài chưa tới lượt (chỉ lên lịch tới hôm nay + {horizon_of(cfg)} ngày), "
+                    f"lượt kế từ 0h {prep['next_due']:%d/%m}")
         return "không có bài chờ đăng"
     if not prep["gpm_ok"]:
         return f"có {len(pending)} bài {'tới giờ' if due_mode else 'chờ'} nhưng GPM Login chưa chạy"
+    wl = "chưa tới giờ" if due_mode else "chưa tới lượt"
     jid = _spawn(_base_args(cfg), f"Tự động: {'đăng' if due_mode else 'lên lịch'} {len(pending)} bài"
-                 + (f" ({len(waiting)} bài khác chưa tới giờ)" if waiting else ""))
+                 + (f" ({len(waiting)} bài khác {wl})" if waiting else ""))
     AUTO["job"] = jid
     return (f"đã bắt đầu {'đăng' if due_mode else 'lên lịch'} {len(pending)} bài (job {jid})"
-            + (f"; {len(waiting)} bài chưa tới giờ" if waiting else ""))
+            + (f"; {len(waiting)} bài {wl}" if waiting else ""))
 
 
 def auto_loop():
@@ -380,13 +397,15 @@ class AutoReq(BaseModel):
     enabled: bool | None = None
     interval: int | None = None
     mode: str | None = None       # schedule | due
+    horizon: int | None = None    # schedule_horizon_days
 
 
 @app.get("/api/auto")
 def api_auto():
     cfg = load_config()
     return {"enabled": bool(cfg.get("auto_check")), "interval": int(cfg.get("auto_interval") or 5),
-            "mode": post_mode_of(cfg), "last": AUTO["last"], "result": AUTO["result"], "next": AUTO["next"],
+            "mode": post_mode_of(cfg), "horizon": horizon_of(cfg),
+            "last": AUTO["last"], "result": AUTO["result"], "next": AUTO["next"],
             "job": AUTO["job"],
             "next_due": datetime.fromtimestamp(AUTO["next_due"]).strftime("%H:%M %d/%m") if AUTO.get("next_due") else None}
 
@@ -403,6 +422,9 @@ def api_auto_set(r: AutoReq):
     if r.mode is not None and r.mode in ps.POST_MODES and r.mode != post_mode_of(cfg):
         cfg["post_mode"] = r.mode
         AUTO["last_tick"] = 0.0              # đổi cách đăng -> kiểm tra lại ngay
+    if r.horizon is not None and max(0, min(60, int(r.horizon))) != horizon_of(cfg):
+        cfg["schedule_horizon_days"] = max(0, min(60, int(r.horizon)))
+        AUTO["last_tick"] = 0.0
     save_config(cfg)
     return api_auto()
 
@@ -422,7 +444,7 @@ class RunReq(BaseModel):
 def _base_args(cfg):
     base = ["post_sheet.py", "--sheet", cfg["sheet_url"], "--tab", cfg["tab"], "--pages-tab", cfg["pages_tab"],
             "--profile", cfg["default_profile"], "--mode", post_mode_of(cfg),
-            "--config", str(CONFIG_FILE), "--window", str(window_of(cfg))]
+            "--config", str(CONFIG_FILE), "--window", str(window_of(cfg)), "--horizon", str(horizon_of(cfg))]
     if cfg.get("webhook"):
         base += ["--webhook", cfg["webhook"]]
     return base
