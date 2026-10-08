@@ -5,6 +5,7 @@
 - cửa sổ nhỏ có nút mở giao diện web; bấm X chỉ ẩn xuống khay, không tắt.
 
 Chạy không hiện console:  pythonw tray.py   (shortcut ngoài Desktop đã trỏ sẵn)
+Khởi động ẩn sẵn ở khay (không bật cửa sổ):  pythonw tray.py --tray
 """
 import os
 import socket
@@ -186,6 +187,8 @@ def main():
     icon = pystray.Icon(APP_NAME, Image.open(ICON), APP_NAME, menu)
     icon.run_detached()
 
+    if "--tray" in sys.argv:          # khởi động ẩn sẵn ở khay (vd. khi server tự khởi động lại)
+        root.withdraw()
     root.mainloop()
 
 
