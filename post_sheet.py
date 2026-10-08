@@ -130,7 +130,8 @@ COLUMN_KEYS = {           # tab Lịch đăng: tên cột chuẩn -> các từ k
     "video":   ("video", "link", "drive", "duong dan", "path", "file"),
     "title":   ("tieu de", "caption", "mo ta", "noi dung", "title"),
     "hashtag": ("hashtag", "hastag", "tag"),
-    "time":    ("thoi gian", "gio dang", "lich", "ngay dang", "schedule", "time"),
+    "date":    ("ngay dang", "ngay", "date"),                       # cột Ngày riêng (dd/mm/yyyy)
+    "time":    ("thoi gian", "gio dang", "gio", "lich", "schedule", "time", "hour"),   # cột Giờ riêng, hoặc cột gộp
     "status":  ("trang thai", "status"),
     "note":    ("ghi chu", "note"),
 }
@@ -143,7 +144,7 @@ PAGES_KEYS = {            # tab Pages
 }
 
 
-def map_columns(header, keys=COLUMN_KEYS, required=("video", "time")):
+def map_columns(header, keys=COLUMN_KEYS, required=("video",)):
     cols = {}
     for idx, name in enumerate(header):
         n = norm(name)
@@ -154,9 +155,39 @@ def map_columns(header, keys=COLUMN_KEYS, required=("video", "time")):
                 cols[key] = idx
                 break
     missing = [k for k in required if k not in cols]
+    if keys is COLUMN_KEYS and "time" not in cols and "date" not in cols:
+        missing.append("thời gian / ngày đăng")
     if missing:
         raise RuntimeError(f"Sheet thiếu cột {missing}. Tiêu đề cột hiện có: {header}")
     return cols
+
+
+def norm_time(s):
+    """'19h', '19h30', '7:00 PM', '19:00:00' -> 'HH:MM' ('' nếu trống)."""
+    s = (s or "").strip().lower().replace("h", ":").replace(" ", "").rstrip(":")
+    if not s:
+        return ""
+    m = re.match(r"^(\d{1,2})(?::(\d{1,2}))?(?::\d{1,2})?(am|pm|sa|ch)?$", s)
+    if not m:
+        return s
+    h, mi, ap = int(m.group(1)), int(m.group(2) or 0), m.group(3)
+    if ap in ("pm", "ch") and h < 12:
+        h += 12
+    if ap in ("am", "sa") and h == 12:
+        h = 0
+    return f"{h:02d}:{mi:02d}"
+
+
+def norm_date(s):
+    """'8/10/2026', '08/10/2026', '2026-10-08', '08-10-2026' -> 'dd/mm/yyyy' (giữ nguyên nếu không hiểu)."""
+    s = (s or "").strip()
+    m = re.match(r"^(\d{1,2})[/\-.](\d{1,2})[/\-.](\d{4})", s)
+    if m:
+        return f"{int(m.group(1)):02d}/{int(m.group(2)):02d}/{m.group(3)}"
+    m = re.match(r"^(\d{4})-(\d{1,2})-(\d{1,2})", s)
+    if m:
+        return f"{int(m.group(3)):02d}/{int(m.group(2)):02d}/{m.group(1)}"
+    return s
 
 
 def fetch_rows(link, tab=None):
@@ -190,10 +221,20 @@ def read_sheet(link, tab=None):
     for i, row in enumerate(rows[1:], start=2):
         if not any(c.strip() for c in row):
             continue
+        d, t = get(row, "date"), get(row, "time")
+        if "date" in cols:                       # bố cục 2 cột: Ngày | Giờ
+            if norm(d) in ("ngay", "now", "dang ngay") or norm(t) in ("ngay", "now", "dang ngay"):
+                when = "ngay"
+            elif d:
+                when = norm_date(d) + (" " + norm_time(t) if t else "")   # thiếu giờ -> điền sau từ tab Pages
+            else:
+                when = ""
+        else:                                    # bố cục gộp "dd/mm/yyyy hh:mm"
+            when = t
         out.append({"row": i, "profile": get(row, "profile"), "page": get(row, "page"), "video": get(row, "video"),
-                    "title": get(row, "title"),
-                    "hashtag": get(row, "hashtag"), "time": get(row, "time"), "status": get(row, "status"),
-                    "note": get(row, "note")})
+                    "title": get(row, "title"), "hashtag": get(row, "hashtag"), "time": when,
+                    "date_only": bool(d and not t and norm(d) not in ("ngay", "now", "dang ngay")),
+                    "status": get(row, "status"), "note": get(row, "note")})
     return out
 
 
@@ -271,8 +312,9 @@ def plan(items, sheet_link, state, only_rows=None, retry_errors=False):
             reason = "đã đăng lần chạy trước (logs/sheet_state.json)"
         elif not it["video"]:
             reason = "thiếu video"
-        elif not it["time"]:
-            reason = "thiếu thời gian đăng"
+        elif not it["time"] or (it.get("date_only") and re.fullmatch(r"\d{2}/\d{2}/\d{4}", it["time"])):
+            reason = ("thiếu giờ đăng (điền cột Giờ, hoặc Giờ đăng mặc định ở tab Pages)"
+                      if it.get("date_only") else "thiếu thời gian đăng")
         elif norm(it["time"]) in ("ngay", "now", "dang ngay"):
             when = None
         else:
@@ -413,7 +455,13 @@ def main():
             if p["profile"] and (norm(p["profile"]) in norm(profile_want) or norm(profile_want) in norm(p["profile"])):
                 return p
         return None
-    profile_names = dict(gpm_profiles()) if pages else {}
+    try:
+        profile_names = dict(gpm_profiles()) if pages else {}
+    except Exception:
+        if not a.plan_only:
+            sys.exit("Không kết nối được GPM Login (cổng 9495) – hãy mở GPM Login rồi chạy lại")
+        log("(GPM Login chưa chạy – chỉ in kế hoạch)")
+        profile_names = {}
     for it in items:
         p = lookup_page(pages, it["page"]) if it["page"] else None
         if p is None and not it["page"] and pages:
@@ -424,6 +472,13 @@ def main():
             it["profile"] = p["profile"]
         if p:
             it["page"] = p["name"]          # tên đầy đủ, để đối chiếu ô "Đăng lên"
+        if it.get("date_only") and it["time"]:   # có ngày, thiếu giờ -> giờ mặc định của page (tab Pages)
+            hour = norm_time(p["hour"]) if p and p.get("hour") else ""
+            if hour:
+                it["time"] = f"{it['time']} {hour}"
+                it["note_auto"] = f"giờ mặc định {hour} của page"
+            else:
+                it["time"] = ""                 # không có giờ -> plan() sẽ báo thiếu thời gian
     state = load_state()
     todo, skipped = plan(items, a.sheet, state, only_rows, a.retry_errors)
     if a.max:
@@ -432,12 +487,23 @@ def main():
     log(f"Sheet có {len(items)} hàng: sẽ đăng {len(todo)}, bỏ qua {len(skipped)}"
         + ("" if a.webhook else " (không có webhook: trạng thái chỉ ghi vào logs/, không ghi vào Sheet)"))
     # Cột Profile -> id profile GPM (trống = --profile); gom các hàng cùng profile để mở trình duyệt 1 lần
-    profile_names = dict(gpm_profiles())
-    default_profile = resolve_profile_id(a.profile)
+    try:
+        profile_names = dict(gpm_profiles())
+        default_profile = resolve_profile_id(a.profile)
+    except Exception as e:
+        if a.plan_only:
+            log(f"(GPM Login chưa chạy – kế hoạch chưa gán được profile: {str(e)[:80]})")
+            profile_names, default_profile = {}, a.profile
+        else:
+            sys.exit("Không kết nối được GPM Login (cổng 9495) – hãy mở GPM Login rồi chạy lại")
     groups, bad = {}, []
+    gpm_ok = bool(profile_names)
     for it, when in todo:
         try:
-            pid = resolve_profile_id(it["profile"]) if it["profile"] else default_profile
+            if gpm_ok:
+                pid = resolve_profile_id(it["profile"]) if it["profile"] else default_profile
+            else:                                   # plan-only khi GPM chưa chạy: chỉ gom theo tên ghi trên Sheet
+                pid = it["profile"] or default_profile
             groups.setdefault(pid, []).append((it, when))
         except Exception as e:
             bad.append((it, str(e)))

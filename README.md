@@ -38,9 +38,11 @@ Sheet: **Lịch đăng Reels - Fanpage** (chia sẻ *Bất kỳ ai có đường
 
 **Tab `Lịch đăng` (hàng đợi, script đọc):**
 
-| Thời gian đăng | Page | Video | Tiêu đề | Hashtag | Trạng thái | Ghi chú |
-|---|---|---|---|---|---|---|
-| `08/10/2026 19:00`, hoặc `ngay` | chọn từ dropdown (tab Pages) | link file Drive / thư mục Drive / đường dẫn máy | mô tả (có thể gộp hashtag) | tuỳ chọn | script ghi; tay ghi `bỏ qua` | script ghi |
+| Ngày đăng | Giờ đăng | Page | Video | Tiêu đề | Hashtag | Trạng thái | Ghi chú |
+|---|---|---|---|---|---|---|---|
+| `08/10/2026` (hoặc `ngay`) | `19:00` / `19h30`; để trống = *Giờ đăng mặc định* của page ở tab Pages | chọn từ dropdown (tab Pages) | link file Drive / thư mục Drive / đường dẫn máy | mô tả (có thể gộp hashtag) | tuỳ chọn | script ghi; tay ghi `bỏ qua` | script ghi |
+
+(Bố cục cũ 1 cột gộp `Thời gian đăng` = `08/10/2026 19:00` vẫn được nhận.)
 
 - **Page** → script tra tab Pages lấy **asset_id + profile GPM**, kiểm tra ô "Đăng lên" của trình soạn đúng trang đó mới đăng, và sau khi đăng ghi lại tên trang thật. **Để trống Page** → dùng fanpage mặc định của profile (hàng đầu tiên trong tab Pages có Profile GPM đó). Page không có trong tab Pages → script mở bộ chọn trang trong Business Suite để dò asset_id (cache `logs/pages_<profile>.json`). Có thể thêm cột `Profile` trên hàng để ghi đè profile.
 - Các hàng cùng profile được gom lại, mở trình duyệt một lần. Profile đang mở bằng tay sẽ bị đóng và mở lại qua API để có cổng điều khiển.

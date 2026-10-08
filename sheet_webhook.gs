@@ -19,7 +19,7 @@ var TAB_DONE = "Đã đăng";
 var ARCHIVE_AFTER_DAYS = 7;
 
 var HEAD_PAGES = ["Tên page", "asset_id", "Profile GPM", "Người phụ trách", "Giờ đăng mặc định", "Ghi chú"];
-var HEAD_QUEUE = ["Thời gian đăng (dd/mm/yyyy hh:mm)", "Page", "Video (link Drive / thư mục Drive / đường dẫn máy)",
+var HEAD_QUEUE = ["Ngày đăng (dd/mm/yyyy)", "Giờ đăng (hh:mm)", "Page", "Video (link Drive / thư mục Drive / đường dẫn máy)",
                   "Tiêu đề", "Hashtag", "Trạng thái", "Ghi chú"];
 var HEAD_DONE = HEAD_QUEUE.concat(["Ngày dọn"]);
 
@@ -70,24 +70,24 @@ function setupSheet() {
 
   // Lịch đăng
   var queue = getOrCreate_(ss, TAB_QUEUE, HEAD_QUEUE);
-  queue.getRange("A2:A").setNumberFormat("@");            // giờ đăng giữ nguyên chữ dd/mm/yyyy hh:mm
+  queue.getRange("A2:B").setNumberFormat("@");            // ngày / giờ giữ nguyên chữ, không bị đổi kiểu
   var rule = SpreadsheetApp.newDataValidation()
     .requireValueInRange(pages.getRange("A2:A"), true).setAllowInvalid(true)
     .setHelpText("Chọn page trong tab Pages").build();
-  queue.getRange("B2:B").setDataValidation(rule);
+  queue.getRange("C2:C").setDataValidation(rule);
   var stRule = SpreadsheetApp.newDataValidation()
     .requireValueInList(["", "bỏ qua", "Đang đăng", "Đã lên lịch", "Đã đăng", "Lỗi", "Chạy thử OK"], true)
     .setAllowInvalid(true).build();
-  queue.getRange("F2:F").setDataValidation(stRule);
-  queue.setColumnWidths(1, 1, 170); queue.setColumnWidths(2, 1, 230); queue.setColumnWidths(3, 1, 320);
-  queue.setColumnWidths(4, 1, 320); queue.setColumnWidths(5, 1, 200); queue.setColumnWidths(6, 1, 110);
-  queue.setColumnWidths(7, 1, 260);
+  queue.getRange("G2:G").setDataValidation(stRule);
+  var widths = [130, 90, 230, 320, 320, 200, 110, 260];
+  for (var wi = 0; wi < widths.length; wi++) queue.setColumnWidths(wi + 1, 1, widths[wi]);
 
   // Chuyển hàng từ tab mẫu cũ (nếu có) sang Lịch đăng
   if (oldFirst && [TAB_PAGES, TAB_QUEUE, TAB_DONE].indexOf(oldFirst.getName()) < 0 && oldFirst.getLastRow() >= 2) {
     var data = oldFirst.getDataRange().getValues();
     var h = data[0];
-    var c = { time: findCol_(h, ["thoi gian", "gio dang", "lich"]), page: findCol_(h, ["page", "trang dang"]),
+    var c = { time: findCol_(h, ["thoi gian", "gio dang", "lich"]), date: findCol_(h, ["ngay dang"]),
+              page: findCol_(h, ["page", "trang dang"]),
               video: findCol_(h, ["video", "link", "duong dan"]), title: findCol_(h, ["tieu de", "caption"]),
               tag: findCol_(h, ["hashtag", "hastag"]), status: findCol_(h, ["trang thai"]), note: findCol_(h, ["ghi chu"]) };
     var rows = [];
@@ -95,7 +95,9 @@ function setupSheet() {
       var r = data[i];
       if (!r.join("").trim()) continue;
       var g = function (k) { return c[k] > 0 ? String(r[c[k] - 1]).replace(/^'/, "") : ""; };
-      rows.push([g("time"), g("page"), g("video"), g("title"), g("tag"), g("status"), g("note")]);
+      var dt = g("date"), tm = g("time");
+      if (!c.date) { var parts = tm.split(/\s+/); dt = parts[0] || ""; tm = parts[1] || ""; }   // tách cột gộp cũ
+      rows.push([dt, tm, g("page"), g("video"), g("title"), g("tag"), g("status"), g("note")]);
     }
     if (rows.length) {
       queue.getRange(queue.getLastRow() + 1, 1, rows.length, HEAD_QUEUE.length).setValues(rows);
@@ -198,14 +200,17 @@ function archiveOld() {
   var data = queue.getDataRange().getValues();
   if (data.length < 2) return;
   var h = data[0];
-  var cTime = findCol_(h, ["thoi gian", "gio dang", "lich"]), cStatus = findCol_(h, ["trang thai", "status"]);
-  if (!cTime || !cStatus) return;
+  var cDate = findCol_(h, ["ngay dang"]), cTime = findCol_(h, ["thoi gian", "gio dang", "lich"]),
+      cStatus = findCol_(h, ["trang thai", "status"]);
+  if ((!cTime && !cDate) || !cStatus) return;
   var cutoff = new Date(Date.now() - ARCHIVE_AFTER_DAYS * 86400000);
   var stamp = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "dd/MM/yyyy HH:mm");
   var moved = [], keepIdx = [];
   for (var i = 1; i < data.length; i++) {
     var st = norm_(data[i][cStatus - 1]);
-    var t = parseVnTime_(data[i][cTime - 1]);
+    var when = cDate ? String(data[i][cDate - 1]) + " " + (cTime ? String(data[i][cTime - 1]) : "00:00")
+                     : String(data[i][cTime - 1]);
+    var t = parseVnTime_(when);
     if (st.indexOf("da ") === 0 && t && t < cutoff) moved.push(data[i].concat([stamp]));
     else keepIdx.push(i);
   }
