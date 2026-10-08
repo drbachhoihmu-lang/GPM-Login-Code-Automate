@@ -104,6 +104,13 @@ Tuỳ chọn:
 
 Ảnh chụp từng lần chạy nằm trong `logs/`.
 
+## Khi GPM không mở được profile
+Bấm **🩺 Kiểm tra GPM** ở tab *Profile GPM* (hoặc `python post_sheet.py --check-gpm`): phần mềm chỉ đọc, không sửa gì trong GPM, và báo:
+- **ProxyCheckFailed** / proxy "KHÔNG kết nối được": proxy gắn với profile đã chết hoặc hết hạn → vào GPM → sửa profile → thay / gia hạn proxy hoặc bỏ proxy.
+- **Sequence contains no matching element**: GPM lỗi nội bộ khi dựng vân tay/trình duyệt. Hay gặp khi bản GPM cài thiếu dữ liệu (`Assets\Data\Fonts\fonts_file_map.json`, log GPM ghi *Load Database done error*) hoặc nhân trình duyệt của profile chưa tải → mở thử profile bằng tay trong GPM; nếu cũng lỗi thì cài lại GPM bằng bộ cài chính thức (profile ở `D:\Profile` không mất).
+- **ProfileInUse**: profile đang mở bằng tay (không có cổng điều khiển) → script tự đóng rồi mở lại.
+Script không ghi cứng đường dẫn GPM/profile nào (chỉ gọi Local API `127.0.0.1:9495`), nên đổi nơi cài GPM hay thư mục profile không cần sửa code.
+
 ## Lưu ý
 - Thước phim bắt buộc là **video**; nếu dùng ảnh thì Facebook đòi tối thiểu 5 ảnh. Muốn biến 1 ảnh thành video 6 giây:
   ```bash

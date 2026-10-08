@@ -165,16 +165,9 @@ def main():
               foreground="#6b7385", justify="center").grid(column=0, row=6, columnspan=2, pady=(12, 0))
 
     icon = None
-    hidden_once = {"v": False}
 
     def hide():
-        root.withdraw()
-        if icon and not hidden_once["v"]:
-            hidden_once["v"] = True
-            try:
-                icon.notify("Vẫn chạy ở khay cạnh đồng hồ. Bấm đúp icon để mở lại.", APP_NAME)
-            except Exception:
-                pass
+        root.withdraw()          # chỉ ẩn xuống khay, không bật thông báo góc màn hình
 
     def show():
         root.after(0, lambda: (root.deiconify(), root.lift(), root.focus_force()))

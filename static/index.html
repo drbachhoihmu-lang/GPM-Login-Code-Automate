@@ -78,7 +78,7 @@
   pre.log { background:#101522; color:#d7dce6; padding:12px; border-radius:8px; height:calc(100vh - 330px); min-height:260px; overflow:auto; font:12px/1.5 Consolas, monospace; white-space:pre-wrap; margin:0; }
   .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
   input[type=text], input[type=number] { border:1px solid var(--line); border-radius:7px; padding:6px 9px; font:inherit; }
-  select.tsel { border:1px solid var(--line); border-radius:7px; padding:5px 6px; font:inherit; background:#fff; }
+  input.tin { width:76px; text-align:center; padding:5px 4px; }
   label.f { display:flex; flex-direction:column; gap:3px; font-size:12px; color:var(--muted); margin-bottom:10px; }
   label.f input[type=text] { width:100%; max-width:640px; }
   .shots { display:grid; grid-template-columns:repeat(auto-fill, minmax(170px,1fr)); gap:8px; }
@@ -181,7 +181,9 @@
   <!-- ===== Profile GPM ===== -->
   <section class="panel" id="p-profile">
     <h1>Profile GPM <span class="sub">mỗi profile gắn với 1 fanpage theo tab <b>Pages</b> của Sheet (cột Profile GPM)</span><span class="sp"></span>
+      <button class="small" onclick="checkGpm()" title="Kiểm tra API, proxy từng profile, thư mục cài GPM và lỗi mới trong log GPM (chỉ đọc, không sửa gì trong GPM)">🩺 Kiểm tra GPM</button>
       <button class="small" onclick="loadProfiles()">↻ Tải lại</button></h1>
+    <div id="gpmCheck" class="card" style="display:none"></div>
     <div id="profiles" class="grid2 muted">Đang tải…</div>
   </section>
 
@@ -242,10 +244,16 @@ function showTab(name) {
 
 // ---------- khung giờ đăng mặc định ----------
 let HOURS = {};          // asset -> mảng giờ đang sửa trên trang
-// ô chọn giờ 24h (00–23) + phút cách 5 (00–55), không phụ thuộc ngôn ngữ Windows (tránh SA/CH)
+// ô giờ: gõ tay (24h, không SA/CH) hoặc chọn từ danh sách gợi ý 00:00 → 23:55 cách 5 phút (datalist dùng chung)
 const pad2 = n => String(n).padStart(2, '0');
-const HOUR_OPTS = '<option value="">Giờ</option>' + Array.from({length: 24}, (_, h) => `<option value="${pad2(h)}">${pad2(h)}</option>`).join('');
-const MIN_OPTS = Array.from({length: 12}, (_, i) => `<option value="${pad2(i * 5)}">${pad2(i * 5)}</option>`).join('');
+document.body.insertAdjacentHTML('beforeend', '<datalist id="slotList">' +
+  Array.from({length: 24 * 12}, (_, i) => `<option value="${pad2(i / 12 | 0)}:${pad2(i % 12 * 5)}"></option>`).join('') + '</datalist>');
+function normTime(s) {       // "14" | "14h" | "14:5" | "14h30" | "1430" | "14.30" -> "14:30"; sai -> null
+  const m = String(s || '').trim().match(/^(\d{1,2})(?:\s*[:hH.]\s*(\d{1,2})?|(\d{2}))?$/);
+  if (!m) return null;
+  const h = +m[1], mi = +(m[2] ?? m[3] ?? 0);
+  return h < 24 && mi < 60 ? `${pad2(h)}:${pad2(mi)}` : null;
+}
 async function loadHours() { renderHours(await api('/api/page_hours')); }
 function renderHours(d) {
   $('#leadMin').value = d.lead;
@@ -260,7 +268,7 @@ function renderHours(d) {
       <div class="top"><span class="name">${esc(p.name)}</span><span class="id">${esc(p.profile || '')}</span><span class="sp" style="flex:1"></span>${src}</div>
       <div class="chips" id="chips-${esc(p.asset)}"></div>
       <div class="row">
-        <select id="th-${esc(p.asset)}" class="tsel" title="Giờ (24h)">${HOUR_OPTS}</select><span class="muted">:</span><select id="tm-${esc(p.asset)}" class="tsel" title="Phút">${MIN_OPTS}</select>
+        <input type="text" class="tin" id="t-${esc(p.asset)}" list="slotList" placeholder="hh:mm" maxlength="5" title="Gõ giờ 24h (vd 14:05, 14h30, 1430) hoặc chọn từ danh sách" onkeydown="if(event.key==='Enter'){event.preventDefault();addHour('${esc(p.asset)}')}">
         <button class="small" onclick="addHour('${esc(p.asset)}')">+ Thêm giờ</button>
         <button class="small primary" onclick="saveHours('${esc(p.asset)}')">Lưu</button>
         <button class="small" onclick="resetHours('${esc(p.asset)}')" title="Bỏ bộ giờ sửa trên web, dùng lại cột Giờ đăng mặc định của tab Pages">Theo Sheet</button>
@@ -278,12 +286,11 @@ function renderChips(asset) {
                            : '<span class="empty">chưa có khung giờ – thêm giờ rồi bấm Lưu</span>';
 }
 function addHour(asset) {
-  const sh = $(`#th-${CSS.escape(asset)}`), sm = $(`#tm-${CSS.escape(asset)}`);
-  if (!sh.value) { alert('Chọn giờ trước (vd 14:00).'); return; }
-  const v = `${sh.value}:${sm.value}`;
+  const inp = $(`#t-${CSS.escape(asset)}`); const v = normTime(inp.value);
+  if (!v) { alert('Gõ giờ 24h (vd 14:05, 14h30) hoặc chọn từ danh sách.'); inp.focus(); return; }
   const hs = HOURS[asset] || (HOURS[asset] = []);
   if (!hs.includes(v)) { hs.push(v); hs.sort(); }
-  sh.value = ''; sm.value = '00'; renderChips(asset);
+  inp.value = ''; renderChips(asset); inp.focus();
 }
 function removeHour(asset, h) { HOURS[asset] = (HOURS[asset] || []).filter(x => x !== h); renderChips(asset); }
 async function saveHours(asset) {
@@ -349,6 +356,21 @@ async function loadProfiles() {
         </div></div>`);
     }
   } catch (e) { $('#profiles').textContent = 'Lỗi: ' + e.message; }
+}
+async function checkGpm() {
+  const box = $('#gpmCheck'); box.style.display = ''; box.innerHTML = '<span class="muted">Đang kiểm tra (thử kết nối proxy từng profile, tối đa ~6 giây mỗi proxy)…</span>';
+  try {
+    const d = await api('/api/gpm_check');
+    const rows = d.profiles.map(p => `<tr><td>${esc(p.name)}</td><td>${esc(p.browser)}</td><td>${esc(p.proxy || '(không có)')}</td>
+      <td>${p.proxy_ok === null ? '<span class="muted">—</span>' : p.proxy_ok ? `<span class="st will">kết nối được · ${p.proxy_ms} ms</span>` : `<span class="st err">KHÔNG kết nối được</span> <span class="muted">${esc(p.proxy_err)}</span>`}</td></tr>`).join('');
+    const inst = d.install && d.install.exe ? `<div style="margin-top:8px">Thư mục cài: <code>${esc(d.install.exe.replace(/\\[^\\]+$/, ''))}</code> · dữ liệu vân tay: ${d.install.fonts_map_ok ? '<span class="st will">đủ</span>' : `<span class="st err">THIẾU</span> <span class="muted">${esc(d.install.fonts_map)}</span>`}</div>` : '<div class="muted" style="margin-top:8px">Không thấy tiến trình GPMLoginGlobal đang chạy.</div>';
+    const logs = d.log_errors.length ? `<details style="margin-top:8px"><summary class="muted" style="cursor:pointer">Lỗi mới trong log GPM (${d.log_errors.length})</summary><pre class="log" style="height:auto;max-height:180px;margin-top:6px">${esc(d.log_errors.join('\n'))}</pre></details>` : '';
+    box.innerHTML = `<h2>Kết quả kiểm tra GPM <span class="sp"></span><span class="pill ${d.api_ok ? 'ok' : 'bad'}">${d.api_ok ? esc(d.version) : 'API không kết nối được'}</span></h2>
+      ${d.advice.map(a => `<div class="warn">${esc(a)}</div>`).join('')}
+      <table><thead><tr><th>Profile</th><th>Trình duyệt</th><th>Proxy</th><th>Kết nối proxy (từ máy này)</th></tr></thead><tbody>${rows || '<tr><td colspan="4" class="muted">không có profile</td></tr>'}</tbody></table>
+      ${inst}${logs}
+      <div class="muted" style="font-size:12px;margin-top:8px">Phần mềm chỉ đọc để chẩn đoán, không sửa gì trong GPM Login; các việc ghi ở khung vàng bạn làm trong GPM.</div>`;
+  } catch (e) { box.innerHTML = `<div class="warn">Không kiểm tra được: ${esc(e.message)}</div>`; }
 }
 async function startProfile(id, url) { try { await post(`/api/profiles/${id}/start`, {url: url || null}); } catch (e) { alert(e.message); } loadProfiles(); }
 async function stopProfile(id) { try { await post(`/api/profiles/${id}/stop`); } catch (e) { alert(e.message); } loadProfiles(); }

@@ -224,6 +224,12 @@ def api_stop(pid: str):
     return {"ok": True}
 
 
+@app.get("/api/gpm_check")
+def api_gpm_check():
+    """Chẩn đoán GPM (chỉ đọc): API, proxy từng profile, thư mục cài, lỗi mới trong log GPM."""
+    return pr.gpm_check()
+
+
 # ----------------------------------------------------------------- Sheet
 def window_of(cfg):
     """Mode due: khung giờ vừa qua trong N phút vẫn được đăng – phải phủ được chu kỳ kiểm tra."""

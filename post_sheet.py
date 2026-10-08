@@ -40,7 +40,7 @@ from pathlib import Path
 import requests
 from playwright.sync_api import sync_playwright
 
-from post_reel import (LOG_DIR, PAGE_ASSET_ID, PROFILE_ID, VIDEO_EXT, fetch_from_drive, gpm_profiles, gpm_start,
+from post_reel import (LOG_DIR, PAGE_ASSET_ID, PROFILE_ID, VIDEO_EXT, fetch_from_drive, gpm_check, gpm_profiles, gpm_start,
                        gpm_stop, log, parse_schedule, pick_page, post_reel, resolve_asset_id, resolve_profile_id,
                        scan_pages, shot)
 
@@ -570,6 +570,22 @@ def prepare(link, tab=TAB_QUEUE, pages_tab=TAB_PAGES, default_profile=PROFILE_ID
 
 
 # ----------------------------------------------------------------- quét profile / fanpage
+def cmd_check_gpm():
+    """Chẩn đoán GPM (chỉ đọc): API, proxy từng profile, thư mục cài, lỗi mới trong log GPM."""
+    d = gpm_check()
+    log(f"GPM Local API: {'OK – ' + d['version'] if d['api_ok'] else 'KHÔNG kết nối được'}")
+    for p in d["profiles"]:
+        st = "chưa kiểm" if p["proxy_ok"] is None else ("OK" if p["proxy_ok"] else f"LỖI ({p['proxy_err']})")
+        print(f"   {p['name']:28s} {p['browser']:22s} proxy {p['proxy'] or '(không có)':24s} {st}"
+              + (f" {p['proxy_ms']} ms" if p["proxy_ms"] is not None else ""))
+    if d["install"].get("exe"):
+        print(f"   Thư mục cài: {Path(d['install']['exe']).parent}  |  dữ liệu vân tay: {'đủ' if d['install']['fonts_map_ok'] else 'THIẾU ' + d['install']['fonts_map']}")
+    for ln in d["log_errors"]:
+        print("   log GPM:", ln)
+    for a in d["advice"]:
+        log("=> " + a)
+
+
 def cmd_list_profiles():
     profiles = gpm_profiles()
     log(f"GPM Login có {len(profiles)} profile:")
@@ -625,6 +641,7 @@ def cmd_scan_pages(which, webhook, close_after=False):
 def main():
     ap = argparse.ArgumentParser(description="Đăng/lên lịch Reels hàng loạt theo Google Sheet công khai")
     ap.add_argument("--list-profiles", action="store_true", help="In danh sách profile GPM rồi thoát")
+    ap.add_argument("--check-gpm", action="store_true", help="Chẩn đoán GPM: API, proxy từng profile, thư mục cài, log lỗi (chỉ đọc)")
     ap.add_argument("--scan-pages", metavar="PROFILE", nargs="?", const="all",
                     help="Quét fanpage (kèm asset_id) của profile GPM ('all' hoặc tên/id, cách nhau dấu phẩy) -> logs/pages_scan.csv; "
                          "có --webhook thì ghi thẳng vào tab Pages")
@@ -650,6 +667,8 @@ def main():
     ap.add_argument("--asset-id", default=PAGE_ASSET_ID)
     ap.add_argument("--close-after", action="store_true", help="Đóng profile GPM khi xong")
     a = ap.parse_args()
+    if a.check_gpm:
+        return cmd_check_gpm()
     if a.list_profiles:
         return cmd_list_profiles()
     if a.scan_pages:

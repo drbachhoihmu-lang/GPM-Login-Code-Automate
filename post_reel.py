@@ -12,7 +12,9 @@ import argparse
 import hashlib
 import html
 import json
+import os
 import re
+import socket
 import subprocess
 import sys
 import time
@@ -122,8 +124,24 @@ def resolve_profile_id(want):
     raise RuntimeError(f"'{want}' khớp nhiều profile: " + ", ".join(n for _, n in hits) + " – ghi rõ hơn")
 
 
+# Lỗi GPM trả về khi mở profile mà thử lại cũng vô ích -> dừng ngay, báo nguyên nhân + cách xử lý (ngoài phạm vi code)
+GPM_START_HINTS = {
+    "ProxyCheckFailed":
+        "proxy gắn với profile không hoạt động (GPM kiểm tra proxy thất bại). Vào GPM Login → sửa profile → "
+        "thay / gia hạn proxy hoặc bỏ proxy, rồi chạy lại. (Bấm 'Kiểm tra GPM' trên web để xem proxy nào chết.)",
+    "Sequence contains no matching element":
+        "GPM Login lỗi nội bộ khi dựng vân tay/trình duyệt cho profile – thường do bản GPM đang cài thiếu dữ liệu "
+        "(không có Assets\\Data\\Fonts\\fonts_file_map.json trong thư mục cài; log GPM ghi 'Load Database done error') "
+        "hoặc nhân trình duyệt của profile chưa tải. Mở thử profile bằng tay trong GPM; nếu cũng lỗi thì cài lại "
+        "GPM Login bằng bộ cài chính thức (profile ở D:\\Profile không mất).",
+    "PROFILE_NOT_FOUND": "GPM không có profile với id này (profile đã xoá / đổi?). Bấm Tải lại danh sách profile.",
+}
+
+
 def gpm_start(profile_id, retries=8):
-    """Mở profile qua GPM Local API, trả về cổng remote debugging."""
+    """Mở profile qua GPM Local API, trả về cổng remote debugging.
+    Thứ tự: mở có bỏ qua kiểm tra proxy (nhanh) -> nếu GPM văng 'Sequence contains no matching element' thì mở lại
+    CÓ kiểm tra proxy để lộ nguyên nhân thật (vd ProxyCheckFailed) -> lỗi không thể tự xử lý thì dừng ngay, báo rõ."""
     # Nếu lần trước script đã mở profile và cửa sổ vẫn còn -> dùng lại cổng cũ
     port_file = LOG_DIR / f"port_{profile_id[:8]}.txt"
     if port_file.exists():
@@ -134,24 +152,40 @@ def gpm_start(profile_id, retries=8):
             return old
         except Exception:
             pass
-    url = f"{GPM_API}/profiles/start/{profile_id}?window_size=1400,900&window_pos=0,0&skip_proxy_check=true"
+    base = f"{GPM_API}/profiles/start/{profile_id}?window_size=1400,900&window_pos=0,0"
+    skip_proxy = True
+    last = ""
     for i in range(retries):
-        r = requests.get(url, timeout=90).json()
+        try:
+            r = requests.get(base + ("&skip_proxy_check=true" if skip_proxy else ""), timeout=150).json()
+        except Exception as e:
+            raise RuntimeError(f"Không gọi được GPM Local API ({GPM_API}) – GPM Login có đang chạy không? {str(e)[:80]}")
         if r.get("success"):
             port = r["data"]["remote_debugging_port"]
             port_file.write_text(str(port))
             log(f"GPM: profile đã mở, debug port {port}")
             return port
-        msg = r.get("message", "")
-        log(f"GPM: start thất bại ({msg}), thử lại {i + 1}/{retries}")
+        msg = last = r.get("message", "") or "lỗi không rõ"
         if msg == "ProfileInUse":
             # Trình duyệt đang mở nhưng không có cổng debug -> đóng rồi mở lại
+            log(f"GPM: profile đang mở tay (ProfileInUse), đóng rồi mở lại {i + 1}/{retries}")
             if i == 0:
                 requests.get(f"{GPM_API}/profiles/stop/{profile_id}", timeout=60)
             elif i == 2:
                 kill_profile_browser(profile_id)
+            time.sleep(5)
+            continue
+        if msg == "Sequence contains no matching element" and skip_proxy:
+            log("GPM: lỗi nội bộ khi mở (bỏ qua kiểm tra proxy) -> mở lại CÓ kiểm tra proxy để tìm nguyên nhân (chờ ~20s)")
+            skip_proxy = False
+            continue
+        if msg in GPM_START_HINTS:
+            raise RuntimeError(f"GPM không mở được profile: {msg} – {GPM_START_HINTS[msg]}")
+        log(f"GPM: start thất bại ({msg}), thử lại {i + 1}/{min(retries, 3)}")
+        if i >= 2:
+            break
         time.sleep(5)
-    raise RuntimeError("Không mở được profile GPM qua API")
+    raise RuntimeError(f"Không mở được profile GPM qua API ({last})")
 
 
 def gpm_stop(profile_id):
@@ -184,6 +218,72 @@ def kill_profile_browser(profile_id):
     run_hidden(["powershell", "-NoProfile", "-Command", ps], capture_output=True)
     log("GPM: đã tắt tiến trình chrome của profile")
     time.sleep(4)
+
+
+def gpm_check():
+    """Chẩn đoán GPM (chỉ đọc, không sửa gì): API, proxy từng profile (TCP), thư mục cài (file dữ liệu vân tay),
+    lỗi mới trong log GPM. Trả về dict có 'advice' = các việc người dùng cần làm trong GPM."""
+    out = {"api_ok": False, "version": "", "profiles": [], "install": {}, "log_errors": [], "advice": []}
+    try:
+        r = requests.get(f"{GPM_API}/profiles?per_page=100", timeout=10).json()
+        out["api_ok"] = bool(r.get("success"))
+        out["version"] = r.get("sender", "")
+        for p in r.get("data", {}).get("data", []):
+            raw = p.get("raw_proxy") or ""
+            parts = raw.split(":")
+            host, port = (parts[0], parts[1]) if len(parts) >= 2 else ("", "")
+            ok, ms, err = None, None, ""
+            if host and port.isdigit():
+                t0 = time.time()
+                s = socket.socket()
+                s.settimeout(6)
+                try:
+                    s.connect((host, int(port)))
+                    ok = True
+                except Exception as e:
+                    ok, err = False, (str(e)[:60] or type(e).__name__)
+                finally:
+                    s.close()
+                ms = int((time.time() - t0) * 1000)
+            b = p.get("browser") or {}
+            out["profiles"].append({"id": p["id"], "name": p.get("name", ""), "browser": f"{b.get('name', '')} {b.get('version', '')}".strip(),
+                                    "proxy": f"{host}:{port}" if host else "", "proxy_ok": ok, "proxy_ms": ms, "proxy_err": err})
+    except Exception as e:
+        out["advice"].append(f"Không kết nối được GPM Local API ({GPM_API}): {str(e)[:100]} → mở GPM Login (bản có Local API) rồi thử lại.")
+    try:                                   # thư mục cài: lấy từ tiến trình đang chạy (chỉ đọc)
+        ps = "Get-Process GPMLoginGlobal -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty Path"
+        exe = run_hidden(["powershell", "-NoProfile", "-Command", ps], capture_output=True, text=True, timeout=20).stdout.strip()
+        if exe:
+            fonts = Path(exe).parent / "Assets" / "Data" / "Fonts" / "fonts_file_map.json"
+            out["install"] = {"exe": exe, "fonts_map_ok": fonts.exists(), "fonts_map": str(fonts)}
+        else:
+            out["install"] = {"exe": "", "fonts_map_ok": None}
+    except Exception:
+        pass
+    try:                                   # log GPM: các dòng [ERROR] mới nhất
+        logs = Path(os.environ.get("APPDATA", "")) / "GPMLoginGlobal" / "Logs"
+        files = sorted(logs.glob("logs_*.txt"), key=lambda f: f.stat().st_mtime, reverse=True)[:2]
+        lines = []
+        for f in reversed(files):
+            lines += [ln[:170] for ln in f.read_text(encoding="utf-8", errors="replace").splitlines() if ln.startswith("[ERROR]")]
+        out["log_errors"] = lines[-8:]
+    except Exception:
+        pass
+    dead = [p for p in out["profiles"] if p["proxy_ok"] is False]
+    if dead:
+        out["advice"].append("Proxy của profile " + ", ".join(f"{p['name']} ({p['proxy']})" for p in dead)
+                             + " không kết nối được (TCP timeout) → GPM báo ProxyCheckFailed khi mở. "
+                               "Vào GPM Login → sửa profile → thay / gia hạn proxy hoặc bỏ proxy.")
+    if out["install"].get("exe") and out["install"].get("fonts_map_ok") is False:
+        out["advice"].append("Bản GPM đang chạy thiếu file dữ liệu vân tay " + out["install"]["fonts_map"]
+                             + " → log GPM ghi 'Load Database done error', mở profile văng 'Sequence contains no matching element'. "
+                               "Cài lại GPM Login bằng bộ cài chính thức (profile ở thư mục D:\\Profile không mất).")
+    elif any("Sequence contains no matching element" in ln for ln in out["log_errors"]) and not dead:
+        out["advice"].append("Log GPM có 'Sequence contains no matching element' khi mở profile → mở thử profile bằng tay trong GPM; "
+                             "nếu cũng lỗi thì kiểm tra nhân trình duyệt của profile (tải lại) hoặc cài lại GPM.")
+    if out["api_ok"] and not out["advice"]:
+        out["advice"].append("Không thấy vấn đề: API chạy, proxy các profile kết nối được, thư mục cài đủ dữ liệu.")
+    return out
 
 
 # ----------------------------------------------------------------- Google Drive
