@@ -3,7 +3,9 @@
 
 Sheet gồm 3 tab (dựng bằng setupSheet() trong sheet_webhook.gs):
   "Lịch đăng" (hàng đợi, script đọc) – hàng 1 là tiêu đề cột, tên cột linh hoạt (nhận diện theo từ khoá):
-    Thời gian đăng   : "07/10/2026 19:00" (hoặc 2026-10-07 19:00); ghi "ngay" để đăng ngay; trống = bỏ qua
+    Ngày đăng + Giờ  : 2 cột "08/10/2026" | "19:00" (hoặc 1 cột gộp "08/10/2026 19:00"); ghi "ngay" để đăng ngay
+                       --mode schedule (mặc định): lên lịch trên Facebook ngay khi chạy, Facebook tự phát đúng giờ
+                       --mode due: tới đúng ngày/giờ đó phần mềm mới bấm "Chia sẻ ngay"; hàng chưa tới giờ để lại
     Page             : tên page (chọn từ tab Pages) -> script tra asset_id + profile GPM trong tab Pages
     Video            : link file Drive / link thư mục Drive / đường dẫn file trên máy
     Tiêu đề          : mô tả bài (có thể kèm luôn hashtag); trống + thư mục Drive -> lấy 'Tiêu đề:' trong .docx
@@ -49,6 +51,9 @@ STATE_FILE = LOG_DIR / "sheet_state.json"      # ghi nhớ hàng nào đã đăn
 
 # Giá trị cột Trạng thái do script ghi
 ST_RUNNING, ST_SCHEDULED, ST_POSTED, ST_ERROR, ST_DRY = "Đang đăng", "Đã lên lịch", "Đã đăng", "Lỗi", "Chạy thử OK"
+# Cách đăng:  "schedule" = lên lịch trên Facebook ngay khi chạy (Facebook tự phát đúng giờ ghi trong Sheet)
+#             "due"      = tới đúng ngày/giờ ghi trong Sheet phần mềm mới bấm "Chia sẻ ngay"; hàng chưa tới giờ để lại
+POST_MODES = ("schedule", "due")
 
 
 def sheet_gid(link):
@@ -293,15 +298,20 @@ def row_key(sheet_link, item):
 
 
 # ----------------------------------------------------------------- lập kế hoạch
-def plan(items, sheet_link, state, only_rows=None, retry_errors=False):
+def plan(items, sheet_link, state, only_rows=None, retry_errors=False, mode="schedule", now=None):
     """Chia hàng thành: sẽ đăng (kèm when) / bỏ qua (kèm lý do).
     Trạng thái trống hoặc 'Chờ đăng' -> sẽ đăng. 'Đã …' (Đã đăng / Đã lên lịch), 'bỏ qua', 'skip', 'done',
     'xong' -> bỏ qua; 'Lỗi' (trên Sheet hoặc trong logs/sheet_state.json) -> bỏ qua trừ khi retry_errors;
-    'Đang đăng' (lần trước bị ngắt) -> làm lại."""
+    'Đang đăng' (lần trước bị ngắt) -> làm lại.
+    mode="schedule": when = giờ trên Sheet (lên lịch trên Facebook); giờ đã qua -> bỏ qua.
+    mode="due":      giờ chưa tới -> để lại (it['waiting']=True, lý do 'chưa tới giờ');
+                     giờ đã tới   -> đăng ngay (when=None, it['due'] = giờ ghi trên Sheet)."""
+    now = now or datetime.now()
     todo, skipped = [], []
     for it in items:
         reason = None
         when = None
+        it["waiting"], it["due"] = False, ""
         st = norm(it["status"])
         prev = state.get(row_key(sheet_link, it), {})
         if only_rows and it["row"] not in only_rows:
@@ -327,13 +337,21 @@ def plan(items, sheet_link, state, only_rows=None, retry_errors=False):
             except ValueError as e:
                 reason = str(e)
             else:
-                if when <= datetime.now():
+                if mode == "due":
+                    it["due"] = when.strftime("%d/%m/%Y %H:%M")
+                    if when > now:
+                        it["waiting"] = True
+                        reason = f"chưa tới giờ ({when:%H:%M %d/%m})"
+                    else:
+                        when = None                       # tới giờ -> bấm "Chia sẻ ngay"
+                elif when <= now:
                     reason = f"thời gian {it['time']} đã qua"
         if reason:
             skipped.append((it, reason))
         else:
             todo.append((it, when))
-    todo.sort(key=lambda x: (x[1] is not None, x[1] or datetime.min))     # "ngay" trước, rồi theo giờ
+    # "ngay" trước, rồi theo giờ (mode due: theo giờ ghi trên Sheet, bài tới giờ sớm nhất đăng trước)
+    todo.sort(key=lambda x: (x[1] is not None, x[1] or (parse_schedule(x[0]["due"]) if x[0]["due"] else datetime.min)))
     return todo, skipped
 
 
@@ -366,10 +384,13 @@ def resolve_video(it):
 
 # ----------------------------------------------------------------- lập kế hoạch dùng chung
 def prepare(link, tab=TAB_QUEUE, pages_tab=TAB_PAGES, default_profile=PROFILE_ID, only_rows=None,
-            retry_errors=False, need_gpm=False):
+            retry_errors=False, need_gpm=False, mode="schedule"):
     """Đọc Sheet + tab Pages, gắn asset/profile/giờ mặc định cho từng hàng, chia sẽ-đăng / bỏ-qua.
     Dùng chung cho dòng lệnh, giao diện web và bộ tự động kiểm tra.
-    Trả về dict: items, pages, todo, skipped, profile_names, gpm_ok, messages."""
+    Trả về dict: items, pages, todo, skipped, profile_names, gpm_ok, messages, mode,
+    next_due (mode due: giờ sớm nhất trong các hàng chưa tới giờ, None nếu không có)."""
+    if mode not in POST_MODES:
+        mode = "schedule"
     msgs = []
     items = read_sheet(link, tab)
     pages = read_pages(link, pages_tab)
@@ -403,9 +424,11 @@ def prepare(link, tab=TAB_QUEUE, pages_tab=TAB_PAGES, default_profile=PROFILE_ID
         if it.get("date_only") and it["time"]:
             hour = norm_time(p["hour"]) if p and p.get("hour") else ""
             it["time"] = f"{it['time']} {hour}" if hour else ""
-    todo, skipped = plan(items, link, load_state(), only_rows, retry_errors)
+    todo, skipped = plan(items, link, load_state(), only_rows, retry_errors, mode)
+    waiting = [parse_schedule(it["due"]) for it, _ in skipped if it.get("waiting") and it.get("due")]
     return {"items": items, "pages": pages, "todo": todo, "skipped": skipped,
-            "profile_names": profile_names, "gpm_ok": gpm_ok, "messages": msgs}
+            "profile_names": profile_names, "gpm_ok": gpm_ok, "messages": msgs,
+            "mode": mode, "next_due": min(waiting) if waiting else None}
 
 
 # ----------------------------------------------------------------- quét profile / fanpage
@@ -476,6 +499,9 @@ def main():
     ap.add_argument("--plan-only", action="store_true", help="Chỉ in kế hoạch, không mở trình duyệt")
     ap.add_argument("--webhook", default=SHEET_WEBHOOK, help="URL Apps Script để ghi Trạng thái/Page ngược vào Sheet")
     ap.add_argument("--retry-errors", action="store_true", help="Đăng lại cả các hàng đang ghi 'Lỗi'")
+    ap.add_argument("--mode", choices=POST_MODES, default="schedule",
+                    help="schedule = lên lịch trên Facebook ngay khi chạy (mặc định); "
+                         "due = tới đúng ngày/giờ ghi trong Sheet mới đăng ('Chia sẻ ngay'), hàng chưa tới giờ để lại")
     ap.add_argument("--pause", default="20-60", help="Nghỉ ngẫu nhiên giữa 2 bài, giây (mặc định 20-60)")
     ap.add_argument("--profile", default=PROFILE_ID, help="Profile GPM mặc định (id hoặc một phần tên) cho hàng không ghi cột Profile")
     ap.add_argument("--asset-id", default=PAGE_ASSET_ID)
@@ -491,7 +517,8 @@ def main():
     lo, hi = (int(x) for x in a.pause.split("-")) if "-" in a.pause else (int(a.pause), int(a.pause))
 
     try:
-        prep = prepare(a.sheet, a.tab, a.pages_tab, a.profile, only_rows, a.retry_errors, need_gpm=not a.plan_only)
+        prep = prepare(a.sheet, a.tab, a.pages_tab, a.profile, only_rows, a.retry_errors, need_gpm=not a.plan_only,
+                       mode=a.mode)
     except RuntimeError as e:
         sys.exit(str(e))
     for m in prep["messages"]:
@@ -501,7 +528,10 @@ def main():
     if a.max:
         todo = todo[:a.max]
 
+    n_wait = sum(1 for it, _ in skipped if it.get("waiting"))
     log(f"Sheet có {len(items)} hàng: sẽ đăng {len(todo)}, bỏ qua {len(skipped)}"
+        + (f" (trong đó {n_wait} chưa tới giờ)" if n_wait else "")
+        + f" · cách đăng: {'tới giờ mới đăng' if a.mode == 'due' else 'lên lịch trên Facebook'}"
         + ("" if a.webhook else " (không có webhook: trạng thái chỉ ghi vào logs/, không ghi vào Sheet)"))
     # Cột Profile -> id profile GPM (trống = --profile); gom các hàng cùng profile để mở trình duyệt 1 lần
     profile_names, gpm_ok = prep["profile_names"], prep["gpm_ok"]
@@ -518,7 +548,9 @@ def main():
             bad.append((it, str(e)))
     for it, when in todo:
         pid = next((p for p, rows in groups.items() if any(r[0] is it for r in rows)), None)
-        log(f"  [hàng {it['row']}] {'ĐĂNG NGAY' if when is None else when.strftime('%d/%m/%Y %H:%M')} | "
+        tm = (when.strftime('%d/%m/%Y %H:%M') if when
+              else f"TỚI GIỜ {it['due']} -> đăng ngay" if it.get("due") else "ĐĂNG NGAY")
+        log(f"  [hàng {it['row']}] {tm} | "
             f"profile: {profile_names.get(pid, it['profile'] or '?')} | trang: {it['page'] or '(mặc định)'} | "
             f"{(caption_of(it) or '(mô tả lấy từ kịch bản trong thư mục Drive)')[:50]} | {it['video'][:40]}")
     for it, reason in skipped:
@@ -557,6 +589,9 @@ def main():
                         ok = post_reel(page, video, caption, when, a.dry_run, asset, info=info)
                         status = "done" if ok else "dry-run"
                         note = f"Xác nhận {datetime.now():%H:%M %d/%m}" if ok else f"Chạy thử {datetime.now():%H:%M %d/%m}"
+                        if it.get("due"):                 # mode due: ghi kèm giờ trên Sheet (và độ trễ nếu đáng kể)
+                            late = int((datetime.now() - parse_schedule(it["due"])).total_seconds() // 60)
+                            note += f" – lịch Sheet {it['due']}" + (f" (trễ {late} phút)" if late >= 15 else "")
                     except Exception as e:
                         shot(page, f"row{it['row']}_error")
                         status, note = "error", str(e)[:300]
@@ -587,7 +622,8 @@ def main():
         w = csv.writer(f)
         w.writerow(["Hàng", "Profile", "Page đăng", "Thời gian", "Trạng thái", "Ghi chú"])
         for it, when, status, note, page_name in results:
-            w.writerow([it["row"], it["profile"], page_name, when.strftime("%d/%m/%Y %H:%M") if when else "ngay",
+            w.writerow([it["row"], it["profile"], page_name,
+                        when.strftime("%d/%m/%Y %H:%M") if when else (it.get("due") or "ngay"),
                         {"done": ST_SCHEDULED if when else ST_POSTED, "dry-run": ST_DRY, "error": ST_ERROR}[status], note])
     done = sum(1 for r in results if r[2] == "done")
     err = sum(1 for r in results if r[2] == "error")

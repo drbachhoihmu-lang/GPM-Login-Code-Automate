@@ -37,6 +37,7 @@ DEFAULT_CONFIG = {
     "pages_tab": ps.TAB_PAGES,
     "auto_check": False,          # tự động kiểm tra Sheet và đăng bài chờ
     "auto_interval": 5,           # phút
+    "post_mode": "schedule",      # schedule = lên lịch trên Facebook | due = tới giờ mới đăng (Chia sẻ ngay)
 }
 
 app = FastAPI(title="GPMReels")
@@ -66,6 +67,11 @@ class Config(BaseModel):
     pages_tab: str = ps.TAB_PAGES
     auto_check: bool = False
     auto_interval: int = 5
+    post_mode: str = "schedule"
+
+
+def post_mode_of(cfg):
+    return cfg.get("post_mode") if cfg.get("post_mode") in ps.POST_MODES else "schedule"
 
 
 @app.get("/")
@@ -84,6 +90,7 @@ def set_config(c: Config):
     cfg.update(c.model_dump(exclude_unset=True))      # chỉ ghi đè các khoá được gửi lên
     if not cfg.get("default_profile"):
         cfg["default_profile"] = pr.PROFILE_ID
+    cfg["post_mode"] = post_mode_of(cfg)
     save_config(cfg)
     return cfg
 
@@ -205,10 +212,12 @@ def api_stop(pid: str):
 def compute_plan(cfg, retry_errors=False):
     """Kế hoạch đăng theo Sheet (dùng chung cho /api/sheet và bộ tự động)."""
     link = cfg["sheet_url"]
-    prep = ps.prepare(link, cfg["tab"], cfg["pages_tab"], cfg["default_profile"], None, retry_errors)
+    prep = ps.prepare(link, cfg["tab"], cfg["pages_tab"], cfg["default_profile"], None, retry_errors,
+                      mode=post_mode_of(cfg))
     rows = []
     for it, when in prep["todo"]:
-        rows.append({**it, "when": when.strftime("%d/%m/%Y %H:%M") if when else "ngay", "will": True, "reason": ""})
+        rows.append({**it, "when": when.strftime("%d/%m/%Y %H:%M") if when else (it.get("due") or "ngay"),
+                     "will": True, "reason": ""})
     for it, reason in prep["skipped"]:
         rows.append({**it, "when": it["time"], "will": False, "reason": reason})
     rows.sort(key=lambda r: r["row"])
@@ -229,28 +238,42 @@ def api_sheet():
         prep = compute_plan(cfg)
         gid = tabs.get(cfg["tab"])
         return {"ok": True, "id": sid, "tabs": tabs, "queue_gid": gid, "rows": prep["rows"], "pages": prep["pages"],
-                "gpm_ok": prep["gpm_ok"], "pending": sum(1 for r in prep["rows"] if r["will"])}
+                "gpm_ok": prep["gpm_ok"], "pending": sum(1 for r in prep["rows"] if r["will"]),
+                "waiting": sum(1 for r in prep["rows"] if r.get("waiting")), "mode": prep["mode"],
+                "next_due": prep["next_due"].strftime("%H:%M %d/%m/%Y") if prep.get("next_due") else None}
     except Exception as e:
         return {"ok": False, "id": sid, "error": str(e)[:300]}
 
 
 # ----------------------------------------------------------------- tự động kiểm tra Sheet
-AUTO = {"last": None, "result": "", "next": None, "last_tick": 0.0, "job": None}
+# next_due: (mode "tới giờ mới đăng") mốc thời gian của bài chưa tới giờ sớm nhất -> vòng lặp thức đúng lúc đó,
+# không phải đợi hết chu kỳ N phút.
+AUTO = {"last": None, "result": "", "next": None, "last_tick": 0.0, "job": None, "next_due": None}
 
 
 def auto_check_once(cfg):
-    """Một lần kiểm tra: có bài chờ đăng + không có việc đang chạy + GPM đang bật -> chạy đăng thật."""
+    """Một lần kiểm tra: có bài chờ đăng + không có việc đang chạy + GPM đang bật -> chạy đăng thật.
+    Mode due: bài chưa tới giờ chỉ được ghi nhớ (next_due) để đăng đúng giờ."""
+    AUTO["next_due"] = None
     if any(j["proc"].poll() is None for j in JOBS.values()):
         return "đang có việc khác chạy, bỏ qua lần này"
     prep = compute_plan(cfg)
+    if prep.get("next_due"):
+        AUTO["next_due"] = prep["next_due"].timestamp()
     pending = [r for r in prep["rows"] if r["will"]]
+    waiting = [r for r in prep["rows"] if r.get("waiting")]
+    due_mode = prep["mode"] == "due"
     if not pending:
+        if waiting:
+            return f"{len(waiting)} bài chưa tới giờ, gần nhất {prep['next_due']:%H:%M %d/%m} – sẽ đăng đúng lúc đó"
         return "không có bài chờ đăng"
     if not prep["gpm_ok"]:
-        return f"có {len(pending)} bài chờ nhưng GPM Login chưa chạy"
-    jid = _spawn(_base_args(cfg), f"Tự động: đăng {len(pending)} bài chờ")
+        return f"có {len(pending)} bài {'tới giờ' if due_mode else 'chờ'} nhưng GPM Login chưa chạy"
+    jid = _spawn(_base_args(cfg), f"Tự động: {'đăng' if due_mode else 'lên lịch'} {len(pending)} bài"
+                 + (f" ({len(waiting)} bài khác chưa tới giờ)" if waiting else ""))
     AUTO["job"] = jid
-    return f"đã bắt đầu đăng {len(pending)} bài (job {jid})"
+    return (f"đã bắt đầu {'đăng' if due_mode else 'lên lịch'} {len(pending)} bài (job {jid})"
+            + (f"; {len(waiting)} bài chưa tới giờ" if waiting else ""))
 
 
 def auto_loop():
@@ -260,7 +283,8 @@ def auto_loop():
             interval = max(1, int(cfg.get("auto_interval") or 5)) * 60
             if cfg.get("auto_check"):
                 now = time.time()
-                if now - AUTO["last_tick"] >= interval:
+                due_hit = bool(AUTO.get("next_due")) and now >= AUTO["next_due"] and now - AUTO["last_tick"] >= 20
+                if now - AUTO["last_tick"] >= interval or due_hit:
                     AUTO["last_tick"] = now
                     AUTO["last"] = datetime.now().strftime("%H:%M:%S %d/%m")
                     try:
@@ -268,7 +292,10 @@ def auto_loop():
                     except Exception as e:
                         AUTO["result"] = f"lỗi: {str(e)[:200]}"
                     print(f"[auto] {AUTO['last']}: {AUTO['result']}", flush=True)
-                AUTO["next"] = datetime.fromtimestamp(AUTO["last_tick"] + interval).strftime("%H:%M:%S")
+                nxt = AUTO["last_tick"] + interval
+                if AUTO.get("next_due") and AUTO["last_tick"] < AUTO["next_due"] < nxt:
+                    nxt = AUTO["next_due"]           # thức sớm hơn: đúng giờ bài tới lượt
+                AUTO["next"] = datetime.fromtimestamp(nxt).strftime("%H:%M:%S")
             else:
                 AUTO["next"] = None
         except Exception as e:
@@ -284,13 +311,16 @@ def _start_auto():
 class AutoReq(BaseModel):
     enabled: bool | None = None
     interval: int | None = None
+    mode: str | None = None       # schedule | due
 
 
 @app.get("/api/auto")
 def api_auto():
     cfg = load_config()
     return {"enabled": bool(cfg.get("auto_check")), "interval": int(cfg.get("auto_interval") or 5),
-            "last": AUTO["last"], "result": AUTO["result"], "next": AUTO["next"], "job": AUTO["job"]}
+            "mode": post_mode_of(cfg), "last": AUTO["last"], "result": AUTO["result"], "next": AUTO["next"],
+            "job": AUTO["job"],
+            "next_due": datetime.fromtimestamp(AUTO["next_due"]).strftime("%H:%M %d/%m") if AUTO.get("next_due") else None}
 
 
 @app.post("/api/auto")
@@ -302,6 +332,9 @@ def api_auto_set(r: AutoReq):
             AUTO["last_tick"] = 0.0          # vừa bật -> kiểm tra ngay trong ~10 giây
     if r.interval is not None:
         cfg["auto_interval"] = max(1, int(r.interval))
+    if r.mode is not None and r.mode in ps.POST_MODES and r.mode != post_mode_of(cfg):
+        cfg["post_mode"] = r.mode
+        AUTO["last_tick"] = 0.0              # đổi cách đăng -> kiểm tra lại ngay
     save_config(cfg)
     return api_auto()
 
@@ -320,7 +353,7 @@ class RunReq(BaseModel):
 
 def _base_args(cfg):
     base = ["post_sheet.py", "--sheet", cfg["sheet_url"], "--tab", cfg["tab"], "--pages-tab", cfg["pages_tab"],
-            "--profile", cfg["default_profile"]]
+            "--profile", cfg["default_profile"], "--mode", post_mode_of(cfg)]
     if cfg.get("webhook"):
         base += ["--webhook", cfg["webhook"]]
     return base
@@ -364,7 +397,8 @@ def api_run(r: RunReq):
             args += ["--rows", r.rows]
         if r.max:
             args += ["--max", str(r.max)]
-        label = {"plan": "Xem kế hoạch", "dry": "Chạy thử (dry-run)", "real": "Đăng các bài chờ"}[r.mode]
+        label = {"plan": "Xem kế hoạch", "dry": "Chạy thử (dry-run)",
+                 "real": "Đăng các bài tới giờ" if post_mode_of(cfg) == "due" else "Lên lịch các bài chờ"}[r.mode]
         if r.retry and r.mode == "real":
             label = "Đăng lại hàng lỗi + bài chờ"
     else:

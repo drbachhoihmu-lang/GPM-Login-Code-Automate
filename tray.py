@@ -95,14 +95,34 @@ def main():
     sp.bind("<FocusOut>", save_auto)
     sp.bind("<Return>", save_auto)
     ttk.Label(box, text="phút kiểm tra Sheet, có bài Chờ đăng thì tự đăng").grid(column=2, row=0, sticky="w")
-    auto_info = ttk.Label(box, text="Chưa kiểm tra lần nào", foreground="#6b7385", wraplength=420, justify="left")
-    auto_info.grid(column=0, row=1, columnspan=3, sticky="w", pady=(4, 0))
+
+    # Cách đăng (2 ô chọn, chỉ chọn 1): lên lịch trên Facebook / tới giờ mới đăng
+    mode_var = tk.StringVar(value=webapp.post_mode_of(cfg0))
+
+    def save_mode():
+        cfg = webapp.load_config()
+        if cfg.get("post_mode") != mode_var.get():
+            cfg["post_mode"] = mode_var.get()
+            webapp.AUTO["last_tick"] = 0.0    # đổi cách đăng -> kiểm tra lại ngay
+            webapp.save_config(cfg)
+
+    ttk.Label(box, text="Cách đăng khi tới lượt:").grid(column=0, row=1, columnspan=3, sticky="w", pady=(8, 0))
+    ttk.Radiobutton(box, text="Lên lịch trên Facebook – đưa bài lên ngay, Facebook tự phát đúng ngày giờ trong Sheet",
+                    variable=mode_var, value="schedule", command=save_mode).grid(column=0, row=2, columnspan=3, sticky="w")
+    ttk.Radiobutton(box, text="Tới giờ mới đăng – chờ đúng ngày giờ trong Sheet rồi bấm 'Chia sẻ ngay'",
+                    variable=mode_var, value="due", command=save_mode).grid(column=0, row=3, columnspan=3, sticky="w")
+    ttk.Label(box, text="(Tới giờ mới đăng: máy và GPM Login phải đang bật lúc đó; bài lên trong vài phút sau giờ ghi trong Sheet.)",
+              foreground="#6b7385", wraplength=480, justify="left").grid(column=0, row=4, columnspan=3, sticky="w")
+    auto_info = ttk.Label(box, text="Chưa kiểm tra lần nào", foreground="#6b7385", wraplength=480, justify="left")
+    auto_info.grid(column=0, row=5, columnspan=3, sticky="w", pady=(6, 0))
 
     def refresh_auto():
         a = webapp.AUTO
         cfg = webapp.load_config()
         if bool(cfg.get("auto_check")) != auto_var.get():     # đổi từ giao diện web
             auto_var.set(bool(cfg.get("auto_check")))
+        if webapp.post_mode_of(cfg) != mode_var.get():
+            mode_var.set(webapp.post_mode_of(cfg))
         txt = (f"Lần kiểm tra gần nhất {a['last']}: {a['result']}" if a["last"] else "Chưa kiểm tra lần nào")
         if cfg.get("auto_check") and a.get("next"):
             txt += f" · lần tới {a['next']}"

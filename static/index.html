@@ -6,30 +6,59 @@
 <title>GPMReels</title>
 <link rel="icon" href="/assets/gpmreels.ico">
 <style>
-  :root { --bg:#f3f5f9; --card:#fff; --line:#e3e6ec; --text:#1d2433; --muted:#6b7385; --blue:#1b74e4; --green:#1f9d55; --red:#d6453d; --amber:#c98a00; }
+  :root { --bg:#f3f5f9; --card:#fff; --line:#e3e6ec; --text:#1d2433; --muted:#6b7385; --blue:#1b74e4; --green:#1f9d55; --red:#d6453d; --amber:#c98a00;
+          --side:#1a2235; --side-text:#c9d1e0; --side-active:#2a3550; --side-w:230px; }
   * { box-sizing:border-box; }
-  body { margin:0; font:14px/1.45 "Segoe UI", system-ui, sans-serif; background:var(--bg); color:var(--text); }
-  header { background:#fff; border-bottom:1px solid var(--line); padding:10px 20px; display:flex; align-items:center; gap:16px; position:sticky; top:0; z-index:5; }
-  header h1 { font-size:17px; margin:0; }
-  header .sp { flex:1; }
+  html, body { height:100%; }
+  body { margin:0; font:14px/1.45 "Segoe UI", system-ui, sans-serif; background:var(--bg); color:var(--text); display:flex; min-height:100vh; }
+
+  /* ---------- menu dọc bên trái ---------- */
+  nav.side { width:var(--side-w); flex:0 0 var(--side-w); background:var(--side); color:var(--side-text); display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+  .brand { display:flex; align-items:center; gap:10px; padding:16px 16px 12px; border-bottom:1px solid rgba(255,255,255,.08); }
+  .brand img { width:30px; height:30px; border-radius:7px; }
+  .brand b { color:#fff; font-size:16px; display:block; line-height:1.1; }
+  .brand small { font-size:11px; color:#8e99b0; }
+  .tabs { padding:10px 8px; display:flex; flex-direction:column; gap:2px; }
+  .tab { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:8px; cursor:pointer; color:var(--side-text); border:0; background:none; font:inherit; font-size:14px; text-align:left; width:100%; }
+  .tab:hover { background:rgba(255,255,255,.06); }
+  .tab.active { background:var(--side-active); color:#fff; font-weight:600; }
+  .tab .ico { width:22px; text-align:center; font-size:16px; }
+  .tab .sp { flex:1; }
+  .badge { font-size:11px; min-width:20px; text-align:center; padding:1px 6px; border-radius:99px; background:#3a4660; color:#fff; }
+  .badge.ok { background:var(--green); } .badge.run { background:var(--blue); } .badge.bad { background:var(--red); }
+  .badge:empty { display:none; }
+  .side-foot { margin-top:auto; padding:12px 14px 14px; border-top:1px solid rgba(255,255,255,.08); display:flex; flex-direction:column; gap:7px; font-size:12px; }
+  .stat { display:flex; align-items:center; gap:8px; color:#aeb8cc; }
+  .stat .dot { flex:0 0 auto; }
+  .stat b { color:#fff; font-weight:600; }
+  .side-foot button { width:100%; }
+
+  /* ---------- nội dung bên phải ---------- */
+  main { flex:1; min-width:0; padding:18px 24px 30px; }
+  .panel { display:none; max-width:1300px; }
+  .panel.active { display:block; }
+  .panel > h1 { font-size:20px; margin:0 0 14px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .panel > h1 .sp { flex:1; }
+  .panel > h1 .sub { font-size:13px; color:var(--muted); font-weight:normal; }
+  .grid2 { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:14px; }
+
   .pill { font-size:12px; padding:2px 9px; border-radius:99px; background:#eef1f6; color:var(--muted); }
   .pill.ok { background:#e3f5ea; color:var(--green); } .pill.bad { background:#fde8e6; color:var(--red); }
-  main { display:grid; grid-template-columns: 360px 1fr; gap:16px; padding:16px 20px; max-width:1700px; margin:0 auto; }
-  @media (max-width:1100px) { main { grid-template-columns:1fr; } }
   .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-bottom:16px; }
   .card h2 { font-size:14px; margin:0 0 10px; display:flex; align-items:center; gap:8px; }
   .card h2 .sp { flex:1; }
   button { border:1px solid var(--line); background:#fff; color:var(--text); padding:6px 11px; border-radius:7px; cursor:pointer; font:inherit; font-size:13px; }
   button:hover { background:#f6f8fb; }
   button.primary { background:var(--blue); color:#fff; border-color:var(--blue); }
+  button.primary:hover { background:#1663c7; }
   button.danger { background:var(--red); color:#fff; border-color:var(--red); }
   button.small { padding:3px 8px; font-size:12px; }
   button:disabled { opacity:.5; cursor:default; }
-  .profile { border:1px solid var(--line); border-radius:9px; padding:10px 12px; margin-bottom:10px; }
+  .profile { border:1px solid var(--line); border-radius:9px; padding:10px 12px; margin-bottom:0; background:#fff; }
   .profile .top { display:flex; align-items:center; gap:8px; }
   .profile .name { font-weight:600; }
   .dot { width:9px; height:9px; border-radius:50%; background:#c4c9d4; display:inline-block; }
-  .dot.controlled { background:var(--green); } .dot.manual { background:var(--amber); }
+  .dot.controlled, .dot.ok { background:var(--green); } .dot.manual { background:var(--amber); } .dot.bad { background:var(--red); } .dot.run { background:var(--blue); }
   .profile .id { color:var(--muted); font-size:11px; }
   .profile .pages { margin:8px 0 4px; }
   .page { display:flex; align-items:center; gap:8px; padding:4px 0; border-top:1px dashed var(--line); font-size:13px; }
@@ -41,86 +70,123 @@
   tr.skip td { color:var(--muted); }
   .st { font-size:11px; padding:1px 7px; border-radius:99px; background:#eef1f6; white-space:nowrap; }
   .st.will { background:#e3f5ea; color:var(--green); } .st.err { background:#fde8e6; color:var(--red); }
-  iframe { width:100%; height:520px; border:1px solid var(--line); border-radius:8px; background:#fff; }
-  pre.log { background:#101522; color:#d7dce6; padding:12px; border-radius:8px; height:300px; overflow:auto; font:12px/1.5 Consolas, monospace; white-space:pre-wrap; margin:0; }
+  .st.wait { background:#fff4e0; color:#9a5b00; }
+  pre.log { background:#101522; color:#d7dce6; padding:12px; border-radius:8px; height:calc(100vh - 330px); min-height:260px; overflow:auto; font:12px/1.5 Consolas, monospace; white-space:pre-wrap; margin:0; }
   .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
   input[type=text], input[type=number] { border:1px solid var(--line); border-radius:7px; padding:6px 9px; font:inherit; }
-  label.f { display:flex; flex-direction:column; gap:3px; font-size:12px; color:var(--muted); }
-  .shots { display:grid; grid-template-columns:repeat(auto-fill, minmax(150px,1fr)); gap:8px; }
+  label.f { display:flex; flex-direction:column; gap:3px; font-size:12px; color:var(--muted); margin-bottom:10px; }
+  label.f input[type=text] { width:100%; max-width:640px; }
+  .shots { display:grid; grid-template-columns:repeat(auto-fill, minmax(170px,1fr)); gap:8px; }
   .shots a { display:block; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:#fff; }
   .shots img { width:100%; display:block; }
   .shots span { display:block; font-size:11px; color:var(--muted); padding:3px 6px; }
   .muted { color:var(--muted); }
-  .warn { background:#fff7e0; border:1px solid #f1dd9a; padding:8px 10px; border-radius:7px; font-size:13px; }
-  details summary { cursor:pointer; color:var(--muted); font-size:13px; }
+  .warn { background:#fff7e0; border:1px solid #f1dd9a; padding:8px 10px; border-radius:7px; font-size:13px; margin-bottom:10px; }
+
+  /* màn hẹp: menu nằm ngang phía trên */
+  @media (max-width:760px) {
+    body { flex-direction:column; }
+    nav.side { width:100%; flex:none; height:auto; position:static; }
+    .tabs { flex-direction:row; overflow-x:auto; padding:6px 8px; }
+    .tab { white-space:nowrap; width:auto; padding:8px 12px; }
+    .side-foot { display:none; }
+    main { padding:14px 16px 24px; }
+    pre.log { height:320px; }
+  }
 </style>
 </head>
 <body>
-<header>
-  <h1>GPMReels <span class="muted" style="font-weight:normal;font-size:13px">– đăng Reels lên Fanpage qua GPM Login</span></h1>
-  <span id="gpmPill" class="pill">GPM: …</span>
-  <span id="jobPill" class="pill">Rảnh</span>
-  <span class="sp"></span>
-  <button id="btnSheet" onclick="openSheet()">Mở Google Sheet ↗</button>
-  <button onclick="toggleSettings()">Cài đặt</button>
-  <button class="danger" onclick="shutdown()" title="Tắt server chạy ngầm (cửa sổ đen). Bài đã lên lịch trên Facebook không bị ảnh hưởng.">Tắt phần mềm</button>
-</header>
+
+<nav class="side">
+  <div class="brand"><img src="/assets/gpmreels.ico" alt=""><div><b>GPMReels</b><small>Đăng Reels lên Fanpage qua GPM Login</small></div></div>
+  <div class="tabs" id="tabs">
+    <button class="tab" data-tab="lich" onclick="showTab('lich')"><span class="ico">📅</span>Lịch đăng<span class="sp"></span><span class="badge" id="bLich"></span></button>
+    <button class="tab" data-tab="profile" onclick="showTab('profile')"><span class="ico">👤</span>Profile GPM<span class="sp"></span><span class="badge" id="bProfile"></span></button>
+    <button class="tab" data-tab="log" onclick="showTab('log')"><span class="ico">▶</span>Đang chạy &amp; Log<span class="sp"></span><span class="badge" id="bLog"></span></button>
+    <button class="tab" data-tab="anh" onclick="showTab('anh')"><span class="ico">🖼</span>Ảnh chụp<span class="sp"></span><span class="badge" id="bAnh"></span></button>
+    <button class="tab" data-tab="caidat" onclick="showTab('caidat')"><span class="ico">⚙</span>Cài đặt</button>
+  </div>
+  <div class="side-foot">
+    <div class="stat"><span class="dot" id="gpmDot"></span><span id="gpmPill">GPM Login: …</span></div>
+    <div class="stat"><span class="dot" id="jobDot"></span><span id="jobPill">Rảnh</span></div>
+    <div class="stat"><span class="dot" id="autoDot"></span><span id="autoPill">Tự động: …</span></div>
+    <button id="btnSheet" onclick="openSheet()" style="margin-top:4px">Mở Google Sheet ↗</button>
+  </div>
+</nav>
 
 <main>
-  <section>
+  <!-- ===== Lịch đăng ===== -->
+  <section class="panel" id="p-lich">
+    <h1>Lịch đăng <span class="sub">tab <span id="tabName">…</span> của Sheet</span><span class="sp"></span>
+      <button class="small" onclick="openSheet()">Mở Google Sheet ↗</button>
+      <button class="small" onclick="loadSheet()">↻ Tải lại</button></h1>
     <div class="card">
-      <h2>Profile GPM <span class="sp"></span><button class="small" onclick="loadProfiles()">↻</button></h2>
-      <div id="profiles" class="muted">Đang tải…</div>
-      <div class="muted" style="font-size:12px;margin-top:6px">Mỗi profile gắn với 1 fanpage theo tab <b>Pages</b> của Sheet (cột Profile GPM).</div>
-    </div>
-
-    <div class="card" id="settings" style="display:none">
-      <h2>Cài đặt</h2>
-      <label class="f">Link Google Sheet <input type="text" id="cfgSheet"></label><br>
-      <label class="f">URL webhook Apps Script (…/exec) <input type="text" id="cfgHook" placeholder="để trống nếu chưa cài"></label><br>
-      <label class="f">Profile mặc định (id hoặc tên) <input type="text" id="cfgProfile"></label><br>
-      <div class="row"><label class="f">Tab hàng đợi <input type="text" id="cfgTab"></label><label class="f">Tab Pages <input type="text" id="cfgPagesTab"></label></div>
-      <div class="actions"><button class="primary" onclick="saveConfig()">Lưu</button></div>
-    </div>
-  </section>
-
-  <section>
-    <div class="card">
-      <h2>Lịch đăng (tab <span id="tabName">…</span>) <span class="sp"></span>
-        <button class="small" onclick="openSheet()">Mở Google Sheet ↗</button>
-        <button class="small" onclick="loadSheet()">↻</button></h2>
       <div id="sheetErr" class="warn" style="display:none"></div>
       <div id="sheetStruct" class="warn" style="display:none"></div>
       <table id="queue"><thead><tr><th>Hàng</th><th>Thời gian</th><th>Page</th><th>Profile</th><th>Tiêu đề</th><th>Trạng thái</th><th>Kế hoạch</th></tr></thead><tbody></tbody></table>
-      <div class="actions" style="margin-top:10px">
+      <div class="actions" style="margin-top:12px">
         <button class="primary" onclick="runReal(false)">▶ Bắt đầu đăng các bài chờ</button>
         <button onclick="run('plan')">Xem kế hoạch</button>
         <button onclick="run('dry')">Chạy thử (không đăng)</button>
         <button onclick="runReal(true)" title="Đăng lại cả những hàng đang ghi Lỗi">Đăng lại hàng lỗi</button>
-        <label class="f" style="flex-direction:row;align-items:center;gap:6px">Chỉ hàng <input type="text" id="rows" placeholder="vd 2,5" style="width:90px"></label>
-        <label class="f" style="flex-direction:row;align-items:center;gap:6px">Tối đa <input type="number" id="max" min="0" style="width:70px" placeholder="tất cả"></label>
+        <label class="f" style="flex-direction:row;align-items:center;gap:6px;margin:0">Chỉ hàng <input type="text" id="rows" placeholder="vd 2,5" style="width:90px"></label>
+        <label class="f" style="flex-direction:row;align-items:center;gap:6px;margin:0">Tối đa <input type="number" id="max" min="0" style="width:70px" placeholder="tất cả"></label>
       </div>
-      <div class="muted" style="font-size:12px;margin-top:8px">Trạng thái trống hoặc <b>Chờ đăng</b> = sẽ đăng · <b>bỏ qua</b> = không đăng · <b>Đã lên lịch / Đã đăng</b> = xong · <b>Lỗi</b> = chỉ đăng lại khi bấm "Đăng lại hàng lỗi".</div>
+      <div class="muted" style="font-size:12px;margin-top:8px">Trạng thái trống hoặc <b>Chờ đăng</b> = sẽ đăng · <b>bỏ qua</b> = không đăng · <b>Đã lên lịch / Đã đăng</b> = xong · <b>Lỗi</b> = chỉ đăng lại khi bấm "Đăng lại hàng lỗi". Cách đăng (lên lịch trên Facebook / tới giờ mới đăng) chọn ở khung <b>Tự động kiểm tra Sheet</b> bên dưới.</div>
     </div>
 
     <div class="card">
-      <h2>Tự động kiểm tra Sheet <span class="sp"></span><span id="autoPill" class="pill">…</span></h2>
+      <h2>Tự động kiểm tra Sheet <span class="sp"></span><span id="autoPill2" class="pill">…</span></h2>
       <div class="row">
-        <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="autoOn" onchange="setAuto()"> Bật: cứ mỗi
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;flex-wrap:wrap"><input type="checkbox" id="autoOn" onchange="setAuto()"> Bật: cứ mỗi
           <input type="number" id="autoMin" min="1" max="1440" style="width:60px" onchange="setAuto()"> phút kiểm tra Sheet, có bài <b>Chờ đăng</b> thì tự đăng</label>
+      </div>
+      <div class="row" style="margin-top:8px;gap:14px">
+        <span class="muted" style="font-size:13px">Cách đăng:</span>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="radio" name="postMode" value="schedule" onchange="setAuto()"> Lên lịch trên Facebook <span class="muted" style="font-size:12px">(đưa lên ngay, Facebook tự phát đúng giờ)</span></label>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="radio" name="postMode" value="due" onchange="setAuto()"> Tới giờ mới đăng <span class="muted" style="font-size:12px">(chờ đúng ngày giờ trong Sheet rồi bấm "Chia sẻ ngay"; máy + GPM phải đang bật)</span></label>
       </div>
       <div id="autoInfo" class="muted" style="font-size:12px;margin-top:6px">—</div>
     </div>
+  </section>
 
+  <!-- ===== Profile GPM ===== -->
+  <section class="panel" id="p-profile">
+    <h1>Profile GPM <span class="sub">mỗi profile gắn với 1 fanpage theo tab <b>Pages</b> của Sheet (cột Profile GPM)</span><span class="sp"></span>
+      <button class="small" onclick="loadProfiles()">↻ Tải lại</button></h1>
+    <div id="profiles" class="grid2 muted">Đang tải…</div>
+  </section>
+
+  <!-- ===== Đang chạy & Log ===== -->
+  <section class="panel" id="p-log">
+    <h1>Đang chạy &amp; Log <span class="sub" id="jobLabel">—</span><span class="sp"></span>
+      <button class="small danger" id="btnStop" onclick="stopJob()" style="display:none">■ Dừng</button></h1>
     <div class="card">
-      <h2>Đang chạy: <span id="jobLabel" class="muted">—</span> <span class="sp"></span>
-        <button class="small danger" id="btnStop" onclick="stopJob()" style="display:none">Dừng</button></h2>
       <pre class="log" id="log">(chưa chạy gì)</pre>
     </div>
+  </section>
 
+  <!-- ===== Ảnh chụp ===== -->
+  <section class="panel" id="p-anh">
+    <h1>Ảnh chụp gần nhất <span class="sub">màn hình Business Suite ở các bước đăng (thư mục <code>logs/</code>)</span><span class="sp"></span>
+      <button class="small" onclick="loadScreens()">↻ Tải lại</button></h1>
+    <div class="card"><div id="shots" class="shots"></div></div>
+  </section>
+
+  <!-- ===== Cài đặt ===== -->
+  <section class="panel" id="p-caidat">
+    <h1>Cài đặt <span class="sub">lưu vào <code>config.json</code> trên máy này</span></h1>
     <div class="card">
-      <h2>Ảnh chụp gần nhất <span class="sp"></span><button class="small" onclick="loadScreens()">↻</button></h2>
-      <div id="shots" class="shots"></div>
+      <label class="f">Link Google Sheet <input type="text" id="cfgSheet"></label>
+      <label class="f">URL webhook Apps Script (…/exec) <input type="text" id="cfgHook" placeholder="để trống nếu chưa cài"></label>
+      <label class="f">Profile mặc định (id hoặc tên) <input type="text" id="cfgProfile"></label>
+      <div class="row"><label class="f">Tab hàng đợi <input type="text" id="cfgTab" style="width:200px"></label><label class="f">Tab Pages <input type="text" id="cfgPagesTab" style="width:200px"></label></div>
+      <div class="actions"><button class="primary" onclick="saveConfig()">Lưu</button><span id="cfgSaved" class="muted" style="align-self:center;font-size:12px"></span></div>
+    </div>
+    <div class="card">
+      <h2>Phần mềm</h2>
+      <p class="muted" style="margin:0 0 10px;font-size:13px">Tắt server chạy ngầm ở khay hệ thống. Bài đã lên lịch trên Facebook không bị ảnh hưởng; mở lại bằng icon <b>GPMReels</b> ngoài Desktop.</p>
+      <button class="danger" onclick="shutdown()">Tắt phần mềm</button>
     </div>
   </section>
 </main>
@@ -132,6 +198,19 @@ const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;
 async function api(path, opt) { const r = await fetch(path, opt); if (!r.ok) { let t = await r.text(); try { t = JSON.parse(t).detail || t; } catch {} throw new Error(t); } return r.json(); }
 const post = (path, body) => api(path, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body || {})});
 
+// ---------- tab dọc ----------
+const TABS = ['lich', 'profile', 'log', 'anh', 'caidat'];
+function showTab(name) {
+  if (!TABS.includes(name)) name = 'lich';
+  document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'p-' + name));
+  try { localStorage.setItem('gpmreels.tab', name); } catch {}
+  if (location.hash !== '#' + name) history.replaceState(null, '', '#' + name);
+  if (name === 'anh') loadScreens();
+}
+window.addEventListener('hashchange', () => showTab(location.hash.slice(1)));
+
+// ---------- cấu hình ----------
 async function loadConfig() {
   CFG = await api('/api/config');
   $('#cfgSheet').value = CFG.sheet_url || ''; $('#cfgHook').value = CFG.webhook || '';
@@ -140,18 +219,22 @@ async function loadConfig() {
 async function saveConfig() {
   CFG = await post('/api/config', {sheet_url: $('#cfgSheet').value.trim(), webhook: $('#cfgHook').value.trim(),
     default_profile: $('#cfgProfile').value.trim(), tab: $('#cfgTab').value.trim(), pages_tab: $('#cfgPagesTab').value.trim()});
-  toggleSettings(); loadSheet(); loadProfiles();
+  $('#cfgSaved').textContent = 'Đã lưu ' + new Date().toLocaleTimeString('vi'); setTimeout(() => $('#cfgSaved').textContent = '', 4000);
+  loadSheet(); loadProfiles();
 }
-function toggleSettings() { const s = $('#settings'); s.style.display = s.style.display === 'none' ? '' : 'none'; }
 function openSheet() { if (CFG.sheet_url) window.open(CFG.sheet_url, '_blank'); }
 
+// ---------- profile ----------
 async function loadProfiles() {
   try {
     const d = await api('/api/profiles');
-    $('#gpmPill').textContent = d.gpm_ok ? 'GPM Login: đang chạy' : 'GPM Login: KHÔNG kết nối được (mở GPM Login)';
-    $('#gpmPill').className = 'pill ' + (d.gpm_ok ? 'ok' : 'bad');
+    $('#gpmPill').textContent = d.gpm_ok ? 'GPM Login: đang chạy' : 'GPM Login: KHÔNG kết nối được';
+    $('#gpmPill').title = d.gpm_ok ? '' : 'Mở GPM Login rồi bấm Tải lại';
+    $('#gpmDot').className = 'dot ' + (d.gpm_ok ? 'ok' : 'bad');
     const box = $('#profiles'); box.innerHTML = '';
-    if (!d.profiles.length) { box.textContent = 'Không có profile nào.'; return; }
+    const nOpen = d.profiles.filter(p => p.status !== 'closed').length;
+    $('#bProfile').textContent = d.profiles.length ? `${nOpen}/${d.profiles.length}` : ''; $('#bProfile').className = 'badge' + (nOpen ? ' ok' : '');
+    if (!d.profiles.length) { box.textContent = d.gpm_ok ? 'Không có profile nào.' : 'GPM Login chưa chạy — mở GPM Login rồi bấm Tải lại.'; return; }
     for (const p of d.profiles) {
       const st = {controlled:'đang mở (điều khiển được)', manual:'đang mở tay (script sẽ mở lại)', closed:'đang đóng'}[p.status];
       const pages = p.pages.length ? p.pages.map((pg, i) => `<div class="page"><span class="src">${i === 0 ? 'Fanpage mặc định' : 'Fanpage'}</span><span>${esc(pg.name)}</span><span class="sp" style="flex:1"></span>
@@ -173,6 +256,7 @@ async function startProfile(id, url) { try { await post(`/api/profiles/${id}/sta
 async function stopProfile(id) { try { await post(`/api/profiles/${id}/stop`); } catch (e) { alert(e.message); } loadProfiles(); }
 async function openPage(id, asset) { await startProfile(id, `https://business.facebook.com/latest/home/?asset_id=${asset}`); }
 
+// ---------- lịch đăng ----------
 async function loadSheet() {
   const d = await api('/api/sheet'); SHEET = d;
   $('#tabName').textContent = CFG.tab || '';
@@ -181,10 +265,14 @@ async function loadSheet() {
   const tb = $('#queue tbody'); tb.innerHTML = '';
   for (const r of (d.rows || [])) {
     const st = r.status ? `<span class="st ${/^l[ỗo]i/i.test(r.status)?'err':''}">${esc(r.status)}</span>` : '';
-    const plan = r.will ? '<span class="st will">sẽ đăng</span>' : `<span class="muted">${esc(r.reason)}</span>`;
-    tb.insertAdjacentHTML('beforeend', `<tr class="${r.will?'':'skip'}"><td>${r.row}</td><td>${esc(r.when)}</td><td>${esc(r.page||'(mặc định)')}</td><td>${esc(r.profile||'(mặc định)')}</td><td>${esc((r.title||'(lấy từ kịch bản Drive)').slice(0,60))}</td><td>${st}</td><td>${plan}</td></tr>`);
+    const plan = r.will ? `<span class="st will">${r.due ? 'tới giờ → đăng ngay' : 'sẽ đăng'}</span>`
+               : r.waiting ? '<span class="st wait">chưa tới giờ</span>'
+               : `<span class="muted">${esc(r.reason)}</span>`;
+    tb.insertAdjacentHTML('beforeend', `<tr class="${(r.will||r.waiting)?'':'skip'}"><td>${r.row}</td><td>${esc(r.when)}</td><td>${esc(r.page||'(mặc định)')}</td><td>${esc(r.profile||'(mặc định)')}</td><td>${esc((r.title||'(lấy từ kịch bản Drive)').slice(0,60))}</td><td>${st}</td><td>${plan}</td></tr>`);
   }
   if (!(d.rows||[]).length) tb.innerHTML = '<tr><td colspan="7" class="muted">Không có hàng nào</td></tr>';
+  const n = (d.rows || []).filter(r => r.will).length;
+  $('#bLich').textContent = n ? String(n) : ''; $('#bLich').className = 'badge' + (n ? ' ok' : '');
   const st = $('#sheetStruct');
   const tabs = Object.keys(d.tabs || {});
   if (d.ok && tabs.length && (!tabs.includes(CFG.tab) || !tabs.includes(CFG.pages_tab))) {
@@ -198,7 +286,7 @@ async function run(mode, profile, retry) {
   const body = {mode, retry: !!retry};
   if (mode !== 'scan') { body.rows = $('#rows').value.trim() || null; const m = parseInt($('#max').value); if (m > 0) body.max = m; }
   else body.profile = profile || 'all';
-  try { const d = await post('/api/run', body); watch(d.job); } catch (e) { alert(e.message); }
+  try { const d = await post('/api/run', body); showTab('log'); watch(d.job); } catch (e) { alert(e.message); }
 }
 function runReal(retry) {
   const rows = (SHEET && SHEET.rows) || [];
@@ -209,35 +297,52 @@ function runReal(retry) {
     if (confirm(`Sẽ ĐĂNG THẬT ${n} bài chờ + đăng lại ${nErr} hàng lỗi. Tiếp tục?`)) run('real', null, true);
     return;
   }
-  if (!n) { alert('Không có hàng nào chờ đăng (xem cột Kế hoạch).'); return; }
-  if (confirm(`Sẽ ĐĂNG / LÊN LỊCH THẬT ${n} bài chờ theo Sheet. Tiếp tục?`)) run('real');
+  const due = (SHEET && SHEET.mode) === 'due';
+  const nWait = rows.filter(r => r.waiting).length;
+  if (!n) {
+    alert(due && nWait ? `Chưa có bài nào tới giờ (${nWait} bài đang chờ tới giờ, gần nhất ${SHEET.next_due || '?'}). Bật "Tự động kiểm tra Sheet" để phần mềm tự đăng đúng giờ.`
+                       : 'Không có hàng nào chờ đăng (xem cột Kế hoạch).');
+    return;
+  }
+  if (confirm(due ? `Sẽ ĐĂNG NGAY ${n} bài đã tới giờ theo Sheet${nWait ? ` (${nWait} bài khác chưa tới giờ, để lại)` : ''}. Tiếp tục?`
+                  : `Sẽ ĐƯA LÊN LỊCH FACEBOOK ${n} bài chờ theo Sheet. Tiếp tục?`)) run('real');
 }
+
+// ---------- tự động ----------
 async function loadAuto() {
   try {
     const d = await api('/api/auto');
     $('#autoOn').checked = d.enabled; if (document.activeElement !== $('#autoMin')) $('#autoMin').value = d.interval;
-    $('#autoPill').textContent = d.enabled ? `ĐANG BẬT · mỗi ${d.interval} phút` : 'đang tắt';
-    $('#autoPill').className = 'pill ' + (d.enabled ? 'ok' : '');
+    const rb = document.querySelector(`input[name=postMode][value="${d.mode}"]`); if (rb) rb.checked = true;
+    const txt = (d.enabled ? `ĐANG BẬT · mỗi ${d.interval} phút` : 'đang tắt') + (d.mode === 'due' ? ' · tới giờ mới đăng' : ' · lên lịch trên FB');
+    $('#autoPill2').textContent = txt; $('#autoPill2').className = 'pill ' + (d.enabled ? 'ok' : '');
+    $('#autoPill').textContent = 'Tự động: ' + txt; $('#autoDot').className = 'dot ' + (d.enabled ? 'ok' : '');
     $('#autoInfo').textContent = (d.last ? `Lần kiểm tra gần nhất ${d.last}: ${d.result}` : 'Chưa kiểm tra lần nào') + (d.next && d.enabled ? ` · lần tới ${d.next}` : '');
     if (d.job && !JOB) { const j = await api(`/api/jobs/${d.job}`); if (j.running) watch(d.job); }
   } catch (e) {}
 }
 async function setAuto() {
   const m = parseInt($('#autoMin').value) || 5;
-  await post('/api/auto', {enabled: $('#autoOn').checked, interval: m});
+  const mode = (document.querySelector('input[name=postMode]:checked') || {}).value || 'schedule';
+  const changed = SHEET && SHEET.mode && SHEET.mode !== mode;
+  await post('/api/auto', {enabled: $('#autoOn').checked, interval: m, mode});
   loadAuto();
+  if (changed) loadSheet();          // cột Kế hoạch đổi theo cách đăng
 }
+
+// ---------- job / log ----------
 function watch(jid) {
   JOB = jid; clearInterval(jobTimer);
   const tick = async () => {
     try {
       const d = await api(`/api/jobs/${jid}`);
       $('#jobLabel').textContent = d.label + (d.running ? ' – đang chạy…' : d.code === 0 ? ' – xong' : ` – kết thúc (mã ${d.code})`);
-      $('#jobPill').textContent = d.running ? 'Đang chạy: ' + d.label : 'Rảnh'; $('#jobPill').className = 'pill ' + (d.running ? 'ok' : '');
+      $('#jobPill').textContent = d.running ? 'Đang chạy: ' + d.label : 'Rảnh'; $('#jobDot').className = 'dot ' + (d.running ? 'run' : '');
+      $('#bLog').textContent = d.running ? '●' : ''; $('#bLog').className = 'badge run';
       $('#btnStop').style.display = d.running ? '' : 'none';
       const log = $('#log'); const atEnd = log.scrollTop + log.clientHeight >= log.scrollHeight - 20;
       log.textContent = d.log || '(chưa có log)'; if (atEnd) log.scrollTop = log.scrollHeight;
-      if (!d.running) { clearInterval(jobTimer); loadSheet(); loadProfiles(); loadScreens(); }
+      if (!d.running) { clearInterval(jobTimer); JOB = null; loadSheet(); loadProfiles(); loadScreens(); }
     } catch (e) { clearInterval(jobTimer); }
   };
   tick(); jobTimer = setInterval(tick, 2000);
@@ -249,15 +354,21 @@ async function shutdown() {
     'Tắt phần mềm (server chạy ngầm)? Các bài đã lên lịch trên Facebook vẫn tự đăng bình thường.\nMở lại bằng icon "GPMReels" ngoài Desktop.';
   if (!confirm(msg)) return;
   try { await post('/api/shutdown'); } catch (e) {}
-  document.body.innerHTML = '<div style="padding:60px;text-align:center;font:16px Segoe UI,sans-serif;color:#1d2433"><h2>Đã tắt phần mềm</h2><p>Có thể đóng tab này. Mở lại bằng icon <b>GPMReels</b> ngoài Desktop.</p></div>';
+  document.body.innerHTML = '<div style="padding:60px;text-align:center;font:16px Segoe UI,sans-serif;color:#1d2433;width:100%"><h2>Đã tắt phần mềm</h2><p>Có thể đóng tab này. Mở lại bằng icon <b>GPMReels</b> ngoài Desktop.</p></div>';
 }
 async function loadScreens() {
   const d = await api('/api/screens');
+  $('#bAnh').textContent = d.length ? String(d.length) : '';
   $('#shots').innerHTML = d.map(s => `<a href="/logs/${encodeURIComponent(s.name)}" target="_blank"><img src="/logs/${encodeURIComponent(s.name)}" loading="lazy"><span>${esc(s.time)} ${esc(s.name.replace(/^\d{8}_\d{6}_/,''))}</span></a>`).join('') || '<span class="muted">chưa có</span>';
 }
 async function resumeJobs() { const jobs = await api('/api/jobs'); const r = jobs.find(j => j.running); if (r) watch(r.job); }
 
-(async () => { await loadConfig(); loadProfiles(); loadSheet(); loadScreens(); loadAuto(); resumeJobs(); setInterval(loadProfiles, 20000); setInterval(loadAuto, 10000); })();
+(async () => {
+  let tab = location.hash.slice(1); try { tab = tab || localStorage.getItem('gpmreels.tab') || 'lich'; } catch {}
+  showTab(tab);
+  await loadConfig(); loadProfiles(); loadSheet(); loadScreens(); loadAuto(); resumeJobs();
+  setInterval(loadProfiles, 20000); setInterval(loadAuto, 10000);
+})();
 </script>
 </body>
 </html>

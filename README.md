@@ -9,11 +9,12 @@ thao tác trong Meta Business Suite y như người thật: Tạo thước phim 
 
 ## Giao diện web (khuyên dùng)
 Bấm đúp icon **GPMReels** ngoài Desktop (= `pythonw tray.py`): phần mềm chạy **ở khay hệ thống** cạnh đồng hồ như Unikey, không có cửa sổ đen. Bấm đúp icon ở khay → cửa sổ nhỏ (nút *Mở giao diện web*, *Mở Google Sheet*, *Ẩn*, *Thoát hẳn*); bấm **X** chỉ ẩn xuống khay; chuột phải icon khay → **Thoát hẳn** mới tắt. Bấm icon Desktop lần nữa khi đang chạy chỉ mở lại giao diện web. (Cách cũ có cửa sổ đen: `start_ui.bat`.)
-Giao diện web tại `http://127.0.0.1:8765` gồm:
-- **Profile GPM**: mỗi profile một thẻ, chấm xanh = đang mở và điều khiển được, vàng = mở tay, xám = đóng; **fanpage mặc định** của profile lấy từ tab Pages (cột Profile GPM — mỗi profile 1 fanpage); nút **Mở Chrome / Mở Business Suite / Đóng Chrome**, nút **Mở ↗** để mở đúng trang đó trong profile.
-- **Lịch đăng**: bảng hàng đợi đọc từ Sheet với cột *Kế hoạch* (sẽ đăng / vì sao bỏ qua); nút **Xem kế hoạch**, **Chạy thử**, **Đăng / lên lịch theo Sheet** (có hỏi xác nhận), lọc theo hàng / số bài tối đa.
-- **Log** chạy trực tiếp, nút Dừng; **Google Sheet nhúng** ngay trong trang (sửa được nếu trình duyệt đã đăng nhập Google); **ảnh chụp** các lần chạy.
-- **Cài đặt**: link Sheet, URL webhook, profile mặc định, tên tab → lưu vào `config.json` (không đưa lên git).
+Giao diện web tại `http://127.0.0.1:8765`: **menu dọc bên trái** (5 tab), nội dung tab đang chọn hiện bên phải; tab đang mở được nhớ lại (và có trên URL: `#lich`, `#profile`, `#log`, `#anh`, `#caidat`). Cuối menu là trạng thái GPM Login / việc đang chạy / tự động kiểm tra và nút *Mở Google Sheet*.
+- **Lịch đăng** (badge = số bài chờ): bảng hàng đợi đọc từ Sheet với cột *Kế hoạch* (sẽ đăng / vì sao bỏ qua); nút **Bắt đầu đăng các bài chờ** (có hỏi xác nhận), **Xem kế hoạch**, **Chạy thử**, **Đăng lại hàng lỗi**, lọc theo hàng / số bài tối đa; khung **Tự động kiểm tra Sheet**.
+- **Profile GPM** (badge = số profile đang mở / tổng): mỗi profile một thẻ, chấm xanh = đang mở và điều khiển được, vàng = mở tay, xám = đóng; **fanpage mặc định** của profile lấy từ tab Pages (cột Profile GPM — mỗi profile 1 fanpage); nút **Mở Chrome / Mở Business Suite / Đóng Chrome**, nút **Mở ↗** để mở đúng trang đó trong profile.
+- **Đang chạy & Log**: log chạy trực tiếp, nút Dừng; bấm bất kỳ nút chạy nào ở tab Lịch đăng sẽ tự chuyển sang tab này.
+- **Ảnh chụp**: ảnh màn hình các bước đăng trong `logs/`.
+- **Cài đặt**: link Sheet, URL webhook, profile mặc định, tên tab → lưu vào `config.json` (không đưa lên git); nút **Tắt phần mềm**.
 Điều kiện: GPM Login đang chạy. Các nút chỉ gọi lại đúng các script dòng lệnh bên dưới (log ở `logs/ui_*.log`).
 
 ## Dùng dòng lệnh
@@ -59,7 +60,10 @@ python post_sheet.py --scan-pages                     # mở từng profile, dò
 python post_sheet.py --scan-pages 002 --webhook URL   # chỉ profile 002, và ghi thẳng vào tab Pages (thêm mới / cập nhật theo asset_id)
 ```
 - **Trạng thái**: trống hoặc `Chờ đăng` = sẽ đăng; bạn ghi tay `bỏ qua` để không đăng. Script ghi: `Đang đăng` → `Đã lên lịch` / `Đã đăng` / `Lỗi` (kèm lý do ở Ghi chú) / `Chạy thử OK` (dry-run). Hàng `Đã …` và `bỏ qua` không bao giờ đăng lại; hàng `Lỗi` chỉ đăng lại khi bấm **Đăng lại hàng lỗi** (hoặc `--retry-errors`); hàng `Đang đăng` (lần trước bị ngắt) sẽ được làm lại.
-- **Tự động kiểm tra**: bật checkbox *Tự động kiểm tra Sheet* (trên cửa sổ GPMReels hoặc trang web), đặt số phút (mặc định 5). Đến kỳ, phần mềm đọc Sheet; có bài `Chờ đăng` (và GPM Login đang bật, không có việc khác đang chạy) thì tự chạy đăng; kết quả mỗi lần kiểm tra hiện ngay dưới checkbox. Hàng lỗi không bị thử lại vô hạn — chỉ đăng lại khi bạn bấm *Đăng lại hàng lỗi*.
+- **Cách đăng** (2 ô chọn trên cửa sổ GPMReels, ngay dưới ô *Tự động kiểm tra*; khung *Tự động kiểm tra Sheet* trên web cũng có):
+  - *Lên lịch trên Facebook* (mặc định, `--mode schedule`): khi tới lượt, bài được đưa lên Facebook ngay và chọn **Lên lịch** đúng ngày giờ trong Sheet → Facebook tự phát; tắt máy vẫn đăng. Giờ đã qua → bỏ qua ("thời gian … đã qua").
+  - *Tới giờ mới đăng* (`--mode due`): phần mềm giữ bài lại (*Kế hoạch*: "chưa tới giờ"), tới đúng ngày giờ trong Sheet mới mở trình soạn và bấm **Chia sẻ ngay** → trạng thái `Đã đăng`, Ghi chú kèm "lịch Sheet …" (và "trễ N phút" nếu đăng muộn). Máy + GPM Login phải đang bật lúc đó; bài lên sau giờ ghi vài phút (thời gian tải video). Giờ đã qua mà chưa đăng → đăng ngay ở lần kiểm tra kế tiếp.
+- **Tự động kiểm tra**: bật checkbox *Tự động kiểm tra Sheet* (trên cửa sổ GPMReels hoặc trang web), đặt số phút (mặc định 5). Đến kỳ, phần mềm đọc Sheet; có bài `Chờ đăng` (và GPM Login đang bật, không có việc khác đang chạy) thì tự chạy đăng; kết quả mỗi lần kiểm tra hiện ngay dưới checkbox. Ở chế độ *Tới giờ mới đăng*, vòng kiểm tra còn **thức đúng phút** bài sớm nhất tới giờ, không phải đợi hết chu kỳ. Hàng lỗi không bị thử lại vô hạn — chỉ đăng lại khi bạn bấm *Đăng lại hàng lỗi*.
 - Thư mục Drive mà **Tiêu đề để trống** → lấy dòng `Tiêu đề:` trong file kịch bản `.docx`, rồi nối thêm cột Hashtag.
 - Cột Thời gian nên để định dạng *Văn bản thuần* (hoặc gõ `'08/10/2026 19:00` với dấu `'` đầu ô) để Sheets không tự đổi thành ngày.
 - Hàng đã đăng còn được ghi nhớ trong `logs/sheet_state.json` → chạy lại không đăng trùng kể cả khi chưa có webhook. Mỗi lần chạy xuất `logs/sheet_report_*.csv` (Hàng / Page / Thời gian / Trạng thái / Ghi chú).
@@ -76,7 +80,7 @@ python post_sheet.py --sheet "https://docs.google.com/spreadsheets/d/XXXX/edit" 
 python post_sheet.py --sheet "https://docs.google.com/spreadsheets/d/XXXX/edit" --dry-run     # chạy thử, không bấm nút cuối
 python post_sheet.py --sheet "https://docs.google.com/spreadsheets/d/XXXX/edit"               # đăng/lên lịch tất cả hàng đang chờ
 ```
-Tuỳ chọn thêm: `--max 1` (chỉ 1 bài), `--rows 2,5` (chỉ các hàng này), `--pause 30-90` (nghỉ giữa 2 bài, giây).
+Tuỳ chọn thêm: `--max 1` (chỉ 1 bài), `--rows 2,5` (chỉ các hàng này), `--pause 30-90` (nghỉ giữa 2 bài, giây), `--mode due` (tới giờ mới đăng, xem *Cách đăng* ở trên).
 
 Tuỳ chọn:
 - `--dry-run` : làm đủ các bước, chụp màn hình `logs/..._before_submit.png`, **không** bấm nút cuối.
