@@ -129,12 +129,16 @@
     <div class="card">
       <div id="sheetErr" class="warn" style="display:none"></div>
       <div id="sheetStruct" class="warn" style="display:none"></div>
+      <div id="hookWarn" class="warn" style="display:none"><b>Chưa cài URL webhook</b> → phần mềm không ghi được Trạng thái / Ngày giờ tự xếp vào Google Sheet (chỉ ghi vào <code>logs/</code>).
+        Cài Apps Script theo README rồi dán URL <code>…/exec</code> vào <a href="#caidat" onclick="showTab('caidat');return false">Cài đặt</a>.</div>
+      <div id="assignMsg" class="muted" style="font-size:12px;margin-bottom:8px;display:none"></div>
       <table id="queue"><thead><tr><th>Hàng</th><th>Thời gian</th><th>Page</th><th>Profile</th><th>Tiêu đề</th><th>Trạng thái</th><th>Kế hoạch</th></tr></thead><tbody></tbody></table>
       <div class="actions" style="margin-top:12px">
         <button class="primary" onclick="runReal(false)">▶ Bắt đầu đăng các bài chờ</button>
         <button onclick="run('plan')">Xem kế hoạch</button>
         <button onclick="run('dry')">Chạy thử (không đăng)</button>
         <button onclick="runReal(true)" title="Đăng lại cả những hàng đang ghi Lỗi">Đăng lại hàng lỗi</button>
+        <button onclick="assignSlots()" title="Xếp các hàng chưa có ngày/giờ vào khung giờ trống tính từ lúc bấm, rồi ghi Ngày/Giờ vào Sheet ngay">📌 Xếp lịch vào Sheet</button>
         <label class="f" style="flex-direction:row;align-items:center;gap:6px;margin:0">Chỉ hàng <input type="text" id="rows" placeholder="vd 2,5" style="width:90px"></label>
         <label class="f" style="flex-direction:row;align-items:center;gap:6px;margin:0">Tối đa <input type="number" id="max" min="0" style="width:70px" placeholder="tất cả"></label>
       </div>
@@ -361,14 +365,15 @@ async function checkGpm() {
   const box = $('#gpmCheck'); box.style.display = ''; box.innerHTML = '<span class="muted">Đang kiểm tra (thử kết nối proxy từng profile, tối đa ~6 giây mỗi proxy)…</span>';
   try {
     const d = await api('/api/gpm_check');
-    const rows = d.profiles.map(p => `<tr><td>${esc(p.name)}</td><td>${esc(p.browser)}</td><td>${esc(p.proxy || '(không có)')}</td>
+    const rows = d.profiles.map(p => `<tr><td>${esc(p.name)}</td><td>${esc(p.browser)} ${p.core_ok == null ? '' : p.core_ok ? '<span class="st will">GPM hỗ trợ</span>' : '<span class="st err">GPM KHÔNG hỗ trợ</span>'}</td><td>${esc(p.proxy || '(không có)')}</td>
       <td>${p.proxy_ok === null ? '<span class="muted">—</span>' : p.proxy_ok ? `<span class="st will">kết nối được · ${p.proxy_ms} ms</span>` : `<span class="st err">KHÔNG kết nối được</span> <span class="muted">${esc(p.proxy_err)}</span>`}</td></tr>`).join('');
-    const inst = d.install && d.install.exe ? `<div style="margin-top:8px">Thư mục cài: <code>${esc(d.install.exe.replace(/\\[^\\]+$/, ''))}</code> · dữ liệu vân tay: ${d.install.fonts_map_ok ? '<span class="st will">đủ</span>' : `<span class="st err">THIẾU</span> <span class="muted">${esc(d.install.fonts_map)}</span>`}</div>` : '<div class="muted" style="margin-top:8px">Không thấy tiến trình GPMLoginGlobal đang chạy.</div>';
+    const inst = d.install && d.install.exe ? `<div style="margin-top:8px">Thư mục cài: <code>${esc(d.install.exe.replace(/\\[^\\]+$/, ''))}</code> · file font vân tay: ${d.install.fonts_map_ok ? 'có' : 'thiếu'} <span class="muted">(không chặn mở profile)</span></div>` : '<div class="muted" style="margin-top:8px">Không thấy tiến trình GPMLoginGlobal đang chạy.</div>';
+    const cores = (d.cores && d.cores.chrome && d.cores.chrome.length) ? `<div class="muted" style="margin-top:8px">Nhân Chrome bản GPM này hỗ trợ: ${esc(d.cores.chrome.join(', '))}${d.skipped_update ? ` · bản GPM mới đã bị bấm bỏ qua: <b>${esc(d.skipped_update)}</b>` : ''}</div>` : '';
     const logs = d.log_errors.length ? `<details style="margin-top:8px"><summary class="muted" style="cursor:pointer">Lỗi mới trong log GPM (${d.log_errors.length})</summary><pre class="log" style="height:auto;max-height:180px;margin-top:6px">${esc(d.log_errors.join('\n'))}</pre></details>` : '';
     box.innerHTML = `<h2>Kết quả kiểm tra GPM <span class="sp"></span><span class="pill ${d.api_ok ? 'ok' : 'bad'}">${d.api_ok ? esc(d.version) : 'API không kết nối được'}</span></h2>
       ${d.advice.map(a => `<div class="warn">${esc(a)}</div>`).join('')}
-      <table><thead><tr><th>Profile</th><th>Trình duyệt</th><th>Proxy</th><th>Kết nối proxy (từ máy này)</th></tr></thead><tbody>${rows || '<tr><td colspan="4" class="muted">không có profile</td></tr>'}</tbody></table>
-      ${inst}${logs}
+      <table><thead><tr><th>Profile</th><th>Nhân trình duyệt</th><th>Proxy</th><th>Kết nối proxy (từ máy này)</th></tr></thead><tbody>${rows || '<tr><td colspan="4" class="muted">không có profile</td></tr>'}</tbody></table>
+      ${cores}${inst}${logs}
       <div class="muted" style="font-size:12px;margin-top:8px">Phần mềm chỉ đọc để chẩn đoán, không sửa gì trong GPM Login; các việc ghi ở khung vàng bạn làm trong GPM.</div>`;
   } catch (e) { box.innerHTML = `<div class="warn">Không kiểm tra được: ${esc(e.message)}</div>`; }
 }
@@ -391,6 +396,7 @@ async function loadSheet() {
     tb.insertAdjacentHTML('beforeend', `<tr class="${(r.will||r.waiting)?'':'skip'}"><td>${r.row}</td><td>${esc(r.when)}${r.auto ? ' <span class="st" title="Sheet không ghi ngày giờ – phần mềm tự xếp theo khung giờ của page (tab Giờ đăng)">tự xếp</span>' : ''}</td><td>${esc(r.page||'(mặc định)')}</td><td>${esc(r.profile||'(mặc định)')}</td><td>${esc((r.title||'(lấy từ kịch bản Drive)').slice(0,60))}</td><td>${st}</td><td>${plan}</td></tr>`);
   }
   if (!(d.rows||[]).length) tb.innerHTML = '<tr><td colspan="7" class="muted">Không có hàng nào</td></tr>';
+  $('#hookWarn').style.display = CFG.webhook ? 'none' : '';
   const n = (d.rows || []).filter(r => r.will).length;
   $('#bLich').textContent = n ? String(n) : ''; $('#bLich').className = 'badge' + (n ? ' ok' : '');
   const st = $('#sheetStruct');
@@ -400,6 +406,27 @@ async function loadSheet() {
     st.innerHTML = `Sheet hiện có tab: <b>${esc(tabs.join(', '))}</b> — chưa có cấu trúc 3 tab (<b>${esc(CFG.tab)}</b> / <b>${esc(CFG.pages_tab)}</b> / Đã đăng). `
       + `Mở Sheet → Tiện ích mở rộng → Apps Script → dán <code>sheet_webhook.gs</code> → chạy hàm <b>setupSheet</b> một lần. Trong lúc chờ, script vẫn đọc tab hiện có.`;
   } else st.style.display = 'none';
+}
+
+async function assignSlots() {
+  if (!CFG.webhook) { alert('Chưa có URL webhook Apps Script nên không ghi được vào Sheet. Vào tab Cài đặt dán URL …/exec (xem README, mục Cài Apps Script).'); showTab('caidat'); return; }
+  const rows = (SHEET && SHEET.rows) || [];
+  const only = $('#rows').value.trim();
+  const sel = only ? new Set(only.split(/[,\s]+/).map(Number)) : null;
+  const auto = rows.filter(r => r.auto && (!sel || sel.has(r.row)));
+  if (!auto.length) { alert('Không có hàng nào cần xếp (mọi hàng chờ đã có Ngày + Giờ, hoặc page chưa có khung giờ — xem cột Kế hoạch).'); return; }
+  const now = new Date().toLocaleTimeString('vi', {hour: '2-digit', minute: '2-digit'});
+  if (!confirm(`Xếp ${auto.length} hàng chưa có ngày/giờ vào khung giờ trống tính từ bây giờ (${now}) và GHI Ngày/Giờ vào Sheet:\n`
+             + auto.map(r => `  hàng ${r.row}: ${r.when}`).join('\n') + '\n\nTiếp tục?')) return;
+  const msg = $('#assignMsg'); msg.style.display = ''; msg.textContent = 'Đang ghi vào Sheet…';
+  try {
+    const d = await post('/api/assign', {rows: only || null});
+    const parts = [`${d.at}: đã ghi ${d.written.length} hàng` + (d.written.length ? ' (' + d.written.map(w => `hàng ${w.row} → ${w.when}`).join(', ') + ')' : '')];
+    if (d.failed.length) parts.push(`không ghi được ${d.failed.length} hàng: ` + d.failed.map(f => `hàng ${f.row}`).join(', '));
+    if (d.unassigned.length) parts.push(`chưa xếp được: ` + d.unassigned.map(u => `hàng ${u.row} (${u.reason})`).join('; '));
+    msg.textContent = parts.join(' · ');
+    setTimeout(loadSheet, 2500);          // Sheet export CSV cần vài giây mới thấy ô vừa ghi
+  } catch (e) { msg.textContent = 'Lỗi: ' + e.message; }
 }
 
 async function run(mode, profile, retry) {

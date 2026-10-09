@@ -273,6 +273,36 @@ def api_sheet():
         return {"ok": False, "id": sid, "error": str(e)[:300]}
 
 
+class AssignReq(BaseModel):
+    rows: str | None = None       # "2,5" = chỉ các hàng này
+
+
+@app.post("/api/assign")
+def api_assign(r: AssignReq):
+    """Nút 'Xếp lịch': tự xếp các hàng chưa có ngày/giờ vào khung giờ trống tính từ LÚC BẤM, rồi ghi Ngày/Giờ
+    (và 'Chờ đăng' nếu Trạng thái trống) vào Sheet qua webhook để lịch cố định ngay, không đợi tới lúc đăng."""
+    cfg = load_config()
+    if not cfg.get("webhook"):
+        raise HTTPException(400, "Chưa có URL webhook Apps Script (tab Cài đặt) nên không ghi được vào Sheet. "
+                                 "Cài theo mục 'Cài Apps Script' trong README rồi dán URL …/exec vào Cài đặt.")
+    only = None
+    if r.rows:
+        try:
+            only = {int(x) for x in re.split(r"[,\s]+", r.rows.strip()) if x}
+        except ValueError:
+            raise HTTPException(400, "Ô 'Chỉ hàng' phải là số hàng, vd 2,5")
+    try:
+        prep = compute_plan(cfg)
+    except Exception as e:
+        raise HTTPException(400, f"Không đọc được Sheet: {str(e)[:200]}")
+    written, failed, _ = ps.write_slots(cfg["webhook"], cfg["sheet_url"], cfg["tab"], prep["items"], only)
+    unassigned = [(it["row"], it["auto_fail"]) for it in prep["items"] if it.get("auto_fail") and (not only or it["row"] in only)]
+    return {"ok": True, "at": datetime.now().strftime("%H:%M %d/%m/%Y"),
+            "written": [{"row": rw, "when": wh} for rw, wh in written],
+            "failed": [{"row": rw, "reason": why} for rw, why in failed],
+            "unassigned": [{"row": rw, "reason": why} for rw, why in unassigned]}
+
+
 # ----------------------------------------------------------------- khung giờ đăng mặc định của từng page
 class HoursReq(BaseModel):
     asset: str | None = None          # page (asset_id); None + all=True = áp dụng cho mọi page

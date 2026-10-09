@@ -72,7 +72,7 @@ python post_sheet.py --scan-pages 002 --webhook URL   # chỉ profile 002, và g
 **Khung giờ đăng mặc định & tự xếp giờ** (tab *Giờ đăng* trên web, hoặc cột *Giờ đăng mặc định* của tab Pages ghi `07:00, 10:00, 12:00, 14:00, 18:00`; bộ giờ sửa trên web được ưu tiên, có webhook thì ghi luôn vào Sheet):
 - Hàng **để trống cả Ngày và Giờ** → tự xếp vào các khung giờ trống kế tiếp của page, tính từ hiện tại (chế độ *Lên lịch trên Facebook*: cách hiện tại ít nhất N phút, mặc định 20; chế độ *Tới giờ mới đăng*: đăng đúng khi khung giờ đến). Nhiều hàng trống → lần lượt 14:00, 18:00, 07:00 hôm sau…; khung đã có bài (hàng khác trên Sheet, bài đã đăng/lên lịch) được bỏ qua.
 - Chỉ ghi **Ngày** → khung trống đầu tiên của ngày đó; chỉ ghi **Giờ** → hôm nay (hoặc mai nếu đã qua); ghi đủ → đúng lúc đó.
-- Giờ tự xếp hiện ở cột Thời gian với nhãn *tự xếp* (web / log); khi đăng, Ngày/Giờ đã xếp được ghi vào Sheet qua webhook. Page chưa có khung giờ → hàng trống bị bỏ qua với lý do "page chưa có khung giờ mặc định".
+- Giờ tự xếp hiện ở cột Thời gian với nhãn *tự xếp* (web / log) và **chỉ là dự kiến** — nó tính lại từ hiện tại mỗi lần đọc Sheet. Muốn cố định: bấm **📌 Xếp lịch vào Sheet** (tab Lịch đăng) → phần mềm xếp các hàng chưa có ngày/giờ vào khung trống tính từ **lúc bấm**, ghi Ngày/Giờ (và *Chờ đăng* nếu Trạng thái trống) vào Sheet ngay; từ đó hàng có giờ cố định như tự tay ghi. Ô *Chỉ hàng* giới hạn các hàng được xếp. Không bấm thì Ngày/Giờ chỉ được ghi vào Sheet lúc đăng. Cả hai đều **cần webhook** (thiếu thì tab Lịch đăng có cảnh báo vàng). Page chưa có khung giờ → hàng trống bị bỏ qua với lý do "page chưa có khung giờ mặc định".
 
 **Cài Apps Script (1 lần, ~3 phút)** — dựng 3 tab + webhook ghi ngược + dọn bài cũ:
 1. Mở Sheet → *Tiện ích mở rộng → Apps Script* → dán toàn bộ [sheet_webhook.gs](sheet_webhook.gs) → Lưu.
@@ -97,7 +97,7 @@ Tuỳ chọn:
 ## Script làm gì
 1. Gọi GPM API mở profile `3fcc3942-...` (nếu profile đang mở bằng tay thì tự đóng và mở lại để có cổng debug).
 2. Kết nối Playwright vào trình duyệt đó, mở trình soạn thước phim của fanpage.
-3. Tải video qua nút **Thêm video**; ngay khi bản xem trước bắt đầu chạy, script **bấm nút tạm dừng** (thẻ `<a>` đầu tiên trong nhóm 3 icon đè trên canvas xem trước) rồi đo lại bằng cách chụp canvas — log ghi `đứng yên = True`. Không thấy nút thì dùng dự phòng: đặt tốc độ phát = 0 + tắt tiếng. Tải xong bấm lại cho phát tiếp. Chờ Facebook báo đã nhận đủ file mới đi tiếp.
+3. Tải video qua nút **Thêm video**; ngay khi bản xem trước bắt đầu chạy, script **bấm nút tạm dừng** (thẻ `<a>` đầu tiên trong nhóm 3 icon đè trên canvas xem trước) rồi đo lại bằng cách đọc vài điểm ảnh canvas qua JavaScript (tối đa 2 cú bấm). Không bấm được thì để bản xem trước phát bình thường — script **không can thiệp trình phát** (bản cũ ép tốc độ phát = 0 và chụp canvas liên tục làm trang nhấp nháy suốt lúc tải). Tải xong bấm lại cho phát tiếp. Chờ Facebook báo đã nhận đủ file mới đi tiếp.
 4. Nhập **Mô tả**, bấm **Tiếp** sang **Chỉnh sửa** (chờ Facebook kiểm tra bản quyền với video dài), rồi **Tiếp** sang **Chia sẻ**; đọc stepper để chắc đã chuyển bước, chưa chuyển thì bấm lại.
 5. Chọn **Lên lịch**, nhập ngày (dd/mm/yyyy) + giờ:phút, đọc lại để chắc đúng, rồi bấm **Lên lịch** (hoặc **Chia sẻ** nếu `--now`).
 6. Mở tab mới vào *Nội dung → Đã lên lịch* để **xác nhận bài đã nằm trong danh sách** (trình soạn của Facebook hay treo vòng xoay dù đã thành công).
@@ -107,7 +107,7 @@ Tuỳ chọn:
 ## Khi GPM không mở được profile
 Bấm **🩺 Kiểm tra GPM** ở tab *Profile GPM* (hoặc `python post_sheet.py --check-gpm`): phần mềm chỉ đọc, không sửa gì trong GPM, và báo:
 - **ProxyCheckFailed** / proxy "KHÔNG kết nối được": proxy gắn với profile đã chết hoặc hết hạn → vào GPM → sửa profile → thay / gia hạn proxy hoặc bỏ proxy.
-- **Sequence contains no matching element**: GPM lỗi nội bộ khi dựng vân tay/trình duyệt. Hay gặp khi bản GPM cài thiếu dữ liệu (`Assets\Data\Fonts\fonts_file_map.json`, log GPM ghi *Load Database done error*) hoặc nhân trình duyệt của profile chưa tải → mở thử profile bằng tay trong GPM; nếu cũng lỗi thì cài lại GPM bằng bộ cài chính thức (profile ở `D:\Profile` không mất).
+- **Sequence contains no matching element**: nhân trình duyệt ghi trong profile (vd Chrome 152.0.7977.140) không có trong danh sách nhân mà bản GPM đang chạy hỗ trợ (GPM tải danh sách này về `%APPDATA%\GPMLoginGlobal\Data\browser_list_data.json` mỗi lần khởi động). Hay gặp sau khi cài lại GPM bằng bộ cài cũ hơn hoặc bấm *bỏ qua* cập nhật: profile tạo bằng bản mới dùng nhân mới, bản cũ không biết nhân đó. Kiểm tra GPM sẽ đánh dấu profile "GPM KHÔNG hỗ trợ" và ghi bản GPM đã bị bỏ qua. Cách sửa: **cập nhật GPM** (GPM → Cài đặt → Kiểm tra cập nhật, hoặc tải bộ cài mới ở gpmlogin.com) – hoặc vào GPM → sửa profile → đổi *Browser version* sang bản GPM đang hỗ trợ. File `Assets\Data\Fonts\fonts_file_map.json` thiếu (log GPM *Load Database done error*) **không** phải nguyên nhân: profile vẫn mở được khi có lỗi này.
 - **ProfileInUse**: profile đang mở bằng tay (không có cổng điều khiển) → script tự đóng rồi mở lại.
 Script không ghi cứng đường dẫn GPM/profile nào (chỉ gọi Local API `127.0.0.1:9495`), nên đổi nơi cài GPM hay thư mục profile không cần sửa code.
 

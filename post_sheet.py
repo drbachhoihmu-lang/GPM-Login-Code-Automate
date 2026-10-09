@@ -54,6 +54,7 @@ STATE_FILE = LOG_DIR / "sheet_state.json"      # ghi nhớ hàng nào đã đăn
 
 # Giá trị cột Trạng thái do script ghi
 ST_RUNNING, ST_SCHEDULED, ST_POSTED, ST_ERROR, ST_DRY = "Đang đăng", "Đã lên lịch", "Đã đăng", "Lỗi", "Chạy thử OK"
+ST_WAITING = "Chờ đăng"                           # nút 'Xếp lịch' ghi vào hàng đang trống trạng thái
 # Cách đăng:  "schedule" = lên lịch trên Facebook ngay khi chạy (Facebook tự phát đúng giờ ghi trong Sheet)
 #             "due"      = tới đúng ngày/giờ ghi trong Sheet phần mềm mới bấm "Chia sẻ ngay"; hàng chưa tới giờ để lại
 POST_MODES = ("schedule", "due")
@@ -470,6 +471,25 @@ def assign_slots(items, sheet_link, state, mode="schedule", now=None, lead_min=2
     return occupied
 
 
+def write_slots(webhook, link, tab, items, only_rows=None):
+    """Nút 'Xếp lịch': ghi Ngày/Giờ vừa tự xếp (it['auto']) vào Sheet để cố định lịch ngay, không đợi tới lúc đăng.
+    Trả về (written [(row, 'dd/mm/yyyy HH:MM')], failed [(row, lý do)], no_webhook)."""
+    if not webhook:
+        return [], [], True
+    gid = sheet_csv_url(link, tab)[1] if not link.lower().endswith(".csv") else None
+    if gid is None:
+        gid = sheet_gid(link)
+    written, failed = [], []
+    for it in items:
+        if not it.get("auto") or (only_rows and it["row"] not in only_rows):
+            continue
+        if sheet_update(webhook, it["row"], gid, date=it["date"], time=it["hour"], status=ST_WAITING if not it["status"] else None):
+            written.append((it["row"], it["time"]))
+        else:
+            failed.append((it["row"], "webhook không ghi được"))
+    return written, failed, False
+
+
 def with_tags(caption, tags):
     """Nối cột Hashtag vào sau tiêu đề (bỏ qua nếu tiêu đề đã chứa sẵn)."""
     caption, tags = (caption or "").strip(), (tags or "").strip()
@@ -571,15 +591,21 @@ def prepare(link, tab=TAB_QUEUE, pages_tab=TAB_PAGES, default_profile=PROFILE_ID
 
 # ----------------------------------------------------------------- quét profile / fanpage
 def cmd_check_gpm():
-    """Chẩn đoán GPM (chỉ đọc): API, proxy từng profile, thư mục cài, lỗi mới trong log GPM."""
+    """Chẩn đoán GPM (chỉ đọc): API, nhân trình duyệt + proxy từng profile, bản cập nhật bị bỏ qua, thư mục cài, log GPM."""
     d = gpm_check()
     log(f"GPM Local API: {'OK – ' + d['version'] if d['api_ok'] else 'KHÔNG kết nối được'}")
+    if d["cores"].get("chrome"):
+        print(f"   Nhân Chrome bản GPM này hỗ trợ: {', '.join(d['cores']['chrome'])}")
+    if d["skipped_update"]:
+        print(f"   Bản GPM mới đã bị bấm bỏ qua: {d['skipped_update']}")
     for p in d["profiles"]:
+        core = "—" if p["core_ok"] is None else ("hỗ trợ" if p["core_ok"] else "KHÔNG HỖ TRỢ")
         st = "chưa kiểm" if p["proxy_ok"] is None else ("OK" if p["proxy_ok"] else f"LỖI ({p['proxy_err']})")
-        print(f"   {p['name']:28s} {p['browser']:22s} proxy {p['proxy'] or '(không có)':24s} {st}"
+        print(f"   {p['name']:28s} {p['browser']:22s} nhân: {core:13s} proxy {p['proxy'] or '(không có)':24s} {st}"
               + (f" {p['proxy_ms']} ms" if p["proxy_ms"] is not None else ""))
     if d["install"].get("exe"):
-        print(f"   Thư mục cài: {Path(d['install']['exe']).parent}  |  dữ liệu vân tay: {'đủ' if d['install']['fonts_map_ok'] else 'THIẾU ' + d['install']['fonts_map']}")
+        print(f"   Thư mục cài: {Path(d['install']['exe']).parent}  |  file font vân tay: "
+              f"{'có' if d['install']['fonts_map_ok'] else 'thiếu (không chặn mở profile)'}")
     for ln in d["log_errors"]:
         print("   log GPM:", ln)
     for a in d["advice"]:

@@ -55,44 +55,6 @@ STEPS = ("Tạo", "Chỉnh sửa", "Chia sẻ")
 # Gọi pause() KHÔNG ăn: trình phát của FB gọi play() liên tục rồi reset về 0 và vẽ lại.
 # Cách ăn: để video "phát" nhưng playbackRate = 0 + muted -> khung hình đứng yên, im tiếng;
 # chặn luôn setter playbackRate/muted để FB không đặt lại trong lúc đang đóng băng.
-FREEZE_PREVIEW_JS = """
-(() => {
-  const vids = new Set();
-  const apply = (v) => { if (!window.__gpmFreeze) return; try { v.muted = true; v.playbackRate = 0; } catch (e) {} };
-  const hook = (v) => { if (!vids.has(v)) { vids.add(v); apply(v); } };
-  const origCreate = Document.prototype.createElement;
-  Document.prototype.createElement = function (tag, ...rest) {
-    const el = origCreate.call(this, tag, ...rest);
-    if (String(tag).toLowerCase() === 'video') hook(el);
-    return el;
-  };
-  const origPlay = HTMLMediaElement.prototype.play;
-  HTMLMediaElement.prototype.play = function () {
-    hook(this);
-    const p = origPlay.apply(this, arguments);
-    apply(this);
-    return p;
-  };
-  const origDraw = CanvasRenderingContext2D.prototype.drawImage;
-  CanvasRenderingContext2D.prototype.drawImage = function (src, ...rest) {
-    if (src instanceof HTMLVideoElement) hook(src);
-    return origDraw.call(this, src, ...rest);
-  };
-  for (const [prop, forced] of [['playbackRate', 0], ['muted', true]]) {
-    const d = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, prop);
-    Object.defineProperty(HTMLMediaElement.prototype, prop, {
-      get() { return d.get.call(this); },
-      set(v) { if (window.__gpmFreeze && vids.has(this)) v = forced; d.set.call(this, v); },
-      configurable: true });
-  }
-  window.__gpmFreezeOn = () => { window.__gpmFreeze = true; vids.forEach(apply); return vids.size; };
-  window.__gpmFreezeOff = () => {
-    window.__gpmFreeze = false;
-    vids.forEach(v => { try { v.playbackRate = 1; v.muted = false; } catch (e) {} });
-    return vids.size;
-  };
-})();
-"""
 
 
 def log(msg):
@@ -130,10 +92,10 @@ GPM_START_HINTS = {
         "proxy gắn với profile không hoạt động (GPM kiểm tra proxy thất bại). Vào GPM Login → sửa profile → "
         "thay / gia hạn proxy hoặc bỏ proxy, rồi chạy lại. (Bấm 'Kiểm tra GPM' trên web để xem proxy nào chết.)",
     "Sequence contains no matching element":
-        "GPM Login lỗi nội bộ khi dựng vân tay/trình duyệt cho profile – thường do bản GPM đang cài thiếu dữ liệu "
-        "(không có Assets\\Data\\Fonts\\fonts_file_map.json trong thư mục cài; log GPM ghi 'Load Database done error') "
-        "hoặc nhân trình duyệt của profile chưa tải. Mở thử profile bằng tay trong GPM; nếu cũng lỗi thì cài lại "
-        "GPM Login bằng bộ cài chính thức (profile ở D:\\Profile không mất).",
+        "nhân trình duyệt ghi trong profile (vd Chrome 152.0.7977.140) KHÔNG có trong danh sách nhân mà bản GPM đang chạy "
+        "hỗ trợ – hay gặp sau khi cài lại GPM bằng bộ cài cũ hơn hoặc bấm bỏ qua cập nhật. Cách sửa: cập nhật GPM lên bản "
+        "mới (GPM → Cài đặt → Kiểm tra cập nhật, hoặc tải bộ cài mới ở gpmlogin.com), hoặc vào GPM → sửa profile → đổi "
+        "'Browser version' sang bản GPM đang hỗ trợ. (Bấm 'Kiểm tra GPM' trên web để xem profile nào lệch.)",
     "PROFILE_NOT_FOUND": "GPM không có profile với id này (profile đã xoá / đổi?). Bấm Tải lại danh sách profile.",
 }
 
@@ -220,10 +182,36 @@ def kill_profile_browser(profile_id):
     time.sleep(4)
 
 
+GPM_DATA_DIR = Path(os.environ.get("APPDATA", "")) / "GPMLoginGlobal"   # dữ liệu GPM – chỉ đọc để chẩn đoán
+
+
+def gpm_supported_cores():
+    """Nhân trình duyệt mà bản GPM đang chạy hỗ trợ, đọc từ Data\\browser_list_data.json (GPM tự tải về mỗi lần khởi động).
+    Trả về {'chrome': ['151.0.7922.76', ...], 'firefox': [...]}; rỗng nếu không đọc được."""
+    cores = {}
+    try:
+        d = json.loads((GPM_DATA_DIR / "Data" / "browser_list_data.json").read_text(encoding="utf-8"))
+        for key, name in (("chromium", "chrome"), ("firefox", "firefox")):
+            cores[name] = [v.get("display_version", "") for v in d.get(key, {}).get("versions", []) if v.get("display_version")]
+    except Exception:
+        pass
+    return cores
+
+
+def gpm_skipped_update():
+    """Bản GPM mới mà người dùng đã bấm 'bỏ qua' (Updates\\SkipUpdate.json); '' nếu không có."""
+    try:
+        items = json.loads((GPM_DATA_DIR / "Updates" / "SkipUpdate.json").read_text(encoding="utf-8"))
+        return ", ".join(i.get("Version", "") for i in items if i.get("Version"))
+    except Exception:
+        return ""
+
+
 def gpm_check():
-    """Chẩn đoán GPM (chỉ đọc, không sửa gì): API, proxy từng profile (TCP), thư mục cài (file dữ liệu vân tay),
-    lỗi mới trong log GPM. Trả về dict có 'advice' = các việc người dùng cần làm trong GPM."""
-    out = {"api_ok": False, "version": "", "profiles": [], "install": {}, "log_errors": [], "advice": []}
+    """Chẩn đoán GPM (chỉ đọc, không sửa gì): API, nhân trình duyệt + proxy (TCP) từng profile, bản cập nhật bị bỏ qua,
+    thư mục cài, lỗi mới trong log GPM. Trả về dict có 'advice' = các việc người dùng cần làm trong GPM."""
+    out = {"api_ok": False, "version": "", "profiles": [], "cores": gpm_supported_cores(), "skipped_update": gpm_skipped_update(),
+           "install": {}, "log_errors": [], "advice": []}
     try:
         r = requests.get(f"{GPM_API}/profiles?per_page=100", timeout=10).json()
         out["api_ok"] = bool(r.get("success"))
@@ -246,8 +234,12 @@ def gpm_check():
                     s.close()
                 ms = int((time.time() - t0) * 1000)
             b = p.get("browser") or {}
-            out["profiles"].append({"id": p["id"], "name": p.get("name", ""), "browser": f"{b.get('name', '')} {b.get('version', '')}".strip(),
-                                    "proxy": f"{host}:{port}" if host else "", "proxy_ok": ok, "proxy_ms": ms, "proxy_err": err})
+            bname, bver = (b.get("name") or "").lower(), b.get("version") or ""
+            supported = out["cores"].get(bname)
+            core_ok = None if not supported else (bver in supported)      # None = không có danh sách để so
+            out["profiles"].append({"id": p["id"], "name": p.get("name", ""), "browser": f"{b.get('name', '')} {bver}".strip(),
+                                    "core_ok": core_ok, "proxy": f"{host}:{port}" if host else "",
+                                    "proxy_ok": ok, "proxy_ms": ms, "proxy_err": err})
     except Exception as e:
         out["advice"].append(f"Không kết nối được GPM Local API ({GPM_API}): {str(e)[:100]} → mở GPM Login (bản có Local API) rồi thử lại.")
     try:                                   # thư mục cài: lấy từ tiến trình đang chạy (chỉ đọc)
@@ -261,7 +253,7 @@ def gpm_check():
     except Exception:
         pass
     try:                                   # log GPM: các dòng [ERROR] mới nhất
-        logs = Path(os.environ.get("APPDATA", "")) / "GPMLoginGlobal" / "Logs"
+        logs = GPM_DATA_DIR / "Logs"
         files = sorted(logs.glob("logs_*.txt"), key=lambda f: f.stat().st_mtime, reverse=True)[:2]
         lines = []
         for f in reversed(files):
@@ -269,20 +261,26 @@ def gpm_check():
         out["log_errors"] = lines[-8:]
     except Exception:
         pass
+    bad_core = [p for p in out["profiles"] if p["core_ok"] is False]
+    if bad_core:
+        have = ", ".join(out["cores"].get("chrome") or []) or "không đọc được"
+        how = (f"bạn đã bấm bỏ qua bản {out['skipped_update']} – vào GPM → Cài đặt → Kiểm tra cập nhật, hoặc tải bộ cài mới ở gpmlogin.com"
+               if out["skipped_update"] else "GPM → Cài đặt → Kiểm tra cập nhật, hoặc tải bộ cài mới ở gpmlogin.com")
+        out["advice"].append("Profile " + ", ".join(f"{p['name']} ({p['browser']})" for p in bad_core)
+                             + f" dùng nhân trình duyệt KHÔNG có trong danh sách bản GPM đang chạy hỗ trợ (Chrome: {have})"
+                               " → GPM báo 'Sequence contains no matching element' khi mở. Cách sửa: (1) cập nhật GPM lên bản mới "
+                               f"({how}); hoặc (2) vào GPM → sửa từng profile → đổi 'Browser version' sang một bản trong danh sách trên.")
     dead = [p for p in out["profiles"] if p["proxy_ok"] is False]
     if dead:
         out["advice"].append("Proxy của profile " + ", ".join(f"{p['name']} ({p['proxy']})" for p in dead)
                              + " không kết nối được (TCP timeout) → GPM báo ProxyCheckFailed khi mở. "
                                "Vào GPM Login → sửa profile → thay / gia hạn proxy hoặc bỏ proxy.")
-    if out["install"].get("exe") and out["install"].get("fonts_map_ok") is False:
-        out["advice"].append("Bản GPM đang chạy thiếu file dữ liệu vân tay " + out["install"]["fonts_map"]
-                             + " → log GPM ghi 'Load Database done error', mở profile văng 'Sequence contains no matching element'. "
-                               "Cài lại GPM Login bằng bộ cài chính thức (profile ở thư mục D:\\Profile không mất).")
-    elif any("Sequence contains no matching element" in ln for ln in out["log_errors"]) and not dead:
-        out["advice"].append("Log GPM có 'Sequence contains no matching element' khi mở profile → mở thử profile bằng tay trong GPM; "
-                             "nếu cũng lỗi thì kiểm tra nhân trình duyệt của profile (tải lại) hoặc cài lại GPM.")
+    if not bad_core and any("Sequence contains no matching element" in ln for ln in out["log_errors"]):
+        out["advice"].append("Log GPM có 'Sequence contains no matching element' dù nhân trình duyệt các profile đều nằm trong danh sách "
+                             "hỗ trợ → mở thử profile bằng tay trong GPM; nếu vẫn lỗi thì cập nhật GPM hoặc đổi 'Browser version' "
+                             "của profile sang bản khác rồi thử lại.")
     if out["api_ok"] and not out["advice"]:
-        out["advice"].append("Không thấy vấn đề: API chạy, proxy các profile kết nối được, thư mục cài đủ dữ liệu.")
+        out["advice"].append("Không thấy vấn đề: API chạy, nhân trình duyệt các profile được GPM hỗ trợ, proxy kết nối được.")
     return out
 
 
@@ -523,42 +521,58 @@ def preview_pause_button(page):
     return page.locator("a[data-gpm-pause]").first if found else None
 
 
-def pause_preview_by_button(page, tries=3):
-    """Bấm nút tạm dừng thật rồi đo lại. Trả về True (đã đứng yên) / False (bấm nhưng vẫn chạy) / None (không có nút).
-    Bấm khi trình phát chưa chạy thì cú bấm bị bỏ qua -> chờ thấy khung hình chuyển động rồi mới bấm."""
+def pause_preview_by_button(page, tries=2):
+    """Bấm nút tạm dừng thật rồi đo lại. Trả về True (đã đứng yên / đã bấm) / False (bấm nhưng vẫn chạy) / None (không có nút).
+    Bấm khi trình phát chưa chạy thì cú bấm bị bỏ qua -> chờ thấy khung hình chuyển động rồi mới bấm.
+    Chỉ bấm tối đa `tries` lần: mỗi cú bấm làm trình phát hiện hiệu ứng, bấm nhiều = nhấp nháy."""
     btn = preview_pause_button(page)
     if btn is None:
         return None
-    for _ in range(10):                   # tối đa ~20s chờ trình phát bắt đầu chạy
-        if preview_frozen(page) is False:
+    for _ in range(10):                   # tối đa ~15s chờ trình phát bắt đầu chạy
+        st = preview_frozen(page)
+        if st is False or st is None:
             break
         page.wait_for_timeout(500)
     for _ in range(tries):
         btn = preview_pause_button(page) or btn
         btn.click()
         page.wait_for_timeout(800)
-        if preview_frozen(page):
+        st = preview_frozen(page)
+        if st is None:                    # không đo được -> coi như đã bấm, không bấm thêm
             return True
-        page.wait_for_timeout(1000)
+        if st:
+            return True
+        page.wait_for_timeout(1500)
     return False
 
 
-def freeze_preview(page, on=True):
-    """Đóng băng / thả bản xem trước. Trả về số <video> đã bắt được (-1 nếu chưa chèn được hook)."""
-    fn = "__gpmFreezeOn" if on else "__gpmFreezeOff"
-    try:
-        return page.evaluate(f"() => window.{fn} ? window.{fn}() : -1")
-    except Exception:
-        return -1
+# Đọc vài điểm ảnh của canvas xem trước bằng JS (không chụp ảnh qua DevTools: chụp liên tục làm trang vẽ lại -> nhấp nháy)
+_CANVAS_SAMPLE_JS = """() => {
+    const cv = document.querySelector('canvas');
+    if (!cv) return null;
+    try {
+        const ctx = cv.getContext('2d');
+        const w = cv.width, h = cv.height;
+        if (!ctx || !w || !h) return null;
+        const d = ctx.getImageData(Math.floor(w * 0.25), Math.floor(h * 0.25),
+                                   Math.max(1, Math.floor(w * 0.5)), Math.max(1, Math.floor(h * 0.5))).data;
+        let s = 0;
+        for (let i = 0; i < d.length; i += 97) s = (s * 31 + d[i]) >>> 0;
+        return s;
+    } catch (e) { return null; }
+}"""
 
 
 def preview_frozen(page):
-    """Đo thật: chụp canvas xem trước 3 lần cách nhau 0.6s, không đổi -> đang đứng yên."""
+    """Đo thật nhưng không chụp ảnh: lấy mẫu điểm ảnh canvas 3 lần cách 0.6s, không đổi -> đang đứng yên.
+    None = không đo được (không có canvas / canvas không đọc được)."""
     try:
-        cv = page.locator("canvas").first
         hs = set()
         for _ in range(3):
-            hs.add(hashlib.md5(cv.screenshot()).hexdigest())
+            v = page.evaluate(_CANVAS_SAMPLE_JS)
+            if v is None:
+                return None
+            hs.add(v)
             page.wait_for_timeout(600)
         return len(hs) == 1
     except Exception:
@@ -735,9 +749,6 @@ def open_and_upload(page, video, caption, asset_id, pause_during_upload=True, in
     """Mở trình soạn, tải video, nhập mô tả. Kết thúc ở bước 'Tạo' với video đã lên FB.
     info (dict) nhận thêm: info['page'] = tên trang ở ô 'Đăng lên'."""
     video = str(Path(video).resolve())
-    if pause_during_upload and not getattr(page, "_gpm_freeze_hooked", False):
-        page.add_init_script(FREEZE_PREVIEW_JS)
-        page._gpm_freeze_hooked = True
 
     # 1. Mở trình soạn thước phim
     log("Mở trình soạn thước phim")
@@ -770,19 +781,20 @@ def open_and_upload(page, video, caption, asset_id, pause_during_upload=True, in
 
     page.on("response", _on_resp)
     upload_via_cdp(page, add_video, video)
-    pause_mode = None                 # "button" = bấm nút thật, "freeze" = dự phòng can thiệp trình phát
+    # Tạm dừng bản xem trước = CHỈ bấm nút tạm dừng thật của Facebook (như người dùng). Không can thiệp trình phát
+    # (ép playbackRate = 0 / chụp canvas liên tục như bản cũ): Facebook gọi play() liên tục nên mọi can thiệp tạo
+    # vòng lặp "play -> ép dừng -> vẽ lại" làm trang nhấp nháy suốt lúc tải.
+    pause_mode = None                 # "button" = đã bấm nút tạm dừng thật
+    reclicks = 0
     if pause_during_upload:
         page.wait_for_timeout(2500)
         r = pause_preview_by_button(page)
         if r:
             pause_mode = "button"
-            log("Đã bấm nút tạm dừng bản xem trước – đo thật: đứng yên = True")
+            log("Đã bấm nút tạm dừng bản xem trước")
         else:
-            n = freeze_preview(page, True)
-            page.wait_for_timeout(1200)
-            pause_mode = "freeze"
-            log(f"Không bấm được nút tạm dừng ({'không thấy nút' if r is None else 'bấm xong vẫn chạy'}), "
-                f"dùng dự phòng đóng băng trình phát ({n} video) – đo thật: đứng yên = {preview_frozen(page)}")
+            log(f"Không bấm được nút tạm dừng bản xem trước ({'không thấy nút' if r is None else 'bấm xong vẫn chạy'}) "
+                "– để phát bình thường, không can thiệp trình phát")
 
     # 3. Chờ tải lên xong. LƯU Ý: nút "Tiếp" sáng ngay khi mới tải được vài %, nên phải
     #    dựa vào số % cạnh tên file + tín hiệu FB báo đã nhận đủ (upload/requests/receive).
@@ -790,11 +802,8 @@ def open_and_upload(page, video, caption, asset_id, pause_during_upload=True, in
     log(f"Chờ tải lên/xử lý video (tối đa {max_wait // 60} phút)...")
     t0 = last_log = time.time()
     pct_gone_since = None
-    shot_done = False
     while True:
         page.wait_for_timeout(2000)
-        if pause_mode == "freeze":
-            freeze_preview(page, True)               # bản xem trước có thể được tạo lại
         elapsed = time.time() - t0
         pct = upload_percent(page)
         ready = footer_enabled(page, "Tiếp")
@@ -809,16 +818,14 @@ def open_and_upload(page, video, caption, asset_id, pause_during_upload=True, in
             pct_gone_since = None
         if time.time() - last_log >= 30:
             extra = ""
-            if pause_mode:
+            if pause_mode == "button":
                 frozen = preview_frozen(page)
-                if frozen is False and pause_mode == "button":   # FB vẽ lại trình phát -> bấm lại
-                    frozen = pause_preview_by_button(page)
+                if frozen is False and reclicks < 2:     # FB dựng lại trình phát -> bấm lại, tối đa 2 lần cả đợt tải
+                    reclicks += 1
+                    frozen = pause_preview_by_button(page, tries=1)
                 extra = f", xem trước đứng yên = {frozen}"
             log(f"  ...đang tải lên {pct if pct is not None else '?'}% ({elapsed:.0f}s{extra})")
             last_log = time.time()
-            if not shot_done:
-                shot(page, "uploading")
-                shot_done = True
         body = body_text(page)
         if any(k in body for k in ("không hỗ trợ", "Không thể tải", "Đã xảy ra lỗi", "ít nhất 5 ảnh")):
             shot(page, "upload_error")
@@ -831,10 +838,7 @@ def open_and_upload(page, video, caption, asset_id, pause_during_upload=True, in
             raise RuntimeError("Quá thời gian chờ tải lên/xử lý video")
     page.remove_listener("response", _on_resp)
     log(f"Video sẵn sàng sau ~{time.time() - t0:.0f}s (FB đã nhận đủ file: {upload['receive']})")
-    if pause_mode == "freeze":
-        freeze_preview(page, False)
-        log("Thả bản xem trước (phát lại bình thường)")
-    elif pause_mode == "button" and preview_frozen(page):
+    if pause_mode == "button" and preview_frozen(page):
         btn = preview_pause_button(page)
         if btn is not None:
             btn.click()
