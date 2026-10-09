@@ -129,8 +129,8 @@
     <div class="card">
       <div id="sheetErr" class="warn" style="display:none"></div>
       <div id="sheetStruct" class="warn" style="display:none"></div>
-      <div id="hookWarn" class="warn" style="display:none"><b>Chưa cài URL webhook</b> → phần mềm không ghi được Trạng thái / Ngày giờ tự xếp vào Google Sheet (chỉ ghi vào <code>logs/</code>).
-        Cài Apps Script theo README rồi dán URL <code>…/exec</code> vào <a href="#caidat" onclick="showTab('caidat');return false">Cài đặt</a>.</div>
+      <div id="hookWarn" class="warn" style="display:none"><b>Chưa có cách ghi vào Sheet</b> → phần mềm không ghi được Trạng thái / Ngày giờ tự xếp vào Google Sheet (chỉ ghi vào <code>logs/</code>).
+        Vào <a href="#caidat" onclick="showTab('caidat');return false">Cài đặt</a> dán URL webhook Apps Script <code>…/exec</code> hoặc đường dẫn file <code>service_account.json</code>.</div>
       <div id="assignMsg" class="muted" style="font-size:12px;margin-bottom:8px;display:none"></div>
       <table id="queue"><thead><tr><th>Hàng</th><th>Thời gian</th><th>Page</th><th>Profile</th><th>Tiêu đề</th><th>Trạng thái</th><th>Kế hoạch</th></tr></thead><tbody></tbody></table>
       <div class="actions" style="margin-top:12px">
@@ -142,7 +142,7 @@
         <label class="f" style="flex-direction:row;align-items:center;gap:6px;margin:0">Chỉ hàng <input type="text" id="rows" placeholder="vd 2,5" style="width:90px"></label>
         <label class="f" style="flex-direction:row;align-items:center;gap:6px;margin:0">Tối đa <input type="number" id="max" min="0" style="width:70px" placeholder="tất cả"></label>
       </div>
-      <div class="muted" style="font-size:12px;margin-top:8px">Trạng thái trống hoặc <b>Chờ đăng</b> = sẽ đăng · <b>bỏ qua</b> = không đăng · <b>Đã lên lịch / Đã đăng</b> = xong · <b>Lỗi</b> = chỉ đăng lại khi bấm "Đăng lại hàng lỗi". Cách đăng (lên lịch trên Facebook / tới giờ mới đăng) chọn ở khung <b>Tự động kiểm tra Sheet</b> bên dưới.</div>
+      <div class="muted" style="font-size:12px;margin-top:8px">Trạng thái trống hoặc <b>Chờ đăng</b> = sẽ đăng · <b>bỏ qua</b> = không đăng · <b>Đã lên lịch / Đã đăng</b> = xong · <b>Lỗi</b> = chỉ đăng lại khi bấm "Đăng lại hàng lỗi" · xoá ô Trạng thái của hàng đã đăng = cho đăng lại. Cách đăng (lên lịch trên Facebook / tới giờ mới đăng) chọn ở khung <b>Tự động kiểm tra Sheet</b> bên dưới.</div>
     </div>
 
     <div class="card">
@@ -212,7 +212,9 @@
     <h1>Cài đặt <span class="sub">lưu vào <code>config.json</code> trên máy này</span></h1>
     <div class="card">
       <label class="f">Link Google Sheet <input type="text" id="cfgSheet"></label>
-      <label class="f">URL webhook Apps Script (…/exec) <input type="text" id="cfgHook" placeholder="để trống nếu chưa cài"></label>
+      <label class="f"><span>Cách ghi vào Sheet — URL webhook Apps Script (…/exec) <b>hoặc</b> đường dẫn file service_account.json trên máy</span>
+        <input type="text" id="cfgHook" placeholder="vd https://script.google.com/macros/s/…/exec  hoặc  D:\thu-muc\service_account.json"></label>
+      <div class="muted" style="font-size:12px;margin:-6px 0 10px">Dùng file service_account.json: Sheet phải chia sẻ cho email <code>client_email</code> trong file đó quyền <b>Người chỉnh sửa</b> (hoặc đang để "Bất kỳ ai có link → Người chỉnh sửa").</div>
       <label class="f">Profile mặc định (id hoặc tên) <input type="text" id="cfgProfile"></label>
       <div class="row"><label class="f">Tab hàng đợi <input type="text" id="cfgTab" style="width:200px"></label><label class="f">Tab Pages <input type="text" id="cfgPagesTab" style="width:200px"></label></div>
       <label class="f">Lên lịch trước tối đa (ngày) – chế độ <b>Lên lịch trên Facebook</b>: mỗi lần chạy chỉ lên lịch bài tới hôm nay + N ngày; 1 = tới hết ngày mai, 0 = chỉ hôm nay; bài xa hơn chờ tới ngày mới lên
@@ -393,7 +395,7 @@ async function loadSheet() {
     const plan = r.will ? `<span class="st will">${r.due ? 'tới giờ → đăng ngay' : 'sẽ đăng'}</span>`
                : r.waiting ? `<span class="st wait" title="${esc(r.reason)}">${esc(r.wait_label || 'chưa tới giờ')}</span>`
                : `<span class="muted">${esc(r.reason)}</span>`;
-    tb.insertAdjacentHTML('beforeend', `<tr class="${(r.will||r.waiting)?'':'skip'}"><td>${r.row}</td><td>${esc(r.when)}${r.auto ? ' <span class="st" title="Sheet không ghi ngày giờ – phần mềm tự xếp theo khung giờ của page (tab Giờ đăng)">tự xếp</span>' : ''}</td><td>${esc(r.page||'(mặc định)')}</td><td>${esc(r.profile||'(mặc định)')}</td><td>${esc((r.title||'(lấy từ kịch bản Drive)').slice(0,60))}</td><td>${st}</td><td>${plan}</td></tr>`);
+    tb.insertAdjacentHTML('beforeend', `<tr class="${(r.will||r.waiting)?'':'skip'}"><td>${r.row}</td><td>${esc(r.when)}${r.auto_from ? ` <span class="st err" title="Giờ trên Sheet ${esc(r.auto_from)} đã qua mà chưa đăng – phần mềm dời sang ngày kế tiếp còn trống (giữ giờ). Bấm 'Xếp lịch vào Sheet' để ghi lại vào Sheet.">dời từ ${esc(r.auto_from)}</span>` : r.auto ? ' <span class="st" title="Sheet không ghi ngày giờ – phần mềm tự xếp theo khung giờ của page (tab Giờ đăng)">tự xếp</span>' : ''}</td><td>${esc(r.page||'(mặc định)')}</td><td>${esc(r.profile||'(mặc định)')}</td><td>${esc((r.title||'(lấy từ kịch bản Drive)').slice(0,60))}</td><td>${st}</td><td>${plan}</td></tr>`);
   }
   if (!(d.rows||[]).length) tb.innerHTML = '<tr><td colspan="7" class="muted">Không có hàng nào</td></tr>';
   $('#hookWarn').style.display = CFG.webhook ? 'none' : '';
@@ -409,19 +411,23 @@ async function loadSheet() {
 }
 
 async function assignSlots() {
-  if (!CFG.webhook) { alert('Chưa có URL webhook Apps Script nên không ghi được vào Sheet. Vào tab Cài đặt dán URL …/exec (xem README, mục Cài Apps Script).'); showTab('caidat'); return; }
+  if (!CFG.webhook) { alert('Chưa có cách ghi vào Sheet. Vào tab Cài đặt dán URL webhook Apps Script (…/exec) hoặc đường dẫn file service_account.json.'); showTab('caidat'); return; }
   const rows = (SHEET && SHEET.rows) || [];
   const only = $('#rows').value.trim();
   const sel = only ? new Set(only.split(/[,\s]+/).map(Number)) : null;
   const auto = rows.filter(r => r.auto && (!sel || sel.has(r.row)));
-  if (!auto.length) { alert('Không có hàng nào cần xếp (mọi hàng chờ đã có Ngày + Giờ, hoặc page chưa có khung giờ — xem cột Kế hoạch).'); return; }
+  const stale = rows.filter(r => r.stale && (!sel || sel.has(r.row)));
+  if (!auto.length && !stale.length) { alert('Không có hàng nào cần xếp: mọi hàng chờ đã có Ngày + Giờ (hoặc page chưa có khung giờ — xem cột Kế hoạch), và không có hàng đã đăng nào còn trống Trạng thái.'); return; }
   const now = new Date().toLocaleTimeString('vi', {hour: '2-digit', minute: '2-digit'});
-  if (!confirm(`Xếp ${auto.length} hàng chưa có ngày/giờ vào khung giờ trống tính từ bây giờ (${now}) và GHI Ngày/Giờ vào Sheet:\n`
-             + auto.map(r => `  hàng ${r.row}: ${r.when}`).join('\n') + '\n\nTiếp tục?')) return;
+  let q = '';
+  if (auto.length) q += `Xếp ${auto.length} hàng chưa có ngày/giờ vào khung giờ trống tính từ bây giờ (${now}) và GHI Ngày/Giờ vào Sheet:\n` + auto.map(r => `  hàng ${r.row}: ${r.when}`).join('\n') + '\n\n';
+  if (stale.length) q += `Điền lại ${stale.length} hàng đã đăng/lỗi ở lần trước mà Sheet còn trống Trạng thái (lấy từ logs/sheet_state.json):\n` + stale.map(r => `  hàng ${r.row}: ${r.reason}`).join('\n') + '\n\n';
+  if (!confirm(q + 'Tiếp tục?')) return;
   const msg = $('#assignMsg'); msg.style.display = ''; msg.textContent = 'Đang ghi vào Sheet…';
   try {
     const d = await post('/api/assign', {rows: only || null});
-    const parts = [`${d.at}: đã ghi ${d.written.length} hàng` + (d.written.length ? ' (' + d.written.map(w => `hàng ${w.row} → ${w.when}`).join(', ') + ')' : '')];
+    const parts = [`${d.at}: xếp mới ${d.written.length} hàng` + (d.written.length ? ' (' + d.written.map(w => `hàng ${w.row} → ${w.when}`).join(', ') + ')' : '')];
+    if (d.synced.length) parts.push(`điền lại ${d.synced.length} hàng đã đăng: ` + d.synced.map(s => `hàng ${s.row} → ${s.status}${s.when ? ' ' + s.when : ''}`).join(', '));
     if (d.failed.length) parts.push(`không ghi được ${d.failed.length} hàng: ` + d.failed.map(f => `hàng ${f.row}`).join(', '));
     if (d.unassigned.length) parts.push(`chưa xếp được: ` + d.unassigned.map(u => `hàng ${u.row} (${u.reason})`).join('; '));
     msg.textContent = parts.join(' · ');

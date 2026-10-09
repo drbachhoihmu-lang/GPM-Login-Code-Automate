@@ -66,11 +66,65 @@ def sheet_gid(link):
     return int(m.group(1)) if m else None
 
 
-def sheet_update(webhook, row, gid=None, **fields):
-    """Ghi các ô (page/status/note) của hàng `row` (ở tab `gid`) qua Apps Script. Lỗi mạng chỉ cảnh báo."""
+# "Cách ghi vào Sheet" (--webhook / ô webhook ở Cài đặt) nhận 1 trong 2:
+#   - URL Apps Script …/exec  : POST JSON, script chạy với tư cách chủ Sheet rồi điền ô (sheet_webhook.gs)
+#   - đường dẫn file .json    : service account Google (Sheets API, gspread) – Sheet phải cho email trong file
+#                               quyền Người chỉnh sửa (hoặc đang chia sẻ "Bất kỳ ai có link → chỉnh sửa")
+_SA = {"file": None, "client": None}
+_WRITE_LINK = {"link": None}          # link Sheet của lần prepare() gần nhất -> service account biết ghi vào file nào
+
+
+def is_sa_file(writer):
+    return bool(writer) and str(writer).strip().lower().endswith(".json")
+
+
+def _sa_client(sa_file):
+    if _SA["client"] is None or _SA["file"] != sa_file:
+        import gspread
+        from google.oauth2.service_account import Credentials
+        creds = Credentials.from_service_account_file(sa_file, scopes=["https://www.googleapis.com/auth/spreadsheets"])
+        _SA["client"], _SA["file"] = gspread.authorize(creds), sa_file
+    return _SA["client"]
+
+
+def _sa_ws(sa_file, link, gid=None, tab=None):
+    """Worksheet theo gid > tên tab > tab đầu."""
+    sh = _sa_client(sa_file).open_by_key(sheet_id(link))
+    if gid is not None:
+        ws = next((w for w in sh.worksheets() if w.id == int(gid)), None)
+        if ws is not None:
+            return ws
+    if tab:
+        try:
+            return sh.worksheet(tab)
+        except Exception:
+            pass
+    return sh.get_worksheet(0)
+
+
+def _sa_update(sa_file, link, row, gid, fields):
+    import gspread
+    ws = _sa_ws(sa_file, link, gid, TAB_QUEUE)
+    cols = map_columns(ws.row_values(1), required=())
+    if "date" not in cols and "time" in cols and fields.get("date") is not None:     # bố cục 1 cột gộp
+        fields = {**fields, "time": f"{fields['date']} {fields.get('time') or ''}".strip(), "date": None}
+    cells = [gspread.Cell(int(row), cols[k] + 1, str(v)) for k, v in fields.items() if v is not None and k in cols]
+    if cells:
+        ws.update_cells(cells, value_input_option="RAW")           # RAW: "10/10/2026" giữ là chữ, không bị đổi kiểu
+    return True
+
+
+def sheet_update(webhook, row, gid=None, link=None, **fields):
+    """Ghi các ô (page/status/note/date/time) của hàng `row` (ở tab `gid`) qua Apps Script hoặc service account.
+    Lỗi chỉ cảnh báo, không dừng."""
     if not webhook:
         return False
     try:
+        if is_sa_file(webhook):
+            link = link or _WRITE_LINK["link"]
+            if not link:
+                raise RuntimeError("chưa biết link Sheet")
+            return _sa_update(webhook, link, row, gid, fields)
         r = requests.post(webhook, json={"row": row, "gid": gid, **fields}, timeout=30)
         if r.status_code != 200 or '"ok"' not in r.text:
             log(f"  (webhook trả về {r.status_code}: {r.text[:120]})")
@@ -79,6 +133,60 @@ def sheet_update(webhook, row, gid=None, **fields):
     except Exception as e:
         log(f"  (không ghi được vào Sheet: {str(e)[:120]})")
         return False
+
+
+def _sa_upsert_pages(sa_file, link, pages, tab=TAB_PAGES):
+    """Như upsertPages_ trong sheet_webhook.gs: tìm theo asset_id -> cập nhật (tên, profile nếu trống, giờ) / thêm hàng mới."""
+    import gspread
+    ws = _sa_ws(sa_file, link, None, tab)
+    vals = ws.get_all_values()
+    header = vals[0] if vals else []
+    cols = map_columns(header, PAGES_KEYS, required=("name", "asset")) if header else {}
+    c_name, c_asset, c_prof, c_hours = cols.get("name", 0), cols.get("asset", 1), cols.get("profile", 2), cols.get("hour", 4)
+    cell = lambda r, c: r[c].strip() if c < len(r) else ""
+    assets = [cell(r, c_asset) for r in vals[1:]]
+    added = updated = 0
+    cells = []
+    for p in pages:
+        a = str(p.get("asset") or "").strip()
+        if not a:
+            continue
+        if a in assets:
+            row = assets.index(a) + 2
+            if p.get("name"):
+                cells.append(gspread.Cell(row, c_name + 1, p["name"]))
+            if p.get("profile") and not cell(vals[row - 1], c_prof):
+                cells.append(gspread.Cell(row, c_prof + 1, p["profile"]))
+            if p.get("hours") is not None:
+                cells.append(gspread.Cell(row, c_hours + 1, str(p["hours"])))
+            updated += 1
+        elif p.get("name"):                      # chỉ cập nhật giờ cho page chưa có trong tab -> bỏ qua
+            new = [""] * max(len(header), c_hours + 1)
+            new[c_name], new[c_asset], new[c_prof] = p["name"], a, p.get("profile") or ""
+            if p.get("hours") is not None:
+                new[c_hours] = str(p["hours"])
+            ws.append_row(new, value_input_option="RAW")
+            assets.append(a)
+            added += 1
+    if cells:
+        ws.update_cells(cells, value_input_option="RAW")
+    return added, updated
+
+
+def sheet_upsert_pages(webhook, link, pages):
+    """Thêm/cập nhật tab Pages ([{asset, name?, profile?, hours?}]) qua webhook (action upsert_pages) hoặc service account.
+    Trả về (ok, chuỗi kết quả để hiện/log)."""
+    if not webhook:
+        return False, "chưa có webhook / service account"
+    try:
+        if is_sa_file(webhook):
+            added, updated = _sa_upsert_pages(webhook, link, pages)
+            return True, f"đã ghi tab Pages trên Sheet (thêm {added}, cập nhật {updated})"
+        r = requests.post(webhook, json={"action": "upsert_pages", "pages": pages}, timeout=60)
+        ok = r.status_code == 200 and '"ok"' in r.text
+        return ok, ("đã ghi tab Pages trên Sheet" if ok else f"Sheet: {r.text[:120]}")
+    except Exception as e:
+        return False, f"không ghi được tab Pages: {str(e)[:120]}"
 
 
 # ----------------------------------------------------------------- đọc Sheet
@@ -341,15 +449,20 @@ def plan(items, sheet_link, state, only_rows=None, retry_errors=False, mode="sch
         it["waiting"], it["due"], it["wake_at"], it["wait_label"] = False, "", None, ""
         st = norm(it["status"])
         prev = state.get(row_key(sheet_link, it), {})
+        # Sổ ghi nhớ chỉ chặn đăng trùng khi kết quả CHƯA ghi được vào Sheet (sheet_written). Một khi Sheet đã có
+        # Trạng thái thì Sheet là nguồn sự thật: người dùng xoá Trạng thái (hoặc ghi 'Chờ đăng') = muốn đăng lại.
+        remembered = prev.get("status") in ("done", "error") and not prev.get("sheet_written")
+        # đã đăng/lỗi lần trước nhưng Sheet chưa ghi (trống / 'Chờ đăng') -> nút 'Xếp lịch' sẽ điền lại (write_slots)
+        it["stale"] = remembered and st in ("", "cho dang")
         if only_rows and it["row"] not in only_rows:
             reason = "không nằm trong --rows"
         elif st.startswith("da ") or st in ("bo qua", "skip", "done", "xong"):
             reason = f"trạng thái '{it['status']}'"
         elif st.startswith("loi") and not retry_errors:
             reason = f"trạng thái '{it['status']}' (bấm 'Đăng lại hàng lỗi' / --retry-errors để đăng lại)"
-        elif prev.get("status") == "done":
-            reason = "đã đăng lần chạy trước (logs/sheet_state.json)"
-        elif prev.get("status") == "error" and not retry_errors:
+        elif remembered and prev["status"] == "done":
+            reason = "đã đăng lần chạy trước nhưng Sheet chưa được ghi (logs/sheet_state.json) – bấm 'Xếp lịch vào Sheet' để điền lại"
+        elif remembered and not retry_errors:
             reason = f"lỗi lần trước: {(prev.get('note') or '')[:60]} (sửa hàng, hoặc 'Đăng lại hàng lỗi')"
         elif not it["video"]:
             reason = "thiếu video"
@@ -404,6 +517,8 @@ def assign_slots(items, sheet_link, state, mode="schedule", now=None, lead_min=2
     """Hàng chưa đủ ngày+giờ -> tự xếp vào khung giờ mặc định của page (it['hours']), tính từ hiện tại, tránh trùng
     mốc đã có (hàng khác trên Sheet + bài đã đăng/lên lịch trong logs/sheet_state.json, kể cả hàng đã xoá khỏi Sheet).
     Ghi vào it['time'] (dd/mm/yyyy HH:MM), it['date'], it['hour'], it['auto']=True; không xếp được -> it['auto_fail'].
+    Mode schedule: hàng có ngày+giờ nhưng ĐÃ QUA mà chưa đăng (trạng thái trống / Chờ đăng) -> dời sang ngày kế tiếp còn
+    trống, giữ nguyên giờ; chỉ ghi ngày mà ngày đã qua -> xếp như hàng trống. Giờ cũ lưu ở it['auto_from'].
       schedule: mốc phải cách hiện tại >= lead_min phút (Facebook cần thời gian lên lịch ở tương lai).
       due:      mốc tính từ (hiện tại - window_min) để bài có khung giờ vừa qua được đăng ngay ở lần kiểm tra này.
     Hàm thuần theo (Sheet, state, now): không cần lưu gì, chạy lại cho cùng kết quả.
@@ -445,49 +560,91 @@ def assign_slots(items, sheet_link, state, mode="schedule", now=None, lead_min=2
 
     start = now + timedelta(minutes=lead_min) if mode == "schedule" else now - timedelta(minutes=window_min)
     for it in items:
-        if it["time"] or skip_row(it) or norm(it["status"]).startswith("da "):
+        it["auto_from"] = ""
+        if skip_row(it) or norm(it["status"]).startswith("da ") or it["time"] == "ngay":
             continue
         prev = state.get(row_key(sheet_link, it), {})
-        if prev.get("status") == "done" or (prev.get("status") == "error" and not retry_errors):
-            continue
-        only_date = None
-        if it.get("date"):
+        if not prev.get("sheet_written") and (prev.get("status") == "done" or (prev.get("status") == "error" and not retry_errors)):
+            continue                                   # kết quả lần trước chưa vào Sheet -> vẫn coi là đã xong
+        only_date, moved_from = None, ""
+        if it["time"]:                                 # có đủ ngày+giờ
+            if mode != "schedule":
+                continue                               # mode due: giờ đã qua = tới giờ -> đăng ngay (plan() lo)
             try:
-                only_date = datetime.strptime(it["date"], "%d/%m/%Y").date()
+                old = parse_schedule(it["time"])
             except ValueError:
-                it["auto_fail"] = f"không hiểu ngày '{it['date']}'"
                 continue
-        hours = [it["hour"]] if it.get("hour") else list(it.get("hours") or [])
-        if not hours:
-            it["auto_fail"] = "page chưa có khung giờ mặc định (tab Giờ đăng trên web, hoặc cột Giờ đăng mặc định ở tab Pages)"
-            continue
+            if old > now:
+                continue
+            moved_from = it["time"]                    # giờ trên Sheet đã qua mà chưa đăng -> dời sang ngày kế tiếp, giữ giờ
+            hours = [old.strftime("%H:%M")]
+        else:
+            if it.get("date"):
+                try:
+                    only_date = datetime.strptime(it["date"], "%d/%m/%Y").date()
+                except ValueError:
+                    it["auto_fail"] = f"không hiểu ngày '{it['date']}'"
+                    continue
+                if only_date < now.date():             # chỉ ghi ngày mà ngày đã qua -> coi như không ghi ngày
+                    moved_from, only_date = it["date"], None
+            hours = [it["hour"]] if it.get("hour") else list(it.get("hours") or [])
+            if not hours:
+                it["auto_fail"] = "page chưa có khung giờ mặc định (tab Giờ đăng trên web, hoặc cột Giờ đăng mặc định ở tab Pages)"
+                continue
         pick = next((dt for dt in slot_candidates(hours, start, only_date) if not is_occ(it.get("asset"), it.get("page"), dt)), None)
         if pick is None:
             it["auto_fail"] = (f"ngày {it['date']} đã qua hoặc không còn khung giờ trống" if only_date
                                else "không còn khung giờ trống trong 60 ngày tới")
             continue
         it["time"], it["date"], it["hour"], it["auto"] = pick.strftime("%d/%m/%Y %H:%M"), pick.strftime("%d/%m/%Y"), pick.strftime("%H:%M"), True
+        it["auto_from"] = moved_from
         add_occ(it.get("asset"), it.get("page"), pick)
     return occupied
 
 
 def write_slots(webhook, link, tab, items, only_rows=None):
-    """Nút 'Xếp lịch': ghi Ngày/Giờ vừa tự xếp (it['auto']) vào Sheet để cố định lịch ngay, không đợi tới lúc đăng.
-    Trả về (written [(row, 'dd/mm/yyyy HH:MM')], failed [(row, lý do)], no_webhook)."""
+    """Nút 'Xếp lịch':
+      (1) hàng vừa tự xếp (it['auto']) -> ghi Ngày/Giờ vào Sheet để cố định lịch ngay, không đợi tới lúc đăng;
+      (2) hàng đã đăng / lỗi ở lần chạy trước (logs/sheet_state.json) mà Sheet còn trống Trạng thái (lúc đó chưa có
+          cách ghi) -> điền lại Trạng thái, Page, Ghi chú và Ngày/Giờ đã đăng (nếu ô đang trống).
+    Trả về (written [(row, 'dd/mm/yyyy HH:MM')], synced [(row, trạng thái, 'dd/mm/yyyy HH:MM')], failed [(row, lý do)], no_webhook)."""
     if not webhook:
-        return [], [], True
+        return [], [], [], True
     gid = sheet_csv_url(link, tab)[1] if not link.lower().endswith(".csv") else None
     if gid is None:
         gid = sheet_gid(link)
-    written, failed = [], []
+    state = load_state()
+    written, synced, failed = [], [], []
     for it in items:
-        if not it.get("auto") or (only_rows and it["row"] not in only_rows):
+        if only_rows and it["row"] not in only_rows:
             continue
-        if sheet_update(webhook, it["row"], gid, date=it["date"], time=it["hour"], status=ST_WAITING if not it["status"] else None):
-            written.append((it["row"], it["time"]))
+        if it.get("auto"):
+            if sheet_update(webhook, it["row"], gid, link=link, date=it["date"], time=it["hour"], status=ST_WAITING if not it["status"] else None):
+                written.append((it["row"], it["time"]))
+            else:
+                failed.append((it["row"], "webhook không ghi được"))
+            continue
+        prev = state.get(row_key(link, it), {})
+        if not it.get("stale") or prev.get("status") not in ("done", "error"):
+            continue
+        scheduled = prev.get("when") not in (None, "now")
+        fields = {"status": (ST_SCHEDULED if scheduled else ST_POSTED) if prev["status"] == "done" else ST_ERROR,
+                  "page": prev.get("page") or None, "note": prev.get("note") or None}
+        slot = prev.get("slot") or (prev.get("when") if scheduled else None)
+        if slot and not it["date"] and not it["hour"]:
+            try:
+                dt = datetime.fromisoformat(slot)
+                fields["date"], fields["time"] = dt.strftime("%d/%m/%Y"), dt.strftime("%H:%M")
+            except ValueError:
+                pass
+        if sheet_update(webhook, it["row"], gid, link=link, **fields):
+            synced.append((it["row"], fields["status"], f"{fields.get('date', '')} {fields.get('time', '')}".strip()))
+            prev["sheet_written"] = True              # từ nay xoá Trạng thái trên Sheet = cho đăng lại
         else:
             failed.append((it["row"], "webhook không ghi được"))
-    return written, failed, False
+    if synced:
+        save_state(state)
+    return written, synced, failed, False
 
 
 def with_tags(caption, tags):
@@ -531,6 +688,7 @@ def prepare(link, tab=TAB_QUEUE, pages_tab=TAB_PAGES, default_profile=PROFILE_ID
         mode = "schedule"
     now = now or datetime.now()
     page_hours = page_hours or {}
+    _WRITE_LINK["link"] = link
 
     def hours_of(asset, name):
         web = page_hours.get(str(asset or "").strip()) or next((v for k, v in page_hours.items() if norm(k) == norm(name)), None)
@@ -619,7 +777,7 @@ def cmd_list_profiles():
         print(f"   {name:30s}  {pid}")
 
 
-def cmd_scan_pages(which, webhook, close_after=False):
+def cmd_scan_pages(which, webhook, close_after=False, link=None):
     """Mở từng profile GPM, đọc danh sách fanpage (kèm asset_id), xuất logs/pages_scan.csv theo đúng cột
     tab Pages; có webhook thì thêm/cập nhật thẳng vào tab Pages."""
     profiles = gpm_profiles()
@@ -654,13 +812,8 @@ def cmd_scan_pages(which, webhook, close_after=False):
         w.writerows(rows)
     log(f"Đã ghi {len(rows)} fanpage vào {out} (dán vào tab Pages)")
     if webhook and rows:
-        try:
-            r = requests.post(webhook, json={"action": "upsert_pages",
-                                             "pages": [{"name": a, "asset": b, "profile": c} for a, b, c, *_ in rows]},
-                              timeout=60)
-            log(f"Tab Pages trên Sheet: {r.text[:160]}")
-        except Exception as e:
-            log(f"(không ghi được tab Pages qua webhook: {str(e)[:120]})")
+        _, msg = sheet_upsert_pages(webhook, link, [{"name": a, "asset": b, "profile": c} for a, b, c, *_ in rows])
+        log(f"Tab Pages trên Sheet: {msg}")
 
 
 # ----------------------------------------------------------------- main
@@ -698,7 +851,7 @@ def main():
     if a.list_profiles:
         return cmd_list_profiles()
     if a.scan_pages:
-        return cmd_scan_pages(a.scan_pages, a.webhook, a.close_after)
+        return cmd_scan_pages(a.scan_pages, a.webhook, a.close_after, a.sheet)
     if not a.sheet:
         sys.exit("Thiếu --sheet (hoặc điền SHEET_URL trong post_sheet.py)")
     only_rows = {int(x) for x in a.rows.split(",")} if a.rows else None
@@ -815,6 +968,9 @@ def main():
                     st_text = {"done": ST_SCHEDULED if when else ST_POSTED, "error": ST_ERROR, "dry-run": ST_DRY}[status]
                     if sheet_update(a.webhook, it["row"], gid, page=page_name or None, status=st_text, note=note):
                         log(f"  Sheet hàng {it['row']}: Trạng thái = {st_text}" + (f", Page = {page_name}" if page_name else ""))
+                        if key in state:              # Sheet đã có kết quả -> từ nay Sheet là nguồn sự thật cho hàng này
+                            state[key]["sheet_written"] = True
+                            save_state(state)
                     if n < n_total:
                         wait = random.randint(lo, hi)
                         log(f"Nghỉ {wait}s trước bài tiếp theo...")

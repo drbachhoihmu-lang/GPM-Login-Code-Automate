@@ -911,20 +911,38 @@ def finish_post(page, caption, when=None, dry_run=False, asset_id=PAGE_ASSET_ID)
         page.goto(list_url.format(asset=asset_id), wait_until="domcontentloaded", timeout=90000)
         return False
 
-    # 7. Bấm nút cuối
+    # 7. Bấm nút cuối. Trình soạn hay treo ở màn "video đang được tải lên / đang lên lịch" dù đã thành công,
+    #    nên chỉ đợi tối đa 15s (thoát sớm nếu nó tự rời trình soạn). Không rời tab này ngay để không cắt
+    #    yêu cầu đang gửi; kiểm tra bằng tab danh sách, thấy bài rồi mới đưa tab này về danh sách.
     footer_button(page, final_name).click()
-    log(f"Đã bấm '{final_name}', chờ Facebook xác nhận...")
-    page.wait_for_timeout(15000)
+    log(f"Đã bấm '{final_name}', chờ Facebook gửi yêu cầu (tối đa 15s)...")
+    for _ in range(30):
+        page.wait_for_timeout(500)
+        if "reels_composer" not in page.url:
+            break
 
-    # 8. Kiểm tra trong danh sách (trình soạn đôi khi treo vòng xoay dù đã thành công)
+    # 8. Kiểm tra trong danh sách (tab riêng, đưa lên trước để người dùng thấy danh sách ngay)
+    want = caption.strip()[:25]
+    list_page = list_url.format(asset=asset_id)
     check = page.context.new_page()
     try:
+        check.bring_to_front()
         for attempt in range(12):     # ~3 phút
-            check.goto(list_url.format(asset=asset_id), wait_until="domcontentloaded", timeout=90000)
-            check.wait_for_timeout(8000)
-            if caption.strip()[:25] in body_text(check):
+            check.goto(list_page, wait_until="domcontentloaded", timeout=90000)
+            found = False
+            for _ in range(4):        # dò mỗi 2s, tối đa 8s cho mỗi lần tải
+                check.wait_for_timeout(2000)
+                if want in body_text(check):
+                    found = True
+                    break
+            if found:
                 log("XÁC NHẬN: đã thấy bài trong danh sách " + ("Đã lên lịch" if when else "Đã đăng"))
                 shot(check, "confirmed")
+                try:                  # trình soạn còn treo -> chuyển tab chính về danh sách (hộp 'rời trang' được tự chấp nhận)
+                    page.goto(list_page, wait_until="domcontentloaded", timeout=60000)
+                    page.bring_to_front()
+                except Exception as e:
+                    log(f"  (không chuyển được tab trình soạn về danh sách: {str(e)[:80]})")
                 return True
             log(f"Chưa thấy bài trong danh sách, thử lại {attempt + 1}/12")
             check.wait_for_timeout(7000)

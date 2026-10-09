@@ -16,3 +16,10 @@ venv/
 
 # Cấu hình preview của Claude
 .claude/
+
+# Khoá service account Google (ghi vào Sheet) – tuyệt đối không đưa lên git
+service_account.json
+*service_account*.json
+
+# Cấu hình VS Code (đường dẫn Python riêng từng máy)
+.vscode/

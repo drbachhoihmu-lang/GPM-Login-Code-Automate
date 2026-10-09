@@ -101,6 +101,11 @@ def set_config(c: Config):
     cfg = load_config()
     before = horizon_of(cfg)
     cfg.update(c.model_dump(exclude_unset=True))      # chỉ ghi đè các khoá được gửi lên
+    w = (cfg.get("webhook") or "").strip()
+    if w and not w.lower().startswith("http") and not (ps.is_sa_file(w) and Path(w).is_file()):
+        raise HTTPException(400, "Ô 'Cách ghi vào Sheet' phải là URL …/exec của Apps Script hoặc đường dẫn tới file .json "
+                                 "service account có thật trên máy")
+    cfg["webhook"] = w
     if not cfg.get("default_profile"):
         cfg["default_profile"] = pr.PROFILE_ID
     cfg["post_mode"] = post_mode_of(cfg)
@@ -283,8 +288,8 @@ def api_assign(r: AssignReq):
     (và 'Chờ đăng' nếu Trạng thái trống) vào Sheet qua webhook để lịch cố định ngay, không đợi tới lúc đăng."""
     cfg = load_config()
     if not cfg.get("webhook"):
-        raise HTTPException(400, "Chưa có URL webhook Apps Script (tab Cài đặt) nên không ghi được vào Sheet. "
-                                 "Cài theo mục 'Cài Apps Script' trong README rồi dán URL …/exec vào Cài đặt.")
+        raise HTTPException(400, "Chưa có cách ghi vào Sheet (tab Cài đặt): dán URL webhook Apps Script …/exec "
+                                 "hoặc đường dẫn file service_account.json.")
     only = None
     if r.rows:
         try:
@@ -295,10 +300,11 @@ def api_assign(r: AssignReq):
         prep = compute_plan(cfg)
     except Exception as e:
         raise HTTPException(400, f"Không đọc được Sheet: {str(e)[:200]}")
-    written, failed, _ = ps.write_slots(cfg["webhook"], cfg["sheet_url"], cfg["tab"], prep["items"], only)
+    written, synced, failed, _ = ps.write_slots(cfg["webhook"], cfg["sheet_url"], cfg["tab"], prep["items"], only)
     unassigned = [(it["row"], it["auto_fail"]) for it in prep["items"] if it.get("auto_fail") and (not only or it["row"] in only)]
     return {"ok": True, "at": datetime.now().strftime("%H:%M %d/%m/%Y"),
             "written": [{"row": rw, "when": wh} for rw, wh in written],
+            "synced": [{"row": rw, "status": st, "when": wh} for rw, st, wh in synced],
             "failed": [{"row": rw, "reason": why} for rw, why in failed],
             "unassigned": [{"row": rw, "reason": why} for rw, why in unassigned]}
 
@@ -349,13 +355,8 @@ def api_page_hours_set(r: HoursReq):
             else:
                 ph[a] = hours
         cfg["page_hours"] = ph
-        if cfg.get("webhook") and hours is not None:          # có webhook: ghi luôn vào cột Giờ đăng mặc định trên Sheet
-            try:
-                body = {"action": "upsert_pages", "pages": [{"asset": a, "hours": ", ".join(hours)} for a in targets]}
-                rr = requests.post(cfg["webhook"], json=body, timeout=30)
-                msg = "đã ghi vào tab Pages trên Sheet" if rr.status_code == 200 and '"ok"' in rr.text else f"Sheet: {rr.text[:100]}"
-            except Exception as e:
-                msg = f"không ghi được vào Sheet: {str(e)[:100]}"
+        if cfg.get("webhook") and hours is not None:          # có webhook / service account: ghi luôn vào cột Giờ đăng mặc định
+            _, msg = ps.sheet_upsert_pages(cfg["webhook"], cfg["sheet_url"], [{"asset": a, "hours": ", ".join(hours)} for a in targets])
     save_config(cfg)
     out = api_page_hours()
     out["message"] = msg

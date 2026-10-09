@@ -1,2 +1,5 @@
 playwright>=1.45
 requests>=2.31
+# ghi vào Sheet bằng service account (tuỳ chọn, thay cho webhook Apps Script)
+gspread>=6.0
+google-auth>=2.0
