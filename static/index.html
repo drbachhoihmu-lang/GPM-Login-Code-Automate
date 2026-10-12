@@ -6,87 +6,117 @@
 <title>GPMReels</title>
 <link rel="icon" href="/assets/gpmreels.ico">
 <style>
-  :root { --bg:#f3f5f9; --card:#fff; --line:#e3e6ec; --text:#1d2433; --muted:#6b7385; --blue:#1b74e4; --green:#1f9d55; --red:#d6453d; --amber:#c98a00;
-          --side:#1a2235; --side-text:#c9d1e0; --side-active:#2a3550; --side-w:230px; }
+  :root { --bg:#eef2ff; --bg2:#f8fafc; --card:#ffffff; --line:#dfe4f3; --text:#0f172a; --muted:#5b6b8c;
+          --blue:#2563eb; --blue-d:#1d4ed8; --violet:#7c3aed; --green:#16a34a; --red:#e11d48; --amber:#d97706; --cyan:#0891b2;
+          --grad:linear-gradient(90deg,#2563eb 0%,#7c3aed 100%);
+          --side:#0b1437; --side2:#1a1050; --side-text:#c7d2fe; --side-w:240px;
+          --shadow:0 4px 18px rgba(30,41,99,.08); --shadow-h:0 10px 28px rgba(30,41,99,.14); }
   * { box-sizing:border-box; }
   html, body { height:100%; }
-  body { margin:0; font:14px/1.45 "Segoe UI", system-ui, sans-serif; background:var(--bg); color:var(--text); display:flex; min-height:100vh; }
+  body { margin:0; font:14px/1.5 "Segoe UI", system-ui, sans-serif; color:var(--text); display:flex; min-height:100vh;
+         background:radial-gradient(1200px 500px at 85% -10%, #e0e7ff 0%, transparent 60%),
+                    radial-gradient(900px 400px at -10% 100%, #ede9fe 0%, transparent 55%), var(--bg2); }
+  a { color:var(--blue); font-weight:600; text-decoration:none; } a:hover { text-decoration:underline; }
+  code { background:#eef2ff; color:#3730a3; padding:1px 6px; border-radius:5px; font-size:12px; }
 
   /* ---------- menu dọc bên trái ---------- */
-  nav.side { width:var(--side-w); flex:0 0 var(--side-w); background:var(--side); color:var(--side-text); display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
-  .brand { display:flex; align-items:center; gap:10px; padding:16px 16px 12px; border-bottom:1px solid rgba(255,255,255,.08); }
-  .brand img { width:30px; height:30px; border-radius:7px; }
-  .brand b { color:#fff; font-size:16px; display:block; line-height:1.1; }
-  .brand small { font-size:11px; color:#8e99b0; }
-  .tabs { padding:10px 8px; display:flex; flex-direction:column; gap:2px; }
-  .tab { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:8px; cursor:pointer; color:var(--side-text); border:0; background:none; font:inherit; font-size:14px; text-align:left; width:100%; }
-  .tab:hover { background:rgba(255,255,255,.06); }
-  .tab.active { background:var(--side-active); color:#fff; font-weight:600; }
-  .tab .ico { width:22px; text-align:center; font-size:16px; }
+  nav.side { width:var(--side-w); flex:0 0 var(--side-w); color:var(--side-text); display:flex; flex-direction:column; position:sticky; top:0; height:100vh;
+             background:linear-gradient(180deg, var(--side) 0%, var(--side2) 100%); box-shadow:4px 0 24px rgba(11,20,55,.25); }
+  .brand { display:flex; align-items:center; gap:12px; padding:18px 16px 14px; border-bottom:1px solid rgba(255,255,255,.1);
+           background:linear-gradient(90deg, rgba(37,99,235,.25), rgba(124,58,237,.15)); }
+  .brand img { width:38px; height:38px; border-radius:10px; box-shadow:0 0 0 3px rgba(255,255,255,.12), 0 6px 16px rgba(37,99,235,.45); }
+  .brand b { color:#fff; font-size:18px; display:block; line-height:1.1; letter-spacing:.2px; }
+  .brand small { font-size:11px; color:#a5b4fc; }
+  .tabs { padding:12px 10px; display:flex; flex-direction:column; gap:4px; }
+  .tab { display:flex; align-items:center; gap:11px; padding:11px 13px; border-radius:10px; cursor:pointer; color:var(--side-text); border:0; background:none;
+         font:inherit; font-size:14px; font-weight:500; text-align:left; width:100%; transition:background .15s, transform .15s; }
+  .tab:hover { background:rgba(255,255,255,.08); color:#fff; transform:translateX(2px); }
+  .tab.active { background:var(--grad); color:#fff; font-weight:700; box-shadow:0 6px 16px rgba(37,99,235,.45); }
+  .tab .ico { width:24px; text-align:center; font-size:17px; }
   .tab .sp { flex:1; }
-  .badge { font-size:11px; min-width:20px; text-align:center; padding:1px 6px; border-radius:99px; background:#3a4660; color:#fff; }
-  .badge.ok { background:var(--green); } .badge.run { background:var(--blue); } .badge.bad { background:var(--red); }
+  .badge { font-size:11px; font-weight:700; min-width:22px; text-align:center; padding:2px 7px; border-radius:99px; background:#334a8a; color:#fff; }
+  .badge.ok { background:#22c55e; color:#052e16; } .badge.run { background:#38bdf8; color:#082f49; } .badge.bad { background:#f43f5e; }
+  .tab.active .badge { background:rgba(255,255,255,.25); color:#fff; }
   .badge:empty { display:none; }
-  .side-foot { margin-top:auto; padding:12px 14px 14px; border-top:1px solid rgba(255,255,255,.08); display:flex; flex-direction:column; gap:7px; font-size:12px; }
-  .stat { display:flex; align-items:center; gap:8px; color:#aeb8cc; }
-  .stat .dot { flex:0 0 auto; }
+  .side-foot { margin-top:auto; padding:14px 14px 16px; border-top:1px solid rgba(255,255,255,.1); display:flex; flex-direction:column; gap:8px; font-size:12px;
+               background:rgba(0,0,0,.18); }
+  .stat { display:flex; align-items:center; gap:9px; color:#c7d2fe; }
+  .stat .dot { flex:0 0 auto; box-shadow:0 0 0 3px rgba(255,255,255,.08); }
   .stat b { color:#fff; font-weight:600; }
-  .side-foot button { width:100%; }
+  .side-foot button { width:100%; margin-top:4px; background:rgba(255,255,255,.08); color:#fff; border-color:rgba(255,255,255,.18); font-weight:600; }
+  .side-foot button:hover { background:rgba(255,255,255,.16); }
 
   /* ---------- nội dung bên phải ---------- */
-  main { flex:1; min-width:0; padding:18px 24px 30px; }
+  main { flex:1; min-width:0; padding:22px 28px 36px; }
   .panel { display:none; max-width:1300px; }
-  .panel.active { display:block; }
-  .panel > h1 { font-size:20px; margin:0 0 14px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .panel.active { display:block; animation:fade .2s ease; }
+  @keyframes fade { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:none; } }
+  .panel > h1 { font-size:22px; font-weight:800; letter-spacing:-.2px; margin:0 0 16px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .panel > h1::before { content:""; width:6px; height:26px; border-radius:4px; background:var(--grad); flex:0 0 auto; }
   .panel > h1 .sp { flex:1; }
   .panel > h1 .sub { font-size:13px; color:var(--muted); font-weight:normal; }
-  .grid2 { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:14px; }
+  .grid2 { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:16px; }
 
-  .pill { font-size:12px; padding:2px 9px; border-radius:99px; background:#eef1f6; color:var(--muted); }
-  .pill.ok { background:#e3f5ea; color:var(--green); } .pill.bad { background:#fde8e6; color:var(--red); }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-bottom:16px; }
-  .card h2 { font-size:14px; margin:0 0 10px; display:flex; align-items:center; gap:8px; }
+  .pill { font-size:12px; font-weight:600; padding:3px 10px; border-radius:99px; background:#e2e8f0; color:#475569; }
+  .pill.ok { background:#dcfce7; color:#15803d; } .pill.bad { background:#ffe4e6; color:#be123c; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px 18px; margin-bottom:18px; box-shadow:var(--shadow); }
+  .card h2 { font-size:15px; font-weight:700; margin:0 0 12px; display:flex; align-items:center; gap:8px; }
   .card h2 .sp { flex:1; }
-  button { border:1px solid var(--line); background:#fff; color:var(--text); padding:6px 11px; border-radius:7px; cursor:pointer; font:inherit; font-size:13px; }
-  button:hover { background:#f6f8fb; }
-  button.primary { background:var(--blue); color:#fff; border-color:var(--blue); }
-  button.primary:hover { background:#1663c7; }
+  button { border:1px solid var(--line); background:#fff; color:var(--text); padding:7px 13px; border-radius:9px; cursor:pointer; font:inherit; font-size:13px; font-weight:600;
+           transition:background .15s, box-shadow .15s, transform .15s; }
+  button:hover { background:#eef2ff; border-color:#c7d2fe; }
+  button.primary { background:var(--grad); color:#fff; border-color:transparent; box-shadow:0 6px 14px rgba(37,99,235,.35); }
+  button.primary:hover { filter:brightness(1.07); transform:translateY(-1px); box-shadow:0 9px 20px rgba(37,99,235,.42); }
   button.danger { background:var(--red); color:#fff; border-color:var(--red); }
-  button.small { padding:3px 8px; font-size:12px; }
-  button:disabled { opacity:.5; cursor:default; }
-  .profile { border:1px solid var(--line); border-radius:9px; padding:10px 12px; margin-bottom:0; background:#fff; }
+  button.danger:hover { background:#be123c; }
+  button.small { padding:4px 10px; font-size:12px; }
+  button:disabled { opacity:.5; cursor:default; transform:none; box-shadow:none; }
+  .profile { border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin-bottom:0; background:#fff; box-shadow:var(--shadow); transition:box-shadow .15s, transform .15s; }
+  .profile:hover { box-shadow:var(--shadow-h); transform:translateY(-2px); }
   .profile .top { display:flex; align-items:center; gap:8px; }
-  .profile .name { font-weight:600; }
-  .dot { width:9px; height:9px; border-radius:50%; background:#c4c9d4; display:inline-block; }
-  .dot.controlled, .dot.ok { background:var(--green); } .dot.manual { background:var(--amber); } .dot.bad { background:var(--red); } .dot.run { background:var(--blue); }
+  .profile .name { font-weight:700; }
+  .dot { width:10px; height:10px; border-radius:50%; background:#cbd5e1; display:inline-block; }
+  .dot.controlled, .dot.ok { background:#22c55e; box-shadow:0 0 0 3px rgba(34,197,94,.22); }
+  .dot.manual { background:#f59e0b; box-shadow:0 0 0 3px rgba(245,158,11,.22); }
+  .dot.bad { background:#f43f5e; box-shadow:0 0 0 3px rgba(244,63,94,.22); }
+  .dot.run { background:#3b82f6; box-shadow:0 0 0 3px rgba(59,130,246,.25); animation:pulse 1.2s infinite; }
+  @keyframes pulse { 50% { box-shadow:0 0 0 6px rgba(59,130,246,.12); } }
   .profile .id { color:var(--muted); font-size:11px; }
   .profile .pages { margin:8px 0 4px; }
-  .page { display:flex; align-items:center; gap:8px; padding:4px 0; border-top:1px dashed var(--line); font-size:13px; }
+  .page { display:flex; align-items:center; gap:8px; padding:5px 0; border-top:1px dashed var(--line); font-size:13px; }
   .page .src { font-size:11px; color:var(--muted); }
-  .actions { display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; }
-  table { width:100%; border-collapse:collapse; font-size:13px; }
-  th, td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
-  th { color:var(--muted); font-weight:600; font-size:12px; }
+  .actions { display:flex; gap:7px; flex-wrap:wrap; margin-top:8px; }
+  table { width:100%; border-collapse:separate; border-spacing:0; font-size:13px; }
+  th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { background:#eef2ff; color:#3730a3; font-weight:700; font-size:11.5px; text-transform:uppercase; letter-spacing:.4px; }
+  th:first-child { border-radius:8px 0 0 0; } th:last-child { border-radius:0 8px 0 0; }
+  tbody tr:hover td { background:#f5f7ff; }
   tr.skip td { color:var(--muted); }
-  .st { font-size:11px; padding:1px 7px; border-radius:99px; background:#eef1f6; white-space:nowrap; }
-  .st.will { background:#e3f5ea; color:var(--green); } .st.err { background:#fde8e6; color:var(--red); }
-  .st.wait { background:#fff4e0; color:#9a5b00; }
+  .st { font-size:11px; font-weight:600; padding:2px 8px; border-radius:99px; background:#e2e8f0; color:#475569; white-space:nowrap; }
+  .st.will { background:#dcfce7; color:#15803d; } .st.err { background:#ffe4e6; color:#be123c; }
+  .st.wait { background:#fef3c7; color:#b45309; }
   .chips { display:flex; flex-wrap:wrap; gap:6px; margin:8px 0; min-height:26px; }
-  .chip { display:inline-flex; align-items:center; gap:6px; padding:3px 10px; border-radius:99px; background:#e8f0fe; color:#1b4fa0; font-size:13px; font-weight:600; }
-  .chip b { cursor:pointer; color:#7a8aa6; font-weight:normal; } .chip b:hover { color:var(--red); }
+  .chip { display:inline-flex; align-items:center; gap:6px; padding:4px 11px; border-radius:99px; background:#e0e7ff; color:#3730a3; font-size:13px; font-weight:700;
+          border:1px solid #c7d2fe; }
+  .chip b { cursor:pointer; color:#818cf8; font-weight:normal; } .chip b:hover { color:var(--red); }
   .chips .empty { color:var(--muted); font-size:12px; font-weight:normal; }
-  pre.log { background:#101522; color:#d7dce6; padding:12px; border-radius:8px; height:calc(100vh - 330px); min-height:260px; overflow:auto; font:12px/1.5 Consolas, monospace; white-space:pre-wrap; margin:0; }
+  pre.log { background:#0b1120; color:#cbd5e1; padding:14px; border-radius:10px; border-left:4px solid var(--blue); height:calc(100vh - 330px); min-height:260px;
+            overflow:auto; font:12.5px/1.55 Consolas, monospace; white-space:pre-wrap; margin:0; box-shadow:inset 0 0 0 1px rgba(255,255,255,.05); }
   .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-  input[type=text], input[type=number] { border:1px solid var(--line); border-radius:7px; padding:6px 9px; font:inherit; }
+  input[type=text], input[type=number] { border:1px solid var(--line); border-radius:8px; padding:7px 10px; font:inherit; background:#fff; transition:border .15s, box-shadow .15s; }
+  input[type=text]:focus, input[type=number]:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(37,99,235,.18); }
+  input[type=checkbox], input[type=radio] { accent-color:var(--blue); width:15px; height:15px; }
   input.tin { width:76px; text-align:center; padding:5px 4px; }
-  label.f { display:flex; flex-direction:column; gap:3px; font-size:12px; color:var(--muted); margin-bottom:10px; }
+  label.f { display:flex; flex-direction:column; gap:4px; font-size:12px; color:var(--muted); margin-bottom:12px; }
   label.f input[type=text] { width:100%; max-width:640px; }
-  .shots { display:grid; grid-template-columns:repeat(auto-fill, minmax(170px,1fr)); gap:8px; }
-  .shots a { display:block; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:#fff; }
+  .shots { display:grid; grid-template-columns:repeat(auto-fill, minmax(170px,1fr)); gap:10px; }
+  .shots a { display:block; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:#fff; box-shadow:var(--shadow); transition:transform .15s; }
+  .shots a:hover { transform:translateY(-2px); box-shadow:var(--shadow-h); }
   .shots img { width:100%; display:block; }
-  .shots span { display:block; font-size:11px; color:var(--muted); padding:3px 6px; }
+  .shots span { display:block; font-size:11px; color:var(--muted); padding:4px 7px; }
   .muted { color:var(--muted); }
-  .warn { background:#fff7e0; border:1px solid #f1dd9a; padding:8px 10px; border-radius:7px; font-size:13px; margin-bottom:10px; }
+  .warn { background:#fff7ed; border:1px solid #fdba74; border-left:4px solid #f97316; color:#7c2d12; padding:9px 12px; border-radius:9px; font-size:13px; margin-bottom:10px; }
+  ::-webkit-scrollbar { width:10px; height:10px; } ::-webkit-scrollbar-thumb { background:#c7d2fe; border-radius:99px; border:2px solid transparent; background-clip:padding-box; }
 
   /* màn hẹp: menu nằm ngang phía trên */
   @media (max-width:760px) {
@@ -158,6 +188,7 @@
         <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="radio" name="postMode" value="due" onchange="setAuto()"> Tới giờ mới đăng <span class="muted" style="font-size:12px">(chờ đúng ngày giờ trong Sheet rồi bấm "Chia sẻ ngay"; máy + GPM phải đang bật)</span></label>
       </div>
       <div id="autoInfo" class="muted" style="font-size:12px;margin-top:6px">—</div>
+      <div id="archiveLine" class="muted" style="font-size:12px;margin-top:4px"></div>
     </div>
   </section>
 
@@ -211,14 +242,26 @@
   <section class="panel" id="p-caidat">
     <h1>Cài đặt <span class="sub">lưu vào <code>config.json</code> trên máy này</span></h1>
     <div class="card">
-      <label class="f">Link Google Sheet <input type="text" id="cfgSheet"></label>
+      <label class="f"><b>Link Google Sheet</b> <input type="text" id="cfgSheet"></label>
       <label class="f"><span>Cách ghi vào Sheet — URL webhook Apps Script (…/exec) <b>hoặc</b> đường dẫn file service_account.json trên máy</span>
         <input type="text" id="cfgHook" placeholder="vd https://script.google.com/macros/s/…/exec  hoặc  D:\thu-muc\service_account.json"></label>
       <div class="muted" style="font-size:12px;margin:-6px 0 10px">Dùng file service_account.json: Sheet phải chia sẻ cho email <code>client_email</code> trong file đó quyền <b>Người chỉnh sửa</b> (hoặc đang để "Bất kỳ ai có link → Người chỉnh sửa").</div>
-      <label class="f">Profile mặc định (id hoặc tên) <input type="text" id="cfgProfile"></label>
+      <label class="f"><span><b>Profile mặc định</b> (id hoặc tên)</span> <input type="text" id="cfgProfile"></label>
       <div class="row"><label class="f">Tab hàng đợi <input type="text" id="cfgTab" style="width:200px"></label><label class="f">Tab Pages <input type="text" id="cfgPagesTab" style="width:200px"></label></div>
-      <label class="f">Lên lịch trước tối đa (ngày) – chế độ <b>Lên lịch trên Facebook</b>: mỗi lần chạy chỉ lên lịch bài tới hôm nay + N ngày; 1 = tới hết ngày mai, 0 = chỉ hôm nay; bài xa hơn chờ tới ngày mới lên
+      <label class="f"><span><b>Lên lịch trước tối đa (ngày)</b> – chế độ <b>Lên lịch trên Facebook</b>: mỗi lần chạy chỉ lên lịch bài tới hôm nay + N ngày; 1 = tới hết ngày mai, 0 = chỉ hôm nay; bài xa hơn chờ tới ngày mới lên</span>
         <input type="number" id="cfgHorizon" min="0" max="60" style="width:90px"></label>
+      <label class="f"><span><b>Mở tối đa bao nhiêu profile Chrome cùng lúc</b> khi đăng – bài được đăng <b>xen kẽ</b> giữa các profile đang mở, mỗi profile một fanpage (không đăng liền nhiều bài một page); profile hết bài thì đóng rồi mở profile kế tiếp. Các cửa sổ Chrome mở cùng lúc được xếp cạnh nhau trên màn hình (2 = hai nửa, 3 = ba cột), không đè lên nhau</span>
+        <input type="number" id="cfgOpenMax" min="1" max="10" style="width:90px"></label>
+      <label class="f"><span><b>Nghỉ giữa 2 bài đăng</b> – sau mỗi bài, chờ ngẫu nhiên trong khoảng này (giây) rồi mới đăng bài kế cho giống thao tác người thật; đặt cả hai ô = 0 nếu không muốn nghỉ</span>
+        <span class="row">từ <input type="number" id="cfgPauseMin" min="0" max="3600" style="width:90px"> đến <input type="number" id="cfgPauseMax" min="0" max="3600" style="width:90px"> giây</span></label>
+      <div class="f" style="display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);margin-bottom:12px">
+        <span><b>Dọn bài đã đăng sang tab "Đã đăng"</b> – mỗi ngày một lượt vào giờ dưới đây: giữ lại bài của <b>hôm nay và hôm qua</b>; các bài <b>Đã đăng / Đã lên lịch</b> của những ngày trước đó được chuyển <b>nguyên cả ngày</b> (không chuyển lẻ từng bài). Phần mềm phải đang mở; mở muộn hơn giờ này thì dọn ngay khi mở. Không dọn khi đang có việc đăng chạy.</span>
+        <span class="row"><label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="cfgArchiveOn"> Bật</label>
+          lúc <input type="number" id="cfgArchiveHour" min="0" max="23" style="width:70px"> giờ
+          <button class="small" onclick="archiveNow(true)" title="Chỉ đếm, không chuyển">Xem sẽ dọn gì</button>
+          <button class="small" onclick="archiveNow(false)">Dọn ngay</button>
+          <span id="archiveInfo" style="font-size:12px"></span></span>
+      </div>
       <div class="actions"><button class="primary" onclick="saveConfig()">Lưu</button><span id="cfgSaved" class="muted" style="align-self:center;font-size:12px"></span></div>
     </div>
     <div class="card">
@@ -324,11 +367,28 @@ async function loadConfig() {
   $('#cfgSheet').value = CFG.sheet_url || ''; $('#cfgHook').value = CFG.webhook || '';
   $('#cfgProfile').value = CFG.default_profile || ''; $('#cfgTab').value = CFG.tab || ''; $('#cfgPagesTab').value = CFG.pages_tab || '';
   $('#cfgHorizon').value = (CFG.schedule_horizon_days ?? 1);
+  $('#cfgOpenMax').value = (CFG.max_open_profiles ?? 3);
+  $('#cfgPauseMin').value = (CFG.pause_min ?? 20);
+  $('#cfgPauseMax').value = (CFG.pause_max ?? 60);
+  $('#cfgArchiveOn').checked = (CFG.archive_enabled ?? true);
+  $('#cfgArchiveHour').value = (CFG.archive_hour ?? 17);
 }
+async function archiveNow(dry) {
+  const info = $('#archiveInfo');
+  if (!CFG.webhook) { alert('Chưa có cách ghi vào Sheet (ô "Cách ghi vào Sheet" ở trên).'); return; }
+  if (!dry && !confirm('Chuyển các bài Đã đăng / Đã lên lịch của những ngày trước hôm qua sang tab "Đã đăng" và xoá khỏi Lịch đăng?')) return;
+  info.textContent = dry ? 'Đang đếm…' : 'Đang dọn…';
+  try { const d = await post('/api/archive', {dry_run: !!dry}); info.textContent = (dry ? '(xem trước) ' : '') + d.result; if (!dry) setTimeout(loadSheet, 2500); }
+  catch (e) { info.textContent = 'Lỗi: ' + e.message; }
+}
+const numOr = (sel, dflt, lo, hi) => { const v = parseInt($(sel).value); return isNaN(v) ? dflt : Math.max(lo, Math.min(hi, v)); };
 async function saveConfig() {
   CFG = await post('/api/config', {sheet_url: $('#cfgSheet').value.trim(), webhook: $('#cfgHook').value.trim(),
     default_profile: $('#cfgProfile').value.trim(), tab: $('#cfgTab').value.trim(), pages_tab: $('#cfgPagesTab').value.trim(),
-    schedule_horizon_days: Math.max(0, Math.min(60, parseInt($('#cfgHorizon').value) || 0))});
+    schedule_horizon_days: Math.max(0, Math.min(60, parseInt($('#cfgHorizon').value) || 0)),
+    max_open_profiles: Math.max(1, Math.min(10, parseInt($('#cfgOpenMax').value) || 3)),
+    pause_min: numOr('#cfgPauseMin', 20, 0, 3600), pause_max: numOr('#cfgPauseMax', 60, 0, 3600),
+    archive_enabled: $('#cfgArchiveOn').checked, archive_hour: numOr('#cfgArchiveHour', 17, 0, 23)});
   loadAuto();
   $('#cfgSaved').textContent = 'Đã lưu ' + new Date().toLocaleTimeString('vi'); setTimeout(() => $('#cfgSaved').textContent = '', 4000);
   loadSheet(); loadProfiles();
@@ -394,6 +454,9 @@ async function loadSheet() {
     const st = r.status ? `<span class="st ${/^l[ỗo]i/i.test(r.status)?'err':''}">${esc(r.status)}</span>` : '';
     const plan = r.will ? `<span class="st will">${r.due ? 'tới giờ → đăng ngay' : 'sẽ đăng'}</span>`
                : r.waiting ? `<span class="st wait" title="${esc(r.reason)}">${esc(r.wait_label || 'chưa tới giờ')}</span>`
+               : r.page_bad ? `<span class="st err" title="Mỗi profile GPM gắn một fanpage (tab Pages). Page này chưa có profile nào gắn – phần mềm không mượn profile khác để đổi page. Hàng được ghi Trạng thái Lỗi trên Sheet.">page chưa có profile</span> <span class="muted">${esc(r.reason)}</span>`
+               : r.past_bad ? `<span class="st err" title="Giờ/ngày đăng ghi trên Sheet đã qua lúc kiểm tra mà bài chưa được đăng. Hàng được ghi Trạng thái Lỗi + Ghi chú trên Sheet; ghi Ngày/Giờ mới (hoặc xoá Ngày/Giờ để tự xếp) rồi xoá ô Trạng thái để đăng lại.">quá giờ chưa đăng</span> <span class="muted">${esc(r.reason)}</span>`
+               : r.slot_bad ? `<span class="st err" title="Thứ tự hàng trên Sheet là thứ tự đăng: hàng này phải nằm sau giờ của hàng trên và trước giờ của hàng dưới cùng page, nhưng các khung giờ mặc định ở giữa đã kín. Hàng được ghi Trạng thái Lỗi + Ghi chú trên Sheet.">hết khung giờ trống</span> <span class="muted">${esc(r.reason)}</span>`
                : `<span class="muted">${esc(r.reason)}</span>`;
     tb.insertAdjacentHTML('beforeend', `<tr class="${(r.will||r.waiting)?'':'skip'}"><td>${r.row}</td><td>${esc(r.when)}${r.auto_from ? ` <span class="st err" title="Giờ trên Sheet ${esc(r.auto_from)} đã qua mà chưa đăng – phần mềm dời sang ngày kế tiếp còn trống (giữ giờ). Bấm 'Xếp lịch vào Sheet' để ghi lại vào Sheet.">dời từ ${esc(r.auto_from)}</span>` : r.auto ? ' <span class="st" title="Sheet không ghi ngày giờ – phần mềm tự xếp theo khung giờ của page (tab Giờ đăng)">tự xếp</span>' : ''}</td><td>${esc(r.page||'(mặc định)')}</td><td>${esc(r.profile||'(mặc định)')}</td><td>${esc((r.title||'(lấy từ kịch bản Drive)').slice(0,60))}</td><td>${st}</td><td>${plan}</td></tr>`);
   }
@@ -429,6 +492,7 @@ async function assignSlots() {
     const parts = [`${d.at}: xếp mới ${d.written.length} hàng` + (d.written.length ? ' (' + d.written.map(w => `hàng ${w.row} → ${w.when}`).join(', ') + ')' : '')];
     if (d.synced.length) parts.push(`điền lại ${d.synced.length} hàng đã đăng: ` + d.synced.map(s => `hàng ${s.row} → ${s.status}${s.when ? ' ' + s.when : ''}`).join(', '));
     if (d.failed.length) parts.push(`không ghi được ${d.failed.length} hàng: ` + d.failed.map(f => `hàng ${f.row}`).join(', '));
+    if (d.errored && d.errored.length) parts.push(`ghi Lỗi vào Sheet ${d.errored.length} hàng: ` + d.errored.map(u => `hàng ${u.row} – ${u.reason}`).join('; '));
     if (d.unassigned.length) parts.push(`chưa xếp được: ` + d.unassigned.map(u => `hàng ${u.row} (${u.reason})`).join('; '));
     msg.textContent = parts.join(' · ');
     setTimeout(loadSheet, 2500);          // Sheet export CSV cần vài giây mới thấy ô vừa ghi
@@ -472,6 +536,12 @@ async function loadAuto() {
     $('#autoPill2').textContent = txt; $('#autoPill2').className = 'pill ' + (d.enabled ? 'ok' : '');
     $('#autoPill').textContent = 'Tự động: ' + txt; $('#autoDot').className = 'dot ' + (d.enabled ? 'ok' : '');
     $('#autoInfo').textContent = (d.last ? `Lần kiểm tra gần nhất ${d.last}: ${d.result}` : 'Chưa kiểm tra lần nào') + (d.next && d.enabled ? ` · lần tới ${d.next}` : '');
+    if (d.archive) {
+      const a = d.archive;
+      $('#archiveLine').textContent = `Dọn bài đã đăng sang tab "Đã đăng": ${a.enabled ? `mỗi ngày lúc ${a.hour}h` : 'đang tắt'}` +
+        (a.last ? ` · lần gần nhất ${a.last}: ${a.result}` : ' · chưa dọn lần nào') + (a.enabled && !a.done_today ? ' · hôm nay chưa dọn' : '');
+      if (!$('#archiveInfo').textContent) $('#archiveInfo').textContent = a.last ? `Lần gần nhất ${a.last}: ${a.result}` : '';
+    }
     if (d.job && !JOB) { const j = await api(`/api/jobs/${d.job}`); if (j.running) watch(d.job); }
   } catch (e) {}
 }

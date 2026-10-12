@@ -41,6 +41,11 @@ DEFAULT_CONFIG = {
     "page_hours": {},             # {asset_id: ["07:00", "10:00", ...]} khung giờ sửa trên web (ghi đè tab Pages)
     "slot_lead_min": 20,          # tự xếp giờ: khung giờ phải cách hiện tại ít nhất N phút
     "schedule_horizon_days": 1,   # mode schedule: chỉ lên lịch tới hôm nay + N ngày (1 = tới hết ngày mai)
+    "max_open_profiles": 3,       # khi đăng: mở tối đa N profile Chrome cùng lúc, bài đăng xen kẽ giữa các profile (mỗi profile 1 fanpage)
+    "pause_min": 20,              # nghỉ giữa 2 bài khi đăng: ngẫu nhiên từ pause_min tới pause_max giây (cả hai = 0: không nghỉ)
+    "pause_max": 60,
+    "archive_enabled": True,      # dọn bài Đã đăng / Đã lên lịch của các ngày trước hôm qua sang tab "Đã đăng", mỗi ngày 1 lượt
+    "archive_hour": 17,           # ... vào giờ này (0-23); mở phần mềm muộn hơn thì dọn ngay khi mở
 }
 
 app = FastAPI(title="GPMReels")
@@ -73,6 +78,11 @@ class Config(BaseModel):
     post_mode: str = "schedule"
     slot_lead_min: int = 20
     schedule_horizon_days: int = 1
+    max_open_profiles: int = 3
+    pause_min: int = 20
+    pause_max: int = 60
+    archive_enabled: bool = True
+    archive_hour: int = 17
 
 
 def post_mode_of(cfg):
@@ -84,6 +94,31 @@ def horizon_of(cfg):
         return max(0, min(60, int(cfg.get("schedule_horizon_days", 1))))
     except (TypeError, ValueError):
         return 1
+
+
+def open_max_of(cfg):
+    try:
+        return max(1, min(10, int(cfg.get("max_open_profiles", 3))))
+    except (TypeError, ValueError):
+        return 3
+
+
+def archive_hour_of(cfg):
+    try:
+        return max(0, min(23, int(cfg.get("archive_hour", 17))))
+    except (TypeError, ValueError):
+        return 17
+
+
+def pause_of(cfg):
+    """Nghỉ giữa 2 bài khi đăng: khoảng ngẫu nhiên (lo, hi) giây, 0-3600, lo <= hi."""
+    def num(key, default):
+        try:
+            return max(0, min(3600, int(cfg.get(key, default))))
+        except (TypeError, ValueError):
+            return default
+    lo, hi = num("pause_min", 20), num("pause_max", 60)
+    return (lo, hi) if lo <= hi else (hi, lo)
 
 
 @app.get("/")
@@ -110,6 +145,10 @@ def set_config(c: Config):
         cfg["default_profile"] = pr.PROFILE_ID
     cfg["post_mode"] = post_mode_of(cfg)
     cfg["schedule_horizon_days"] = horizon_of(cfg)
+    cfg["max_open_profiles"] = open_max_of(cfg)
+    cfg["pause_min"], cfg["pause_max"] = pause_of(cfg)
+    cfg["archive_hour"] = archive_hour_of(cfg)
+    cfg["archive_enabled"] = bool(cfg.get("archive_enabled", True))
     if cfg["schedule_horizon_days"] != before:
         AUTO["last_tick"] = 0.0                       # đổi giới hạn ngày -> bộ tự động kiểm tra lại ngay
     save_config(cfg)
@@ -199,13 +238,18 @@ def _connect(port):
 
 
 def open_in_profile(profile_id, url):
-    """Mở profile (nếu chưa) và điều hướng tab tới url. Chạy trong thread riêng."""
+    """Mở profile (nếu chưa), xếp cửa sổ Chrome vào ô kế tiếp trên màn hình (số ô = 'Mở tối đa N profile' ở Cài đặt, nên
+    cạnh các profile đang mở, không đè lên nhau) rồi điều hướng tab tới url (nếu có). Chạy trong thread riêng."""
     from playwright.sync_api import sync_playwright
-    port = pr.gpm_start(profile_id)
+    total = open_max_of(load_config())
+    others = [p for p in running_profiles() if p != profile_id]          # profile khác đang có Chrome chạy
+    win = min(len(others), total - 1)
+    port = pr.gpm_start(profile_id, win=(win, total))
     time.sleep(4)
-    if url:
-        with sync_playwright() as p:
-            b = p.chromium.connect_over_cdp(f"http://127.0.0.1:{port}")
+    with sync_playwright() as p:
+        b = p.chromium.connect_over_cdp(f"http://127.0.0.1:{port}")
+        pr.place_window(b, win, total)
+        if url:
             page = pr.pick_page(b.contexts[0])
             page.goto(url, wait_until="domcontentloaded", timeout=90000)
     return port
@@ -301,11 +345,19 @@ def api_assign(r: AssignReq):
     except Exception as e:
         raise HTTPException(400, f"Không đọc được Sheet: {str(e)[:200]}")
     written, synced, failed, _ = ps.write_slots(cfg["webhook"], cfg["sheet_url"], cfg["tab"], prep["items"], only)
-    unassigned = [(it["row"], it["auto_fail"]) for it in prep["items"] if it.get("auto_fail") and (not only or it["row"] in only)]
+    # hàng trống không còn khung giờ trống đúng thứ tự (kẹp giữa hàng trên/dưới) / giờ đăng đã qua mà chưa đăng
+    # -> ghi 'Lỗi' + ghi chú vào Sheet luôn
+    errored = ps.write_page_errors(cfg["webhook"], cfg["sheet_url"], cfg["tab"],
+                                   [(it, why) for it, why in prep["skipped"]
+                                    if (it.get("slot_bad") or it.get("past_bad")) and (not only or it["row"] in only)])
+    err_rows = {it["row"] for it, _ in errored}
+    unassigned = [(it["row"], it["auto_fail"]) for it in prep["items"]
+                  if it.get("auto_fail") and it["row"] not in err_rows and (not only or it["row"] in only)]
     return {"ok": True, "at": datetime.now().strftime("%H:%M %d/%m/%Y"),
             "written": [{"row": rw, "when": wh} for rw, wh in written],
             "synced": [{"row": rw, "status": st, "when": wh} for rw, st, wh in synced],
             "failed": [{"row": rw, "reason": why} for rw, why in failed],
+            "errored": [{"row": it["row"], "reason": why} for it, why in errored],
             "unassigned": [{"row": rw, "reason": why} for rw, why in unassigned]}
 
 
@@ -378,30 +430,83 @@ def auto_check_once(cfg):
     prep = compute_plan(cfg)
     if prep.get("next_due"):
         AUTO["next_due"] = prep["next_due"].timestamp()
+    # page không gắn với profile nào (mỗi profile một fanpage) / giờ đăng đã qua mà chưa đăng / hàng trống hết khung giờ
+    # trống đúng thứ tự -> ghi 'Lỗi' + lý do vào Sheet ngay, không chờ lượt đăng
+    bad = ps.write_page_errors(cfg.get("webhook"), cfg["sheet_url"], cfg["tab"], prep["skipped"])
+    n_page = sum(1 for it, _ in bad if it.get("page_bad"))
+    n_past = sum(1 for it, _ in bad if it.get("past_bad"))
+    n_slot = len(bad) - n_page - n_past
+    tail = ((f"; {n_page} hàng ghi 'Lỗi' vì page chưa gắn profile nào" if n_page else "")
+            + (f"; {n_past} hàng ghi 'Lỗi' vì quá giờ đăng mà chưa đăng" if n_past else "")
+            + (f"; {n_slot} hàng ghi 'Lỗi' vì không còn khung giờ trống đúng thứ tự" if n_slot else ""))
     pending = [r for r in prep["rows"] if r["will"]]
     waiting = [r for r in prep["rows"] if r.get("waiting")]
     due_mode = prep["mode"] == "due"
     if not pending:
         if waiting and due_mode:
-            return f"{len(waiting)} bài chưa tới giờ, gần nhất {prep['next_due']:%H:%M %d/%m} – sẽ đăng đúng lúc đó"
+            return f"{len(waiting)} bài chưa tới giờ, gần nhất {prep['next_due']:%H:%M %d/%m} – sẽ đăng đúng lúc đó" + tail
         if waiting:
             return (f"{len(waiting)} bài chưa tới lượt (chỉ lên lịch tới hôm nay + {horizon_of(cfg)} ngày), "
-                    f"lượt kế từ 0h {prep['next_due']:%d/%m}")
-        return "không có bài chờ đăng"
+                    f"lượt kế từ 0h {prep['next_due']:%d/%m}") + tail
+        return "không có bài chờ đăng" + tail
     if not prep["gpm_ok"]:
-        return f"có {len(pending)} bài {'tới giờ' if due_mode else 'chờ'} nhưng GPM Login chưa chạy"
+        return f"có {len(pending)} bài {'tới giờ' if due_mode else 'chờ'} nhưng GPM Login chưa chạy" + tail
     wl = "chưa tới giờ" if due_mode else "chưa tới lượt"
     jid = _spawn(_base_args(cfg), f"Tự động: {'đăng' if due_mode else 'lên lịch'} {len(pending)} bài"
                  + (f" ({len(waiting)} bài khác {wl})" if waiting else ""))
     AUTO["job"] = jid
     return (f"đã bắt đầu {'đăng' if due_mode else 'lên lịch'} {len(pending)} bài (job {jid})"
-            + (f"; {len(waiting)} bài {wl}" if waiting else ""))
+            + (f"; {len(waiting)} bài {wl}" if waiting else "") + tail)
+
+
+ARCHIVE_STATE = LOG_DIR / "archive_state.json"
+ARCHIVE = {"last_date": None, "last": None, "result": ""}      # dọn bài đã đăng: mỗi ngày 1 lượt
+try:
+    ARCHIVE.update(json.loads(ARCHIVE_STATE.read_text(encoding="utf-8")))
+except Exception:
+    pass
+
+
+def job_running():
+    return any(j["proc"].poll() is None for j in JOBS.values())
+
+
+def archive_once(cfg, force=False):
+    """Dọn bài Đã đăng / Đã lên lịch của các ngày trước hôm qua sang tab 'Đã đăng' (nguyên cả ngày, một lượt).
+    Không chạy khi đang có việc đăng (xoá hàng làm lệch số hàng mà việc đang ghi). Trả về chuỗi kết quả."""
+    if job_running():
+        return "đang có việc đăng chạy, để lát nữa dọn"
+    res = ps.sheet_archive(cfg.get("webhook"), cfg["sheet_url"], cfg["tab"], ps.TAB_DONE, keep_days=1)
+    txt = ps.archive_summary(res)
+    ARCHIVE["last"] = datetime.now().strftime("%H:%M %d/%m")
+    ARCHIVE["result"] = txt
+    if res.get("ok") or force:
+        ARCHIVE["last_date"] = datetime.now().date().isoformat()
+    try:
+        ARCHIVE_STATE.write_text(json.dumps(ARCHIVE, ensure_ascii=False), encoding="utf-8")
+    except Exception:
+        pass
+    print(f"[archive] {ARCHIVE['last']}: {txt}", flush=True)
+    return txt
+
+
+def archive_tick(cfg):
+    """Mỗi ngày 1 lượt, từ archive_hour trở đi (mở phần mềm muộn thì dọn ngay); đang có việc đăng thì thử lại ở vòng sau."""
+    if not cfg.get("archive_enabled", True) or not cfg.get("webhook"):
+        return
+    now = datetime.now()
+    if now.hour < archive_hour_of(cfg) or ARCHIVE.get("last_date") == now.date().isoformat():
+        return
+    if job_running():
+        return
+    archive_once(cfg)
 
 
 def auto_loop():
     while True:
         try:
             cfg = load_config()
+            archive_tick(cfg)
             interval = max(1, int(cfg.get("auto_interval") or 5)) * 60
             if cfg.get("auto_check"):
                 now = time.time()
@@ -444,7 +549,30 @@ def api_auto():
             "mode": post_mode_of(cfg), "horizon": horizon_of(cfg),
             "last": AUTO["last"], "result": AUTO["result"], "next": AUTO["next"],
             "job": AUTO["job"],
-            "next_due": datetime.fromtimestamp(AUTO["next_due"]).strftime("%H:%M %d/%m") if AUTO.get("next_due") else None}
+            "next_due": datetime.fromtimestamp(AUTO["next_due"]).strftime("%H:%M %d/%m") if AUTO.get("next_due") else None,
+            "archive": {"enabled": bool(cfg.get("archive_enabled", True)), "hour": archive_hour_of(cfg),
+                        "last": ARCHIVE.get("last"), "result": ARCHIVE.get("result"),
+                        "done_today": ARCHIVE.get("last_date") == datetime.now().date().isoformat()}}
+
+
+class ArchiveReq(BaseModel):
+    dry_run: bool = False
+
+
+@app.post("/api/archive")
+def api_archive(r: ArchiveReq):
+    """Nút 'Dọn ngay': chuyển bài Đã đăng / Đã lên lịch của các ngày trước hôm qua sang tab 'Đã đăng' (dry_run = chỉ đếm)."""
+    cfg = load_config()
+    if not cfg.get("webhook"):
+        raise HTTPException(400, "Chưa có cách ghi vào Sheet (tab Cài đặt): dán URL webhook Apps Script …/exec "
+                                 "hoặc đường dẫn file service_account.json.")
+    if r.dry_run:
+        res = ps.sheet_archive(cfg.get("webhook"), cfg["sheet_url"], cfg["tab"], ps.TAB_DONE, keep_days=1, dry_run=True)
+        return {"ok": bool(res.get("ok")), "result": ps.archive_summary(res), "dry_run": True}
+    if job_running():
+        raise HTTPException(409, "Đang có việc đăng chạy, chờ xong rồi dọn (xoá hàng lúc này làm lệch số hàng)")
+    txt = archive_once(cfg, force=True)
+    return {"ok": not txt.startswith("lỗi"), "result": txt, "at": ARCHIVE.get("last")}
 
 
 @app.post("/api/auto")
@@ -481,7 +609,8 @@ class RunReq(BaseModel):
 def _base_args(cfg):
     base = ["post_sheet.py", "--sheet", cfg["sheet_url"], "--tab", cfg["tab"], "--pages-tab", cfg["pages_tab"],
             "--profile", cfg["default_profile"], "--mode", post_mode_of(cfg),
-            "--config", str(CONFIG_FILE), "--window", str(window_of(cfg)), "--horizon", str(horizon_of(cfg))]
+            "--config", str(CONFIG_FILE), "--window", str(window_of(cfg)), "--horizon", str(horizon_of(cfg)),
+            "--open-max", str(open_max_of(cfg)), "--pause", "%d-%d" % pause_of(cfg)]
     if cfg.get("webhook"):
         base += ["--webhook", cfg["webhook"]]
     return base

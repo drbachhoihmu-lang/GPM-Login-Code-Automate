@@ -12,6 +12,7 @@ import argparse
 import hashlib
 import html
 import json
+import math
 import os
 import re
 import socket
@@ -100,8 +101,63 @@ GPM_START_HINTS = {
 }
 
 
-def gpm_start(profile_id, retries=8):
+def work_area():
+    """(trái, trên, rộng, cao) của màn hình chính trừ thanh tác vụ, theo đơn vị Chrome dùng khi đặt cửa sổ (DIP – điểm ảnh
+    độc lập DPI; tiến trình Python thường không nhận DPI nên Windows đã trả về đúng đơn vị này). Không đọc được -> 1920x1040."""
+    try:
+        import ctypes
+        from ctypes import wintypes
+        u = ctypes.windll.user32
+        r = wintypes.RECT()
+        if u.SystemParametersInfoW(0x0030, 0, ctypes.byref(r), 0):          # SPI_GETWORKAREA
+            k = 1.0
+            try:
+                if u.IsProcessDPIAware():                                    # nhận DPI -> toạ độ là pixel thật, quy về DIP
+                    k = max(1.0, u.GetDpiForSystem() / 96.0)
+            except Exception:
+                pass
+            return int(r.left / k), int(r.top / k), int((r.right - r.left) / k), int((r.bottom - r.top) / k)
+    except Exception:
+        pass
+    return 0, 0, 1920, 1040
+
+
+def window_rect(idx=0, total=1):
+    """Ô thứ idx (từ 0) khi chia vùng làm việc màn hình cho `total` cửa sổ Chrome mở cùng lúc, để chúng nằm cạnh nhau,
+    không đè lên nhau: 1 = cả màn hình, 2 = hai nửa, 3 = ba cột; nhiều hơn -> lưới gần vuông. Trả về (trái, trên, rộng, cao)."""
+    total = max(1, int(total or 1))
+    idx = max(0, int(idx or 0)) % total
+    cols = total if total <= 3 else math.ceil(math.sqrt(total))
+    rows = math.ceil(total / cols)
+    x0, y0, sw, sh = work_area()
+    w, h = sw // cols, sh // rows
+    return x0 + (idx % cols) * w, y0 + (idx // cols) * h, w, h
+
+
+def place_window(browser, idx=0, total=1):
+    """Đưa cửa sổ Chrome của profile (đã nối qua CDP) vào ô window_rect(idx, total). GPM có nhận window_pos/window_size
+    lúc mở, nhưng profile đang mở sẵn (dùng lại cổng cũ) hoặc GPM nhớ vị trí cũ thì không đổi -> ép lại qua CDP cho chắc.
+    Không xếp được chỉ ghi log, không chặn việc đăng."""
+    try:
+        x, y, w, h = window_rect(idx, total)
+        ctx = browser.contexts[0]
+        pages = [pg for pg in ctx.pages if not pg.is_closed()]
+        page = pages[0] if pages else ctx.new_page()
+        cdp = ctx.new_cdp_session(page)
+        wid = cdp.send("Browser.getWindowForTarget")["windowId"]
+        cdp.send("Browser.setWindowBounds", {"windowId": wid, "bounds": {"windowState": "normal"}})   # đang phóng to -> thu về trước
+        cdp.send("Browser.setWindowBounds", {"windowId": wid, "bounds": {"left": x, "top": y, "width": w, "height": h}})
+        cdp.detach()
+        if total > 1:
+            log(f"Cửa sổ Chrome xếp vào ô {idx + 1}/{total} ({w}x{h} tại {x},{y})")
+    except Exception as e:
+        log(f"Không xếp được cửa sổ Chrome vào ô {idx + 1}/{total}: {str(e)[:120]}")
+
+
+def gpm_start(profile_id, retries=8, win=None):
     """Mở profile qua GPM Local API, trả về cổng remote debugging.
+    win = (ô, tổng số ô): cửa sổ Chrome mở vào ô thứ `ô` khi chia màn hình cho `tổng` cửa sổ cạnh nhau (window_rect) để các
+    profile mở cùng lúc không đè lên nhau; None = một cửa sổ chiếm cả màn hình. Sau khi nối CDP nên gọi place_window() cùng (ô, tổng).
     Thứ tự: mở có bỏ qua kiểm tra proxy (nhanh) -> nếu GPM văng 'Sequence contains no matching element' thì mở lại
     CÓ kiểm tra proxy để lộ nguyên nhân thật (vd ProxyCheckFailed) -> lỗi không thể tự xử lý thì dừng ngay, báo rõ."""
     # Nếu lần trước script đã mở profile và cửa sổ vẫn còn -> dùng lại cổng cũ
@@ -114,7 +170,8 @@ def gpm_start(profile_id, retries=8):
             return old
         except Exception:
             pass
-    base = f"{GPM_API}/profiles/start/{profile_id}?window_size=1400,900&window_pos=0,0"
+    x, y, w, h = window_rect(*(win or (0, 1)))
+    base = f"{GPM_API}/profiles/start/{profile_id}?window_size={w},{h}&window_pos={x},{y}"
     skip_proxy = True
     last = ""
     for i in range(retries):
@@ -1015,6 +1072,7 @@ def main():
     time.sleep(5)
     with sync_playwright() as p:
         browser = p.chromium.connect_over_cdp(f"http://127.0.0.1:{port}")
+        place_window(browser)
         page = pick_page(browser.contexts[0], a.resume)
         try:
             ok = post_reel(page, a.video, a.caption, when, a.dry_run, a.asset_id, a.resume)

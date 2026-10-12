@@ -3,12 +3,14 @@
  *   1. setupSheet()   : dựng 3 tab  Pages / Lịch đăng / Đã đăng  (chạy 1 lần, chạy lại không hỏng dữ liệu)
  *   2. doPost()       : webhook để post_sheet.py ghi Page / Trạng thái / Ghi chú (và Ngày/Giờ tự xếp) vào đúng hàng;
  *                       action "upsert_pages" thêm/cập nhật tab Pages (tên, asset_id, profile, Giờ đăng mặc định)
- *   3. archiveOld()   : dọn bài đã đăng/đã lên lịch quá N ngày sang tab "Đã đăng" (installNightlyTrigger() để tự chạy 3h sáng)
+ *   3. archiveOld()   : dọn bài Đã đăng/Đã lên lịch của các ngày TRƯỚC HÔM QUA sang tab "Đã đăng", nguyên cả ngày một lượt
+ *                       (installNightlyTrigger() để tự chạy 17h mỗi ngày). Phần mềm GPMReels cũng tự dọn như vậy lúc 17h
+ *                       qua service account hoặc gọi webhook với action "archive" – chỉ cần một trong hai.
  *
  * Cài (1 lần):
  *  - Mở Sheet -> Tiện ích mở rộng -> Apps Script -> dán toàn bộ file này -> Lưu.
  *  - Chọn hàm setupSheet ở thanh trên -> Chạy -> cho phép quyền. Sheet có đủ 3 tab.
- *  - (tuỳ chọn) Chọn hàm installNightlyTrigger -> Chạy: mỗi đêm 3h tự dọn bài cũ sang "Đã đăng".
+ *  - (tuỳ chọn, không cần nếu dùng GPMReels) Chọn hàm installNightlyTrigger -> Chạy: 17h mỗi ngày tự dọn bài cũ sang "Đã đăng".
  *  - Triển khai -> Tùy chọn triển khai mới -> Ứng dụng web: Thực thi với tư cách: Tôi; Ai có quyền: Bất kỳ ai
  *    -> Triển khai -> copy "URL ứng dụng web" (…/exec) -> dán vào SHEET_WEBHOOK trong post_sheet.py.
  *  - Mỗi lần sửa file này phải Deploy lại (Quản lý triển khai -> Chỉnh sửa -> Phiên bản mới).
@@ -17,7 +19,8 @@
 var TAB_PAGES = "Pages";
 var TAB_QUEUE = "Lịch đăng";
 var TAB_DONE = "Đã đăng";
-var ARCHIVE_AFTER_DAYS = 7;
+var ARCHIVE_KEEP_DAYS = 1;      // giữ lại bài của hôm nay và N ngày trước (1 = hôm qua); cũ hơn -> dọn
+var ARCHIVE_HOUR = 17;          // giờ chạy trigger dọn mỗi ngày
 
 var HEAD_PAGES = ["Tên page", "asset_id", "Profile GPM", "Người phụ trách", "Giờ đăng mặc định (vd 07:00, 10:00, 14:00, 18:00)", "Ghi chú"];
 var HEAD_QUEUE = ["Ngày đăng (dd/mm/yyyy)", "Giờ đăng (hh:mm)", "Page", "Video (link Drive / thư mục Drive / đường dẫn máy)",
@@ -156,10 +159,16 @@ function upsertPages_(ss, pages) {
 
 function doPost(e) {
   var data = JSON.parse(e.postData.contents);          // {row, gid?, sheet?, page?, status?, note?, date?, time?} | {action:"upsert_pages", pages:[...]}
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.getActiveSpreadsheet();      //                                                           | {action:"archive", keep_from:"dd/mm/yyyy", dry_run?}
   if (data.action === "upsert_pages") {
     return ContentService.createTextOutput(JSON.stringify(upsertPages_(ss, data.pages || [])))
       .setMimeType(ContentService.MimeType.JSON);
+  }
+  if (data.action === "archive") {
+    var kf = parseVnDate_(data.keep_from);
+    var res = kf ? archiveBefore_(ss, kf, data.queue || TAB_QUEUE, data.done || TAB_DONE, !!data.dry_run)
+                 : { ok: false, moved: 0, error: "keep_from không hợp lệ: " + data.keep_from };
+    return ContentService.createTextOutput(JSON.stringify(res)).setMimeType(ContentService.MimeType.JSON);
   }
   var sh = null;
   if (data.gid !== undefined && data.gid !== null) {   // tab theo gid trong link Sheet
@@ -195,44 +204,56 @@ function doGet() {
 }
 
 // ----------------------------------------------------------------- 3. dọn bài cũ
-function parseVnTime_(s) {               // "08/10/2026 19:00" -> Date (null nếu không hiểu)
-  var m = String(s || "").match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2})/);
-  if (m) return new Date(+m[3], +m[2] - 1, +m[1], +m[4], +m[5]);
-  m = String(s || "").match(/(\d{4})-(\d{1,2})-(\d{1,2})\s+(\d{1,2}):(\d{2})/);
-  if (m) return new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]);
+function parseVnDate_(s) {               // "08/10/2026" (có thể kèm giờ) -> Date 0h (null nếu không hiểu)
+  var m = String(s || "").match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (m) return new Date(+m[3], +m[2] - 1, +m[1]);
+  m = String(s || "").match(/(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if (m) return new Date(+m[1], +m[2] - 1, +m[3]);
   return null;
 }
 
-function archiveOld() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var queue = ss.getSheetByName(TAB_QUEUE), done = ss.getSheetByName(TAB_DONE);
-  if (!queue || !done) return;
+// Dọn: hàng Trạng thái "Đã …" có ngày đăng < keepFrom -> chép sang tab Đã đăng (thêm cột Ngày dọn) rồi xoá khỏi hàng đợi.
+// Chuyển nguyên cả ngày một lượt; hàng "Đã …" không đọc được ngày thì giữ lại (nodate).
+function archiveBefore_(ss, keepFrom, queueName, doneName, dryRun) {
+  var queue = ss.getSheetByName(queueName || TAB_QUEUE);
+  if (!queue) return { ok: false, moved: 0, error: "không có tab " + queueName };
+  var done = ss.getSheetByName(doneName || TAB_DONE) || getOrCreate_(ss, doneName || TAB_DONE, HEAD_DONE);
   var data = queue.getDataRange().getValues();
-  if (data.length < 2) return;
+  if (data.length < 2) return { ok: true, moved: 0, days: {}, nodate: 0 };
   var h = data[0];
-  var cDate = findCol_(h, ["ngay dang"]), cTime = findCol_(h, ["thoi gian", "gio dang", "lich"]),
+  var cDate = findCol_(h, ["ngay dang", "ngay"]), cTime = findCol_(h, ["thoi gian", "gio dang", "lich"]),
       cStatus = findCol_(h, ["trang thai", "status"]);
-  if ((!cTime && !cDate) || !cStatus) return;
-  var cutoff = new Date(Date.now() - ARCHIVE_AFTER_DAYS * 86400000);
+  if ((!cTime && !cDate) || !cStatus) return { ok: false, moved: 0, error: "thiếu cột Trạng thái / Ngày đăng" };
   var stamp = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "dd/MM/yyyy HH:mm");
-  var moved = [], keepIdx = [];
+  var moved = [], keepIdx = [], days = {}, nodate = 0;
   for (var i = 1; i < data.length; i++) {
     var st = norm_(data[i][cStatus - 1]);
-    var when = cDate ? String(data[i][cDate - 1]) + " " + (cTime ? String(data[i][cTime - 1]) : "00:00")
-                     : String(data[i][cTime - 1]);
-    var t = parseVnTime_(when);
-    if (st.indexOf("da ") === 0 && t && t < cutoff) moved.push(data[i].concat([stamp]));
-    else keepIdx.push(i);
+    if (st.indexOf("da ") !== 0) { keepIdx.push(i); continue; }
+    var t = parseVnDate_(cDate ? data[i][cDate - 1] : data[i][cTime - 1]);
+    if (!t) { nodate++; keepIdx.push(i); continue; }
+    if (t < keepFrom) {
+      moved.push(data[i].concat([stamp]));
+      var k = Utilities.formatDate(t, Session.getScriptTimeZone(), "dd/MM/yyyy");
+      days[k] = (days[k] || 0) + 1;
+    } else keepIdx.push(i);
   }
-  if (!moved.length) return;
+  if (!moved.length || dryRun) return { ok: true, moved: 0, would_move: moved.length, days: days, nodate: nodate };
+  if (done.getLastRow() === 0) done.getRange(1, 1, 1, HEAD_DONE.length).setValues([HEAD_DONE]);
   done.getRange(done.getLastRow() + 1, 1, moved.length, moved[0].length).setValues(moved);
   // xoá từ dưới lên để không lệch chỉ số
   for (var r = data.length - 1; r >= 1; r--) if (keepIdx.indexOf(r) < 0) queue.deleteRow(r + 1);
+  return { ok: true, moved: moved.length, days: days, nodate: nodate };
+}
+
+// Trigger mỗi ngày: giữ hôm nay + ARCHIVE_KEEP_DAYS ngày trước, dọn phần còn lại
+function archiveOld() {
+  var keepFrom = new Date(); keepFrom.setHours(0, 0, 0, 0); keepFrom.setDate(keepFrom.getDate() - ARCHIVE_KEEP_DAYS);
+  return archiveBefore_(SpreadsheetApp.getActiveSpreadsheet(), keepFrom, TAB_QUEUE, TAB_DONE, false);
 }
 
 function installNightlyTrigger() {
   ScriptApp.getProjectTriggers().forEach(function (t) {
     if (t.getHandlerFunction() === "archiveOld") ScriptApp.deleteTrigger(t);
   });
-  ScriptApp.newTrigger("archiveOld").timeBased().everyDays(1).atHour(3).create();
+  ScriptApp.newTrigger("archiveOld").timeBased().everyDays(1).atHour(ARCHIVE_HOUR).create();
 }
